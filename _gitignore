@@ -1,0 +1,10 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+# dependencies
+
+node_modules/
+
+bootstrap.3.3.6/
+
+font-awesome.4.6.1/
+
+template_adopte_un_maître-20180926T121228Z-001/

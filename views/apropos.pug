@@ -1,0 +1,108 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel='icon' href='img/favicon.png')
+  title Adopte un ma&icirc;tre
+  // Bootstrap core CSS
+  link(href='static/css/bootstrap.min.css' rel='stylesheet')
+  link(href='static/css/font-awesome.min.css' rel='stylesheet')
+  link(href='static/css/animate.min.css' rel='stylesheet')
+  link(href='static/css/apropos.css' rel='stylesheet')
+  link(href='static/css/cover.css' rel='stylesheet')
+  // Javascript socket.io
+  script(src='static/js/jquery.1.11.1.min.js')
+  script(src='static/js/bootstrap.min.js')
+// Fixed navbar
+nav.navbar.navbar-white.navbar-fixed-top
+  .container
+    a.navbar-brand(href='/')
+      b Adopte un Ma&icirc;tre un r&eacute;seau social 100% chat.rrr.mant
+    .navbar-header
+      button.navbar-toggle.collapsed.navbar-fixed-top-30(type='button' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+    #navbar.navbar-collapse.collapse
+      ul.nav.navbar-nav.navbar-right
+        li.actives
+          a(href='index.html') Accueil
+        li.dropdown
+          a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
+            i.fa.fa-user
+          ul.dropdown-menu
+            li
+              a(href='index.html') Connection
+            li
+              a(href='profile2.html') D&eacute;connection
+            li
+              a(href='profile3.html') Admnistrateur
+// Begin page content
+.container.page-content
+  .row.page-content
+    .col-md-8.col-md-offset-2
+      .row
+        .col-md-12
+          .cover.profile
+            .wrapper
+              .image
+                img.show-in-modal(src='img/Cover/profile-cover.jpg' alt='people')
+              ul.friends
+                li
+                  a(href='#')
+                    img.img-responsive(src='img/Friends/guy-6.jpg' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='img/Friends/woman-3.jpg' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='img/Friends/guy-2.jpg' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='img/Friends/guy-9.jpg' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='img/Friends/woman-9.jpg' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='img/Friends/guy-4.jpg' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='img/Friends/guy-1.jpg' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='img/Friends/woman-4.jpg' alt='people')
+                li
+                  a.group(href='#')
+                    i.fa.fa-group
+            .cover-info
+              .avatar
+                img(src='img/Friends/guy-5.jpg' alt='people')
+              .name
+                a(href='#') John Breakgrow jr.
+              ul.cover-nav
+                li
+                  a(href='profile.html')
+                    i.fa.fa-fw.fa-bars
+                    |  Timeline
+                li.active
+                  a(href='about.html')
+                    i.fa.fa-fw.fa-user
+                    |  About
+                li
+                  a(href='friends.html')
+                    i.fa.fa-fw.fa-users
+                    |  Friends
+                li
+                  a(href='photos1.html')
+                    i.fa.fa-fw.fa-image
+                    |  Photos
+  footer.footer
+    .container
+      p.text-muted
+        | 200 messages &eacute;chang&eacute;s
+        span.btn.btn-default.btn-circle.btn-xs
+          i.glyphicon.glyphicon-ok
+        | 12 connect&eacute;s
