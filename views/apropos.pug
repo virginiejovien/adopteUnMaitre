@@ -10,7 +10,6 @@ head
   link(href='static/css/font-awesome.min.css' rel='stylesheet')
   link(href='static/css/animate.min.css' rel='stylesheet')
   link(href='static/css/apropos.css' rel='stylesheet')
-  link(href='static/css/cover.css' rel='stylesheet')
   // Javascript socket.io
   script(src='static/js/jquery.1.11.1.min.js')
   script(src='static/js/bootstrap.min.js')
@@ -28,13 +27,13 @@ nav.navbar.navbar-white.navbar-fixed-top
     #navbar.navbar-collapse.collapse
       ul.nav.navbar-nav.navbar-right
         li.actives
-          a(href='index.html') Accueil
+          a(href='/') Accueil
         li.dropdown
           a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
             i.fa.fa-user
           ul.dropdown-menu
             li
-              a(href='index.html') Connection
+              a(href='/') Connection
             li
               a(href='profile2.html') D&eacute;connection
             li
@@ -48,61 +47,14 @@ nav.navbar.navbar-white.navbar-fixed-top
           .cover.profile
             .wrapper
               .image
-                img.show-in-modal(src='img/Cover/profile-cover.jpg' alt='people')
-              ul.friends
-                li
-                  a(href='#')
-                    img.img-responsive(src='img/Friends/guy-6.jpg' alt='people')
-                li
-                  a(href='#')
-                    img.img-responsive(src='img/Friends/woman-3.jpg' alt='people')
-                li
-                  a(href='#')
-                    img.img-responsive(src='img/Friends/guy-2.jpg' alt='people')
-                li
-                  a(href='#')
-                    img.img-responsive(src='img/Friends/guy-9.jpg' alt='people')
-                li
-                  a(href='#')
-                    img.img-responsive(src='img/Friends/woman-9.jpg' alt='people')
-                li
-                  a(href='#')
-                    img.img-responsive(src='img/Friends/guy-4.jpg' alt='people')
-                li
-                  a(href='#')
-                    img.img-responsive(src='img/Friends/guy-1.jpg' alt='people')
-                li
-                  a(href='#')
-                    img.img-responsive(src='img/Friends/woman-4.jpg' alt='people')
-                li
-                  a.group(href='#')
-                    i.fa.fa-group
-            .cover-info
-              .avatar
-                img(src='img/Friends/guy-5.jpg' alt='people')
-              .name
-                a(href='#') John Breakgrow jr.
-              ul.cover-nav
-                li
-                  a(href='profile.html')
-                    i.fa.fa-fw.fa-bars
-                    |  Timeline
-                li.active
-                  a(href='about.html')
-                    i.fa.fa-fw.fa-user
-                    |  About
-                li
-                  a(href='friends.html')
-                    i.fa.fa-fw.fa-users
-                    |  Friends
-                li
-                  a(href='photos1.html')
-                    i.fa.fa-fw.fa-image
-                    |  Photos
-  footer.footer
-    .container
-      p.text-muted
-        | 200 messages &eacute;chang&eacute;s
-        span.btn.btn-default.btn-circle.btn-xs
-          i.glyphicon.glyphicon-ok
-        | 12 connect&eacute;s
+                img.show-in-modal(src='static/images/chat01.jpg' alt='people')
+              .friends
+                p
+                  | Adopte un ma&icirc;tre est un r&eacute;seau social qui permet de mettre en relation des personnes qui proposent des chats &agrave; l&rsquo;adoption et celles d&eacute;sireuseuses d&apos;en adopter.
+footer.footer
+  .container
+    p.text-muted
+      | 200 messages &eacute;chang&eacute;s
+      span.btn.btn-default.btn-circle.btn-xs
+        i.glyphicon.glyphicon-ok
+      | 12 connect&eacute;s

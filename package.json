@@ -16,5 +16,14 @@
     "pug": "^2.0.3",
     "socket.io": "^2.1.1"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virginiejovien/adopteUnMaitre.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/virginiejovien/adopteUnMaitre/issues"
+  },
+  "homepage": "https://github.com/virginiejovien/adopteUnMaitre#readme"
 }
