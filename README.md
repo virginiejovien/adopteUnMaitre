@@ -31,8 +31,8 @@ En dessous du répertoire ": ~/adopteUnMaitre"   on devrait avoir l'arborescence
 
   adopteUnMaitre 
    |-- node_modules    // modules de nodes.js nécéssaires pour le projet "adopteUnMaitre"
-   |-- data           // Stockage de la base de données "chatT" (collection "membres" et collection "messages")
-   |     |- chat
+   |-- data           // Stockage de la base de données "adopteunmaitre" (collection "membres" et collection "messages")
+   |     |- adopteunmaitre
    |         |- membres      // collection "membres"
    |         |- messages     // collection  "messages"
    |        
@@ -55,19 +55,19 @@ En dessous du répertoire ": ~/adopteUnMaitre"   on devrait avoir l'arborescence
    
 
 2) Procédure de lancement du site en localhost
-    - La base de données chat est hébergée sur le site mLab
+    - La base de données adopteunmaitre est hébergée sur le site mLab
     - Possibilité de la créer en local à partir des fichiers messages.json et membres.json
       - lancer la BBD:
           1: lancer mongodb 
-          2: puis se placer sur la base de données chat : use chat
-          3: mongoimport --db chat --collection messages --file ~/adopteUnMaitre/data/messages.json
-          (3' si pb dans l'importation du fichier JSON) copier le contenu du fichier : bdd_chat_messages.js qui se trouve  dans le repertoire data :  ~/adopteUnMaitre/data/bdd_chat_messages.js (tous les insert de la collection messages)
-          Dans la BDD chat dans les lignes de commandes de mongodb apres use chat :::> coller le db.messages.insertMany([{.....}]);
+          2: puis se placer sur la base de données adopteunmaitre : use adopteunmaitre
+          3: mongoimport --db adopteunmaitre --collection messages --file ~/adopteUnMaitre/data/messages.json
+          (3' si pb dans l'importation du fichier JSON) copier le contenu du fichier : bdd_adopteunmaitre_messages.js qui se trouve  dans le repertoire data :  ~/adopteUnMaitre/data/bdd_adopteunmaitre_messages.js (tous les insert de la collection messages)
+          Dans la BDD adopteunmaitre dans les lignes de commandes de mongodb apres use adopteunmaitre :::> coller le db.messages.insertMany([{.....}]);
 
-          La base de données jeu a actuellemnt une collection "messagesn", à la premiere exexution du site "adopteUnMaitre", lorsqu'un premier visiteur s'inscrira correctement une deuxième collection "membre" sera créée. 
+          La base de données jeu a actuellemnt une collection "membres". 
 
-          Rappel: Avant de lancer le serveur du jeu il est nécéssaire de se placer dur la BDD chat, taper la commande suivante:
-            - use chat
+          Rappel: Avant de lancer le serveur du site il est nécéssaire de se placer dur la BDD adopteunmaitre, taper la commande suivante:
+            - use adopteunmaitre
 
   - lancer le serveur: serverAdopteUnMaitre.js
        - $ cd ~/AdopteUnMaitre"

@@ -17,23 +17,23 @@ var app = express();
 const SocketIo = require('socket.io');
 
 // ***********************************************************************************************************
-//Connection à mongoDB, on vérifie qu'elle est bien lancée et que la la base de données "CHAT"
+//Connection à mongoDB, on vérifie qu'elle est bien lancée et que la la base de données "adopteunmaitre"
 // est accessible, sinon, on envoie un message d'erreur à l'administrateur systhème et on termine le programme
 //************************************************************************************************************ 
 const verifDBConnect = function() {
-    mongodb.MongoClient.connect('mongodb://localhost:27017/chat', function(err, db) {
+    mongodb.MongoClient.connect('mongodb://virgo:site2018@ds215633.mlab.com:15633/adopteunmaitre', function(err, db) {
         if (err) {
             console.log('La Base De Données est inaccessible, le site Adopte un Maitre ne peut pas démarrer');
         throw "La Base De Données est inaccessible, le site Adopte un Maitre ne peut pas démarrer, veuillez contacter l\'Administrateur Système";
         } else {
             client=db;
-            console.log('La Base De Données CHAT fonctionne');
+            console.log('La Base De Données adopteunmaitre fonctionne');
         }
     });
 };
 
 // ************************************************************************************************
-// Verification de l'accessibilité de la Base De Données :"CHAT"- 
+// Verification de l'accessibilité de la Base De Données :"adopteunmaitre"- 
 // Dans un contexte professionnelle je m'assurai que la BDD fonctionne à chaque requete mais
 // dans le contexte du projet "réseau social", je ne le fais qu'au debut du lancement du programme 
 // et si elle ne fonctionne pas, j'envoie un message dans la console et je quitte le programme
@@ -42,7 +42,7 @@ verifDBConnect();
 
 //*************************************************************************************************
 //  Préparation du fond d'écran, et récupération des messages déjà échangé 
-//  Requete des infos du nombre de messages echangés dans la collection "messages" de la BDD chat
+//  Requete des infos du nombre de messages echangés dans la collection "messages" de la BDD adopteunmaitre
 //*************************************************************************************************
 
 app.set('view engine', 'pug');
@@ -52,15 +52,16 @@ app.use('/static', express.static(__dirname + '/font-awesome.4.6.1'));
 app.get('/', function(req, res, next) {    
     dbInterface.connectDB(req,res,next,function(db) {            
         console.log('mongodb connected');
-        const collection = db.collection('message');
-        collection.find().toArray(function(err, data){
-        if (err) {
-            console.log('Erreur de collection');
-            return;
-        }
-        console.log('data',data);  
-        res.render('index', {nombreMessage: data})  
-        });
+     //   const collection = db.collection('messages');
+     //   collection.find().toArray(function(err, data){
+      //  if (err) {
+      //      console.log('Erreur de collection');
+      //      return;
+      //  }
+     //   console.log('data',data);  
+   //   res.render('index', {nombreMessage: data})  
+      res.render('index', {})  
+     //   });
     });
 });
 app.get('/apropos', function(req, res) {
@@ -144,7 +145,7 @@ let prepareAndInsertNewUser = function(pObjetMembre,pColMembre) {
 // Obtention du nombre de messages publiés dans  la BDD et transmission de celles-ci à tout le monde
 //************************************************************************************************
 let getNbMessages = function(pSocketIo) {
-    let colNbMessages = client.db('chat').collection('message');           
+    let colNbMessages = client.db('adopteunmaitre').collection('messages');           
     colNbMessages.count(function(err, data){
         if (err) {
           console.log('Erreur de collection');
@@ -172,7 +173,7 @@ socketIo.on('connection', function(websocketConnection) {
         
         if (checkFilledUserNameIsOk(ObjetDuMembre,websocketConnection)) {  // Si le nom du visiteur est non vide --> Ok
             // Vérification de l'unicité du nom du visiteur dans la partie dans la collection visiteur de la BDD JEU
-            let colvisiteur = client.db('chat').collection('membres');
+            let colvisiteur = client.db('adopteunmaitre').collection('membres');
             colvisiteur.find({username:ObjetDuMembre.username}).toArray(function(error, documents) {                    
                 if (error) {
                     console.log('Erreur de collection',error);
@@ -202,7 +203,7 @@ socketIo.on('connection', function(websocketConnection) {
         
         if (checkFilledUserNameIsOk(ObjetVisiteur,websocketConnection)) {  // Si le nom du visiteur est non vide --> Ok
             // Vérification de l'unicité du nom du visiteur dans la partie dans la collection visiteur de la BDD JEU
-            let colvisiteur = client.db('chat').collection('membres');
+            let colvisiteur = client.db('adopteunmaitre').collection('membres');
             colvisiteur.find({username:ObjetVisiteur.username}).toArray(function(error, documents) {                    
                 if (error) {
                     console.log('Erreur de collection',error);

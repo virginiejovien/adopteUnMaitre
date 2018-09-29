@@ -2,8 +2,8 @@
 //     MODULE LANCEMENT BASE DE DONNEES JEU                         
 //**************************************************************************************************************** 
 
-//var urlDb = 'mongodb://virgo:jeu2018@ds257851.mlab.com:57851/jeu';
-var urlDb = 'mongodb://localhost:27017/reseau';
+//var urlDb = 'mongodb://virgo:site2018@ds215633.mlab.com:15633/adopteunmaitre';
+var urlDb = 'mongodb://virgo:site2018@ds215633.mlab.com:15633/adopteunmaitre';
 var nameDb = 'jeu';
 const MongoClient = require('mongodb').MongoClient;
 
