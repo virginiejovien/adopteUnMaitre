@@ -11,11 +11,26 @@ window.addEventListener('DOMContentLoaded', function() {
 //************************************************************************************************   
     var websocketConnection = io();
     var formConnect = window.document.getElementById('form-connection');
+    var elementMpConnect = window.document.getElementById('mot-de-passe');
+    var elementMailConnect= window.document.getElementById('mail');
     var formInscription = window.document.getElementById('form-inscription');
-    
+    var elementNomInscri = window.document.getElementById('nom-inscription');
+    var elementMailInscri = window.document.getElementById('mail-inscription');
+    var elementMpInscri = window.document.getElementById('mp-inscription');
+    var elementMp2Inscri = window.document.getElementById('mp2-inscription');
+
     var objetDuMembre = {};
     var objetDuVisiteur = {};
     
+   //************************************************************************************************
+// Fonction modifier la couleur d'arrière-plan si formulaire mal rempli
+//************************************************************************************************  
+function surligne(champ, erreur) {
+    if (erreur)
+       champ.style.backgroundColor = "#fba";
+    else
+       champ.style.backgroundColor = "";
+ };
 
 
 //************************************************************************************************
@@ -30,7 +45,9 @@ window.addEventListener('DOMContentLoaded', function() {
 //************************************************************************************************ 
 formConnect.addEventListener('submit', function (event) { 
     event.preventDefault();                
-    objetDuMembre.username = elementUsername.value;                        
+    objetDuMembre.nom = elementNom.value;  
+    objetDuMembre.mail = elementMail.value;   
+    objetDuMembre.motDePasse = elementMotDePasse.value;                     
     websocketConnection.emit('controleConnection', objetDuMembre);
 });
 
@@ -39,7 +56,8 @@ formConnect.addEventListener('submit', function (event) {
 //************************************************************************************************ 
 formInscription.addEventListener('submit', function (event) { 
     event.preventDefault();                
-    objetDuVisiteur.username = elementUsername.value;                        
+    objetDuVisiteur.elementNomInscri = elementUsername.value; 
+    objetDuVisiteur.elementMailInscri = elementUsername.value;                        
     websocketConnection.emit('controleInscription', objetDuVisiteur);
 });
 

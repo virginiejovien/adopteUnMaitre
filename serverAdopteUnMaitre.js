@@ -67,6 +67,9 @@ app.get('/', function(req, res, next) {
 app.get('/apropos', function(req, res) {
     res.render('apropos', {})  
 });
+app.get('/', function(req, res) {
+    res.render('index', {})  
+});
 
 // ***********************************************************************************************
 //  Lancement du serveur NodeJS
