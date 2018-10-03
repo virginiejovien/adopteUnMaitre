@@ -5,6 +5,9 @@
 //var urlDb = 'mongodb://virgo:site2018@ds215633.mlab.com:15633/adopteunmaitre';
 var urlDb = 'mongodb://virgo:site2018@ds215633.mlab.com:15633/adopteunmaitre';
 var nameDb = 'jeu';
+var config = {
+  useNewUrlParser: true
+};
 const MongoClient = require('mongodb').MongoClient;
 
 exports.connectDB = function(req, res, next, cb) {
@@ -12,7 +15,7 @@ exports.connectDB = function(req, res, next, cb) {
     var instance = client.db(this.mongoClient);
     cb(instance);
   } else {
-    MongoClient.connect(urlDb, function(err, client) {
+    MongoClient.connect(urlDb, config, function(err, client) {
       this.mongoClient = client;
       if (err) {
         res.status(503);

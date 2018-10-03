@@ -15,13 +15,16 @@ var dbInterface = require('./db');
 const express =  require('express');
 var app = express();
 const SocketIo = require('socket.io');
+const config = {
+    useNewUrlParser: true
+  };
 
 // ***********************************************************************************************************
 //Connection à mongoDB, on vérifie qu'elle est bien lancée et que la la base de données "adopteunmaitre"
 // est accessible, sinon, on envoie un message d'erreur à l'administrateur systhème et on termine le programme
 //************************************************************************************************************ 
 const verifDBConnect = function() {
-    mongodb.MongoClient.connect('mongodb://virgo:site2018@ds215633.mlab.com:15633/adopteunmaitre', function(err, db) {
+    mongodb.MongoClient.connect('mongodb://virgo:site2018@ds215633.mlab.com:15633/adopteunmaitre', config, function(err, db) {
         if (err) {
             console.log('La Base De Données est inaccessible, le site Adopte un Maitre ne peut pas démarrer');
         throw "La Base De Données est inaccessible, le site Adopte un Maitre ne peut pas démarrer, veuillez contacter l\'Administrateur Système";
