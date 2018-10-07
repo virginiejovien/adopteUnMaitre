@@ -14,8 +14,10 @@ head
   script(src='static/js/jquery.1.11.1.min.js')
   script(src='static/js/bootstrap.min.js')
   script(src='/socket.io/socket.io.js')
-  script(src='static/js/controle-formulaire.js')
   script(type='text/javascript' src='static/js/jquery.validate.js')
+  script(type='text/javascript' src='static/js/messages_fr.js')
+  script(src='static/js/controle-formulaire.js')
+  script(src='static/js/custom.js')
 // Fixed navbar
 nav.navbar.navbar-white.navbar-fixed-top
   .container
@@ -134,9 +136,10 @@ nav.navbar.navbar-white.navbar-fixed-top
                 .form-group
                   input#mail-inscription.form-control(type='email' name='mailInscrit' required='required' placeholder='Adresse mail')
                 .form-group
-                  input#mp-inscription.form-control(type='password' name='mpInscrit' required='required' placeholder='Mot de passe')
+                  input#mp-inscription.form-control(type='password' name='mpInscrit' required='required' data-minlength='6' placeholder='Mot de passe')
+                .help-block Minimum 6 caract&egrave;res
                 .form-group
-                  input#mp2-inscription.form-control(type='password' name='mp2Inscrit' required='required' placeholder='Confirmer le mot de passe')
+                  input#mp2-inscription.form-control(type='password' name='mp2Inscrit' required='required' data-match='#mp-inscription' data-match-error='Le mot de passe est différent' placeholder='Confirmer le mot de passe')
                 button.btn.btn-azure(type='submit') S&apos;inscrire
                 .alert.alert-block.alert-danger(style='display:none')
                   h4 Erreur !
