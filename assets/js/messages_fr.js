@@ -3,9 +3,9 @@
  * Locale: FR (French; français)
  */
 $.extend( $.validator.messages, {
-	required: "Ce champ est obligatoire.",
+	required: "Champ obligatoire.",
 	remote: "Veuillez corriger ce champ.",
-	email: "Veuillez fournir une adresse électronique valide.",
+	email: "Veuillez fournir une adresse mail valide.",
 	url: "Veuillez fournir une adresse URL valide.",
 	date: "Veuillez fournir une date valide.",
 	dateISO: "Veuillez fournir une date valide (ISO).",

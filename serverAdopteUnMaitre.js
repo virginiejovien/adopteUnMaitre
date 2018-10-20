@@ -70,6 +70,9 @@ app.get('/', function(req, res, next) {
 app.get('/apropos', function(req, res) {
     res.render('apropos', {})  
 });
+app.get('/profile_membre', function(req, res) {
+    res.render('profile_membre', {})  
+});
 app.get('/', function(req, res) {
     res.render('index', {})  
 });
@@ -107,31 +110,77 @@ let client = {};                    // instance de la base de données
 
 
 
+//************************************************************************************************
+// L'adresse mail du membre n'existe pas dans la collection membres on envoie un message d'alerte
+//************************************************************************************************
+let sendNoExistMailMsg = function(pWebsocketConnection, pobjetMembre) {
+    let message = {};
+    message.message = "Cette adresse mail n'existe pas";
+    console.log('connection message.message',message.message);
+    pWebsocketConnection.emit('messageConnection', message);
+};
+
  
 
 //************************************************************************************************
-// Vérification de l'unicité du nom d'un membre dans le réseau social
+// Vérification de l'unicité de l'adresse mail d'un membre dans le réseau social
 //************************************************************************************************
-let sendAlreadyExistentPseudoMsg = function(pWebsocketConnection, pObjetVisiteur) {
+let sendExistentMailMsg = function(pWebsocketConnection, pobjetMembre) {
     let message = {};
-    message.id = connectes.id[connectes.compteur];
-    pObjetVisiteur.username = '';
-    message.message = 'Ce pseudo existe déjà';
-    pWebsocketConnection.emit('message', message);
+    message.message = 'Cette adresse mail existe déjà';
+    pWebsocketConnection.emit('messageInscription', message);
+};
+
+//**************************************************************************************************************
+// Vérification que le formulaire de connection du membre est valide
+// *************************************************************************************************************
+let checkFilledConnectionOk = function(pObjetMembre, pWebsocketConnection) {
+    if ((!pObjetMembre.mail) && (!pObjetMembre.motDePasse)) {
+        console.log("pObjetMembre connection",pObjetMembre);
+        let message = {};
+        message.message = 'Vous devez renseigner tous les champs du formulaire';
+        pWebsocketConnection.emit('message', message);
+        return false;
+    } else {        
+        return true;
+    }
 };
 
 //************************************************************************************************
-// Vérification que le pseudo de l'visiteur est renseigné
-// ***********************************************************************************************
-let checkFilledUserNameIsOk = function(pObjetVisiteur, pWebsocketConnection) {
-    if (!pObjetVisiteur.username) {
+// Vérification du mot de passe dans la collection membres
+// ************************************************************************************************
+    let verifMotDePasse = function(pObjetMembre,pDocuments, pWebsocketConnection) {   
+        console.log('pObjetMembre.motDePasse verif mot de passe',pObjetMembre.motDePasse);  
+        console.log('pDocuments la collection',pDocuments);  
+       let documents = pDocuments;
+        console.log('pDocuments.mp1Inscription verif mot de passe dans la collection',documents[0].mp1Inscription);             
+        if ((pObjetMembre.motDePasse) !== (documents[0].mp1Inscription)) {
+            console.log('pas les mêmes mot de passe');
+            let message = {};
+
+            message.message = "Votre mot de passe n'est pas correct";
+            pWebsocketConnection.emit('messageMotDePasse', message);
+            return false;
+        } else {                                
+            console.log("pObjetMembre.motDePasse et pDocuments.mp1Inscription true",pObjetMembre.motDePasse);   
+            return true;
+        }
+    };
+
+//**************************************************************************************************************
+// Vérification que le formulaire du futur membre est valide
+// *************************************************************************************************************
+let checkFilledInscriptionOk = function(pObjetMembre, pWebsocketConnection) {
+    if ((!pObjetMembre.pseudoInscription) && (!pObjetMembre.mailInscription) && (!pObjetMembre.mp1Inscription)) {
+        console.log("pObjetMembre inscription",pObjetMembre);
         let message = {};
         // message.id = connectes.id[connectes.compteur];
-        pObjetVisiteur.username = '';
-        message.message = 'Vous devez saisir un Pseudo';
+        pObjetMembre.pseudoInscription = '';
+        message.message = 'Vous devez renseigner tous les champs du formulaire';
         pWebsocketConnection.emit('message', message);
         return false;
-    } else {
+    } else {  
+        console.log("pObjetMembre true",pObjetMembre);   
         return true;
     }
 };
@@ -140,12 +189,21 @@ let checkFilledUserNameIsOk = function(pObjetVisiteur, pWebsocketConnection) {
 // Préparation des données du nouveau membre
 // et insertion dans la base de données
 // ************************************************************************************************
-let prepareAndInsertNewUser = function(pObjetMembre,pColMembre) {
-   
-    pColMembre.insert(pObjetMembre);
-  
+let prepareAndInsertNewMember = function(pObjetMembre,pColMembre) {   
+    console.log('pObjetMembre insert',pObjetMembre);  
+        pObjetMembre.statut =  0;  // statut = 0 membre et statut = 1 administrateur
+        console.log('pObjetMembre.statut',pObjetMembre.statut); 
+        pObjetMembre.photo =  'static/images/default-avatar.png';
+        pObjetMembre.presentation = '';   
+        pObjetMembre.ville = ''; 
+        pObjetMembre.amis=[];
+        pObjetMembre.profil= ''; // est proprietaire ou souhaite adopté ou neutre
+        pColMembre.insertOne(pObjetMembre);
+        console.log('apres insert',pObjetMembre);
 };
 
+
+   
 
 //************************************************************************************************
 // Obtention du nombre de messages publiés dans  la BDD et transmission de celles-ci à tout le monde
@@ -169,63 +227,69 @@ let socketIo = new SocketIo(server);
 
 socketIo.on('connection', function(websocketConnection) {
     websocketConnection.emit('connexionServeurOK', {msg:'Connexion effectuée'});   
+    console.log('websocketConnection.id',websocketConnection.id); 
     console.log('Connexion établie');
-    let ObjetMembre = {};
+    let objetMembre = {};
     let currentUser = -1;
    // getNbMessages(socketIo); // affichage du nombre de messages publiés en temps réel
                         
     websocketConnection.on('controleConnection', function (data) {       // Reception de la saisie du Login dans le formulaire
-        ObjetDuMembre = data;
-        
-        if (checkFilledUserNameIsOk(ObjetDuMembre,websocketConnection)) {  // Si le nom du visiteur est non vide --> Ok
+        objetMembre = data;
+        console.log('data reçues : ',data,' --- ',objetMembre);
+        if (checkFilledConnectionOk(objetMembre,websocketConnection)) {  // Si le nom du visiteur est non vide --> Ok
             // Vérification de l'unicité du nom du visiteur dans la partie dans la collection visiteur de la BDD JEU
-            let colvisiteur = client.db('adopteunmaitre').collection('membres');
-            colvisiteur.find({username:ObjetDuMembre.username}).toArray(function(error, documents) {                    
+            let colMembres = client.db('adopteunmaitre').collection('membres');
+            colMembres.find({mailInscription:objetMembre.mail}).toArray(function(error, documents) {                    
                 if (error) {
                     console.log('Erreur de collection',error);
                     return false;
                 } else {                                
                     if (documents == false) {
-                        // Nouveau visiteur, inexistant dans la base --> Ok, On l accepte
-                        visiteurs.compteur++;     // Nbre de visiteurs actuels autorisés et dernier visiteur connecté  (Water Mark)
-                        currentUser = visiteurs.compteur;         // visiteur courant de cette session-Connexion
-                        prepareAndInsertNewUser(ObjetDuMembre, colvisiteur);    // Ecriture dans la BDD du nouveau visiteur
-                        socketIo.emit('pret', ObjetDuMembre);
-                       
-                        websocketConnection.emit('EffaceFormulaire');        
+                        console.log('documents connection false',documents);
+                        sendNoExistMailMsg(websocketConnection, objetMembre); // on envoie au client que l'adresse' mail n'existe pas
                                             
-                    } else {                
-                        sendAlreadyExistentPseudoMsg(websocketConnection, ObjetDuMembre)
+                    } else { 
+                        console.log('documents connection',documents);
+                        if(verifMotDePasse(objetMembre, documents, websocketConnection)) { // verification si c'est le bon mot de pass
+                        // l'adresse mail et le mot de passe ok dans la base --> Ok, On l accepte
+                        membres.compteur++;     // Nbre de membres actuels connectés et dernier membre connecté  (Water Mark)
+                        console.log('membres.compteur',membres.compteur);
+                        currentUser = membres.compteur;         // membre courant de cette session-Connexion
+                        console.log('currentUser',currentUser);
+                        websocketConnection.emit('profile', documents); // On envoie au client les données de profildu membre                                 
+                        }; 
+                      
                     }
                 }
             });                          
         }   // Le nom du visiteur est vide gerer dans la fonction checkFilledUserNameIsOk     
-        
-                        // geré dans la fonction controleNbreMaxiUsersIsOK               
+                  
     });          
 
     websocketConnection.on('controleInscription', function (data) {       // Reception de la saisie du Login dans le formulaire
-        ObjetVisiteur = data;
-        
-        if (checkFilledUserNameIsOk(ObjetVisiteur,websocketConnection)) {  // Si le nom du visiteur est non vide --> Ok
-            // Vérification de l'unicité du nom du visiteur dans la partie dans la collection visiteur de la BDD JEU
-            let colvisiteur = client.db('adopteunmaitre').collection('membres');
-            colvisiteur.find({username:ObjetVisiteur.username}).toArray(function(error, documents) {                    
+        objetMembre = data;
+        console.log('data reçues : ',data,' --- ',objetMembre);
+        if (checkFilledInscriptionOk(objetMembre,websocketConnection)) {  // Si tous les champs du formulaire sont non vide --> Ok
+            // Vérification de l'unicité du futur membre dans la collection membres de la BDD adopteunmaitre
+            console.log('true avant find');
+            let colMembres = client.db('adopteunmaitre').collection('membres');
+            console.log('apres client db');
+            colMembres.find({mailInscription:objetMembre.mailInscription}).toArray(function(error, documents) {                    
                 if (error) {
                     console.log('Erreur de collection',error);
                     return false;
                 } else {                                
                     if (documents == false) {
-                        // Nouveau visiteur, inexistant dans la base --> Ok, On l accepte
-                        visiteurs.compteur++;     // Nbre de visiteurs actuels autorisés et dernier visiteur connecté  (Water Mark)
-                        currentUser = visiteurs.compteur;         // visiteur courant de cette session-Connexion
-                        prepareAndInsertNewUser(ObjetVisiteur, colvisiteur);    // Ecriture dans la BDD du nouveau visiteur
-                        socketIo.emit('pret', ObjetVisiteur);
-                       
-                        websocketConnection.emit('EffaceFormulaire');        
-                                           
+                        console.log('documents verif si mail existe ',documents);
+                        // Nouveau membre, inexistant dans la base --> Ok, On l accepte
+                        membres.compteur++;     // Nbre de membres actuels connectés et dernier membre connecté  
+                        currentUser = membres.compteur;         // membre courant de cette session-Connexion
+                        console.log('avant prepareAndInsertNewMembe objetMembre.mailInscription', objetMembre.mailInscription);
+                        prepareAndInsertNewMember(objetMembre, colMembres);    // Ecriture dans la BDD du nouveau membre
+                      //  sendMailNewMember(); // envoie d'un mail de bienvenue au nouveau membre                       
+                        websocketConnection.emit('profile', objetMembre); // On envoie au client ses données de profil                 
                     } else {                
-                        sendAlreadyExistentPseudoMsg(websocketConnection, ObjetVisiteur)
+                        sendExistentMailMsg(websocketConnection, objetMembre)
                     }
                 }
             });                          

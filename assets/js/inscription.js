@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     $('#form-inscription').validate({ // initialize the plugin
         rules: {
-            nomInscrit: {
+            pseudoInscrit: {
                 required: true,
                 minlength: 4,
                 maxlength: 15

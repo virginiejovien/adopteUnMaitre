@@ -3,13 +3,14 @@ head
   meta(charset='utf-8')
   meta(http-equiv='X-UA-Compatible' content='IE=edge')
   meta(name='viewport' content='width=device-width, initial-scale=1')
-  link(rel='icon' href='img/favicon.png')
+  link(rel='icon' href='static/images/favicon.png')
   title Adopte un Ma&icirc;tre
   // Bootstrap core CSS
   link(href='static/css/bootstrap.min.css' rel='stylesheet')
   link(href='static/css/animate.min.css' rel='stylesheet')
   link(href='static/css/font-awesome.min.css' rel='stylesheet')
   link(href='static/css/index.css' rel='stylesheet')
+  link(href='static/css/edit_profile.css' rel='stylesheet')
   // Javascript socket.io
   script(src='static/js/jquery.1.11.1.min.js')
   script(src='static/js/bootstrap.min.js')
@@ -17,6 +18,7 @@ head
   script(type='text/javascript' src='static/js/jquery.validate.js')
   script(type='text/javascript' src='static/js/messages_fr.js')
   script(src='static/js/controle-formulaire.js')
+  script(src='static/js/client.js')
   script(src='static/js/custom.js')
 // Fixed navbar
 nav.navbar.navbar-white.navbar-fixed-top
@@ -51,6 +53,8 @@ nav.navbar.navbar-white.navbar-fixed-top
             li
               a(href='user_detail.html') User detail
             li
+              a(href='/profile_membre') Profile du membre
+            li
               a(href='edit_profile.html') Edit profile
             li
               a(href='about.html') About
@@ -59,7 +63,7 @@ nav.navbar.navbar-white.navbar-fixed-top
             li
               a(href='friends2.html') Friends 2
             li
-              a(href='profile_wall.html') Profile wall
+              a#profil(href='profile_wall.html') Profile wall
             li
               a(href='photos1.html') Photos 1
             li
@@ -99,11 +103,12 @@ nav.navbar.navbar-white.navbar-fixed-top
             i.fa.fa-user
           ul.dropdown-menu
             li
-              a(href='/') D&eacute;connection
+              a(href='/') D&eacute;connexion
             li
               a(href='profile3.html') Admnistrateur
 .wrapper
-  .parallax.filter-black
+  // Formulaire
+  #formulaire.parallax.filter-black
     .parallax-image
     div Un r&eacute;seau social 100% chat.rrr.mant
     .small-info
@@ -117,9 +122,9 @@ nav.navbar.navbar-white.navbar-fixed-top
                 p.text-muted Acc&eacute;der &agrave; votre compte
               form#form-connection(action='index.html' method='get')
                 .form-group
-                  input#mail.form-control(type='email' name='mail' required='required' placeholder='Adresse mail')
+                  input#mail.form-control(type='email' name='mail' required='required' maxlength='100' size='100' placeholder='Adresse mail')
                 .form-group
-                  input#mot-de-passe.form-control(type='password' name='mp' required='required' placeholder='Mot de passe')
+                  input#mot-de-passe.form-control(type='password' name='mp' maxlength='10' size='10' required='required' placeholder='Mot de passe')
                   a.pull-xs-right(href='#')
                     small Oubli&eacute;?
                   .clearfix
@@ -130,20 +135,229 @@ nav.navbar.navbar-white.navbar-fixed-top
               h4.m-b-0
                 span.icon-text S&apos;inscrire
               p.text-muted Devenir membre
-              form#form-inscription(action='index.html' method='get')
+              form#form-inscription(action='index.html' method='post' data-toggle='validate' role='form')
                 .form-group
-                  input#nom-inscription.form-control(type='text' name='nomInscrit' required='required' placeholder='Nom')
+                  input#pseudo-inscription.form-control.control-groupe(type='text' name='pseudoInscrit' required='required' maxlength='32' size='32' placeholder='Pseudo')
                 .form-group
-                  input#mail-inscription.form-control(type='email' name='mailInscrit' required='required' placeholder='Adresse mail')
+                  input#mail-inscription.form-control(type='email' name='mailInscrit' required='required' maxlength='100' size='100' placeholder='Adresse mail')
                 .form-group
-                  input#mp-inscription.form-control(type='password' name='mpInscrit' required='required' data-minlength='6' placeholder='Mot de passe')
-                .help-block Minimum 6 caract&egrave;res
+                  input#mp-inscription.form-control(type='password' name='mpInscrit' required='required' data-minlength='6' maxlength='10' size='10' placeholder='Mot de passe')
                 .form-group
-                  input#mp2-inscription.form-control(type='password' name='mp2Inscrit' required='required' data-match='#mp-inscription' data-match-error='Le mot de passe est différent' placeholder='Confirmer le mot de passe')
+                  input#mp2-inscription.form-control(type='password' name='mp2Inscrit' required='required' maxlength='10' size='10' data-match='#mp-inscription' data-match-error='Le mot de passe est différent' placeholder='Confirmer le mot de passe')
                 button.btn.btn-azure(type='submit') S&apos;inscrire
-                .alert.alert-block.alert-danger(style='display:none')
-                  h4 Erreur !
-                  |                         Vous devez entrer au moins 4 caract&egrave;res !
+  // Profile Membre
+  #profile-membre.container.page-content.edit-profile
+    .row
+      .col-md-10.col-md-offset-1
+        // NAV TABS
+        ul.nav.nav-tabs.nav-tabs-custom-colored.tabs-iconized
+          li.active
+            a(href='#profile-tab' data-toggle='tab' aria-expanded='true')
+              i.fa.fa-user
+              |  Profile
+          li
+            a(href='#activity-tab' data-toggle='tab' aria-expanded='false')
+              i.fa.fa-rss
+              |  Recent Activity
+          li
+            a(href='#settings-tab' data-toggle='tab' aria-expanded='false')
+              i.fa.fa-gear
+              |  Settings
+        // END NAV TABS
+        .tab-content.profile-page
+          // PROFILE TAB CONTENT
+          #profile-tab.tab-pane.profile.active
+            .row
+              .col-md-3
+                .user-info-left
+                  img(src='static/images/default-avatar.png' alt='Profile Picture')
+                  h2#pseudo-profil XXXXX
+                  .contact
+                    p
+                      span.file-input.btn.btn-azure.btn-file
+                        | Change Avatar 
+                        input(type='file' multiple='')
+                    p
+                      span.file-input.btn.btn-azure.btn-file
+                        | Change Cover 
+                        input(type='file' multiple='')
+              .col-md-9
+                .user-info-right
+                  .basic-info
+                    h3
+                      i.fa.fa-square
+                      |  Information
+                    p.data-row
+                      span.data-name Pseudo
+                      span#pseudo.data-value jonasmith
+                    p.data-row
+                      span.data-name Birth Date
+                      span.data-value Nov 20, 1988
+                    p.data-row
+                      span.data-name Gender
+                      span.data-value Male
+                    p.data-row
+                      span.data-name Website
+                      span.data-value
+                        a(href='#') www.jonasmith.com
+                    p.data-row
+                      span.data-name Last Login
+                      span.data-value 2 hours ago
+                    p.data-row
+                      span.data-name Date Joined
+                      span.data-value Feb 22, 2012
+                  .contact_info
+                    h3
+                      i.fa.fa-square
+                      |  Contact Information
+                    p.data-row
+                      span.data-name Email
+                      span.data-value me@jonasmith.com
+                    p.data-row
+                      span.data-name Phone
+                      span.data-value (1800) 221 - 876543
+                    p.data-row
+                      span.data-name Address
+                      span.data-value
+                        | Riverside City 66, 80123 Denver
+                        br
+                        | Colorado
+                  .about
+                    h3
+                      i.fa.fa-square
+                      |  About Me
+                    p
+                      | Dramatically facilitate proactive solutions whereas professional intellectual capital. Holisticly utilize competitive e-markets through intermandated meta-services. Objectively.
+                    p
+                      | Monotonectally foster future-proof infomediaries before principle-centered interfaces. Assertively recaptiualize cutting-edge web services rather than emerging &quot;outside the box&quot; thinking. Phosfluorescently cultivate resource maximizing technologies and user-centric convergence. Completely underwhelm cross functional innovation vis-a-vis.
+          // END PROFILE TAB CONTENT
+          // ACTIVITY TAB CONTENT
+          #activity-tab.tab-pane.activity
+            ul.list-unstyled.activity-list
+              li
+                i.fa.fa-times.activity-icon.pull-left
+                p
+                  a(href='#') Jonathan
+                  |  commented on 
+                  a(href='#') Special Deal 2013
+                  span.timestamp 12 minutes ago
+              li
+                i.fa.fa-times.activity-icon.pull-left
+                p
+                  a(href='#') Jonathan
+                  |  posted 
+                  a(href='#') a new blog post
+                  span.timestamp 4 hours ago
+              li
+                i.fa.fa-times.activity-icon.pull-left
+                p
+                  a(href='#') Jonathan
+                  |  edited his profile 
+                  span.timestamp 11 hours ago
+              li
+                i.fa.fa-times.activity-icon.pull-left
+                p
+                  a(href='#') Jonathan
+                  |  has added review on 
+                  a(href='#') jQuery Complete Guide
+                  |  book 
+                  span.timestamp Yesterday
+              li
+                i.fa.fa-times.activity-icon.pull-left
+                p
+                  a(href='#') Jonathan
+                  |  liked 
+                  a(href='#') a post
+                  span.timestamp December 12
+              li
+                i.fa.fa-times.activity-icon.pull-left
+                p
+                  a(href='#') Jonathan
+                  |  has completed one task 
+                  span.timestamp December 11
+              li
+                i.fa.fa-times.activity-icon.pull-left
+                p
+                  a(href='#') Jonathan
+                  |  uploaded 
+                  a(href='#') new photos
+                  span.timestamp December 5
+              li
+                i.fa.fa-times.activity-icon.pull-left
+                p
+                  a(href='#') Jonathan
+                  |  has updated his credit card info 
+                  span.timestamp September 28
+            p.text-center.more
+              a.btn.btn-custom-primary(href='#')
+                | View more 
+                i.fa.fa-long-arrow-right
+          // END ACTIVITY TAB CONTENT
+          // SETTINGS TAB CONTENT
+          #settings-tab.tab-pane.settings
+            form.form-horizontal(role='form')
+              fieldset
+                h3
+                  i.fa.fa-square
+                  |  Change Password
+                .form-group
+                  label.col-sm-3.control-label(for='old-password') Old Password
+                  .col-sm-4
+                    input#old-password.form-control(type='password' name='old-password')
+                hr
+                .form-group
+                  label.col-sm-3.control-label(for='password') New Password
+                  .col-sm-4
+                    input#password.form-control(type='password' name='password')
+                .form-group
+                  label.col-sm-3.control-label(for='password2') Repeat Password
+                  .col-sm-4
+                    input#password2.form-control(type='password' name='password2')
+              fieldset
+                h3
+                  i.fa.fa-square
+                  |  Privacy
+                .checkbox
+                  label
+                    input.colored-blue(type='checkbox' checked='checked')
+                    span.text Show my display name
+                .checkbox
+                  label
+                    input.colored-blue(type='checkbox' checked='checked')
+                    span.text Show my birth date
+                .checkbox
+                  label
+                    input.colored-blue(type='checkbox' checked='checked')
+                    span.text Show my email
+                .checkbox
+                  label
+                    input.colored-blue(type='checkbox' checked='checked')
+                    span.text Show my online status on chat
+              h3
+                i.fa.fa-square  
+                | Notifications
+              fieldset
+                .checkbox
+                  label
+                    input.colored-blue(type='checkbox' checked='checked')
+                    span.text Receive message from administrator
+                .checkbox
+                  label
+                    input.colored-blue(type='checkbox' checked='checked')
+                    span.text New product has been added
+                .checkbox
+                  label
+                    input.colored-blue(type='checkbox' checked='checked')
+                    span.text Product review has been approved
+                .checkbox
+                  label
+                    input.colored-blue(type='checkbox' checked='checked')
+                    span.text Others liked your post
+            p.text-center
+              a.btn.btn-custom-primary(href='#')
+                i.fa.fa-floppy-o
+                |  Save Changes
+          // END SETTINGS TAB CONTENT
   footer.footer
     .container
       p.text-muted
