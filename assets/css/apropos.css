@@ -575,3 +575,12 @@ footer .container .text-muted {
     background: #000;
 }
 
+a.disabled {
+  color:  darkgrey;
+  pointer-events: none;
+  cursor: default;
+}
+
+#deconnexion{
+   color: darkgrey;
+}

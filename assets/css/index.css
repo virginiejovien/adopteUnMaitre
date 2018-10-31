@@ -511,4 +511,51 @@ footer .container .text-muted {
 
 }
 
+#mot-de-passe-oublie {
+    display:none;
+
+}
+
+#apropos {
+    display:none;
+
+}
+
+#idLoginAlertMsg{
+    font-size: 15px;
+    display:none;
+}
+#idInscritAlertMsg{
+    font-size: 15px;
+    display:none;
+}
+
+#message-recup-mp{
+    font-size: 15px;
+    display:none;
+}
+
+input:invalid {
+border-color:#a19cc6;
+} 
+
+
+
+a.disabled {
+   color:  darkgrey;
+   pointer-events: none;
+   cursor: default;
+}
+
+#deconnexion{
+    color: darkgrey;
+}
+
+#image-apropos {
+    height: 120px;
+}
+
+.input-profil {
+    margin-top: -6px;
+}
 

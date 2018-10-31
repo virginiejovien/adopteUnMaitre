@@ -9,15 +9,18 @@ head
   link(href='static/css/bootstrap.min.css' rel='stylesheet')
   link(href='static/css/animate.min.css' rel='stylesheet')
   link(href='static/css/font-awesome.min.css' rel='stylesheet')
-  link(href='static/css/index.css' rel='stylesheet')
+  link(href='static/css/apropos.css' rel='stylesheet')
   link(href='static/css/edit_profile.css' rel='stylesheet')
+  link(href='static/css/timeline.css' rel='stylesheet')
+  link(href='static/css/buttons.css' rel='stylesheet')
+  link(href='static/css/forms.css' rel='stylesheet')
+  link(href='static/css/recover_password.css' rel='stylesheet')
+  link(href='static/css/index.css' rel='stylesheet')
   // Javascript socket.io
   script(src='static/js/jquery.1.11.1.min.js')
   script(src='static/js/bootstrap.min.js')
   script(src='/socket.io/socket.io.js')
   script(type='text/javascript' src='static/js/jquery.validate.js')
-  script(type='text/javascript' src='static/js/messages_fr.js')
-  script(src='static/js/controle-formulaire.js')
   script(src='static/js/client.js')
   script(src='static/js/custom.js')
 // Fixed navbar
@@ -33,15 +36,15 @@ nav.navbar.navbar-white.navbar-fixed-top
         span.icon-bar
     #navbar.navbar-collapse.collapse
       ul.nav.navbar-nav.navbar-right
-        li.actives
-          a(href='/apropos') A propos
         li
-          a(href='/') Home
+          a(href='#idAbout' data-toggle='modal' data-target='#idAbout') A propos
         li.dropdown
           a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
             | Pages 
             span.caret
           ul.dropdown-menu
+            li
+              a(href='static/pdf/DIW JS - Atelier final.pdf') Cahier des charges
             li
               a(href='profile2.html') Profile 2
             li
@@ -103,265 +106,354 @@ nav.navbar.navbar-white.navbar-fixed-top
             i.fa.fa-user
           ul.dropdown-menu
             li
-              a(href='/') D&eacute;connexion
+              a#deconnexion.disabled(href='/') D&eacute;connexion
             li
               a(href='profile3.html') Admnistrateur
 .wrapper
-  // Formulaire
-  #formulaire.parallax.filter-black
-    .parallax-image
-    div Un r&eacute;seau social 100% chat.rrr.mant
-    .small-info
-      .col-sm-10.col-sm-push-1.col-md-6.col-md-push-3.col-lg-6.col-lg-push-3
-        .card-group.animated.flipInX
-          .card
-            .card-block
-              .center
-                h4.m-b-0
-                  span.icon-text Connexion
-                p.text-muted Acc&eacute;der &agrave; votre compte
-              form#form-connection(action='index.html' method='get')
-                .form-group
-                  input#mail.form-control(type='email' name='mail' required='required' maxlength='100' size='100' placeholder='Adresse mail')
-                .form-group
-                  input#mot-de-passe.form-control(type='password' name='mp' maxlength='10' size='10' required='required' placeholder='Mot de passe')
-                  a.pull-xs-right(href='#')
-                    small Oubli&eacute;?
-                  .clearfix
-                .center
-                  button.btn.btn-azure(type='submit') Se connecter
-          .card
-            .card-block.center
+// *************************************************************************
+// Formulaire
+// *************************************************************************
+#formulaire.parallax.filter-black
+  .parallax-image
+  div Un r&eacute;seau social 100% chat.rrr.mant
+  .small-info
+    .col-sm-10.col-sm-push-1.col-md-6.col-md-push-3.col-lg-6.col-lg-push-3
+      .card-group.animated.flipInX
+        .card
+          .card-block
+            .center
               h4.m-b-0
-                span.icon-text S&apos;inscrire
-              p.text-muted Devenir membre
-              form#form-inscription(action='index.html' method='post' data-toggle='validate' role='form')
+                span.icon-text Connexion
+              p.text-muted Acc&eacute;der &agrave; votre compte
+            // ****************  formulaire de connexion **********************
+            form#form-connection
+              .form-group
+                input#pseudo.form-control(type='text' name='LoginPseudo' maxlength='31' size='31' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+              .form-group
+                input#mp.form-control(type='password' name='LoginPassword' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                a#oublie.pull-xs-right(href='#')
+                  small Oubli&eacute;?
+                p#idLoginAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg Pseudo et/ou mot de passe inconnus
+                .clearfix
+              .center
+                button.btn.btn-azure(type='submit') Se connecter
+        .card
+          .card-block.center
+            h4.m-b-0
+              span.icon-text S&apos;inscrire
+            p.text-muted Devenir membre
+            // ****************  formulaire d'inscription **********************
+            form#form-inscription
+              .form-group
+                input#pseudo-inscription.form-control.control-groupe(type='text' name='pseudoInscrit' maxlength='31' size='31' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+              .form-group
+                input#mail-inscription.form-control(type='email' name='mailInscrit' maxlength='100' size='100' placeholder='Adresse mail' required='' pattern='^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$' title='Veuillez fournir une adresse électronique valide: exemple@provider.com')
+              .form-group
+                input#mp-inscription.form-control(type='password' name='mpInscrit' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+              .form-group
+                input#mp2-inscription.form-control(type='password' name='mp2Inscrit' minlength='6' maxlength='12' size='12' data-match='#mp-inscription' data-match-error="Whoops, these don't match" placeholder='Confirmer le mot de passe' required='')
+              p#idInscritAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg L&apos;e-mail et/ou le pseudo sont d&eacute;j&agrave; attribu&eacute;s
+              button.btn.btn-azure(type='submit') S&apos;inscrire
+// *************************************************************************
+// page  mot de passe oublié
+// *************************************************************************
+#mot-de-passe-oublie.container.page-content
+  .row
+    .col-md-6.col-sm-8.col-xs-12.col-md-offset-3
+      #locked-screen.panel.panel-primary
+        .panel-heading
+          h3.panel-title
+            | Veuiller entrer votre adresse mail
+          button#ferme-mp.close.close-mp(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+        .panel-body
+          form#form-recup-mp.form-horizontal(role='form')
+            .profile-pic.text-center
+              img.img-circle.img-responsive.img-user(src='static/images/default-avatar.png' alt='')
+            .form-group
+              .col-md-12
+                input#mail-recup-mp.form-control(type='email' name='mailRecupMp' maxlength='100' size='100' placeholder='Adresse mail' required='' pattern='^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$' title='Veuillez fournir une adresse électronique valide: exemple@provider.com')
+            .form-group
+              .col-md-12
+                p#message-recup-mp.lead.mt-5.display-4.text-danger.text-center.alertMsg L&apos;e-mail n&apos;existe pas
+                button.btn.btn-info.btn-block(type='submit')  Continue
+// *************************************************************************
+// page  profile membre
+// *************************************************************************
+#profile-membre.container.page-content.edit-profile
+  .row
+    .col-md-10.col-md-offset-1
+      // NAV TABS
+      ul.nav.nav-tabs.nav-tabs-custom-colored.tabs-iconized
+        li.active
+          a(href='#profile-tab' data-toggle='tab' aria-expanded='true')
+            i.fa.fa-user
+            |  Profile
+        li
+          a(href='#activity-tab' data-toggle='tab' aria-expanded='false')
+            i.fa.fa-rss
+            |  Recent Activity
+        li
+          a(href='#settings-tab' data-toggle='tab' aria-expanded='false')
+            i.fa.fa-gear
+            |  Settings
+      // END NAV TABS
+      .tab-content.profile-page
+        // PROFILE TAB CONTENT
+        #profile-tab.tab-pane.profile.active
+          .row
+            .col-md-3
+              .user-info-left
+                img#photo-profil(src='static/images/default-avatar.png' alt='Profile Picture')
+                h2#pseudo-profil
+                .contact
+                  p
+                    span.file-input.btn.btn-azure.btn-file
+                      | Change Avatar 
+                      input(type='file' multiple='')
+                  p
+                    span.file-input.btn.btn-azure.btn-file
+                      | Change Cover 
+                      input(type='file' multiple='')
+            .col-md-9
+              form#form-profil
                 .form-group
-                  input#pseudo-inscription.form-control.control-groupe(type='text' name='pseudoInscrit' required='required' maxlength='32' size='32' placeholder='Pseudo')
-                .form-group
-                  input#mail-inscription.form-control(type='email' name='mailInscrit' required='required' maxlength='100' size='100' placeholder='Adresse mail')
-                .form-group
-                  input#mp-inscription.form-control(type='password' name='mpInscrit' required='required' data-minlength='6' maxlength='10' size='10' placeholder='Mot de passe')
-                .form-group
-                  input#mp2-inscription.form-control(type='password' name='mp2Inscrit' required='required' maxlength='10' size='10' data-match='#mp-inscription' data-match-error='Le mot de passe est différent' placeholder='Confirmer le mot de passe')
-                button.btn.btn-azure(type='submit') S&apos;inscrire
-  // Profile Membre
-  #profile-membre.container.page-content.edit-profile
-    .row
-      .col-md-10.col-md-offset-1
-        // NAV TABS
-        ul.nav.nav-tabs.nav-tabs-custom-colored.tabs-iconized
-          li.active
-            a(href='#profile-tab' data-toggle='tab' aria-expanded='true')
-              i.fa.fa-user
-              |  Profile
-          li
-            a(href='#activity-tab' data-toggle='tab' aria-expanded='false')
-              i.fa.fa-rss
-              |  Recent Activity
-          li
-            a(href='#settings-tab' data-toggle='tab' aria-expanded='false')
-              i.fa.fa-gear
-              |  Settings
-        // END NAV TABS
-        .tab-content.profile-page
-          // PROFILE TAB CONTENT
-          #profile-tab.tab-pane.profile.active
-            .row
-              .col-md-3
-                .user-info-left
-                  img(src='static/images/default-avatar.png' alt='Profile Picture')
-                  h2#pseudo-profil XXXXX
-                  .contact
-                    p
-                      span.file-input.btn.btn-azure.btn-file
-                        | Change Avatar 
-                        input(type='file' multiple='')
-                    p
-                      span.file-input.btn.btn-azure.btn-file
-                        | Change Cover 
-                        input(type='file' multiple='')
-              .col-md-9
-                .user-info-right
-                  .basic-info
-                    h3
-                      i.fa.fa-square
-                      |  Information
-                    p.data-row
-                      span.data-name Pseudo
-                      span#pseudo.data-value jonasmith
-                    p.data-row
-                      span.data-name Birth Date
-                      span.data-value Nov 20, 1988
-                    p.data-row
-                      span.data-name Gender
-                      span.data-value Male
-                    p.data-row
-                      span.data-name Website
-                      span.data-value
-                        a(href='#') www.jonasmith.com
-                    p.data-row
-                      span.data-name Last Login
-                      span.data-value 2 hours ago
-                    p.data-row
-                      span.data-name Date Joined
-                      span.data-value Feb 22, 2012
-                  .contact_info
-                    h3
-                      i.fa.fa-square
-                      |  Contact Information
-                    p.data-row
-                      span.data-name Email
-                      span.data-value me@jonasmith.com
-                    p.data-row
-                      span.data-name Phone
-                      span.data-value (1800) 221 - 876543
-                    p.data-row
-                      span.data-name Address
-                      span.data-value
-                        | Riverside City 66, 80123 Denver
-                        br
-                        | Colorado
-                  .about
-                    h3
-                      i.fa.fa-square
-                      |  About Me
-                    p
-                      | Dramatically facilitate proactive solutions whereas professional intellectual capital. Holisticly utilize competitive e-markets through intermandated meta-services. Objectively.
-                    p
-                      | Monotonectally foster future-proof infomediaries before principle-centered interfaces. Assertively recaptiualize cutting-edge web services rather than emerging &quot;outside the box&quot; thinking. Phosfluorescently cultivate resource maximizing technologies and user-centric convergence. Completely underwhelm cross functional innovation vis-a-vis.
-          // END PROFILE TAB CONTENT
-          // ACTIVITY TAB CONTENT
-          #activity-tab.tab-pane.activity
-            ul.list-unstyled.activity-list
-              li
-                i.fa.fa-times.activity-icon.pull-left
-                p
-                  a(href='#') Jonathan
-                  |  commented on 
-                  a(href='#') Special Deal 2013
-                  span.timestamp 12 minutes ago
-              li
-                i.fa.fa-times.activity-icon.pull-left
-                p
-                  a(href='#') Jonathan
-                  |  posted 
-                  a(href='#') a new blog post
-                  span.timestamp 4 hours ago
-              li
-                i.fa.fa-times.activity-icon.pull-left
-                p
-                  a(href='#') Jonathan
-                  |  edited his profile 
-                  span.timestamp 11 hours ago
-              li
-                i.fa.fa-times.activity-icon.pull-left
-                p
-                  a(href='#') Jonathan
-                  |  has added review on 
-                  a(href='#') jQuery Complete Guide
-                  |  book 
-                  span.timestamp Yesterday
-              li
-                i.fa.fa-times.activity-icon.pull-left
-                p
-                  a(href='#') Jonathan
-                  |  liked 
-                  a(href='#') a post
-                  span.timestamp December 12
-              li
-                i.fa.fa-times.activity-icon.pull-left
-                p
-                  a(href='#') Jonathan
-                  |  has completed one task 
-                  span.timestamp December 11
-              li
-                i.fa.fa-times.activity-icon.pull-left
-                p
-                  a(href='#') Jonathan
-                  |  uploaded 
-                  a(href='#') new photos
-                  span.timestamp December 5
-              li
-                i.fa.fa-times.activity-icon.pull-left
-                p
-                  a(href='#') Jonathan
-                  |  has updated his credit card info 
-                  span.timestamp September 28
-            p.text-center.more
-              a.btn.btn-custom-primary(href='#')
-                | View more 
-                i.fa.fa-long-arrow-right
-          // END ACTIVITY TAB CONTENT
-          // SETTINGS TAB CONTENT
-          #settings-tab.tab-pane.settings
-            form.form-horizontal(role='form')
-              fieldset
-                h3
-                  i.fa.fa-square
-                  |  Change Password
-                .form-group
-                  label.col-sm-3.control-label(for='old-password') Old Password
-                  .col-sm-4
-                    input#old-password.form-control(type='password' name='old-password')
-                hr
-                .form-group
-                  label.col-sm-3.control-label(for='password') New Password
-                  .col-sm-4
-                    input#password.form-control(type='password' name='password')
-                .form-group
-                  label.col-sm-3.control-label(for='password2') Repeat Password
-                  .col-sm-4
-                    input#password2.form-control(type='password' name='password2')
-              fieldset
-                h3
-                  i.fa.fa-square
-                  |  Privacy
-                .checkbox
-                  label
-                    input.colored-blue(type='checkbox' checked='checked')
-                    span.text Show my display name
-                .checkbox
-                  label
-                    input.colored-blue(type='checkbox' checked='checked')
-                    span.text Show my birth date
-                .checkbox
-                  label
-                    input.colored-blue(type='checkbox' checked='checked')
-                    span.text Show my email
-                .checkbox
-                  label
-                    input.colored-blue(type='checkbox' checked='checked')
-                    span.text Show my online status on chat
+                  .user-info-right
+                    .basic-info
+                      h3
+                        i.fa.fa-square
+                        |  Information
+                      p.data-row
+                        span.data-name Pseudonyme
+                        span#pseudoprofil.data-value
+                      p.data-row
+                        span.data-name Date de naissance
+                        span.data-value
+                          input#date-de-naissance.form-control.control-groupe.input-profil(type='text' name='date' maxlength='10' size='10' placeholder='Date' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                      p.data-row
+                        span.data-name Nom
+                        span.data-value
+                          input#nom.form-control.control-groupe.input-profil(type='text' name='nom' maxlength='10' size='10' placeholder='Date' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                      p.data-row
+                        span.data-name Pr&eacute;nom
+                        span.data-value
+                          input#prenom.form-control.control-groupe.input-profil(type='text' name='prenom' maxlength='10' size='10' placeholder='Date' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                      p.data-row
+                        span.data-name Website
+                        span.data-value
+                          a(href='#') www.jonasmith.com
+                      p.data-row
+                        span.data-name Last Login
+                        span.data-value 2 hours ago
+                      p.data-row
+                        span.data-name Date Joined
+                        span.data-value Feb 22, 2012
+                    .contact_info
+                      h3
+                        i.fa.fa-square
+                        |  Contact Information
+                      p.data-row
+                        span.data-name Email
+                        span#email-profil.data-value
+                      p.data-row
+                        span.data-name Phone
+                        span.data-value (1800) 221 - 876543
+                      p.data-row
+                        span.data-name Address
+                        span.data-value
+                          | Riverside City 66, 80123 Denver
+                          br
+                          | Colorado
+                    .about
+                      h3
+                        i.fa.fa-square
+                        |  About Me
+                      p
+                        | Dramatically facilitate proactive solutions whereas professional intellectual capital. Holisticly utilize competitive e-markets through intermandated meta-services. Objectively.
+                      p
+                        | Monotonectally foster future-proof infomediaries before principle-centered interfaces. Assertively recaptiualize cutting-edge web services rather than emerging &quot;outside the box&quot; thinking. Phosfluorescently cultivate resource maximizing technologies and user-centric convergence. Completely underwhelm cross functional innovation vis-a-vis.
+        // END PROFILE TAB CONTENT
+        // ACTIVITY TAB CONTENT
+        #activity-tab.tab-pane.activity
+          ul.list-unstyled.activity-list
+            li
+              i.fa.fa-times.activity-icon.pull-left
+              p
+                a(href='#') Jonathan
+                |  commented on 
+                a(href='#') Special Deal 2013
+                span.timestamp 12 minutes ago
+            li
+              i.fa.fa-times.activity-icon.pull-left
+              p
+                a(href='#') Jonathan
+                |  posted 
+                a(href='#') a new blog post
+                span.timestamp 4 hours ago
+            li
+              i.fa.fa-times.activity-icon.pull-left
+              p
+                a(href='#') Jonathan
+                |  edited his profile 
+                span.timestamp 11 hours ago
+            li
+              i.fa.fa-times.activity-icon.pull-left
+              p
+                a(href='#') Jonathan
+                |  has added review on 
+                a(href='#') jQuery Complete Guide
+                |  book 
+                span.timestamp Yesterday
+            li
+              i.fa.fa-times.activity-icon.pull-left
+              p
+                a(href='#') Jonathan
+                |  liked 
+                a(href='#') a post
+                span.timestamp December 12
+            li
+              i.fa.fa-times.activity-icon.pull-left
+              p
+                a(href='#') Jonathan
+                |  has completed one task 
+                span.timestamp December 11
+            li
+              i.fa.fa-times.activity-icon.pull-left
+              p
+                a(href='#') Jonathan
+                |  uploaded 
+                a(href='#') new photos
+                span.timestamp December 5
+            li
+              i.fa.fa-times.activity-icon.pull-left
+              p
+                a(href='#') Jonathan
+                |  has updated his credit card info 
+                span.timestamp September 28
+          p.text-center.more
+            a.btn.btn-custom-primary(href='#')
+              | View more 
+              i.fa.fa-long-arrow-right
+        // END ACTIVITY TAB CONTENT
+        // SETTINGS TAB CONTENT
+        #settings-tab.tab-pane.settings
+          form.form-horizontal(role='form')
+            fieldset
               h3
-                i.fa.fa-square  
-                | Notifications
-              fieldset
-                .checkbox
-                  label
-                    input.colored-blue(type='checkbox' checked='checked')
-                    span.text Receive message from administrator
-                .checkbox
-                  label
-                    input.colored-blue(type='checkbox' checked='checked')
-                    span.text New product has been added
-                .checkbox
-                  label
-                    input.colored-blue(type='checkbox' checked='checked')
-                    span.text Product review has been approved
-                .checkbox
-                  label
-                    input.colored-blue(type='checkbox' checked='checked')
-                    span.text Others liked your post
-            p.text-center
-              a.btn.btn-custom-primary(href='#')
-                i.fa.fa-floppy-o
-                |  Save Changes
-          // END SETTINGS TAB CONTENT
-  footer.footer
-    .container
-      p.text-muted
-        | 200 messages &eacute;chang&eacute;s
-        span.btn.btn-default.btn-circle.btn-xs
-          i.glyphicon.glyphicon-ok
-        | 12 connect&eacute;s
+                i.fa.fa-square
+                |  Change Password
+              .form-group
+                label.col-sm-3.control-label(for='old-password') Old Password
+                .col-sm-4
+                  input#old-password.form-control(type='password' name='old-password')
+              hr
+              .form-group
+                label.col-sm-3.control-label(for='password') New Password
+                .col-sm-4
+                  input#password.form-control(type='password' name='password')
+              .form-group
+                label.col-sm-3.control-label(for='password2') Repeat Password
+                .col-sm-4
+                  input#password2.form-control(type='password' name='password2')
+            fieldset
+              h3
+                i.fa.fa-square
+                |  Privacy
+              .checkbox
+                label
+                  input.colored-blue(type='checkbox' checked='checked')
+                  span.text Show my display name
+              .checkbox
+                label
+                  input.colored-blue(type='checkbox' checked='checked')
+                  span.text Show my birth date
+              .checkbox
+                label
+                  input.colored-blue(type='checkbox' checked='checked')
+                  span.text Show my email
+              .checkbox
+                label
+                  input.colored-blue(type='checkbox' checked='checked')
+                  span.text Show my online status on chat
+            h3
+              i.fa.fa-square  
+              | Notifications
+            fieldset
+              .checkbox
+                label
+                  input.colored-blue(type='checkbox' checked='checked')
+                  span.text Receive message from administrator
+              .checkbox
+                label
+                  input.colored-blue(type='checkbox' checked='checked')
+                  span.text New product has been added
+              .checkbox
+                label
+                  input.colored-blue(type='checkbox' checked='checked')
+                  span.text Product review has been approved
+              .checkbox
+                label
+                  input.colored-blue(type='checkbox' checked='checked')
+                  span.text Others liked your post
+          p.text-center
+            a.btn.btn-custom-primary(href='#')
+              i.fa.fa-floppy-o
+              |  Save Changes
+        // END SETTINGS TAB CONTENT
+// *************************************************************************
+// Fenêtre Modale A propos
+// *************************************************************************
+#idAbout.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalAboutTitlePa' aria-hidden='true')
+  .modal-dialog.modal-dialog-centered(role='document')
+    .modal-content
+      .modal-header
+        h5#idModalTitleP.modal-title A propos...
+        button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+      .row
+        .col-md-12
+          .cover.profile
+            .wrapper
+              .image
+                img.show-in-modal(src='static/images/chat.jpg' alt='people')
+              .friends
+                p
+                  b &quot;Adopte un ma&icirc;tre&quot;
+                  |  est un r&eacute;seau social qui permet de mettre en relation des personnes qui proposent des chats &agrave; l&rsquo;adoption et celles d&eacute;sirant en adopter.
+      .modal-footer
+        button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
+// *************************************************************************
+// Fenêtre Modale felicitation
+// *************************************************************************
+#idFelicitation.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalFelicitationTitle' aria-hidden='true')
+  .modal-dialog.modal-dialog-centered(role='document')
+    #idModalContent.modal-content
+      #idModalBodyText.modal-header
+        h5#idModalTitle.modal-title Bienvenue dans Adopte un Ma&icirc;tre
+        button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+      .modal-body
+        img.mb-4.mx-auto.d-block(src='static/images/favicon.png' alt='Logo du site adopte un maitre' width='auto' height='72')
+      .modal-footer
+        button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
+// *************************************************************************
+// Fenêtre Modale global
+// *************************************************************************
+#idGenericModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idGenericModalTitle' aria-hidden='true')
+  .modal-dialog.modal-dialog-centered(role='document')
+    #idModalContentG.modal-content
+      #idModalBodyTextG.modal-header
+        h5#idModalTitleG.modal-title
+        button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+      .modal-body
+        img.mb-4.mx-auto.d-block(src='static/images/favicon.png' alt='Logo du site adopte un maitre' width='auto' height='72')
+        #idModalBodyText
+      .modal-footer
+        button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
+// *************************************************************************
+// FOOTER PAGE INDEX
+// *************************************************************************
+footer.footer
+  .container
+    p.text-muted
+      | 200 messages &eacute;chang&eacute;s
+      span.btn.btn-default.btn-circle.btn-xs
+        i.glyphicon.glyphicon-ok
+      | 12 connect&eacute;s
