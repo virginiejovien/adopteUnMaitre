@@ -239,6 +239,14 @@ function initModalRecupText(pModalTitleG, pModalBodyTextG){
         alert(message.message);      
     });
 
+//*******************************************************************************
+// message au visiteur qui se connecte avec un code administrateur erroné
+//*******************************************************************************
+websocketConnection.on('inscriptionAdministrateur', function(message) { 
+    var message = message; 
+    alert(message.message);      
+});
+
 //**************************************************************************************************
 // LE CONNECTE EST UN MEMBRE A PRESENT ON LE REDIRIGE VERS SON PROFILE
 //**************************************************************************************************  
