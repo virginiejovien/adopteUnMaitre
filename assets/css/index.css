@@ -516,6 +516,11 @@ footer .container .text-muted {
 
 }
 
+#change-mp {
+    display:none;
+
+}
+
 #apropos {
     display:none;
 
@@ -526,6 +531,11 @@ footer .container .text-muted {
     display:none;
 }
 #idInscritAlertMsg{
+    font-size: 15px;
+    display:none;
+}
+
+#idRecupMpAlertMsg{
     font-size: 15px;
     display:none;
 }
@@ -559,3 +569,7 @@ a.disabled {
     margin-top: -6px;
 }
 
+#mail-recup-mp{
+    color:#fe2525;;
+
+}

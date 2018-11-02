@@ -176,6 +176,29 @@ nav.navbar.navbar-white.navbar-fixed-top
               .col-md-12
                 p#message-recup-mp.lead.mt-5.display-4.text-danger.text-center.alertMsg L&apos;e-mail n&apos;existe pas
                 button.btn.btn-info.btn-block(type='submit')  Continue
+// *********************************************************************
+// page  changer de mot de passe oublié
+// *********************************************************************
+#change-mp.container.page-content
+  .row
+    .col-md-6.col-sm-8.col-xs-12.col-md-offset-3
+      #locked-screen.panel.panel-primary
+        .panel-heading
+          h3.panel-title
+            | Changer votre mot de passe &agrave; l&apos;aide du mot de passe provisoire
+          button#ferme-mp-change.close.close-mp(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+        .panel-body
+          form#form-change-mp
+            .form-group
+              input#change-mp-recup.form-control(type='password' name='change-mp-recup' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+            .form-group
+              input#change-mp1.form-control(type='password' name='change-mp1' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+            .form-group
+              input#change-mp2.form-control(type='password' name='change-mp2' minlength='6' maxlength='12' size='12' data-match='#change-mp1' data-match-error="Whoops, these don't match" placeholder='Confirmer le mot de passe' required='')
+            .form-group
+              .col-md-12
+                p#idRecupMpAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg Veuillez saisir le mot de passe provisoire que nous vous avons envoy&eacute; par mail
+                button.btn.btn-info.btn-block(type='submit')  Valider
 // *************************************************************************
 // page  profile membre
 // *************************************************************************

@@ -159,6 +159,16 @@ let verifPseudoExist = function(pObjetMembre, pWebsocketConnection, pColMembres)
 //************************************************************************************************
 // Le pseudo saisie par le membre n'existe pas dans la collection membres on envoie un message d'alerte
 //************************************************************************************************
+let sendPbMpProvisoireMsg = function(pObjetMembre, pWebsocketConnection ) {
+    let message = {};
+    message.message = "Veuillez saisir le mot de passe provisoire que nous vous avons fait parvenir par mail";
+    console.log('connection message.message',message.message);
+    pWebsocketConnection.emit('messagePbChangeRecupMp', message, pObjetMembre);
+};
+
+//************************************************************************************************
+// Le pseudo saisie par le membre n'existe pas dans la collection membres on envoie un message d'alerte
+//************************************************************************************************
 let sendNoExistPseudoMsg = function(pWebsocketConnection, pObjetMembre) {
     let message = {};
     message.message = "Ce pseudonyme n'existe pas";
@@ -188,6 +198,64 @@ let verifMotDePasse = function(pObjetMembre,pDocuments, pWebsocketConnection) {
     }
 };
 
+
+//************************************************************************************************
+// Vérification du mot de passe provisoire dans la collection membres
+// ************************************************************************************************
+let verifPseudoMpOk = function(pObjetMembre, pWebsocketConnection, pColMembres) {   
+    console.log('pObjetMembre.motDePasse verif mot de passe',pObjetMembre.mpProvisoire); 
+    console.log('pObjetMembren verif change mot de passe',pObjetMembre); 
+    pColMembres.find({pseudoInscription:pObjetMembre.pseudo}).toArray(function(error, documents) {                     
+        if (error) {
+            console.log('Erreur de collection',error);
+            return false;
+        } else {                                
+            if (documents == false) {
+                console.log('documents change mot de passe false',documents);
+                sendPbMpProvisoireMsg(pObjetMembre, pWebsocketConnection); // on envoie au client que le pseudo n'existe pas
+                return false;                     
+            } else { 
+                console.log('documents connection',documents);
+                console.log('pDocuments.mpProvisoire verif mot de passe dans la collection',documents[0].mpProvisoire);             
+                if ((pObjetMembre.mpProvisoire) !== (documents[0].mpProvisoire)) {
+                    console.log('pas les mêmes mot de passe provisoire');
+                    let message = {};
+                    message.message = "Votre mot de passe n'est pas correct";
+                    pWebsocketConnection.emit('messagePbChangeRecupMp', message);
+                    return false;
+                } else {  
+                    let pseudoNew = documents[0].pseudoInscription;  
+                    let email = documents[0].mailInscription; 
+                    let mpNew = pObjetMembre.mp1Recup;                            
+                    console.log("pObjetMembre.mpProvisoire et pDocumentsmpProvisoire true",pObjetMembre.mpProvisoire);
+                    pColMembres.updateMany({pseudoInscription:pObjetMembre.pseudo}, {$set: {mp1Inscription:mpNew,mp2Inscription:mpNew,mpProvisoire:mpNew}}); 
+                    if (error){
+                        console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                        throw error;
+                    } else {         
+                        console.log('update ok');                               
+                        console.log("mpNew",mpNew);                       
+                        let messageToSend = {
+                        to       : email,
+                        from     : 'adopteUnMaitre@amt.com',
+                        subject  : 'Info changement de mots de passe',
+                        html     : '<h1 style="color: black;">Hello '+pseudoNew+'</h1><p><h2>Voici vos nouvelles données de connexion pour naviguer sur le site :<b>Adopte un Maître</b> </h2><br />Vos identifiants sont : <p><Strong>Pseudonyme : </strong>'+pseudoNew+'<p><strong>Mot de passe : </strong>'+mpNew +
+            '</p><br /><br /><br /><i>Adopte un Maitre Team</i>',
+                         }
+                        sgMail.send(messageToSend);  // envoie du mail de récupérartion de mot de passe
+                        pWebsocketConnection.emit('mailSendInfoChangeMp',pObjetMembre); 
+                    }  
+                    pWebsocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
+                    pWebsocketConnection.emit('profileConnect', pObjetMembre); // On envoie au client les données de profil du membre        
+                    return true;
+                }
+            };
+        };
+    }.bind(this)); 
+  
+};
+
+
 //**************************************************************************************************************
 // Vérification que le formulaire d'inscription du futur membre est valide
 // *************************************************************************************************************
@@ -206,41 +274,30 @@ let checkFilledInscriptionOk = function(pObjetMembre, pWebsocketConnection) {
     }
 };
 
+//**************************************************************************************************************
+// Vérification que le formulaire d'inscription du futur membre est valide
+// *************************************************************************************************************
+let checkFilledChangeMpOk = function(pObjetMembre, pWebsocketConnection) {
+    if ((!pObjetMembre.mpProvisoire) &&  (!pObjetMembre.mp1Recup)) {
+        console.log("pObjetMembre inscription",pObjetMembre);
+        let message = {};
+        // message.id = connectes.id[connectes.compteur];
+        pObjetMembre.pseudoInscription = '';
+        message.message = 'Vous devez renseigner tous les champs du formulaire';
+        pWebsocketConnection.emit('message', message);
+        return false;
+    } else {  
+        console.log("pObjetMembre true",pObjetMembre);   
+        return true;
+    }
+};
+
 //************************************************************************************************
 // Vérification si administrateur:
 //   si pseudo = TEAMxxxxADMIN0 super administrateur statut:2
 //   si pseudo = TEAMxxxxADMIN1 admnistrateur statut : 1 
 //************************************************************************************************
-let verifAdmin = function(pObjetMembre,pWebsocketConnection) {
-    console.log("pObjetMembre.pseudoInscription inscription verif administrateur",pObjetMembre.pseudoInscription);
-    let finCodeAdmin =  pObjetMembre.pseudoInscription.length;
-    let codeAdmin = pObjetMembre.pseudoInscription.substring(13,finCodeAdmin); // on recupere ce qui suit apres TEAMxxxxADMIN 
-        console.log('codeAdmin',codeAdmin);
-    if (pObjetMembre.pseudoInscription === 'TEAMxxxxADMIN0') {
-        pObjetMembre.statut =  2;  // super administrateur il n'y en a qu'un avec le statut = 2
-        return pObjetMembre.statut;
-    } else {      
-       
-        if (pObjetMembre.pseudoInscription.substring(0,13) === 'TEAMxxxxADMIN') {
-            if (Number.isInteger(codeAdmin)) {  // verification que le code administrateur fini par un nombre
-                pObjetMembre.statut =  1; // administrateur avec le statut = 1
-               
-            } else {
-               // renvoie un message au visiteur qui essaye de s'inscrire avec un code administrateur non valable
-                let message = {};
-                pObjetMembre.pseudoInscription = '';
-                message.message =   `'Contactez le super administrateur votre code admnistrateur n'est pas valable`;
-                pWebsocketConnection.emit('problemeInscriptionAdministrateur', message);
-                return false;
-            }
-            return pObjetMembre.statut; 
-        } else {
-            pObjetMembre.statut =  0; // membre statut = 0
-            return pObjetMembre.statut;
-        }
-    }     
-};
-  
+
 //************************************************************************************************
 // Vérification de l'unicité du pseudo du futur membre dans le reseau social
 //************************************************************************************************
@@ -337,7 +394,7 @@ let prepareAndInsertNewMember = function(pObjetMembre,pColMembres,pWebsocketConn
         console.log('codeAdmin',codeAdmin);
      // statut = 0 membre et statut = 1 administrateur statut: 2 super administrateur 
         if (debutCodeAdmin === 'TEAMxxxxADMIN') {    
-            if (pObjetMembre.pseudoInscription = 'TEAMxxxxADMIN0'){
+            if (pObjetMembre.pseudoInscription === 'TEAMxxxxADMIN0'){
                 pObjetMembre.statut =  2; // super administrateur il n'y en a qu'un avec le statut = 2         
         
             } else {               
@@ -469,7 +526,7 @@ websocketConnection.on('envoieEmailRecupMp', function (email) {       // Recepti
                 generePassWord(l);
                 console.log('motDePasseProvisoire', generePassWord(l));  
                 let mpRecup =   generePassWord(l);                     
-                colMembres.updateMany({mailInscription:email}, {$set: {mp1Inscription:mpRecup,mp2Inscription:mpRecup}}); 
+                colMembres.updateMany({mailInscription:email}, {$set: {mp1Inscription:mpRecup,mp2Inscription:mpRecup,mpProvisoire:mpRecup}}); 
                 if (error){
                     console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
                     throw error;
@@ -484,7 +541,7 @@ websocketConnection.on('envoieEmailRecupMp', function (email) {       // Recepti
         '</p><br /><br /><br /><i>Adopte un Maitre Team</i>',
                      }
                     sgMail.send(messageToSend);  // envoie du mail de récupérartion de mot de passe
-                    websocketConnection.emit('mailSendForRecupMp'); 
+                    websocketConnection.emit('mailSendForRecupMp',pseudoRecup); 
                 }
             }
         }
@@ -492,6 +549,19 @@ websocketConnection.on('envoieEmailRecupMp', function (email) {       // Recepti
   
 }.bind(this));  
 
+
+//************************************************************************************    
+// Gestion et controle du formulaire de changement de mot de passe
+//***********************************************************************************/  
+websocketConnection.on('controleChangeMp', function (data) {       // Reception de la saisie du nouveau mot de passe dans le formulaire
+    objetMembre = data;
+    console.log('data reçues formulaire changement de mot de passe :',data,' --- ',objetMembre);
+    if (checkFilledChangeMpOk(objetMembre,websocketConnection)) {  // Si tous les champs du formulaire sont non vide --> Ok
+        let colMembres = client.db('adopteunmaitre').collection('membres');    
+        verifPseudoMpOk(objetMembre,websocketConnection,colMembres);  // verif si on a le pseudo du membre qui correspond bien avec le mot de passe provisoire
+        // verif mot de passe provisoire et mot de passe saisies ok                                            
+    }   
+}); 
 //************************************************************************************    
 // Gestion et controle du formulaire d'inscription
 //***********************************************************************************/  
