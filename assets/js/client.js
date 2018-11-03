@@ -250,8 +250,7 @@ formChangeMp.addEventListener('submit', function (event) {
             pSignInConfirmPassword.setCustomValidity('');
         }
     }; 
-    
-    // *******************************************************************************
+// *******************************************************************************
 // Cette fonction vérifie que le MDP et sa confirmation sont bien identiques
 // *******************************************************************************
 function validatePasswordChange(pSignInPassword, pSignInConfirmPassword){

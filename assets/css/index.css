@@ -546,7 +546,7 @@ footer .container .text-muted {
 }
 
 input:invalid {
-border-color:#a19cc6;
+border-color:#16068d;
 } 
 
 
@@ -569,7 +569,5 @@ a.disabled {
     margin-top: -6px;
 }
 
-#mail-recup-mp{
-    color:#fe2525;;
 
-}
+   

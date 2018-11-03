@@ -14,8 +14,8 @@ head
   link(href='static/css/timeline.css' rel='stylesheet')
   link(href='static/css/buttons.css' rel='stylesheet')
   link(href='static/css/forms.css' rel='stylesheet')
-  link(href='static/css/recover_password.css' rel='stylesheet')
   link(href='static/css/index.css' rel='stylesheet')
+  link(href='static/css/recover_password.css' rel='stylesheet')
   // Javascript socket.io
   script(src='static/js/jquery.1.11.1.min.js')
   script(src='static/js/bootstrap.min.js')
@@ -171,11 +171,11 @@ nav.navbar.navbar-white.navbar-fixed-top
               img.img-circle.img-responsive.img-user(src='static/images/default-avatar.png' alt='')
             .form-group
               .col-md-12
-                input#mail-recup-mp.form-control(type='email' name='mailRecupMp' maxlength='100' size='100' placeholder='Adresse mail' required='' pattern='^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$' title='Veuillez fournir une adresse électronique valide: exemple@provider.com')
+                input#mail-recup-mp.form-control.input-recup(type='email' name='mailRecupMp' maxlength='100' size='100' placeholder='Adresse mail' required='' pattern='^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$' title='Veuillez fournir une adresse électronique valide: exemple@provider.com')
             .form-group
               .col-md-12
                 p#message-recup-mp.lead.mt-5.display-4.text-danger.text-center.alertMsg L&apos;e-mail n&apos;existe pas
-                button.btn.btn-info.btn-block(type='submit')  Continue
+                button.btn.btn-info.btn-block(type='submit')  Continuer
 // *********************************************************************
 // page  changer de mot de passe oublié
 // *********************************************************************
@@ -185,12 +185,12 @@ nav.navbar.navbar-white.navbar-fixed-top
       #locked-screen.panel.panel-primary
         .panel-heading
           h3.panel-title
-            | Changer votre mot de passe &agrave; l&apos;aide du mot de passe provisoire
+            | Changer votre mot de passe
           button#ferme-mp-change.close.close-mp(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
         .panel-body
           form#form-change-mp
             .form-group
-              input#change-mp-recup.form-control(type='password' name='change-mp-recup' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+              input#change-mp-recup.form-control(type='password' name='change-mp-recup' minlength='6' maxlength='12' size='12' placeholder='Mot de passe provisoire' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
             .form-group
               input#change-mp1.form-control(type='password' name='change-mp1' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
             .form-group
@@ -198,7 +198,7 @@ nav.navbar.navbar-white.navbar-fixed-top
             .form-group
               .col-md-12
                 p#idRecupMpAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg Veuillez saisir le mot de passe provisoire que nous vous avons envoy&eacute; par mail
-                button.btn.btn-info.btn-block(type='submit')  Valider
+              button.btn.btn-info.btn-block(type='submit')  Valider
 // *************************************************************************
 // page  profile membre
 // *************************************************************************
@@ -251,7 +251,7 @@ nav.navbar.navbar-white.navbar-fixed-top
                       p.data-row
                         span.data-name Date de naissance
                         span.data-value
-                          input#date-de-naissance.form-control.control-groupe.input-profil(type='text' name='date' maxlength='10' size='10' placeholder='Date' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                          input#date-de-naissance.form-control.control-groupe.input-profil(type='date' name='date' maxlength='10' size='10' placeholder='Date' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
                       p.data-row
                         span.data-name Nom
                         span.data-value
@@ -259,7 +259,7 @@ nav.navbar.navbar-white.navbar-fixed-top
                       p.data-row
                         span.data-name Pr&eacute;nom
                         span.data-value
-                          input#prenom.form-control.control-groupe.input-profil(type='text' name='prenom' maxlength='10' size='10' placeholder='Date' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                          input#prenom.form-control.control-groupe.input-profil(type='text' name='prenom' maxlength='10' size='10' placeholder='Prénom' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
                       p.data-row
                         span.data-name Website
                         span.data-value

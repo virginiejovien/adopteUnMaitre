@@ -62,8 +62,9 @@
     color: #fff;
   background-color: #3ecdf1;
   border-color: #3ecdf1;
-  font-size: 0.9em;
+  font-size:1.1em;
   vertical-align: top;
+  height: 34px;
 }
 
 ul.activity-list > li:not(:last-child) {
