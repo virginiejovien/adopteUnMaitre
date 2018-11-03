@@ -223,7 +223,9 @@ let verifMotDePasse = function(pObjetMembre,pDocuments, pWebsocketConnection) {
 // Fonction qui genère de façon aléatoire un mot de passe
 // ***********************************************************************************************************
 let generePassWord = function generer_password(l) {   
-    if (typeof l==='undefined'){var l=8;}
+    if (typeof l === 'undefined') {
+        var l = 8;
+    } 
     /* c : chaîne de caractères alphanumérique */
     var c='abcdefghijknopqrstuvwxyzACDEFGHJKLMNPQRSTUVWXYZ12345679',
     n=c.length,
@@ -235,11 +237,11 @@ let generePassWord = function generer_password(l) {
     /* s : determine la position du caractère spécial dans le mdp */
     s=Math.floor(Math.random() * (p.length-1));
 
-    for(var i=0; i<l; ++i){
-        if(s == i){
+    for (var i = 0; i < l; ++i) {
+        if (s == i) {
             /* on insère à la position donnée un caractère spécial aléatoire */
             r += p.charAt(Math.floor(Math.random() * o));
-        }else{
+        } else {
             /* on insère un caractère alphanumérique aléatoire */
             r += c.charAt(Math.floor(Math.random() * n));
         }
@@ -258,52 +260,52 @@ let verifPseudoMpOk = function(pObjetMembre, pWebsocketConnection, pColMembres) 
         if (error) {
             console.log('Erreur de find dans collection colMembres',error);
             throw error;
-        } else {                                
-            if (documents == false) {
-                console.log('documents change mot de passe false',documents);
-                sendPbMpProvisoireMsg(pObjetMembre, pWebsocketConnection); // on envoie au client que le pseudo n'existe pas
-                return false;                     
-            } else { 
-                console.log('documents connection',documents);
-                console.log('pDocuments.mpProvisoire verif mot de passe dans la collection',documents[0].mpProvisoire);             
-                if ((pObjetMembre.mpProvisoire) !== (documents[0].mpProvisoire)) {
-                    console.log('pas les mêmes mot de passe provisoire');
-                    let message = {};
-                    message.message = "Votre mot de passe n'est pas correct";
-                    pWebsocketConnection.emit('messagePbChangeRecupMp', message);
-                    return false;
-                } else {  
-                    let pseudoNew = documents[0].pseudoInscription;  
-                    let email = documents[0].mailInscription; 
-                    let mpNew = pObjetMembre.mp1Recup;                            
-                    console.log("pObjetMembre.mpProvisoire et pDocumentsmpProvisoire true",pObjetMembre.mpProvisoire);
-                    pColMembres.updateMany({pseudoInscription:pObjetMembre.pseudo}, {$set: {mp1Inscription:mpNew,mp2Inscription:mpNew,mpProvisoire:mpNew}}); 
-                    if (error){
-                        console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
-                        throw error;
-                    } else {         
-                        console.log('update ok');                               
-                        console.log("mpNew",mpNew);                       
-                        let messageToSend = {
-                        to       : email,
-                        from     : 'adopteUnMaitre@amt.com',
-                        subject  : 'Info changement de mots de passe',
-                        html     : '<h1 style="color: black;">Hello '+pseudoNew+'</h1><p><h2>Voici vos nouvelles données de connexion pour naviguer sur le site :<b>Adopte un Maître</b> </h2><br />Vos identifiants sont : <p><Strong>Pseudonyme : </strong>'+pseudoNew+'<p><strong>Mot de passe : </strong>'+mpNew +
-            '</p><br /><br /><br /><i>Adopte un Maitre Team</i>',
-                         }
-                        sgMail.send(messageToSend);  // envoie du mail de récupérartion de mot de passe
-                        pWebsocketConnection.emit('mailSendInfoChangeMp',pObjetMembre); 
-                    }  
-                    pWebsocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
-                    pWebsocketConnection.emit('profileConnect', pObjetMembre); // On envoie au client les données de profil du membre        
-                    return true;
-                }
-            };
-        };
-    }); 
-  
-};
+        }                                
+        if (documents == false) {
+            console.log('documents change mot de passe false',documents);
+            sendPbMpProvisoireMsg(pObjetMembre, pWebsocketConnection); // on envoie au client que le pseudo n'existe pas
+            return false;                     
+        }  
+        console.log('documents connection',documents);
+        console.log('pDocuments.mpProvisoire verif mot de passe dans la collection',documents[0].mpProvisoire); 
 
+        if ((pObjetMembre.mpProvisoire) !== (documents[0].mpProvisoire)) {
+            console.log('pas les mêmes mot de passe provisoire');
+            let message = {};
+            message.message = "Votre mot de passe n'est pas correct";
+            pWebsocketConnection.emit('messagePbChangeRecupMp', message);
+            return false;
+        } 
+            let pseudoNew = documents[0].pseudoInscription;  
+            let email = documents[0].mailInscription; 
+            let mpNew = pObjetMembre.mp1Recup;                            
+            console.log("pObjetMembre.mpProvisoire et pDocumentsmpProvisoire true",pObjetMembre.mpProvisoire);                            
+
+            pColMembres.updateOne(
+                {pseudoInscription:pObjetMembre.pseudo},
+                {$set: {mp1Inscription:mpNew,mp2Inscription:mpNew,mpProvisoire:mpNew}},(error, document) => {
+
+                if (error) {
+                    console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                    throw error;
+                }          
+                console.log('update ok');                               
+                console.log("mpNew",mpNew);                       
+                let messageToSend = {
+                    to       : email,
+                    from     : 'adopteUnMaitre@amt.com',
+                    subject  : 'Info changement de mots de passe',
+                    html     : '<h1 style="color: black;">Hello '+pseudoNew+'</h1><p><h2>Voici vos nouvelles données de connexion pour naviguer sur le site :<b>Adopte un Maître</b> </h2><br />Vos identifiants sont : <p><Strong>Pseudonyme : </strong>'+pseudoNew+'<p><strong>Mot de passe : </strong>'+mpNew +
+                            '</p><br /><br /><br /><i>Adopte un Maitre Team</i>',
+                    }
+                sgMail.send(messageToSend);  // envoie du mail de récupérartion de mot de passe
+                pWebsocketConnection.emit('mailSendInfoChangeMp',pObjetMembre); 
+            
+                pWebsocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
+                pWebsocketConnection.emit('profileConnect', pObjetMembre); // On envoie au client les données de profil du membre                         
+        });  
+    });
+};
 
 //************************************************************************************************************
 // Vérification que le formulaire d'inscription du futur membre est valide
