@@ -117,7 +117,7 @@
 <!-- ****************  formulaire de connexion ********************** --> 
                 <form id="form-connection">
                   <div class="form-group">
-                    <input type="text" id="pseudo" name="LoginPseudo" class="form-control" maxlength='31' size='31' placeholder="Pseudonyme" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères">
+                    <input type="text" id="pseudo" name="LoginPseudo" class="form-control" maxlength='31' size='31' placeholder="Pseudonyme" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères" >
                     </div>
                   <div class="form-group">
                       <input type="password" id="mp" name="LoginPassword" class="form-control" maxlength='12' size='12' placeholder="Mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
@@ -265,75 +265,99 @@
                           </p>
                           <p>
                             <span class="file-input btn btn-azure btn-file">
-                              Change Cover <input type="file" multiple="">
+                              Change  Cover <input type="file" multiple="">
                             </span>
                           </p>
                         
                         </div>
                       </div>
                     </div>
+<!-- ****************  Début Profil formulaire d'inscription ********************** -->                     
                   <div class="col-md-9">
                     <form id="form-profil">
                       <div class="form-group">
                         <div class="user-info-right">
                           <div class="basic-info">
-                            <h3><i class="fa fa-square"></i> Information</h3>                          
+                             
+                             
+                            <h3><i class="fa fa-square"></i> Information</h3> 
+                            <p id="idProfilMpAlertMsg" class="lead mt-5 display-4 text-danger text-center alertMsg"></p>
+                                                 
                             <p class="data-row">
                               <span class="data-name">Pseudonyme</span>
                               <span class="data-value" id="pseudoprofil"></span>
-                            </p>
-                            <p class="data-row">                             
-                                <span class="data-name">Date de naissance</span>
-                                <span class="data-value"><input id="date-de-naissance" type="date" name="date"  class="form-control control-groupe input-profil" max="2018-01-01" min="1900-01-01"  placeholder="Date" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères"></span>                           
-                            </p>
+                            </p>                            
                             <p class="data-row">
                               <span class="data-name">Nom</span>
-                              <span class="data-value"><input id="nom" type="text" name="nom"  class="form-control control-groupe input-profil" maxlength='31' size='31' placeholder="Nom" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères"></span>
+                              <span class="data-value"><input id="nom" type="text" name="nom"  class="form-control control-groupe input-profil" maxlength='31' size='31' placeholder="Nom" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères" autofocus></span>
                             </p>
                             <p class="data-row">
-                                <span class="data-name">Prénom</span>
-                                <span class="data-value"><input id="prenom" type="text" name="prenom"  class="form-control control-groupe input-profil" maxlength='31' size='31' placeholder="Prénom" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères"></span>
-                              </p>
-                            <p class="data-row">
-                              <span class="data-name">Website</span>
-                              <span class="data-value"><a href="#">www.jonasmith.com</a></span>
+                              <span class="data-name">Prénom</span>
+                              <span class="data-value"><input id="prenom" type="text" name="prenom"  class="form-control control-groupe input-profil" maxlength='31' size='31' placeholder="Prénom" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères"></span>
                             </p>
-                            <p class="data-row">
-                              <span class="data-name">Last Login</span>
-                              <span class="data-value">2 hours ago</span>
+                            <p class="data-row">                             
+                              <span class="data-name">Date de naissance</span>
+                              <span class="data-value"><input id="date-de-naissance" type="date" name="date"  class="form-control control-groupe input-profil" max="2018-01-01" min="1900-01-01"  placeholder="Date" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères"></span>                           
                             </p>
-                            <p class="data-row">
-                              <span class="data-name">Date Joined</span>
-                              <span class="data-value">Feb 22, 2012</span>
-                            </p>
-                          </div>
-                          <div class="contact_info">
-                            <h3><i class="fa fa-square"></i> Contact Information</h3>
+                            <p class="data-row">                             
+                              <span class="data-name">Genre</span>
+                              <span class="data-value">
+                                <SELECT class="form-control control-groupe input-profil" id="genre" name="nom" size="1" required >                                 
+                                  <OPTION> 
+                                  <OPTION>Femme
+                                  <OPTION>Homme
+                                </SELECT>
+                              </span>                           
+                            </p>                                                      
                             <p class="data-row">
                               <span class="data-name">Email</span>
                               <span class="data-value" id="email-profil"></span>
                             </p>
                             <p class="data-row">
-                              <span class="data-name">Phone</span>
-                              <span class="data-value">(1800) 221 - 876543</span>
+                                <span class="data-name">Téléphone</span>
+                                <span class="data-value"><input id="telephone" type="text" name="telephone"  class="form-control control-groupe input-profil" maxlength='10' size='10' placeholder="0611223344" required pattern="^[0-9]{10}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères"></span>                        
                             </p>
                             <p class="data-row">
-                              <span class="data-name">Address</span>
-                              <span class="data-value">Riverside City 66, 80123 Denver<br>Colorado</span>
+                              <span class="data-name">Adresse</span> 
+                              <span class="data-value">
+                                <input type="text" class="form-control" id="adresse"class="form-control control-groupe input-profil" maxlength='31' size='31' placeholder="Numero et nom de rue " required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères">
+                              </span>                            
                             </p>
-                          </div>
-                          <div class="about">
-                            <h3><i class="fa fa-square"></i> About Me</h3>
-                            <p>Dramatically facilitate proactive solutions whereas professional intellectual capital. Holisticly utilize competitive e-markets through intermandated meta-services. Objectively.</p>
-                            <p>Monotonectally foster future-proof infomediaries before principle-centered interfaces. Assertively recaptiualize cutting-edge web services rather than emerging "outside the box" thinking. Phosfluorescently cultivate resource maximizing technologies and user-centric convergence. Completely underwhelm cross functional innovation vis-a-vis.</p>
+                            <p class="data-row">                                
+                                <span class="data-name">CP et Ville</span> 
+                                <span class="data-value">
+                                    <input type="text" id="cp" class="form-control control-groupe input-profil" name="cp" maxlength='5' size='5' required placeholder="CP" pattern="[0-9]{5}">
+                                </span>
+                                <span class="data-value">                                  
+                                   <input type="text" name="nom"  class="form-control control-groupe input-profil" maxlength='31' size='31' placeholder="Ville" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Uniquement des lettres et la longueur comprise entre 4 et 30 caractères">
+                                </span>
+                            </p>                                           
+                            <p class="data-row">                             
+                                <span class="data-name">Profil</span>
+                                <span class="data-value" id="genre">
+                                  <SELECT class="form-control control-groupe input-profil" name="nom" size="1"required>              
+                                    <OPTION> 
+                                    <OPTION>Adopte un maître
+                                    <OPTION>Adopte un chat
+                                  </SELECT>
+                                </span>                           
+                            </p> 
+                            <p class="data-row">        
+                            <span class="data-name">Présentation</span>
+                            <span class="data-value"><textarea id="presentation" type="text" name="presentation"  class="form-control control-groupe input-profil" rows="2" COLS="40" placeholder="C'est le moment de parlez chat" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères"></textarea>
+                            </p>
+                            <p class="data-row" id="btn-profil">
+                              <button  type="submit" class="btn btn-azure">Valider</button>
+                            </p>                                                        
                           </div>
                         </div>
                       </div>
+                                       
                     </form>
                   </div>
                 </div>
               </div>
-              <!-- END PROFILE TAB CONTENT -->
+<!-- **************** fin profil formulaire d'inscription ********************** --> 
           
               <!-- ACTIVITY TAB CONTENT -->
               <div class="tab-pane activity" id="activity-tab">

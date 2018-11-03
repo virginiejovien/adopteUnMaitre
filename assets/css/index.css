@@ -549,7 +549,13 @@ input:invalid {
 border-color:#16068d;
 } 
 
+textarea:invalid {
+    border-color:#16068d;
+} 
 
+select:invalid {
+    border-color:#16068d;
+} 
 
 a.disabled {
    color:  darkgrey;
@@ -567,6 +573,11 @@ a.disabled {
 
 .input-profil {
     margin-top: -6px;
+}
+
+#btn-profil {
+    display: flex;
+    justify-content: center;
 }
 
 

@@ -235,8 +235,9 @@ nav.navbar.navbar-white.navbar-fixed-top
                       input(type='file' multiple='')
                   p
                     span.file-input.btn.btn-azure.btn-file
-                      | Change Cover 
+                      | Change  Cover 
                       input(type='file' multiple='')
+            // ****************  Début Profil formulaire d'inscription **********************
             .col-md-9
               form#form-profil
                 .form-group
@@ -245,56 +246,64 @@ nav.navbar.navbar-white.navbar-fixed-top
                       h3
                         i.fa.fa-square
                         |  Information
+                      p#idProfilMpAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg
                       p.data-row
                         span.data-name Pseudonyme
                         span#pseudoprofil.data-value
                       p.data-row
-                        span.data-name Date de naissance
-                        span.data-value
-                          input#date-de-naissance.form-control.control-groupe.input-profil(type='date' name='date' maxlength='10' size='10' placeholder='Date' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
-                      p.data-row
                         span.data-name Nom
                         span.data-value
-                          input#nom.form-control.control-groupe.input-profil(type='text' name='nom' maxlength='10' size='10' placeholder='Date' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                          input#nom.form-control.control-groupe.input-profil(type='text' name='nom' maxlength='31' size='31' placeholder='Nom' required='' pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères' autofocus='')
                       p.data-row
                         span.data-name Pr&eacute;nom
                         span.data-value
-                          input#prenom.form-control.control-groupe.input-profil(type='text' name='prenom' maxlength='10' size='10' placeholder='Prénom' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                          input#prenom.form-control.control-groupe.input-profil(type='text' name='prenom' maxlength='31' size='31' placeholder='Prénom' required='' pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
                       p.data-row
-                        span.data-name Website
+                        span.data-name Date de naissance
                         span.data-value
-                          a(href='#') www.jonasmith.com
+                          input#date-de-naissance.form-control.control-groupe.input-profil(type='date' name='date' max='2018-01-01' min='1900-01-01' placeholder='Date' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
                       p.data-row
-                        span.data-name Last Login
-                        span.data-value 2 hours ago
-                      p.data-row
-                        span.data-name Date Joined
-                        span.data-value Feb 22, 2012
-                    .contact_info
-                      h3
-                        i.fa.fa-square
-                        |  Contact Information
+                        span.data-name Genre
+                        span.data-value
+                          select#genre.form-control.control-groupe.input-profil(name='nom' size='1' required='')
+                            option
+                            option
+                              | Femme
+                            option
+                              | Homme
                       p.data-row
                         span.data-name Email
                         span#email-profil.data-value
                       p.data-row
-                        span.data-name Phone
-                        span.data-value (1800) 221 - 876543
-                      p.data-row
-                        span.data-name Address
+                        span.data-name T&eacute;l&eacute;phone
                         span.data-value
-                          | Riverside City 66, 80123 Denver
-                          br
-                          | Colorado
-                    .about
-                      h3
-                        i.fa.fa-square
-                        |  About Me
-                      p
-                        | Dramatically facilitate proactive solutions whereas professional intellectual capital. Holisticly utilize competitive e-markets through intermandated meta-services. Objectively.
-                      p
-                        | Monotonectally foster future-proof infomediaries before principle-centered interfaces. Assertively recaptiualize cutting-edge web services rather than emerging &quot;outside the box&quot; thinking. Phosfluorescently cultivate resource maximizing technologies and user-centric convergence. Completely underwhelm cross functional innovation vis-a-vis.
-        // END PROFILE TAB CONTENT
+                          input#telephone.form-control.control-groupe.input-profil(type='text' name='telephone' maxlength='10' size='10' placeholder='0611223344' required='' pattern='^[0-9]{10}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                      p.data-row
+                        span.data-name Adresse
+                        span.data-value
+                          input#adresse.form-control(type='text' maxlength='31' size='31' placeholder='Numero et nom de rue ' required='' pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                      p.data-row
+                        span.data-name CP et Ville
+                        span.data-value
+                          input#cp.form-control.control-groupe.input-profil(type='text' name='cp' maxlength='5' size='5' required='' placeholder='CP' pattern='[0-9]{5}')
+                        span.data-value
+                          input.form-control.control-groupe.input-profil(type='text' name='nom' maxlength='31' size='31' placeholder='Ville' required='' pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title='Uniquement des lettres et la longueur comprise entre 4 et 30 caractères')
+                      p.data-row
+                        span.data-name Profil
+                        span#genre.data-value
+                          select.form-control.control-groupe.input-profil(name='nom' size='1' required='')
+                            option
+                            option
+                              | Adopte un ma&icirc;tre
+                            option
+                              | Adopte un chat
+                      p.data-row
+                        span.data-name Pr&eacute;sentation
+                        span.data-value
+                          textarea#presentation.form-control.control-groupe.input-profil(type='text' name='presentation' rows='2' cols='40' placeholder="C'est le moment de parlez chat" required='' pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                      p#btn-profil.data-row
+                        button.btn.btn-azure(type='submit') Valider
+        // **************** fin profil formulaire d'inscription **********************
         // ACTIVITY TAB CONTENT
         #activity-tab.tab-pane.activity
           ul.list-unstyled.activity-list
