@@ -468,9 +468,14 @@ footer .container .text-muted {
     font-weight: 600;
     margin: 5px 0px;
     padding: 20px 15px;
-    font-size: 20px;
+    font-size: 21px;
+    margin-right: 20px;
 }
 
+#container-nav{
+    margin-top: -20px;
+
+}
 .navbar-brand {
     float: left;
     height: 50px;
@@ -546,15 +551,15 @@ footer .container .text-muted {
 }
 
 input:invalid {
-border-color:#16068d;
+border-color:rgb(114, 108, 154);
 } 
 
 textarea:invalid {
-    border-color:#16068d;
+    border-color:rgb(114, 108, 154);
 } 
 
 select:invalid {
-    border-color:#16068d;
+    border-color:rgb(114, 108, 154);
 } 
 
 a.disabled {
@@ -580,5 +585,11 @@ a.disabled {
     justify-content: center;
 }
 
+.input-group :invalid{
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    border-color:rgb(114, 108, 154);
+}
 
    

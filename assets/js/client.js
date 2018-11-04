@@ -67,8 +67,8 @@ window.addEventListener('DOMContentLoaded', function() {
  //**********************************/   
    // Eléments de la page profile inscription 
     var blockProfilMembre =  window.document.getElementById('profile-membre');  
-    var pseudoDeProfil = window.document.getElementById('pseudoprofil');
-    var pseudoDeProfil = window.document.getElementById('pseudoprofil');
+ 
+ //   var pseudoDeProfil = window.document.getElementById('pseudoprofil');
     var emailDeProfil = window.document.getElementById('email-profil');
 
     var objetDuMembre = {};
@@ -412,8 +412,8 @@ window.addEventListener('DOMContentLoaded', function() {
      var photoImage = ' <img margin ="auto" src="' +documents.photoInscription+'"alt="photo" title="photo de profil">'; 
     
      pseudoProfil.innerHTML = documents.pseudo;  
-     pseudoDeProfil.innerHTML = documents.pseudo;  
-     console.log("pseudoDeProfil.innerHTML",pseudoDeProfil.innerHTML); 
+ //    pseudoDeProfil.innerHTML = documents.pseudo;  
+ //    console.log("pseudoDeProfil.innerHTML",pseudoDeProfil.innerHTML); 
         
 //      });
  });   
@@ -432,9 +432,9 @@ window.addEventListener('DOMContentLoaded', function() {
      var photoImage = ' <img margin ="auto" src="' +documents.photoInscription+'"alt="photo" title="photo de profil">'; 
    //      photoProfil.innerHTML = photoImage; 
          pseudoProfil.innerHTML = documents.pseudoInscription;  
-         pseudoDeProfil.innerHTML = documents.pseudoInscription; 
+   //      pseudoDeProfil.innerHTML = documents.pseudoInscription; 
          emailDeProfil.innerHTML = documents.mailInscription;    
-         console.log("pseudoDeProfil.innerHTML",pseudoDeProfil.innerHTML); 
+    //     console.log("pseudoDeProfil.innerHTML",pseudoDeProfil.innerHTML); 
          console.log("emailDeProfil.innerHTML",emailDeProfil.innerHTML); 
    //      console.log("photoProfil.innerHTML",photoProfil.innerHTML); 
 //      });

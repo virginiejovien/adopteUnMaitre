@@ -33,7 +33,7 @@
   <body>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-white navbar-fixed-top">
-        <div class="container">
+        <div class="container" id="container-nav">
             <span class="navbar-brand welcome-title"><b>Adopte un Maître un réseau social 100% chat.rrr.mant</b></span>
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed navbar-fixed-top-30" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -118,7 +118,7 @@
                 <form id="form-connection">
                   <div class="form-group">
                     <input type="text" id="pseudo" name="LoginPseudo" class="form-control" maxlength='31' size='31' placeholder="Pseudonyme" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères" >
-                    </div>
+                  </div>
                   <div class="form-group">
                       <input type="password" id="mp" name="LoginPassword" class="form-control" maxlength='12' size='12' placeholder="Mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
                     <a id="oublie" href="#" class="pull-xs-right">
@@ -257,6 +257,7 @@
                       <div class="user-info-left">
                         <img id="photo-profil" src="static/images/default-avatar.png" alt="Profile Picture">
                         <h2 id="pseudo-profil"></h2>
+                        <h3 id="email-profil"></h3>
                         <div class="contact">
                           <p>
                             <span class="file-input btn btn-azure btn-file">
@@ -277,82 +278,190 @@
                     <form id="form-profil">
                       <div class="form-group">
                         <div class="user-info-right">
-                          <div class="basic-info">
-                             
-                             
-                            <h3><i class="fa fa-square"></i>Votre profile </h3> 
-                            <p id="idProfilMpAlertMsg" class="lead mt-5 display-4 text-danger text-center alertMsg"></p>
-                                                 
-                            <p class="data-row">
-                              <span class="data-name">Pseudonyme</span>
-                              <span class="data-value" id="pseudoprofil"></span>
-                            </p>                            
-                            <p class="data-row">
-                              <span class="data-name">Nom</span>
-                              <span class="data-value"><input id="nom" type="text" name="nom"  class="form-control control-groupe input-profil" maxlength='31' size='31' placeholder="Nom" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères" autofocus></span>
-                            </p>
-                            <p class="data-row">
-                              <span class="data-name">Prénom</span>
-                              <span class="data-value"><input id="prenom" type="text" name="prenom"  class="form-control control-groupe input-profil" maxlength='31' size='31' placeholder="Prénom" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères"></span>
-                            </p>
-                            <p class="data-row">                             
-                              <span class="data-name">Date de naissance</span>
-                              <span class="data-value"><input id="date-de-naissance" type="date" name="date"  class="form-control control-groupe input-profil" max="2018-01-01" min="1900-01-01"  placeholder="Date" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères"></span>                           
-                            </p>
-                            <p class="data-row">                             
-                              <span class="data-name">Genre</span>
-                              <span class="data-value">
-                                <SELECT class="form-control control-groupe input-profil" id="genre" name="nom" size="1" required >                                 
-                                  <OPTION> 
-                                  <OPTION>Femme
-                                  <OPTION>Homme
-                                </SELECT>
-                              </span>                           
-                            </p>                                                      
-                            <p class="data-row">
-                              <span class="data-name">Email</span>
-                              <span class="data-value" id="email-profil"></span>
-                            </p>
-                            <p class="data-row">
-                                <span class="data-name">Téléphone</span>
-                                <span class="data-value"><input id="telephone" type="text" name="telephone"  class="form-control control-groupe input-profil" maxlength='10' size='10' placeholder="0611223344" required pattern="^[0-9]{10}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères"></span>                        
-                            </p>
-                            <p class="data-row">
-                              <span class="data-name">Adresse</span> 
-                              <span class="data-value">
-                                <input type="text" class="form-control" id="adresse"class="form-control control-groupe input-profil" maxlength='31' size='31' placeholder="Numero et nom de rue " required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères">
-                              </span>                            
-                            </p>
-                            <p class="data-row">                                
-                                <span class="data-name">CP et Ville</span> 
-                                <span class="data-value">
-                                    <input type="text" id="cp" class="form-control control-groupe input-profil" name="cp" maxlength='5' size='5' required placeholder="CP" pattern="[0-9]{5}">
-                                </span>
-                                <span class="data-value">                                  
-                                   <input type="text" name="nom"  class="form-control control-groupe input-profil" maxlength='31' size='31' placeholder="Ville" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Uniquement des lettres et la longueur comprise entre 4 et 30 caractères">
-                                </span>
-                            </p>                                           
-                            <p class="data-row">                             
-                                <span class="data-name">Profil</span>
-                                <span class="data-value" id="genre">
-                                  <SELECT class="form-control control-groupe input-profil" name="nom" size="1"required>              
-                                    <OPTION> 
-                                    <OPTION>Adopte un maître
-                                    <OPTION>Adopte un chat
-                                  </SELECT>
-                                </span>                           
-                            </p> 
-                            <p class="data-row">        
-                            <span class="data-name">Présentation</span>
-                            <span class="data-value"><textarea id="presentation" type="text" name="presentation"  class="form-control control-groupe input-profil" rows="2" COLS="40" placeholder="C'est le moment de parler chat" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères"></textarea>
-                            </p>
-                            <p class="data-row" id="btn-profil">
-                              <button  type="submit" class="btn btn-azure">Valider</button>
-                            </p>                                                        
+                          <div class="basic-info">                         
+                            <h3><i class="fa fa-square"></i>Complétez votre profile </h3> 
+                            <fieldset>       
+                              <div class="form-group">
+                                  <label class="col-md-4 control-label">Nom</label>
+                                  <div class="col-md-6  inputGroupContainer">                   
+                                    <span class="input-icon">
+                                        <input id="nom" type="text" name="nom"  class="form-control control-groupe" maxlength='21' size='21' placeholder="Nom" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){2,21}$" title="Uniquement des lettres et la longueur comprise entre 3 et 20 caractères" autofocus>
+                                        <i class="fa fa-user darkorange"></i> <br/>   
+                                    </span>                                 
+                                  </div>                       
+                              </div>                             
+                              <!-- Text input-->                                
+                              <div class="form-group">
+                                <label class="col-md-4 control-label" >Prénom</label>
+                                <div class="col-md-6  inputGroupContainer">                                   
+                                  <span class="input-icon">
+                                    <input id="prenom" type="text" name="prenom"  class="form-control control-groupe" maxlength='21' size='21' placeholder="Prénom" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){2,21}$" title="Uniquement des lettres et la longueur comprise entre 3 et 20 caractères">
+                                    <i class="fa fa-user darkorange"></i> <br/>   
+                                  </span>
+                                </div>
+                              </div>                               
+                              <!-- Text input-->  
+                              <div class="form-group">
+                                <label class="col-md-4 control-label" >Age</label>
+                                <div class="col-md-6  inputGroupContainer">                                   
+                                  <span class="input-icon">
+                                      <input id="date-de-naissance" type="date" name="date"  class="form-control control-groupe" max="2018-01-01" min="1900-01-01"  placeholder="Date" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères">
+                                    <i class="fa fa-child darkorange"></i> <br/>   
+                                  </span>
+                                </div>
+                              </div> 
+                              <!-- Select -->  
+                              <div class="form-group">
+                                <label class="col-md-4 control-label" >Genre</label>
+                                <div class="col-md-6  inputGroupContainer">
+                                  <span class="input-icon">                                   
+                                    <select class="form-control control-groupe" id="genre" name="nom" size="1" required >                                 
+                                        <option> 
+                                        <option>Femme
+                                        <option>Homme
+                                        </select>
+                                      <br/> 
+                                    </span>
+                                </div>
+                              </div>                               
+                              <!-- Text input-->                                  
+                              <div class="form-group">
+                                <label class="col-md-4 control-label">Téléphone</label>
+                                <div class="col-md-6  inputGroupContainer">
+                                    <span class="input-icon">   
+                                      <input id="telephone" type="text" name="telephone"  class="form-control control-groupe" maxlength='10' size='10' placeholder="0611223344" required pattern="^[0-9]{10}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères">
+                                      <i class="fa fa-phone darkorange"></i> <br/> 
+                                    </span>
+                                </div>
+                              </div>
+                              <br/>
+                              <!-- Text input-->                                
+                              <div class="form-group">
+                                <label class="col-md-4 control-label">Adresse</label>
+                                <div class="col-md-6  inputGroupContainer">
+                                  <span class="input-icon">   
+                                    <input type="text" class="form-control" id="adresse"class="form-control control-groupe" maxlength='21' size='21' placeholder="Numero et nom de rue " required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,21}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 20 caractères">
+                                    <i class="fa fa-home darkorange"></i> <br/>   
+                                  </span>
+                                </div>
+                              </div>
+                              <br/>                                  
+                              <!-- Text input-->                                  
+                              <div class="form-group">
+                                  <label class="col-md-4 control-label">Code Postal</label>
+                                  <div class="col-md-6  inputGroupContainer">
+                                      <span class="input-icon">   
+                                        <input type="number" id="cp" class="form-control control-groupe" name="cp" maxlength='5' size='5' required placeholder="CP" pattern="[0-9]{5}">
+                                        <i class="fa fa-home darkorange"></i> <br/>   
+                                      </span>
+                                  </div>
+                              </div>
+                              <br/>
+                              <!-- Text input-->                                  
+                              <div class="form-group">
+                                <label class="col-md-4 control-label">Ville</label>
+                                <div class="col-md-6  inputGroupContainer">
+                                    <span class="input-icon">  
+                                      <input type="text" id="ville" name="ville"  class="form-control control-groupe" maxlength='20' size='20' placeholder="Ville" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){2,21}$" title="Uniquement des lettres et la longueur comprise entre 3 et 20 caractères">
+                                      <i class="fa fa-home darkorange"></i> <br/>   
+                                    </span>
+                                </div>
+                              </div>                                 
+                          <!-- Select Basic -->                            
+                              <div class="form-group">
+                                <label class="col-md-4 control-label">Pays</label>
+                                <div class="col-md-6 selectContainer">
+                                    <span class="input-icon">  
+                                      <select name="state" class="form-control control-groupe" >
+                                        <option value=" " >Please select your state</option>
+                                        <option>Alabama</option>
+                                        <option>Alaska</option>
+                                        <option >Arizona</option>
+                                        <option >Arkansas</option>
+                                        <option >California</option>
+                                        <option >Colorado</option>
+                                        <option >Connecticut</option>
+                                        <option >Delaware</option>
+                                        <option >District of Columbia</option>
+                                        <option> Florida</option>
+                                        <option >Georgia</option>
+                                        <option >Hawaii</option>
+                                        <option >daho</option>
+                                        <option >Illinois</option>
+                                        <option >Indiana</option>
+                                        <option >Iowa</option>
+                                        <option> Kansas</option>
+                                        <option >Kentucky</option>
+                                        <option >Louisiana</option>
+                                        <option>Maine</option>
+                                        <option >Maryland</option>
+                                        <option> Mass</option>
+                                        <option >Michigan</option>
+                                        <option >Minnesota</option>
+                                        <option>Mississippi</option>
+                                        <option>Missouri</option>
+                                        <option>Montana</option>
+                                        <option>Nebraska</option>
+                                        <option>Nevada</option>
+                                        <option>New Hampshire</option>
+                                        <option>New Jersey</option>
+                                        <option>New Mexico</option>
+                                        <option>New York</option>
+                                        <option>North Carolina</option>
+                                        <option>North Dakota</option>
+                                        <option>Ohio</option>
+                                        <option>Oklahoma</option>
+                                        <option>Oregon</option>
+                                        <option>Pennsylvania</option>
+                                        <option>Rhode Island</option>
+                                        <option>South Carolina</option>
+                                        <option>South Dakota</option>
+                                        <option>Tennessee</option>
+                                        <option>Texas</option>
+                                        <option> Uttah</option>
+                                        <option>Vermont</option>
+                                        <option>Virginia</option>
+                                        <option >Washington</option>
+                                        <option >West Virginia</option>
+                                        <option>Wisconsin</option>
+                                        <option >Wyoming</option>
+                                      </select>
+                                      <br/> 
+                                  </span>
+                                </div>
+                              </div>                                                     
+                          <!-- Select -->   
+                              <div class="form-group">
+                                <label class="col-md-4 control-label" >Genre</label>
+                                <div class="col-md-6  inputGroupContainer">
+                                  <span class="input-icon">                                   
+                                    <select class="form-control control-groupe" id="profil" name="nom" size="1" required >                            
+                                      <option> 
+                                      <option>Adopte un maître
+                                      <option>Adopte un chat
+                                    </select>
+                                    <br/> 
+                                  </span>
+                                </div>
+                              </div>                       
+                              <div class="form-group">
+                                <label class="col-md-4 control-label">Préférence</label>
+                                <div class="col-md-6  inputGroupContainer">
+                                  <span class="input-icon">  
+                                    <textarea id="presentation" type="text" name="presentation"  class="form-control control-groupe" rows="2" COLS="40" placeholder="C'est le moment de parler chat" required pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,31}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères"></textarea>
+                                  </span>
+                                </div>
+                              </div>                           
+                            </fieldset> 
+                            <div class="form-group"> 
+                              <div class="center">
+                                <button type="submit" class="btn btn-azure">Se connecter</button>
+                              </div>                               
+                              <p id="idProfilMpAlertMsg" class="lead mt-5 display-4 text-danger text-center alertMsg"></p>
+                            </div>                                                                                  
                           </div>
                         </div>
-                      </div>
-                                       
+                      </div>                                       
                     </form>
                   </div>
                 </div>
