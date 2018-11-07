@@ -81,3 +81,45 @@ pObjectPopulation.vMembers[this.objectMember.id] = this.objectMember;  // On ajo
                 objectPopulation.vNbrMembersInSession--;                            // Nombre de visiteurs incluant les [membres + Admins]
                 delete objectPopulation.vMembers[vMemberServer.objectMember.id];    // Suppression du membre de la liste des membres connectés
     };
+
+//A) Rajouter un membre dans un tableau de membres :
+     // ---------------------------------------------------------------------------------------------------------------------------
+    // Inisstialisation d'un visiteur :
+    // 1) Stockage de sson socket
+    // 2) Mise a zero de tous les champs
+    // 3) Ajout du visiteur dans le tableau global des personnes connextées
+    // ---------------------------------------------------------------------------------------------------------------------------
+    MemberServer.prototype.initVisiteur = function(pWebSocketConnection){
+        let memberLocal = {
+            idMember        : pWebSocketConnection.id,
+            isMember        : false,
+
+            memberData : {
+                email           : '',
+                pseudo          : '',
+                password        : '',
+                role            : 0,                    // Membre, Admin ou SuperAdmin
+                dateCreation    : -1,                    // Timestamp de la création du record
+            }
+        }
+
+        this.objectPopulation.members.push(memberLocal);
+        this.objectPopulation.nbrConnections++;                         // Nombre de visiteurs incluant les [membres + Admins]
+}
+
+//B) Supprimer un visiteur et/ou membre :
+// ---------------------------------------------------------------------------------------------------------------------------
+    // Deconnexion d'un visiteur et eventuellement d'un membre  :
+    // ---------------------------------------------------------------------------------------------------------------------------
+    MemberServer.prototype.disconnectMember = function(pWebSocketConnection){
+        let myIndex = this.objectPopulation.members.map(function(e){
+            return e.idMember;
+        }).indexOf(pWebSocketConnection.id);
+        let objectFound = this.objectPopulation.members[myIndex];
+
+        if (this.objectPopulation.members[myIndex].isMember){                                     // Le visiteur qui se deconnecte était un membre
+            this.objectPopulation.nbrMembersInSession--;                               // Nombre de visiteurs incluant les [membres + Admins]
+        }    
+        this.objectPopulation.members.splice(myIndex, 1);
+        this.objectPopulation.nbrConnections--;
+    }

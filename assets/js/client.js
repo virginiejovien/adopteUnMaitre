@@ -403,6 +403,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // Le client reçoit toutes les données personnelles du membre connecté
 // ***********************************************************************************************************
  websocketConnection.on('profileConnect', function(documents) {
+     console.log('objetDuMembre profile connexion', objetDuMembre);
      blockFormulaire.style.display = 'none'; 
      console.log('blockFormulaire.style.display', blockFormulaire.style.display);
      blockProfilMembre.style.display = 'block'; 
@@ -411,7 +412,8 @@ window.addEventListener('DOMContentLoaded', function() {
  //    documents.forEach(function(infoMembre) {
      var photoImage = ' <img margin ="auto" src="' +documents.photoInscription+'"alt="photo" title="photo de profil">'; 
     
-     pseudoProfil.innerHTML = documents.pseudo;  
+     pseudoProfil.innerHTML = documents.pseudo; 
+     emailDeProfil.innerHTML = documents.email;  
  //    pseudoDeProfil.innerHTML = documents.pseudo;  
  //    console.log("pseudoDeProfil.innerHTML",pseudoDeProfil.innerHTML); 
         
@@ -422,6 +424,8 @@ window.addEventListener('DOMContentLoaded', function() {
 // Le client reçoit toutes les données personnelles du membre inscrit
 // ***********************************************************************************************************
  websocketConnection.on('profileInscription', function(documents) {
+     objetDuMembre = documents;
+     console.log('objetDuMembre profile inscription', objetDuMembre);
      blockFormulaire.style.display = 'none'; 
      console.log('blockFormulaire.style.display', blockFormulaire.style.display);
      blockProfilMembre.style.display = 'block'; 
@@ -431,9 +435,9 @@ window.addEventListener('DOMContentLoaded', function() {
  //    documents.forEach(function(infoMembre) {
      var photoImage = ' <img margin ="auto" src="' +documents.photoInscription+'"alt="photo" title="photo de profil">'; 
    //      photoProfil.innerHTML = photoImage; 
-         pseudoProfil.innerHTML = documents.pseudoInscription;  
+         pseudoProfil.innerHTML = documents.pseudo;  
    //      pseudoDeProfil.innerHTML = documents.pseudoInscription; 
-         emailDeProfil.innerHTML = documents.mailInscription;    
+         emailDeProfil.innerHTML = documents.email;    
     //     console.log("pseudoDeProfil.innerHTML",pseudoDeProfil.innerHTML); 
          console.log("emailDeProfil.innerHTML",emailDeProfil.innerHTML); 
    //      console.log("photoProfil.innerHTML",photoProfil.innerHTML); 
