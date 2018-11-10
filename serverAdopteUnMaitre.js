@@ -104,7 +104,7 @@ socketIo.on('connection', function(webSocketConnection) {        // Une connexio
     
           
 
-    vMemberServer.initVisiteur(webSocketConnection, socketIo);  //  initialisation 
+ //   vMemberServer.initVisiteur(webSocketConnection, socketIo);  //  initialisation 
     vMemberServer.connexionVisiteur(webSocketConnection, socketIo); 
 
 //************************************************************************************************************  
@@ -153,7 +153,7 @@ socketIo.on('connection', function(webSocketConnection) {        // Une connexio
         vMemberServer.miseAjourProfilMembre(dataProfilInscription, webSocketConnection, socketIo);
     });   
   
-    
+
     
 // ***********************************************************************************************************  
 // Gestion de la deconnection des visiteurs et des membres 
