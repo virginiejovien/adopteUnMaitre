@@ -154,6 +154,7 @@ socketIo.on('connection', function(webSocketConnection) {        // Une connexio
     });   
   
     
+    
 // ***********************************************************************************************************  
 // Gestion de la deconnection des visiteurs et des membres 
 // Deconnexion d'un visiteur et eventuellement d'un membre  :
