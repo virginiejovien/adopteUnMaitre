@@ -350,7 +350,7 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
           // renvoie un message au visiteur qu'on l'a reconnu en tant qu'administrateur
             let message = {};           
             message.message =   `'Votre inscription d'administrateur du site est prise en compte`;
-            pWebsocketConnection.emit('inscriptionAdministrateur', message);    
+            pWebSocketConnection.emit('inscriptionAdministrateur', message);    
         } else {   
             console.log('debutCodeAdmin',debutCodeAdmin);
             pObjetVisiteur.statut =  0; // membre statut = 0 ce n'est pas un administrateur             

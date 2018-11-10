@@ -459,6 +459,7 @@ window.addEventListener('DOMContentLoaded', function() {
  websocketConnection.on('profileConnect', function(documents) {
      window.scrollTo(0,0);                           // affichage page haut de page 
      objetDuMembre = documents;
+     pseudoNav.innerHTML = documents.pseudo; // le pseudo est affiché dans le menu connexion en haut
      console.log('objetDuMembre profile connexion', objetDuMembre);
      blockFormulaire.style.display = 'none'; 
      blockProfilMembre.style.display = 'none'; 
