@@ -2,7 +2,7 @@
   "name": "adopteunmaitre",
   "version": "1.0.0",
   "description": "projet final reseau social",
-  "main": "MainServer.js",
+  "main": "serverAdopteUnMaitre.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
