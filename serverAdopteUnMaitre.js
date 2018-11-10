@@ -93,18 +93,29 @@ const server = app.listen(process.env.PORT || 2000, function() {
 //************************************************************************************************
 // Déclaration des variables globales
 //************************************************************************************************
-
-let objetPopulation = 
+ let objetPopulation = 
 {
-    membres : {},                          // On définit un objet vide pour accueillir les membres en nombre indéfini.
-    nbrMembresInSession : 0,               // Nombre de membres connectés 
-    nbrConnectionsAlive : 0,               // Nombre total de connexions en cours sur ce serveur     !!! ATTENTION !!! Il ne's'agit pas encore de membres valides , juste de visiteurs
+     membres : [],                          // On définit un objet vide pour accueillir les membres en nombre indéfini.     nbMembresConnectes : 0,               // Nombre de membres connectés 
+     nbVisiteursConnectes : 0,             // Nombre total de connexions en cours sur ce serveur     !!! ATTENTION !!! Il ne's'agit pas encore de membres valides , juste de visiteur
 }
 
-let connectes = {         // visiteur en train de se connecter mais non encore validés
-    compteur:-1,
-    id:[]       
-};
+// this.objectPopulation = 
+// {
+//     members             : [],                   // Tableau de toutes les connexions ( Visiteurs dont [Membres + Admin])
+//     nbrConnections      : 0,                    // Nbre de connexions actives sans préjuger de leur rôle
+//     nbrMembersInSession : 0,                    // ?bre de membres connectés (Membres + Admin)
+//     nbrAdminsInSessions : 0,                    // Nombre d'Admins connectés
+// }
+
+// this.member =                                   // Structure de stockage proviisoire du membre
+// {   
+//         email           : '',
+//         pseudo          : '',
+//         password        : '',
+//         role            : 0,                     // Membre, Admin ou SuperAdmin
+//         dateCreation    : -1,                    // Timestamp de la création du record
+// }
+
 
 let client = {};                    // instance de la base de données
 
@@ -165,10 +176,7 @@ let verifPseudoExist = function(pObjetVisiteur, pWebsocketConnection, pColMembre
                 verifMotDePasse(pObjetVisiteur, documents, pWebsocketConnection); // verification si c'est le bon mot de pass
                 // l'adresse mail et le mot de passe ok dans la base --> Ok, On l accepte
          //           membres.compteur++;     // Nbre de membres actuels connectés et dernier membre connecté  (Water Mark)
-         //           console.log('membres.compteur',membres.compteur);
-         //           currentUser = membres.compteur;         // membre courant de cette session-Connexion
-          //          console.log('currentUser',currentUser);
-                    
+        
             };                       
         }
     });
@@ -177,11 +185,11 @@ let verifPseudoExist = function(pObjetVisiteur, pWebsocketConnection, pColMembre
 //************************************************************************************************************
 // Le pseudo saisie par le membre n'existe pas dans la collection membres on envoie un message d'alerte
 //************************************************************************************************************
-let sendPbMpProvisoireMsg = function(pObjetMembreMotDePasse, pWebsocketConnection) {
+let sendPbMpProvisoireMsg = function(pObjetMembreLocalMotDePasse, pWebsocketConnection) {
     let message = {};
     message.message = "Veuillez saisir le mot de passe provisoire que nous vous avons fait parvenir par mail";
     console.log('connection message.message',message.message);
-    pWebsocketConnection.emit('messagePbChangeRecupMp', message, pObjetMembreMotDePasse);
+    pWebsocketConnection.emit('messagePbChangeRecupMp', message, pObjetMembreLocalMotDePasse);
 };
 
 //************************************************************************************************************
@@ -208,7 +216,7 @@ let verifMotDePasse = function(pObjetVisiteur,pDocuments, pWebsocketConnection) 
         pWebsocketConnection.emit('messageConnection', message);
         return false;
     } else {                                
-        console.log("pObjetMembre.motDePasse et pDocuments.mp1Inscription true",pObjetVisiteur.motDePasse);   
+        console.log("pObjetVisiteur.motDePasse et pDocuments.mp1Inscription true",pObjetVisiteur.motDePasse);   
         pWebsocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
         pWebsocketConnection.emit('profileConnect', pObjetVisiteur); // On envoie au client les données de profil du membre        
         return true;
@@ -249,23 +257,23 @@ let generePassWord = function generer_password(l) {
 //************************************************************************************************************
 // Vérification du mot de passe provisoire dans la collection membres
 //************************************************************************************************************
-let verifPseudoMpOk = function(pObjetMembreMotDePasse, pObjetMembre, pWebsocketConnection, pColMembres) {   
-    console.log('pObjetMembre.motDePasse verif mot de passe',pObjetMembreMotDePasse.mpProvisoire); 
-    console.log('pObjetMembreMotDePasse verif change mot de passe',pObjetMembreMotDePasse); 
-    pColMembres.find({pseudo:pObjetMembreMotDePasse.pseudo}).toArray((error, documents) => {                     
+let verifPseudoMpOk = function(pObjetMembreLocalMotDePasse, pObjetMembreLocal, pWebsocketConnection, pColMembres) {   
+    console.log('pObjetMembreLocal.motDePasse verif mot de passe',pObjetMembreLocalMotDePasse.mpProvisoire); 
+    console.log('pObjetMembreLocalMotDePasse verif change mot de passe',pObjetMembreLocalMotDePasse); 
+    pColMembres.find({pseudo:pObjetMembreLocalMotDePasse.pseudo}).toArray((error, documents) => {                     
         if (error) {
             console.log('Erreur de find dans collection colMembres',error);
             throw error;
         }                                
         if (documents == false) {
             console.log('documents change mot de passe false',documents);
-            sendPbMpProvisoireMsg(pObjetMembreMotDePasse, pWebsocketConnection); // on envoie au client que le pseudo n'existe pas
+            sendPbMpProvisoireMsg(pObjetMembreLocalMotDePasse, pWebsocketConnection); // on envoie au client que le pseudo n'existe pas
             return false;                     
         }  
         console.log('documents connection',documents);
         console.log('pDocuments.mpProvisoire verif mot de passe dans la collection',documents[0].mpProvisoire); 
 
-        if ((pObjetMembreMotDePasse.mpProvisoire) !== (documents[0].mpProvisoire)) {
+        if ((pObjetMembreLocalMotDePasse.mpProvisoire) !== (documents[0].mpProvisoire)) {
             console.log('pas les mêmes mot de passe provisoire');
             let message = {};
             message.message = "Votre mot de passe n'est pas correct";
@@ -274,19 +282,25 @@ let verifPseudoMpOk = function(pObjetMembreMotDePasse, pObjetMembre, pWebsocketC
         } 
             let pseudoSengrid = documents[0].pseudo;  
             let emailSengrid = documents[0].email; 
-            let mpNew = pObjetMembreMotDePasse.mp1Recup;   
+            let mpNew = pObjetMembreLocalMotDePasse.mp1Recup;   
 
             // misa à jour de l'objet membre
-            pObjetMembre.pseudo = pObjetMembreMotDePasse.pseudo;
-            pObjetMembre.email = emailSengrid;
-            pObjetMembre.mp =    mpNew; 
-            pObjetMembre.mpConfirme = mpNew;
-            pObjetMembre.mpProvisoire = mpNew;               
-            console.log("pObjetMembreMotDePasse.mpProvisoire et pDocumentsmpProvisoire true",pObjetMembreMotDePasse.mpProvisoire);                            
+            pObjetMembreLocal.memberData.pseudo         = pObjetMembreLocalMotDePasse.pseudo;
+            pObjetMembreLocal.memberData.email          = emailSengrid;
+            pObjetMembreLocal.memberData.mp             = mpNew; 
+            pObjetMembreLocal.memberData.mpConfirme     = mpNew;
+            pObjetMembreLocal.memberData.mpProvisoire   = mpNew;               
+            console.log("pObjetMembreLocalMotDePasse.mpProvisoire et pDocumentsmpProvisoire true",pObjetMembreLocalMotDePasse.mpProvisoire);                            
 
             pColMembres.updateOne(
-                {pseudo:pObjetMembre.pseudo},
-                {$set: {mp:mpNew,mpConfirme:mpNew,mpProvisoire:mpNew}},(error, document) => {
+                {pseudo:pObjetMembreLocal.memberData.pseudo},
+                {$set:
+                        {
+                         mp             :mpNew,
+                         mpConfirme     :mpNew,                         
+                         mpProvisoire   :mpNew
+                        }
+                    },(error, document) => {
 
                 if (error) {
                     console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
@@ -302,10 +316,10 @@ let verifPseudoMpOk = function(pObjetMembreMotDePasse, pObjetMembre, pWebsocketC
                             '</p><br /><br /><br /><i>Adopte un Maitre Team</i>',
                     }
                 sgMail.send(messageToSend);  // envoie du mail de récupérartion de mot de passe
-                pWebsocketConnection.emit('mailSendInfoChangeMp',pObjetMembre); 
+                pWebsocketConnection.emit('mailSendInfoChangeMp',pObjetMembreLocal.memberData); 
             
                 pWebsocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
-                pWebsocketConnection.emit('profileConnect', pObjetMembre); // On envoie au client les données de profil du membre                         
+                pWebsocketConnection.emit('profileConnect', pObjetMembreLocal.memberData); // On envoie au client les données de profil du membre                         
         });  
     });
 };
@@ -316,8 +330,7 @@ let verifPseudoMpOk = function(pObjetMembreMotDePasse, pObjetMembre, pWebsocketC
 let checkFilledInscriptionOk = function(pObjetVisiteur, pWebsocketConnection) {
     if ((!pObjetVisiteur.pseudoInscription) && (!pObjetVisiteur.mailInscription) && (!pObjetVisiteur.mp1Inscription)) {
         console.log("pObjetVisiteur inscription",pObjetVisiteur);
-        let message = {};
-        // message.id = connectes.id[connectes.compteur];
+        let message = {};       
         pObjetVisiteur.pseudoInscription = '';
         message.message = 'Vous devez renseigner tous les champs du formulaire';
         pWebsocketConnection.emit('message', message);
@@ -331,17 +344,16 @@ let checkFilledInscriptionOk = function(pObjetVisiteur, pWebsocketConnection) {
 //************************************************************************************************************
 // Vérification que le formulaire de changement de mot de passe du membre est valide
 // ***********************************************************************************************************
-let checkFilledChangeMpOk = function(pObjetMembreMotDePasse, pWebsocketConnection) {
-    if ((!pObjetMembreMotDePasse.mpProvisoire) &&  (!pObjetMembreMotDePasse.mp1Recup)) {
-        console.log("pObjetMembreMotDePasse", pObjetMembreMotDePasse);
-        let message = {};
-        // message.id = connectes.id[connectes.compteur];
-        pObjetMembreMotDePasse.pseudoInscription = '';
+let checkFilledChangeMpOk = function(pObjetMembreLocalMotDePasse, pWebsocketConnection) {
+    if ((!pObjetMembreLocalMotDePasse.mpProvisoire) &&  (!pObjetMembreLocalMotDePasse.mp1Recup)) {
+        console.log("pObjetMembreLocalMotDePasse", pObjetMembreLocalMotDePasse);
+        let message = {};       
+        pObjetMembreLocalMotDePasse.pseudoInscription = '';
         message.message = 'Vous devez renseigner tous les champs du formulaire';
         pWebsocketConnection.emit('message', message);
         return false;
     } else {  
-        console.log("pObjetMembreMotDePasse true",pObjetMembreMotDePasse);   
+        console.log("pObjetMembreLocalMotDePasse true",pObjetMembreLocalMotDePasse);   
         return true;
     }
 };
@@ -355,7 +367,7 @@ let checkFilledChangeMpOk = function(pObjetMembreMotDePasse, pWebsocketConnectio
 //************************************************************************************************************
 // Vérification de l'unicité du pseudo du futur membre dans le reseau social
 //************************************************************************************************************
-let verifPseudoNoExist = function(pObjetVisiteur, pObjetMembre, pWebsocketConnection, pColMembres) {
+let verifPseudoNoExist = function(pObjetVisiteur, pObjetMembreLocal, pWebsocketConnection, pColMembres) {
     console.log("pObjetVisiteur inscription verif pseudo",pObjetVisiteur);
  //   let colMembres = client.db('adopteunmaitre').collection('membres');
     pColMembres.find({pseudo:pObjetVisiteur.pseudoInscription}).toArray(function(error, documents) {                    
@@ -365,7 +377,7 @@ let verifPseudoNoExist = function(pObjetVisiteur, pObjetMembre, pWebsocketConnec
         } else {                                
             if (documents == false) {           // Si non trouvé
                 console.log('documents verif si pseudo n existe  pas true',documents);
-                verifMailNoExist(pObjetVisiteur, pObjetMembre, pWebsocketConnection, pColMembres); // verif unicite adresse mail dans la bbd membres    
+                verifMailNoExist(pObjetVisiteur, pObjetMembreLocal, pWebsocketConnection, pColMembres); // verif unicite adresse mail dans la bbd membres    
                 return true;
             } else { 
                 console.log('documents verif si pseudo n existe  pas false',documents);                            // Document trouvé --> Message d'erreur
@@ -386,7 +398,7 @@ let verifPseudoNoExist = function(pObjetVisiteur, pObjetMembre, pWebsocketConnec
 //************************************************************************************************************
 // Vérification de l'unicité de l'adresse mail du futur membre dans la BBD du reseau social
 //************************************************************************************************************
-let verifMailNoExist = function(pObjetVisiteur, pObjetMembre, pWebsocketConnection, pColMembres) {
+let verifMailNoExist = function(pObjetVisiteur, pObjetMembreLocal, pWebsocketConnection, pColMembres) {
     console.log("pObjetVisiteur inscription verif mail",pObjetVisiteur);
    // let colMembres = client.db('adopteunmaitre').collection('membres');
     pColMembres.find({email:pObjetVisiteur.mailInscription}).toArray((error, documents) => {                  
@@ -396,7 +408,7 @@ let verifMailNoExist = function(pObjetVisiteur, pObjetMembre, pWebsocketConnecti
         } else {                                
             if (documents == false) {
                 console.log('adresse mail n existe pas true ',documents);
-                inscriptionMembre(pObjetVisiteur, pObjetMembre,  pWebsocketConnection, pColMembres);
+                inscriptionMembre(pObjetVisiteur, pObjetMembreLocal,  pWebsocketConnection, pColMembres);
                 return true;
             } else {
                 let message = {};
@@ -417,15 +429,14 @@ let verifMailNoExist = function(pObjetVisiteur, pObjetMembre, pWebsocketConnecti
 // L'unicité de l'adresse mail et du peudo sont respectés on peut inscrire et insérer le membre 
 // dans la collection membre de la base de donnees Adopte un Maitre 
 //************************************************************************************************************
-let inscriptionMembre = function(pObjetVisiteur,pObjetMembre, pWebsocketConnection, pColMembres) {
- //   membres.compteur++;     // Nbre de membres actuels connectés et dernier membre connecté  
- //   currentUser = membres.compteur;         // membre courant de cette session-Connexion
+let inscriptionMembre = function(pObjetVisiteur,pObjetMembreLocal, pWebsocketConnection, pColMembres) {
+
     console.log('avant prepareAndInsertNewMembe objetVisiteur.mailInscription', pObjetVisiteur.mailInscription);
-    prepareAndInsertNewMember(pObjetVisiteur, pObjetMembre,pColMembres, pWebsocketConnection);    // Ecriture dans la BDD du nouveau membre
-            //  sendMailNewMember(); // envoie d'un mail de bienvenue au nouveau membre                        
+
+    prepareAndInsertNewMember(pObjetVisiteur, pObjetMembreLocal, pColMembres, pWebsocketConnection);    // Ecriture dans la BDD du nouveau membre                            
     pWebsocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
-    pWebsocketConnection.emit('profileInscription', pObjetMembre); // On envoie au client ses données de profil 
-    pWebsocketConnection.emit('felicitationMembre',pObjetMembre); 
+    pWebsocketConnection.emit('profileInscription', pObjetMembreLocal.memberData); // On envoie au client ses données de profil 
+    pWebsocketConnection.emit('felicitationMembre', pObjetMembreLocal.memberData); 
     return true;
 };
     
@@ -436,7 +447,7 @@ let inscriptionMembre = function(pObjetVisiteur,pObjetMembre, pWebsocketConnecti
 // et insertion dans la base de données
 // Envoie d'un mail de confirmation d'inscription au nouveau membre inscrit
 //************************************************************************************************************
-let prepareAndInsertNewMember = function(pObjetVisiteur,pObjetMembre,pColMembres,pWebsocketConnection) {   
+let prepareAndInsertNewMember = function(pObjetVisiteur,pObjetMembreLocal,pColMembres,pWebsocketConnection) {   
     console.log('pObjetVisiteur insert',pObjetVisiteur); 
         //  verification si membre ou administrateur ou super administrateur
         console.log("pObjetVisiteur.pseudoInscription inscription verif administrateur",pObjetVisiteur.pseudoInscription);
@@ -463,26 +474,29 @@ let prepareAndInsertNewMember = function(pObjetVisiteur,pObjetMembre,pColMembres
         };
       
         console.log('pObjetVisiteur.statut',pObjetVisiteur.statut); 
-     // préparation et mise à jour de l'objetMembre avant insert   
-        pObjetMembre.statut = pObjetVisiteur.statut;
-        pObjetMembre.id = Math.round(Math.random() * 10000) + (new Date()).getTime();
-        pObjetMembre.dateCreation =  (new Date()).getTime();   
-        pObjetMembre.pseudo = pObjetVisiteur.pseudoInscription;
-        pObjetMembre.email = pObjetVisiteur.mailInscription;
-        pObjetMembre.mp  = pObjetVisiteur.mp1Inscription;
-        pObjetMembre.mpConfirme = pObjetVisiteur.mp2Inscription;       
+     // préparation et mise à jour de l'objetMembreLocal avant insert 
+        pObjetMembreLocal.idMember = pWebsocketConnection.id;
+        pObjetMembreLocal.isMember = true;  
+        pObjetMembreLocal.memberData.statut = pObjetVisiteur.statut;       
+        pObjetMembreLocal.memberData.id = Math.round(Math.random() * 10000) + (new Date()).getTime();
+       
+        pObjetMembreLocal.memberData.dateCreation =  (new Date()).getTime();   
+        pObjetMembreLocal.memberData.pseudo = pObjetVisiteur.pseudoInscription;
+        pObjetMembreLocal.memberData.email = pObjetVisiteur.mailInscription;
+        pObjetMembreLocal.memberData.mp  = pObjetVisiteur.mp1Inscription;
+        pObjetMembreLocal.memberData.mpConfirme = pObjetVisiteur.mp2Inscription;       
         
-        pColMembres.insertOne(pObjetMembre, (error, result) => {
+        pColMembres.insertOne(pObjetMembreLocal.memberData, (error, result) => {
             if (error){
                 console.log('Erreur d\'insertion dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
                 throw error;
             } else {                              
-                console.log('apres insert',pObjetMembre);
+                console.log('apres insert',pObjetMembreLocal.memberData);
                 let messageToSend = {
-                    to       :  pObjetMembre.email,
+                    to       :  pObjetMembreLocal.memberData.email,
                     from     : 'adopteUnMaitre@amt.com',
                     subject  : 'Votre inscription à Adopte un Maître',
-                    html     : '<h1 style="color: black;">Félicitations</h1><p><h2>Vous êtes maintenant membre du réseau social <b>Adopte un Maître</b> </h2><br />Vos identifiants sont : <p><Strong>Pseudonyme : </strong>'+pObjetMembre.pseudo+'<p><strong>Mot de passe : </strong>'+pObjetMembre.mp +
+                    html     : '<h1 style="color: black;">Félicitations</h1><p><h2>Vous êtes maintenant membre du réseau social <b>Adopte un Maître</b> </h2><br />Vos identifiants sont : <p><Strong>Pseudonyme : </strong>'+pObjetMembreLocal.memberData.pseudo+'<p><strong>Mot de passe : </strong>'+pObjetMembreLocal.memberData.mp +
     '</p><br /><br /><br /><i>Adopte un Maitre Team</i>',
                 }
                sgMail.send(messageToSend);  // envoie du mail d'inscripotion
@@ -505,6 +519,112 @@ let getNbMessages = function(pSocketIo) {
                     
     });   
 }; 
+//************************************************************************************************************
+// **********************                        PARTIE 2 FONCTIONS                     ********************** 
+// **********************           ****************  **************                    **********************
+// **********************      PROFILE DU MEMBRE INSCRIT AU SITE ADOPTE UN MAITRE       **********************
+// **********************      -- consultation : apropos                                **********************                       
+// **********************      -- deconnexion :                                         **********************
+// **********************      -- profile inscription : - contrôle                      **********************    
+// ***********************************************************************************************************
+
+//************************************************************************************************************
+// Vérification que le formulaire du profile d'inscription du membre est valide
+//************************************************************************************************************
+let checkFilledProfilIOk = function(pObjetMembreLocal, pWebsocketConnection) {
+    console.log("pObjetMembreLocal profile inscription",pObjetMembreLocal);
+    if ((!pObjetMembreLocal.memberData.genre) || (!pObjetMembreLocal.memberData.profil) || (!pObjetMembreLocal.memberData.pays)) {
+        console.log("pObjetMembreLocal.memberData profile inscription",pObjetMembreLocal.memberData);
+        let message = {};
+        message.message = 'Vous devez renseigner tous les champs du formulaire';
+        pWebsocketConnection.emit('messageErrorProfilInscription', message);
+        return false;
+    } else {        
+        return true;
+    }
+};
+
+//************************************************************************************************************
+// Mise à jour des donnees du memebre dans la collection membres de la BDD adopteunmaitre
+//************************************************************************************************************
+let miseAJourProfilMembre = function(pObjetMembreLocal, pWebsocketConnection, pColMembres) {   
+    console.log('pObjetMembreLocal  avant MAJ de la collection membres',pObjetMembreLocal); 
+    pColMembres.find({pseudo:pObjetMembreLocal.memberData.pseudo}).toArray((error, documents) => {                     
+        if (error) {
+            console.log('Erreur de find dans collection colMembres',error);
+            throw error;
+        }                                
+        if (documents == false) {
+            console.log('erreur avant mise à jour du membre on ne le retrouve pas on observe le  documents',documents);
+        //    sendPage404(pObjetMembreLocal, pWebsocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+            return false;                     
+        }  
+        console.log('documents avant MAJ profile inscription', documents);
+        
+        
+            let pseudoSengrid = documents[0].pseudo;  
+            let emailSengrid = documents[0].email;           
+        
+            pColMembres.updateOne(
+                {pseudo:pObjetMembreLocal.pseudo},
+                {$set:
+                     {   
+                        nom         :  pObjetMembreLocal.memberData.nom, 
+                        prenom      :  pObjetMembreLocal.memberData.prenom,
+                        genre       :  pObjetMembreLocal.memberData.genre,
+                        age         :  pObjetMembreLocal.memberData.age,
+                        telephone   :  pObjetMembreLocal.memberData.telephone,  
+                        adresse     :  pObjetMembreLocal.memberData.adresse,
+                        cp          :  pObjetMembreLocal.memberData.cp,
+                        ville       :  pObjetMembreLocal.memberData.ville,
+                        pays        :  pObjetMembreLocal.memberData.pays,
+                        profil      :  pObjetMembreLocal.memberData.profil,
+                        preference  :  pObjetMembreLocal.memberData.preference
+                    }
+                },(error, document) => {
+
+                if (error) {
+                    console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                    throw error;
+                }          
+                console.log('update ok');                               
+                                    
+                let messageToSend = {
+                    to       : emailSengrid,
+                    from     : 'adopteUnMaitre@amt.com',
+                    subject  : 'Informations de Profile',
+                    html     : '<h1 style="color: black;">Hello '+pseudoSengrid+'</h1><p><h2>Votre fiche de renseignements de votre profile a bien été prise en compte sur notre site:<b>Adopte un Maître</b> </h2><br />' +
+                          '<br /><i>Adopte un Maitre Team</i>',
+                    }
+                sgMail.send(messageToSend);  // envoie du mail d'information maj profile
+                pWebsocketConnection.emit('mailSendInfoChangeMp',pObjetMembreLocal.memberData);             
+               
+                pWebsocketConnection.emit('profileConnect', pObjetMembreLocal.memberData); // On envoie au client les données de profil du membre                         
+        });  
+    });
+};
+
+//************************************************************************************************************
+// **********************                        PARTIE 3 FONCTIONS                     ********************** 
+// **********************           ****************  **************                    **********************
+// **********************      DECONNEXION DES MEMBRES CONNECTES ET DES VISITEURS       **********************
+// **********************      -- mise à jour des compteurs                             **********************                     
+// ***********************************************************************************************************
+
+//************************************************************************************************************
+// Cette fonction recherche dans la table des membres, celui qui a la propriété passée en parametre
+//************************************************************************************************************
+function searchMemberInTableOfMembers(pProperty, pValue) {
+        let myIndex = objetPopulation.membres.map((propertyFilter) => {
+            return propertyFilter[pProperty];
+        })
+        .indexOf(pValue);
+        this.objectFound = objetPopulation.membres[myIndex];
+        return myIndex; 
+    };
+
+  
+
 
 //************************************************************************************************************
 // **********************                                                               **********************
@@ -522,35 +642,45 @@ socketIo.on('connection', function(websocketConnection) {
     websocketConnection.emit('connexionServeurOK', {msg:'Connexion effectuée'});   
     console.log('websocketConnection.id',websocketConnection.id); 
     console.log('Connexion établie');   
-    let currentUser = -1;
-    let objetMembre =                               // Structure du membre
-        {   
-            id              : -1,                    // Id du membre connecté
-            pseudo          : '',
-            email           : '',            
-            mp              : '',
-            mpConfirme             : '',
-            mpProvisoire    : '',
-            statut          : 0,             // Membre 0, Admin 1 ou SuperAdmin 2                                
-            dateCreation    : -1,            // Timestamp de la création du compte
-            photoProfile    : 'static/images/default-avatar.png',
-            nom             : '',
-            prenom          : '',
-            dateNaissance   : '',
-            genre           : '',            // femme (F)  ou homme(H)
-            telephone       : '',      
-            adresse         : '', 
-            cp              : '',           // code postal
-            ville           : '',           // ville 
-            pays            : '',           // pays
-            profile         : '',           // est proprietaire ou souhaite adopté ou neutre           
-            preference      : '',  // preferences            
-            amis            :[]    // liste d'amis           
+    objetPopulation.nbVisiteursConnectes ++;   
+    let objetMembreLocal =  {                         // Structure du membre
+            idMember            : websocketConnection.id,
+            isMember            : false,
+            memberData : {
+                id              : -1,                    // Id du membre connecté
+                pseudo          : '',
+                email           : '',            
+                mp              : '',
+                mpConfirme             : '',
+                mpProvisoire    : '',
+                statut          : 0,             // Membre 0, Admin 1 ou SuperAdmin 2                                
+                dateCreation    : -1,            // Timestamp de la création du compte
+                photoProfile    : 'static/images/default-avatar.png',
+                nom             : '',
+                prenom          : '',
+                age             : '',
+                genre           : '',            // femme (F)  ou homme(H)
+                telephone       : '',      
+                adresse         : '', 
+                cp              : '',           // code postal
+                ville           : '',           // ville 
+                pays            : '',           // pays
+                profil          : '',           // est proprietaire ou souhaite adopté ou neutre           
+                preference      : '',  // preferences            
+                amis            :[]    // liste d'amis   
+            }        
         };
    // getNbMessages(socketIo); // affichage du nombre de messages publiés en temps réel
  
         let objetVisiteur = {}; // visiteur non connectés et non enregistrés
-        let objetMembreMotDePasse = {};
+        let objetMembreLocalMotDePasse = {};
+
+//************************************************************************************************************  
+// envoie à tous les visiteurs qui se connecte le nombre de membre connecté  
+//************************************************************************************************************ 
+    socketIo.emit('nbMembresConnect',objetPopulation.nbMembresConnectes); 
+
+
 //************************************************************************************************************
 // **********************                        PARTIE 1 WEBSOCKET                     ********************** 
 // **********************           ****************  **************                    **********************
@@ -600,7 +730,12 @@ socketIo.on('connection', function(websocketConnection) {
             console.log('motDePasseProvisoire', mpRecup);  
             colMembres.updateOne(
                 {email:email}, 
-                {$set: {mp:mpRecup,mpConfirme:mpRecup,mpProvisoire:mpRecup}},(error, document) => {
+                {$set: {
+                        mp          :mpRecup,
+                        mpConfirme  :mpRecup,
+                        mpProvisoire:mpRecup
+                        }
+                },(error, document) => {
                 
                 if (error) {
                     
@@ -625,11 +760,11 @@ socketIo.on('connection', function(websocketConnection) {
 // Gestion et controle du formulaire de changement de mot de passe
 // *********************************************************************************************************** 
     websocketConnection.on('controleChangeMp', function (data) {       // Reception de la saisie du nouveau mot de passe dans le formulaire
-        objetMembreMotDePasse = data;
-        console.log('data reçues formulaire changement de mot de passe :',data,' --- ',objetMembreMotDePasse);
-        if (checkFilledChangeMpOk(objetMembreMotDePasse,websocketConnection)) {  // Si tous les champs du formulaire sont non vide --> Ok
+        objetMembreLocalMotDePasse = data;
+        console.log('data reçues formulaire changement de mot de passe :',data,' --- ',objetMembreLocalMotDePasse);
+        if (checkFilledChangeMpOk(objetMembreLocalMotDePasse,websocketConnection)) {  // Si tous les champs du formulaire sont non vide --> Ok
             let colMembres = client.db('adopteunmaitre').collection('membres');    
-            verifPseudoMpOk(objetMembreMotDePasse,objetMembre, websocketConnection,colMembres);  // verif si on a le pseudo du membre qui correspond bien avec le mot de passe provisoire
+            verifPseudoMpOk(objetMembreLocalMotDePasse,objetMembreLocal, websocketConnection,colMembres);  // verif si on a le pseudo du membre qui correspond bien avec le mot de passe provisoire
             // verif mot de passe provisoire et mot de passe saisies ok                                            
         }   
     }); 
@@ -640,15 +775,54 @@ socketIo.on('connection', function(websocketConnection) {
     websocketConnection.on('controleInscription', function (data) {       // Reception de la saisie du Login dans le formulaire
         objetVisiteur = data;
         console.log('data reçues inscription: ',data,' --- ',objetVisiteur);
-        console.log('data reçues inscription: ',data,' --- ',objetMembre);
-        if (checkFilledInscriptionOk(objetVisiteur,websocketConnection)) {  // Si tous les champs du formulaire sont non vide --> Ok
+        console.log('data reçues inscription: ',data,' --- ',objetMembreLocal);
+        if (checkFilledInscriptionOk(objetVisiteur, websocketConnection)) {  // Si tous les champs du formulaire sont non vide --> Ok
             // Vérification de l'unicité du futur membre dans la collection membres de la BDD adopteunmaitre
             let colMembres = client.db('adopteunmaitre').collection('membres');    
-            verifPseudoNoExist(objetVisiteur,objetMembre, websocketConnection,colMembres);  // verif unicite pseudo dans la bbd membres
+            verifPseudoNoExist(objetVisiteur, objetMembreLocal, websocketConnection, colMembres);  // verif unicite pseudo dans la bbd membres
              // verif unicite adresse mail dans la bbd membres    
             // Nouveau membre, inexistant dans la base --> Ok, On l accepte                                                       
         }   // Le nom du visiteur est vide gerer dans la fonction checkFilledUserNameIsOk   
     });          
+
+//************************************************************************************************************
+// **********************                       PARTIE 2 WEBSOCKET                      ********************** 
+// **********************           ****************  ******************                **********************
+// **********************      PROFILE INSCRIPTION AU SITE ADOPTE UN MAITRE             **********************
+// **********************    -- consultation : apropos                                  **********************            
+// **********************    -- deconnexion :                                           **********************
+// **********************    -- profile inscription : - contrôle                        **********************
+// **********************                                                               **********************    
+// ***********************************************************************************************************
+
+//************************************************************************************************************  
+// Gestion et controle du formulaire d'inscription Profile 
+//************************************************************************************************************ 
+    websocketConnection.on('membreConnecteApresInscription', function (data) {  // Reception de l'objetDuMembre apres inscription et fermeture fenetre félicitation
+        objetMembreLocal.memberData = data;
+        console.log('data reçues apres femeture fenetre félicitation: ',data,' --- ',objetMembreLocal);
+    objetPopulation.membres[objetMembreLocal.idMember] = objetMembreLocal; // On ajoute le membre qu'on vient de recuperer pour cette connexion dans un objet global objetPopulation qui les recense
+    console.log('000000 ---- objetPopulation:   ', objetPopulation);
+    //   objetPopulation.membres.push(objetMembreLocal);
+        objetPopulation.nbMembresConnectes ++;  // on  ajoute  un connecté dans le compteur des connectés
+        console.log('111111---- objetPopulation.nbMembresConnectes:   ', objetPopulation.nbMembresConnectes);
+        socketIo.emit('nbMembresConnect',objetPopulation.nbMembresConnectes); // on envoie à tous les clients le nombre de memmbres connectes en temps réeel même aux visiteurs
+                
+    });   
+
+//************************************************************************************************************  
+// Gestion et controle du formulaire d'inscription Profile 
+//************************************************************************************************************  
+    websocketConnection.on('controleProfileInscription', function (data) { // Reception de l'objetDuMembre apres inscription et fermeture fenetre félicitation
+        objetMembreLocal.memberData = data;
+        console.log('data reçues : apres inscription profil objetMembreLocal.memberData --- ',objetMembreLocal.memberData);
+    //    objetPopulation.membres[objetMembreLocal.id] = objetMembreLocal; // On ajoute le membre qu'on vient de recuperer pour cette connexion dans un objet global objetPopulation qui les recense
+
+        if (checkFilledProfilIOk(objetMembreLocal, websocketConnection)) {  // Si les champs du formulaire du visiteur sont non vide --> Ok
+            let colMembres = client.db('adopteunmaitre').collection('membres');
+            miseAJourProfilMembre(objetMembreLocal, websocketConnection, colMembres);  // mise à jour des donnees du membre dans la collection membres de la BDD adopteunmaitre
+        }              
+    });   
 
 
 //************************************************************************************************************
@@ -657,16 +831,33 @@ socketIo.on('connection', function(websocketConnection) {
 // **********************      -- Supression  :  compteur connecté                      **********************           
 // ***********************************************************************************************************
 
+
+
 // ***********************************************************************************************************  
-// Gestion de la deconnection des visiteurs
+// Gestion de la deconnection des visiteurs et des membres 
+// Deconnexion d'un visiteur et eventuellement d'un membre  :
 // ***********************************************************************************************************
     websocketConnection.on('disconnect', function() {
-        if(currentUser >= 0) {     // visiteur courant de cette session-Connexion
+        
+        let myIndex = searchMemberInTableOfMembers('idMember',websocketConnection.id);
+
+        if (objetPopulation.membres[myIndex].isMember) {                    // Le visiteur qui se deconnecte était un membre
+            objetPopulation.nbMembresConnectes--;                      
+          
+        }
+
+        objetPopulation.members.splice(myIndex, 1);
+        objetPopulation.nbVisiteursConnectes--;
+        
+        //this.UpdateDisplayPopulation(pSocketIo);
+
+     
+    //    if(currentUser >= 0) {     // visiteur courant de cette session-Connexion
            
-            websocketConnection.broadcast.emit('removevisiteur', currentUser);  // On envoie au front pour suppression du DOM le visiteur qui vient de se déconnecter
-            getNbMessages(socketIo); // on envoie au front la MAJ du tableau des scores nottament on récupère le temps de jeu du visiteur qui vient de partir
+     //       websocketConnection.broadcast.emit('removevisiteur', currentUser);  // On envoie au front pour suppression du DOM le visiteur qui vient de se déconnecter enverra le message à tous les autres clients sauf la connexion nouvellement créée
+      //      getNbMessages(socketIo); // on envoie au front la MAJ du tableau des scores nottament on récupère le temps de jeu du visiteur qui vient de ////partir
            
-        }            
+     //   } */           
     });
 
 });   //  Fin de la partie "Connexion" 

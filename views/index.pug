@@ -14,6 +14,7 @@ head
   link(href='static/css/timeline.css' rel='stylesheet')
   link(href='static/css/buttons.css' rel='stylesheet')
   link(href='static/css/forms.css' rel='stylesheet')
+  link(href='static/css/cover.css' rel='stylesheet')
   link(href='static/css/index.css' rel='stylesheet')
   link(href='static/css/recover_password.css' rel='stylesheet')
   // Javascript socket.io
@@ -24,10 +25,11 @@ head
   script(src='static/js/client.js')
   script(src='static/js/custom.js')
 // Fixed navbar
-nav.navbar.navbar-white.navbar-fixed-top
+nav#top.navbar.navbar-white.navbar-fixed-top
   #container-nav.container
     span.navbar-brand.welcome-title
-      b Adopte un Ma&icirc;tre un r&eacute;seau social 100% chat.rrr.mant
+      b Adopte un Ma&icirc;tre 
+      span.title-suite un r&eacute;seau social 100% chat.rrr.mant
     .navbar-header
       button.navbar-toggle.collapsed.navbar-fixed-top-30(type='button' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar')
         span.sr-only Toggle navigation
@@ -103,7 +105,8 @@ nav.navbar.navbar-white.navbar-fixed-top
               a(href='registration_mail.html') Registration mail
         li.dropdown
           a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
-            i.fa.fa-user
+            i.fa.fa-user &nbsp;&nbsp;
+            strong#pseudo-nav
           ul.dropdown-menu
             li
               a#deconnexion.disabled(href='/') D&eacute;connexion
@@ -128,7 +131,7 @@ nav.navbar.navbar-white.navbar-fixed-top
             // ****************  formulaire de connexion **********************
             form#form-connection
               .form-group
-                input#pseudo.form-control(type='text' name='LoginPseudo' maxlength='31' size='31' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                input#pseudo.form-control(type='text' name='LoginPseudo' maxlength='23' size='23' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
               .form-group
                 input#mp.form-control(type='password' name='LoginPassword' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
                 a#oublie.pull-xs-right(href='#')
@@ -145,7 +148,7 @@ nav.navbar.navbar-white.navbar-fixed-top
             // ****************  formulaire d'inscription **********************
             form#form-inscription
               .form-group
-                input#pseudo-inscription.form-control.control-groupe(type='text' name='pseudoInscrit' maxlength='31' size='31' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,31}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                input#pseudo-inscription.form-control.control-groupe(type='text' name='pseudoInscrit' maxlength='23' size='23' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
               .form-group
                 input#mail-inscription.form-control(type='email' name='mailInscrit' maxlength='100' size='100' placeholder='Adresse mail' required='' pattern='^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$' title='Veuillez fournir une adresse électronique valide: exemple@provider.com')
               .form-group
@@ -200,13 +203,13 @@ nav.navbar.navbar-white.navbar-fixed-top
                 p#idRecupMpAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg Veuillez saisir le mot de passe provisoire que nous vous avons envoy&eacute; par mail
               button.btn.btn-info.btn-block(type='submit')  Valider
 // *************************************************************************
-// page  profile membre
+// page  profile membre inscription
 // *************************************************************************
 #profile-membre.container.page-content.edit-profile
   .row
     .col-md-10.col-md-offset-1
       // NAV TABS
-      ul.nav.nav-tabs.nav-tabs-custom-colored.tabs-iconized
+      ul#nav-profil.nav.nav-tabs.nav-tabs-custom-colored.tabs-iconized
         li.active
           a(href='#profile-tab' data-toggle='tab' aria-expanded='true')
             i.fa.fa-user
@@ -240,7 +243,7 @@ nav.navbar.navbar-white.navbar-fixed-top
                       input(type='file' multiple='')
             // ****************  Début Profil formulaire d'inscription **********************
             .col-md-9
-              form#form-profil
+              form#form-profil-inscription
                 .form-group
                   .user-info-right
                     .basic-info
@@ -252,7 +255,7 @@ nav.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Nom
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#nom.form-control.control-groupe(type='text' name='nom' maxlength='21' size='21' placeholder='Nom' required='' pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){2,21}$" title='Uniquement des lettres et la longueur comprise entre 3 et 20 caractères' autofocus='')
+                              input#nom-profil.form-control.control-groupe(type='text' name='nom' maxlength='21' size='21' placeholder='Nom' required='' pattern='^[a-zA-Z\u00C0-\u00FF]+[ -]?[a-zA-Z\u00C0-\u00FF]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères' autofocus='')
                               i.fa.fa-user.darkorange
                               br
                         // Text input
@@ -260,7 +263,7 @@ nav.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Pr&eacute;nom
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#prenom.form-control.control-groupe(type='text' name='prenom' maxlength='21' size='21' placeholder='Prénom' required='' pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){2,21}$" title='Uniquement des lettres et la longueur comprise entre 3 et 20 caractères')
+                              input#prenom-profil.form-control.control-groupe(type='text' name='prenom' maxlength='21' size='21' placeholder='Prénom' required='' pattern='^[a-zA-Z\u00C0-\u00FF]+[ -]?[a-zA-Z\u00C0-\u00FF]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
                               i.fa.fa-user.darkorange
                               br
                         // Text input
@@ -268,14 +271,14 @@ nav.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Age
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#date-de-naissance.form-control.control-groupe(type='date' name='date' max='2018-01-01' min='1900-01-01' placeholder='Date' required='' pattern='^[0-9]{1,2}(/|-)[0-9]{1,2}(/|-)[0-9]{4}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                              input#age-profil.form-control.control-groupe(type='number' name='age' min='12' max='120' step='1' required='' pattern='\d+' title='Uniquement des nombres')
+                              br
                         // Select
                         .form-group
                           label.col-md-4.control-label Genre
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              select#genre.form-control.control-groupe(name='nom' size='1' required='')
-                                option(value=' ') Veuillez selectionner un genre
+                              select#genre-profil.form-control.control-groupe(name='nom' size='1' required='')
                                 option(value='F')
                                   | Femme
                                 option(value='H')
@@ -286,7 +289,7 @@ nav.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label T&eacute;l&eacute;phone
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#telephone.form-control.control-groupe(type='text' name='telephone' maxlength='10' size='10' placeholder='Téléphone' required='' pattern='^[0-9]{10}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                              input#telephone-profil.form-control.control-groupe(type='text' name='telephoneProfil' maxlength='10' size='10' placeholder='Ex: 0605040302' required='' pattern='^[0-9]{10}$' title='Les caractères doivent être numériques et la longueur doit être de 10 caractères')
                               i.fa.fa-phone.darkorange
                               br
                         br
@@ -295,7 +298,7 @@ nav.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Adresse
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#adresse.form-control(type='text' maxlength='31' size='31' placeholder='Numero et nom de rue ' required='' pattern='^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+{3,30}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                              input#adresse-profil.form-control.control-groupe(type='text' name='adresse' maxlength='30' size='30' placeholder='Numero et nom de rue ' required='' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
                               i.fa.fa-home.darkorange
                               br
                         br
@@ -304,7 +307,7 @@ nav.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Code Postal
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#cp.form-control.control-groupe(type='number' name='cp' maxlength='5' size='5' required='' placeholder='CP' pattern='[0-9]{5}')
+                              input#cp-profil.form-control.control-groupe(type='number' name='cp' maxlength='5' size='5' required='' placeholder='Ex: 75011' pattern='[0-9]{5}' title='Les caractères doivent être numériques et la longueur doit être de 5 caractères')
                               i.fa.fa-home.darkorange
                               br
                         br
@@ -313,7 +316,7 @@ nav.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Ville
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#ville.form-control.control-groupe(type='text' name='ville' maxlength='20' size='20' placeholder='Ville' required='' pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){2,21}$" title='Uniquement des lettres et la longueur comprise entre 3 et 20 caractères')
+                              input#ville-profil.form-control.control-groupe(type='text' name='ville' maxlength='21' size='21' placeholder='Ville' required='' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{1,21}" title='Uniquement des lettres puis des espaces ou des tirets et la longueur comprise entre 2 et 21 caractères')
                               i.fa.fa-home.darkorange
                               br
                         // Select Basic
@@ -321,8 +324,7 @@ nav.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Pays
                           .col-md-6.selectContainer
                             span.input-icon
-                              select.form-control.control-groupe(name='state')
-                                option(value=' ') Veuillez selectionner un pays
+                              select#pays-profil.form-control.control-groupe(name='pays' required='')
                                 option(value='AF')
                                   | Afghanistan
                                 option(value='ZA')
@@ -479,7 +481,7 @@ nav.navbar.navbar-white.navbar-fixed-top
                                   | Fidji
                                 option(value='FI')
                                   | Finlande
-                                option(value='FR')
+                                option(value='FR' selected='')
                                   | France
                                 option(value='GA')
                                   | Gabon
@@ -827,23 +829,22 @@ nav.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Profile
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              select#profile2.form-control.control-groupe(name='nom' size='1' required='')
-                                option(value=' ') Veuillez selectionner un profil
+                              select#profil-profil.form-control.control-groupe(name='profil' size='1' required='')
                                 option(value='AM')
                                   | Adopte un ma&icirc;tre
                                 option(value='AC')
                                   | Adopte un chat
-                                option(value='NSP')
+                                option(value='NSP' selected='')
                                   | Ne sait pas encore
                               br
                         .form-group
                           label.col-md-4.control-label Pr&eacute;f&eacute;rence
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              textarea#preference.form-control.control-groupe(type='text' name='preference' rows='2' cols='40' placeholder="C'est le moment de parler chat" required='' pattern="^([a-zA-Z\u00C0-\u00FF]+['-]?[a-zA-Z\u00C0-\u00FF]+){3,400}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                              textarea#preference-profil.form-control.control-groupe(type='text' name='preference' rows='2' cols='40' maxlength='400' placeholder="C'est le moment de parler chat" required='' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
                       .form-group
                         .center
-                          button.btn.btn-azure(type='submit') Se connecter
+                          button.btn.btn-azure(type='submit') Valider
                         p#idProfilMpAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg
         // **************** fin profil formulaire d'inscription **********************
         // ACTIVITY TAB CONTENT
@@ -974,6 +975,449 @@ nav.navbar.navbar-white.navbar-fixed-top
               |  Save Changes
         // END SETTINGS TAB CONTENT
 // *************************************************************************
+// page  profile membre mur
+// *************************************************************************
+// Begin page content
+#mur-profile.row.page-content
+  .col-md-8.col-md-offset-2
+    .row
+      .col-md-12
+        .cover.profile
+          .wrapper
+            .image
+              img#mur-photo-cover.show-in-modal(src='static/images/chat2.jpg' alt='people')
+            ul.friends
+              li
+                a(href='#')
+                  img.img-responsive(src='static/images/Friends/guy-6.jpg' alt='people')
+              li
+                a(href='#')
+                  img.img-responsive(src='static/images/Friends/woman-3.jpg' alt='people')
+              li
+                a(href='#')
+                  img.img-responsive(src='static/images/Friends/guy-2.jpg' alt='people')
+              li
+                a(href='#')
+                  img.img-responsive(src='static/images/Friends/guy-9.jpg' alt='people')
+              li
+                a(href='#')
+                  img.img-responsive(src='static/images/Friends/woman-9.jpg' alt='people')
+              li
+                a(href='#')
+                  img.img-responsive(src='static/images/Friends/guy-4.jpg' alt='people')
+              li
+                a(href='#')
+                  img.img-responsive(src='static/images/Friends/guy-1.jpg' alt='people')
+              li
+                a(href='#')
+                  img.img-responsive(src='static/images/Friends/woman-4.jpg' alt='people')
+              li
+                a.group(href='#')
+                  i.fa.fa-group
+          .cover-info
+            .avatar
+              img#mur-photo-profile(src='static/images/default-avatar.png' alt='people')
+            #mur-pseudo.name
+              a(href='#') John Breakgrow jr.
+            ul.cover-nav
+              li.active
+                a(href='profile.html')
+                  i.fa.fa-fw.fa-bars
+                  |  Timeline
+              li
+                a(href='about.html')
+                  i.fa.fa-fw.fa-user
+                  |  About
+              li
+                a(href='friends.html')
+                  i.fa.fa-fw.fa-users
+                  |  Friends
+              li
+                a(href='photos1.html')
+                  i.fa.fa-fw.fa-image
+                  |  Photos
+    .row
+      .col-md-5
+        .widget
+          .widget-header
+            h3.widget-caption About
+          .widget-body.bordered-top.bordered-sky
+            ul.list-unstyled.profile-about.margin-none
+              li.padding-v-5
+                .row
+                  .col-sm-4
+                    span.text-muted Date of Birth
+                  #mur-age.col-sm-8 12 January 1990
+              li.padding-v-5
+                .row
+                  .col-sm-4
+                    span.text-muted Job
+                  .col-sm-8 Ninja developer
+              li.padding-v-5
+                .row
+                  .col-sm-4
+                    span.text-muted Genre
+                  .col-sm-8 Male
+              li.padding-v-5
+                .row
+                  .col-sm-4
+                    span.text-muted Lives in
+                  .col-sm-8 Miami, FL, USA
+              li.padding-v-5
+                .row
+                  .col-sm-4
+                    span.text-muted Credits
+                  .col-sm-8 249
+        .widget.widget-friends
+          .widget-header
+            h3.widget-caption Friends
+          .widget-body.bordered-top.bordered-sky
+            .row
+              .col-md-12
+                ul.img-grid(style='margin: 0 auto;')
+                  li
+                    a(href='#')
+                      img(src='img/Friends/guy-6.jpg' alt='image')
+                  li
+                    a(href='#')
+                      img(src='img/Friends/woman-3.jpg' alt='image')
+                  li
+                    a(href='#')
+                      img(src='img/Friends/guy-2.jpg' alt='image')
+                  li
+                    a(href='#')
+                      img(src='img/Friends/guy-9.jpg' alt='image')
+                  li
+                    a(href='#')
+                      img(src='img/Friends/woman-9.jpg' alt='image')
+                  li.clearfix
+                    a(href='#')
+                      img(src='img/Friends/guy-4.jpg' alt='image')
+                  li
+                    a(href='#')
+                      img(src='img/Friends/guy-1.jpg' alt='image')
+                  li
+                    a(href='#')
+                      img(src='img/Friends/woman-4.jpg' alt='image')
+                  li
+                    a(href='#')
+                      img(src='img/Friends/guy-6.jpg' alt='image')
+        .widget
+          .widget-header
+            h3.widget-caption Groups
+          .widget-body.bordered-top.bordered-sky
+            .card
+              .content
+                ul.list-unstyled.team-members
+                  li
+                    .row
+                      .col-xs-3
+                        .avatar
+                          img.img-circle.img-no-padding.img-responsive(src='img/Likes/likes-1.png' alt='Circle Image')
+                      .col-xs-6
+                        | Github
+                      .col-xs-3.text-right
+                        btn.btn.btn-sm.btn-azure.btn-icon
+                          i.fa.fa-user
+                  li
+                    .row
+                      .col-xs-3
+                        .avatar
+                          img.img-circle.img-no-padding.img-responsive(src='img/Likes/likes-3.png' alt='Circle Image')
+                      .col-xs-6
+                        | Css snippets
+                      .col-xs-3.text-right
+                        btn.btn.btn-sm.btn-azure.btn-icon
+                          i.fa.fa-user
+                  li
+                    .row
+                      .col-xs-3
+                        .avatar
+                          img.img-circle.img-no-padding.img-responsive(src='img/Likes/likes-2.png ' alt='Circle Image')
+                      .col-xs-6
+                        | Html Action
+                      .col-xs-3.text-right
+                        btn.btn.btn-sm.btn-azure.btn-icon
+                          i.fa.fa-user
+      // ============= timeline posts
+      .col-md-7
+        .row
+          // left posts
+          .col-md-12
+            .row
+              .col-md-12
+                // post state form
+                .box.profile-info.n-border-top
+                  form
+                    textarea.form-control.input-lg.p-text-area(rows='2' placeholder='Whats in your mind today?')
+                  .box-footer.box-form
+                    button.btn.btn-azure.pull-right(type='button') Post
+                    ul.nav.nav-pills
+                      li
+                        a(href='#')
+                          i.fa.fa-map-marker
+                      li
+                        a(href='#')
+                          i.fa.fa-camera
+                      li
+                        a(href='#')
+                          i.fa.fa-film
+                      li
+                        a(href='#')
+                          i.fa.fa-microphone
+                // end post state form
+                // posts
+                .box.box-widget
+                  .box-header.with-border
+                    .user-block
+                      img.img-circle(src='img/Friends/guy-3.jpg' alt='User Image')
+                      span.username
+                        a(href='#') John Breakgrow jr.
+                      span.description Shared publicly - 7:30 PM Today
+                  .box-body(style='display: block;')
+                    img.img-responsive.show-in-modal(src='img/Post/young-couple-in-love.jpg' alt='Photo')
+                    p I took this photo this morning. What do you guys think?
+                    button.btn.btn-default.btn-xs(type='button')
+                      i.fa.fa-share
+                      |  Share
+                    button.btn.btn-default.btn-xs(type='button')
+                      i.fa.fa-thumbs-o-up
+                      |  Like
+                    span.pull-right.text-muted 127 likes - 3 comments
+                  .box-footer.box-comments(style='display: block;')
+                    .box-comment
+                      img.img-circle.img-sm(src='img/Friends/guy-2.jpg' alt='User Image')
+                      .comment-text
+                        span.username
+                          | Maria Gonzales
+                          span.text-muted.pull-right 8:03 PM Today
+                        |                           It is a long established fact that a reader will be distracted
+                        |                           by the readable content of a page when looking at its layout.
+                    .box-comment
+                      img.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='User Image')
+                      .comment-text
+                        span.username
+                          | Luna Stark
+                          span.text-muted.pull-right 8:03 PM Today
+                        |                           It is a long established fact that a reader will be distracted
+                        |                           by the readable content of a page when looking at its layout.
+                  .box-footer(style='display: block;')
+                    form(action='#' method='post')
+                      img.img-responsive.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='Alt Text')
+                      .img-push
+                        input.form-control.input-sm(type='text' placeholder='Press enter to post comment')
+                // end posts
+                // post
+                .box.box-widget
+                  .box-header.with-border
+                    .user-block
+                      img.img-circle(src='img/Friends/guy-3.jpg' alt='User Image')
+                      span.username
+                        a(href='#') Jonathan Burke Jr.
+                      span.description Shared publicly - 7:30 PM Today
+                  .box-body
+                    p
+                      | Far far away, behind the word mountains, far from the
+                      | countries Vokalia and Consonantia, there live the blind
+                      | texts. Separated they live in Bookmarksgrove right at
+                    p
+                      | the coast of the Semantics, a large language ocean.
+                      | A small river named Duden flows by their place and supplies
+                      | it with the necessary regelialia. It is a paradisematic
+                      | country, in which roasted parts of sentences fly into
+                      | your mouth.
+                    .attachment-block.clearfix
+                      img.attachment-img.show-in-modal(src='img/Photos/2.jpg' alt='Attachment Image')
+                      .attachment-pushed
+                        h4.attachment-heading
+                          a(href='http://www.bootdey.com/') Lorem ipsum text generator
+                        .attachment-text
+                          | Description about the attachment can be placed here.
+                          | Lorem Ipsum is simply dummy text of the printing and typesetting industry... 
+                          a(href='#') more
+                    button.btn.btn-default.btn-xs(type='button')
+                      i.fa.fa-share
+                      |  Share
+                    button.btn.btn-default.btn-xs(type='button')
+                      i.fa.fa-thumbs-o-up
+                      |  Like
+                    span.pull-right.text-muted 45 likes - 2 comments
+                  .box-footer.box-comments
+                    .box-comment
+                      img.img-circle.img-sm(src='img/Friends/guy-5.jpg' alt='User Image')
+                      .comment-text
+                        span.username
+                          | Maria Gonzales
+                          span.text-muted.pull-right 8:03 PM Today
+                        |                           It is a long established fact that a reader will be distracted
+                        |                           by the readable content of a page when looking at its layout.
+                    .box-comment
+                      img.img-circle.img-sm(src='img/Friends/guy-6.jpg' alt='User Image')
+                      .comment-text
+                        span.username
+                          | Nora Havisham
+                          span.text-muted.pull-right 8:03 PM Today
+                        |                           The point of using Lorem Ipsum is that it has a more-or-less
+                        |                           normal distribution of letters, as opposed to using
+                        |                           &apos;Content here, content here&apos;, making it look like readable English.
+                  .box-footer
+                    form(action='#' method='post')
+                      img.img-responsive.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='Alt Text')
+                      .img-push
+                        input.form-control.input-sm(type='text' placeholder='Press enter to post comment')
+                // end post
+                // posts
+                .box.box-widget
+                  .box-header.with-border
+                    .user-block
+                      img.img-circle(src='img/Friends/guy-3.jpg' alt='User Image')
+                      span.username
+                        a(href='#') John Breakgrow jr.
+                      span.description Shared publicly - 7:30 PM Today
+                  .box-body(style='display: block;')
+                    p
+                      | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac iaculis ligula, eget efficitur nisi. In vel rutrum orci. Etiam ut orci volutpat, maximus quam vel, euismod orci. Nunc in urna non lectus malesuada aliquet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam dignissim mi ac metus consequat, a pharetra neque molestie. Maecenas condimentum lorem quis vulputate volutpat. Etiam sapien diam
+                    button.btn.btn-default.btn-xs(type='button')
+                      i.fa.fa-share
+                      |  Share
+                    button.btn.btn-default.btn-xs(type='button')
+                      i.fa.fa-thumbs-o-up
+                      |  Like
+                    span.pull-right.text-muted 127 likes - 3 comments
+                  .box-footer.box-comments(style='display: block;')
+                    .box-comment
+                      img.img-circle.img-sm(src='img/Friends/guy-2.jpg' alt='User Image')
+                      .comment-text
+                        span.username
+                          | Maria Gonzales
+                          span.text-muted.pull-right 8:03 PM Today
+                        |                           It is a long established fact that a reader will be distracted
+                        |                           by the readable content of a page when looking at its layout.
+                    .box-comment
+                      img.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='User Image')
+                      .comment-text
+                        span.username
+                          | Luna Stark
+                          span.text-muted.pull-right 8:03 PM Today
+                        |                           It is a long established fact that a reader will be distracted
+                        |                           by the readable content of a page when looking at its layout.
+                  .box-footer(style='display: block;')
+                    form(action='#' method='post')
+                      img.img-responsive.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='Alt Text')
+                      .img-push
+                        input.form-control.input-sm(type='text' placeholder='Press enter to post comment')
+                // end posts
+                // posts
+                .box.box-widget
+                  .box-header.with-border
+                    .user-block
+                      img.img-circle(src='img/Friends/guy-3.jpg' alt='User Image')
+                      span.username
+                        a(href='#') John Breakgrow jr.
+                      span.description Shared publicly - 7:30 PM Today
+                  .box-body(style='display: block;')
+                    img.img-responsive.pad.show-in-modal(src='img/Photos/3.jpg' alt='Photo')
+                    p I took this photo this morning. What do you guys think?
+                    button.btn.btn-default.btn-xs(type='button')
+                      i.fa.fa-share
+                      |  Share
+                    button.btn.btn-default.btn-xs(type='button')
+                      i.fa.fa-thumbs-o-up
+                      |  Like
+                    span.pull-right.text-muted 127 likes - 3 comments
+                  .box-footer.box-comments(style='display: block;')
+                    .box-comment
+                      img.img-circle.img-sm(src='img/Friends/guy-2.jpg' alt='User Image')
+                      .comment-text
+                        span.username
+                          | Maria Gonzales
+                          span.text-muted.pull-right 8:03 PM Today
+                        |                           It is a long established fact that a reader will be distracted
+                        |                           by the readable content of a page when looking at its layout.
+                    .box-comment
+                      img.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='User Image')
+                      .comment-text
+                        span.username
+                          | Luna Stark
+                          span.text-muted.pull-right 8:03 PM Today
+                        |                           It is a long established fact that a reader will be distracted
+                        |                           by the readable content of a page when looking at its layout.
+                  .box-footer(style='display: block;')
+                    form(action='#' method='post')
+                      img.img-responsive.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='Alt Text')
+                      .img-push
+                        input.form-control.input-sm(type='text' placeholder='Press enter to post comment')
+                // end posts
+          // end left posts
+      // end timeline posts
+// Online users sidebar content
+.chat-sidebar.focus
+  .list-group.text-left
+    p.text-center.visible-xs
+      a.hide-chat.btn.btn-success(href='#') Hide
+    p.text-center.chat-title Online users
+    a.list-group-item(href='messages1.html')
+      i.fa.fa-check-circle.connected-status
+      img.img-chat.img-thumbnail(src='img/Friends/guy-2.jpg')
+      span.chat-user-name Jeferh Smith
+    a.list-group-item(href='messages1.html')
+      i.fa.fa-times-circle.absent-status
+      img.img-chat.img-thumbnail(src='img/Friends/woman-1.jpg')
+      span.chat-user-name Dapibus acatar
+    a.list-group-item(href='messages1.html')
+      i.fa.fa-check-circle.connected-status
+      img.img-chat.img-thumbnail(src='img/Friends/guy-3.jpg')
+      span.chat-user-name Antony andrew lobghi
+    a.list-group-item(href='messages1.html')
+      i.fa.fa-check-circle.connected-status
+      img.img-chat.img-thumbnail(src='img/Friends/woman-2.jpg')
+      span.chat-user-name Maria fernanda coronel
+    a.list-group-item(href='messages1.html')
+      i.fa.fa-check-circle.connected-status
+      img.img-chat.img-thumbnail(src='img/Friends/guy-4.jpg')
+      span.chat-user-name Markton contz
+    a.list-group-item(href='messages1.html')
+      i.fa.fa-times-circle.absent-status
+      img.img-chat.img-thumbnail(src='img/Friends/woman-3.jpg')
+      span.chat-user-name Martha creaw
+    a.list-group-item(href='messages1.html')
+      i.fa.fa-times-circle.absent-status
+      img.img-chat.img-thumbnail(src='img/Friends/woman-8.jpg')
+      span.chat-user-name Yira Cartmen
+    a.list-group-item(href='messages1.html')
+      i.fa.fa-check-circle.connected-status
+      img.img-chat.img-thumbnail(src='img/Friends/woman-4.jpg')
+      span.chat-user-name Jhoanath matew
+    a.list-group-item(href='messages1.html')
+      i.fa.fa-check-circle.connected-status
+      img.img-chat.img-thumbnail(src='img/Friends/woman-5.jpg')
+      span.chat-user-name Ryanah Haywofd
+    a.list-group-item(href='messages1.html')
+      i.fa.fa-check-circle.connected-status
+      img.img-chat.img-thumbnail(src='img/Friends/woman-9.jpg')
+      span.chat-user-name Linda palma
+    a.list-group-item(href='messages1.html')
+      i.fa.fa-check-circle.connected-status
+      img.img-chat.img-thumbnail(src='img/Friends/woman-10.jpg')
+      span.chat-user-name Andrea ramos
+    a.list-group-item(href='messages1.html')
+      i.fa.fa-check-circle.connected-status
+      img.img-chat.img-thumbnail(src='img/Friends/child-1.jpg')
+      span.chat-user-name Dora ty bluekl
+// Online users sidebar content
+// Modal
+#modalShow.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        button.close(type='button' data-dismiss='modal' aria-label='Close')
+          span(aria-hidden='true') &times;
+        h4#myModalLabel.modal-title Modal title
+      .modal-body.text-centers
+        | ...
+      .modal-footer
+        button.btn.btn-default(type='button' data-dismiss='modal') Close
+// *************************************************************************
 // Fenêtre Modale A propos
 // *************************************************************************
 #idAbout.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalAboutTitlePa' aria-hidden='true')
@@ -1001,12 +1445,12 @@ nav.navbar.navbar-white.navbar-fixed-top
   .modal-dialog.modal-dialog-centered(role='document')
     #idModalContent.modal-content
       #idModalBodyText.modal-header
-        h5#idModalTitle.modal-title Bienvenue dans Adopte un Ma&icirc;tre
+        h5#idModalTitle.modal-title Bienvenue dans Adopte un Ma&icirc;tre...
         button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
       .modal-body
         img.mb-4.mx-auto.d-block(src='static/images/favicon.png' alt='Logo du site adopte un maitre' width='auto' height='72')
       .modal-footer
-        button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
+        button#ferme-felicitation.btn.btn-azure(type='button' data-dismiss='modal') Fermer
 // *************************************************************************
 // Fenêtre Modale global
 // *************************************************************************
@@ -1027,7 +1471,9 @@ nav.navbar.navbar-white.navbar-fixed-top
 footer.footer
   .container
     p.text-muted
-      | 200 messages &eacute;chang&eacute;s
+      strong Messages publi&eacute;s :&nbsp;
+      span(id='nb-messages-publiés')
       span.btn.btn-default.btn-circle.btn-xs
         i.glyphicon.glyphicon-ok
-      | 12 connect&eacute;s
+      strong Membres connect&eacute;s :&nbsp;
+      span#nb-membres-connectes

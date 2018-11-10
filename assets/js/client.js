@@ -16,7 +16,8 @@ window.addEventListener('DOMContentLoaded', function() {
  //**********************************/
     var blockFormulaire =  window.document.getElementById('formulaire'); 
     var deconnexion = window.document.getElementById('deconnexion');
-
+    var nbMembresConnectes = window.document.getElementById('nb-membres-connectes');
+    var pseudoNav = window.document.getElementById('pseudo-nav');
     // elements formulaire de changement de mots de passe 
     var blockChangeMp =  window.document.getElementById('change-mp');
     var formChangeMp =  window.document.getElementById('form-change-mp');
@@ -58,18 +59,51 @@ window.addEventListener('DOMContentLoaded', function() {
  //**********************************/
  // elements single page profile 
  //**********************************/
-   // Eléments de la page profile de connexion
    
-    var pseudoProfil = window.document.getElementById('pseudo-profil');
+ //   var pseudoProfil = window.document.getElementById('pseudo-profil');
  
- //**********************************/
+ //*****************************************/
  // elements single page profile inscription
- //**********************************/   
+ //*****************************************/   
    // Eléments de la page profile inscription 
-    var blockProfilMembre =  window.document.getElementById('profile-membre');  
+   var blockProfilMembre =  window.document.getElementById('profile-membre');
+   var formProfilInscription = window.document.getElementById('form-profil-inscription');
+   var pseudoProfil = window.document.getElementById('pseudo-profil');
+   var emailProfil = window.document.getElementById('email-profil');
+   var photoImageProfil = window.document.getElementById('photo-profil');
+   // variables entrees du formulaires   
+   var nomProfil =  window.document.getElementById('nom-profil');
+   var prenomProfil =  window.document.getElementById('prenom-profil'); 
+   var genreProfil =  window.document.getElementById('genre-profil');
+   var ageProfil = window.document.getElementById('age-profil');
+   var telephoneProfil = window.document.getElementById('telephone-profil');
+   var adresseProfil = window.document.getElementById('adresse-profil');
+   var cpProfil = window.document.getElementById('cp-profil');
+   var villeProfil = window.document.getElementById('ville-profil');
+   var paysProfil = window.document.getElementById('pays-profil');
+   var profilProfil = window.document.getElementById('profil-profil');
+   var preferenceProfil = window.document.getElementById('preference-profil');
+   var messageErrProfilInscrit = window.document.getElementById('idProfilMpAlertMsg');
+
+ //   var pseudoProfil = window.document.getElementById('pseudo-profil');
+ 
+ //*****************************************/
+ // elements single page mur de profile 
+ //*****************************************/   
+   // Eléments de la page mur de profile
+   var blockMurProfile =  window.document.getElementById('mur-profile');  
+   var murPseudo = window.document.getElementById('mur-pseudo');
+   var murEmail = window.document.getElementById('mur-email');
+   var murPhotoProfil = window.document.getElementById('mur-photo-profile');
+   // variables entrees du formulaires   
+  
+
+   
+
+
  
  //   var pseudoDeProfil = window.document.getElementById('pseudoprofil');
-    var emailDeProfil = window.document.getElementById('email-profil');
+
 
     var objetDuMembre = {};
     var objetDuVisiteur = {};
@@ -164,6 +198,14 @@ window.addEventListener('DOMContentLoaded', function() {
        
     });
 
+//************************************************************************************************
+// Réception du nombre de membres connectés en temps réel
+//************************************************************************************************
+    websocketConnection.on('nbMembresConnect', function(population) {
+        console.log('nbMembresConnectes',population.nbrMembers);
+        nbMembresConnectes.innerHTML = population.nbrMembers;       
+    });
+
 //************************************************************************************************************
 // **********************                        PARTIE 1                               ********************** 
 // **********************           ****************  **************                    **********************
@@ -182,13 +224,13 @@ window.addEventListener('DOMContentLoaded', function() {
 
     formConnect.addEventListener('submit', function (event) {
         event.preventDefault();
-        colorInput();
-        var objetDuMembre =                                     // Mise en forme pour transmission au serveur des données saisies
+    
+         objetDuVisiteur =                                     // Mise en forme pour transmission au serveur des données saisies
             {
                 pseudo :    pseudoConnect.value ,
                 motDePasse : mpConnect.value 
             }
-        websocketConnection.emit('controleConnection', objetDuMembre);  // Transmission au serveur des infos saisies
+        websocketConnection.emit('controleConnection', objetDuVisiteur);  // Transmission au serveur des infos saisies
 
         pseudoConnect.value = ''                                 // RAZ des données de login saisies
         mpConnect.value = ''
@@ -197,11 +239,21 @@ window.addEventListener('DOMContentLoaded', function() {
 //************************************************************************************************************
 // message au visiteur qui se connecte que le pseudo saisie n'existe pas
 //***********************************************************************************************************
-    websocketConnection.on('messageConnection', function(message,pObjetMembre) { 
+    websocketConnection.on('messageNoConnection', function(message,pObjetMembre) { 
         pseudoConnect.value; 
         mpConnect.value = ''; 
         messageConnection.style.display= 'block';        
         setTimeout(function(){ messageConnection.style.display= 'none';},9000);      
+    });
+
+
+//************************************************************************************************************
+// message au visiteur qui se connecte qu'il a déjà ouvert une session 
+//***********************************************************************************************************
+    websocketConnection.on('membreDejaConnecte', function(data) { 
+        pseudoConnect.value; 
+        mpConnect.value = ''; 
+        alert('Vous ne pouvez pas vous connecter car vous avez déjà ouvert une session');    
     });
 
 // ***********************************************************************************************************
@@ -229,8 +281,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // A l'évènement submit on envoi au serveur les données du formulaire de recuperation de mot de passe
 // ***********************************************************************************************************
     formRecupMp.addEventListener('submit', function (event) { 
-        event.preventDefault();  
-        colorInput();    
+        event.preventDefault();        
         var email =  mailRecupMp.value;      // Mise en forme pour transmission au serveur des données saisies
         console.log("email pour recup mot de passe",email);   
         websocketConnection.emit('envoieEmailRecupMp', email);  // Transmission au serveur des infos saisies
@@ -238,7 +289,7 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
 // ***********************************************************************************************************
-// click sur la croix de fermetture  recup mot de passe le membre recoit ferme la fenetre de recuperation de mot de passe
+// click sur la croix de fermeture  recup mot de passe le membre recoit ferme la fenetre de recuperation de mot de passe
 // ***********************************************************************************************************    
     fermeMp.addEventListener('click', function (event) { 
         console.log('ferme fenetre recuperation de mot de passe');   
@@ -247,7 +298,7 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
 // ***********************************************************************************************************
-// click sur la croix de fermetture  change mot de passe le membre recoit ferme la fenetre de changement de mot de passe
+// click sur la croix de fermeture  change mot de passe le membre recoit ferme la fenetre de changement de mot de passe
 // ***********************************************************************************************************    
     fermeMpChange.addEventListener('click', function (event) { 
         console.log('ferme fenetre changement de mot de passe');   
@@ -284,7 +335,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // *********************************************************************************************************** 
     formChangeMp.addEventListener('submit', function (event) { 
         event.preventDefault();  
-        colorInput();  
+       
         objetDuMembre.mpProvisoire =  changeMpRecup.value;
         objetDuMembre.mp1Recup =      changeMp1.value;
         objetDuMembre.mp2Recup =      changeMp2.value;
@@ -305,8 +356,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // A l'évènement submit on envoi au serveur les données du formulaire d'inscription
 // ***********************************************************************************************************
     formInscription.addEventListener('submit', function (event) { 
-        event.preventDefault();  
-        colorInput();      
+        event.preventDefault(); 
         var objetDuVisiteur =                                     // Mise en forme pour transmission au serveur des données saisies
         {
             pseudoInscription : pseudoInscription.value,
@@ -326,7 +376,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // message au visiteur que l'adrese mail saisie existe déjà
 // ***********************************************************************************************************
-    websocketConnection.on('messageInscription', function(message) { 
+    websocketConnection.on('messageNoInscription', function(message) { 
         console.log('message reçu adresse mail existe déjà',message);
         var messageMailExiste = message.message; 
         mp1Inscription.value = ''; 
@@ -335,7 +385,7 @@ window.addEventListener('DOMContentLoaded', function() {
         messageInscription.style.display= 'block'; 
         setTimeout(function(){ messageInscription.style.display= 'none';},9000);         
     });
-     
+    
 // ***********************************************************************************************************
 // message au visiteur qui se connecte error
 // ***********************************************************************************************************
@@ -364,11 +414,14 @@ window.addEventListener('DOMContentLoaded', function() {
 // Le visiteur a créé son compte avec succès et est donc reconnu comme membre
 // Message d'accueil et de b=Bienvenue
 //***********************************************************************************************************
-    websocketConnection.on('felicitationMembre', function() { 
-        console.log('Congratulations ');
+    websocketConnection.on('felicitationMembre', function(documents) {        
+        objetDuMembre = documents;
+        console.log('Congratulations objetDuMembre', objetDuMembre);
         initModalWelcomeText(vModalTitle, vModalBodyText);
         $('#idFelicitation').modal('toggle');                                    // ouverture de la fenêtre modale de Félicitations
     });    
+
+
 
 
 //************************************************************************************************************
@@ -399,21 +452,26 @@ window.addEventListener('DOMContentLoaded', function() {
     deconnexion.style.color = '#212529';           //      Activation du bouton 'Déconnexion'  
  });
 
+
 // ***********************************************************************************************************
 // Le client reçoit toutes les données personnelles du membre connecté
 // ***********************************************************************************************************
  websocketConnection.on('profileConnect', function(documents) {
+     window.scrollTo(0,0);                           // affichage page haut de page 
+     objetDuMembre = documents;
      console.log('objetDuMembre profile connexion', objetDuMembre);
      blockFormulaire.style.display = 'none'; 
+     blockProfilMembre.style.display = 'none'; 
      console.log('blockFormulaire.style.display', blockFormulaire.style.display);
-     blockProfilMembre.style.display = 'block'; 
-     console.log('blockProfilMembre.style.display',blockProfilMembre.style.display);
-     console.log('documents',documents);
+     blockMurProfile.style.display = 'block';
+     
+       console.log('documents',documents);
  //    documents.forEach(function(infoMembre) {
-     var photoImage = ' <img margin ="auto" src="' +documents.photoInscription+'"alt="photo" title="photo de profil">'; 
+     murPhotoProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">';
     
-     pseudoProfil.innerHTML = documents.pseudo; 
-     emailDeProfil.innerHTML = documents.email;  
+    murPseudo.innerHTML = documents.pseudo; 
+    murEmail.innerHTML = documents.email; 
+  //   nomProfil.innerHTML = documents.nom; 
  //    pseudoDeProfil.innerHTML = documents.pseudo;  
  //    console.log("pseudoDeProfil.innerHTML",pseudoDeProfil.innerHTML); 
         
@@ -424,25 +482,68 @@ window.addEventListener('DOMContentLoaded', function() {
 // Le client reçoit toutes les données personnelles du membre inscrit
 // ***********************************************************************************************************
  websocketConnection.on('profileInscription', function(documents) {
-     objetDuMembre = documents;
-     console.log('objetDuMembre profile inscription', objetDuMembre);
-     blockFormulaire.style.display = 'none'; 
-     console.log('blockFormulaire.style.display', blockFormulaire.style.display);
-     blockProfilMembre.style.display = 'block'; 
-     console.log('blockProfilMembre.style.display',blockProfilMembre.style.display);
-     console.log(' inscription documents',documents);
-     console.log("documents.pseudoInscription", documents.pseudoInscription);
+    window.scrollTo(0,0);          // affichage page haut de page 
+    objetDuMembre = documents;
+   // affichage du pseudo dans le menu de navigation
+    pseudoNav.innerHTML = documents.pseudo;
+
+    console.log('objetDuMembre profile inscription', objetDuMembre);
+    blockFormulaire.style.display = 'none'; 
+    console.log('blockFormulaire.style.display', blockFormulaire.style.display);
+    blockProfilMembre.style.display = 'block'; 
+    console.log('blockProfilMembre.style.display',blockProfilMembre.style.display);
+    console.log(' inscription documents',documents);
+    console.log("documents.pseudoInscription", documents.pseudoInscription);
  //    documents.forEach(function(infoMembre) {
-     var photoImage = ' <img margin ="auto" src="' +documents.photoInscription+'"alt="photo" title="photo de profil">'; 
+    photoImageProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">'; 
    //      photoProfil.innerHTML = photoImage; 
-         pseudoProfil.innerHTML = documents.pseudo;  
+    pseudoProfil.innerHTML = documents.pseudo;  
    //      pseudoDeProfil.innerHTML = documents.pseudoInscription; 
-         emailDeProfil.innerHTML = documents.email;    
+    emailProfil.innerHTML = documents.email;    
     //     console.log("pseudoDeProfil.innerHTML",pseudoDeProfil.innerHTML); 
-         console.log("emailDeProfil.innerHTML",emailDeProfil.innerHTML); 
+    console.log("emailProfil.innerHTML",emailProfil.innerHTML); 
    //      console.log("photoProfil.innerHTML",photoProfil.innerHTML); 
 //      });
+   
  });   
+
+// ***********************************************************************************************************
+// Formulaire suite inscription profile du memmbre 
+// A l'évènement submit on envoi au serveur les données du formulaire d'inscription
+// ***********************************************************************************************************
+formProfilInscription.addEventListener('submit', function (event) { 
+    event.preventDefault(); 
+    window.scrollTo(0,0);  
+     
+  //   Mise en forme pour transmission au serveur des données saisies    
+        
+    objetDuMembre.nom         =   nomProfil.value;
+    objetDuMembre.prenom      =   prenomProfil.value;
+    objetDuMembre.genre       =   genreProfil.value;
+    objetDuMembre.age         =   ageProfil.value;
+    objetDuMembre.telephone   =   telephoneProfil.value;  
+    objetDuMembre.adresse     =   adresseProfil.value;
+    objetDuMembre.cp          =   cpProfil.value;
+    objetDuMembre.ville       =   villeProfil.value;
+    objetDuMembre.pays        =   paysProfil.value;
+    objetDuMembre.profil      =   profilProfil.value;
+    objetDuMembre.preference  =   preferenceProfil.value;
+     
+    console.log("objetDuMembre avant envoie au serveur web",objetDuMembre);
+   
+    websocketConnection.emit('controleProfileInscription', objetDuMembre);  // Transmission au serveur des infos saisies
+       
+});
+
+// ***********************************************************************************************************
+// message erreur formulaire profile inscription
+// ***********************************************************************************************************
+websocketConnection.on('messageErrorProfilInscription', function(message) { 
+    console.log('message reçu veuillez renseigner tous les champs',message);   
+    messageErrProfilInscrit.innerHTML = message.message; 
+    messageErrProfilInscrit.style.display= 'block'; 
+    setTimeout(function(){ messageErrProfilInscrit.style.display= 'none';},9000);         
+});
 
 
 

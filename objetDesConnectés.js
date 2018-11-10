@@ -117,7 +117,7 @@ pObjectPopulation.vMembers[this.objectMember.id] = this.objectMember;  // On ajo
         }).indexOf(pWebSocketConnection.id);
         let objectFound = this.objectPopulation.members[myIndex];
 
-        if (this.objectPopulation.members[myIndex].isMember){                                     // Le visiteur qui se deconnecte était un membre
+        if (this.objectPopulation.members[myIndex].isMember){                           // Le visiteur qui se deconnecte était un membre
             this.objectPopulation.nbrMembersInSession--;                               // Nombre de visiteurs incluant les [membres + Admins]
         }    
         this.objectPopulation.members.splice(myIndex, 1);
