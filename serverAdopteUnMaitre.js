@@ -29,7 +29,7 @@ vDBMgr.checkDBConnect()
     .then(result => {
         vMemberServer = new MemberServer(vDBMgr);    // Instanciation de l'objet decrivant l'ensemble des membres et les méthodes de gestion de ces membres
         vMemberServer.initNbrPublicMsgs();           // Mise en mémoire du Nbre de messages publics stockés en BDD
-    });
+    // });
 
 
 
@@ -104,7 +104,7 @@ socketIo.on('connection', function(webSocketConnection) {        // Une connexio
     
           
 
- //   vMemberServer.initVisiteur(webSocketConnection, socketIo);  //  initialisation 
+    vMemberServer.initVisiteur(webSocketConnection, socketIo);  //  initialisation 
     vMemberServer.connexionVisiteur(webSocketConnection, socketIo); 
 
 //************************************************************************************************************  
@@ -166,3 +166,5 @@ socketIo.on('connection', function(webSocketConnection) {        // Une connexio
     });
 
 });   //  Fin de la partie "Connexion" 
+
+    });

@@ -391,7 +391,11 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
             this.membre = objetMembreLocal;
             console.log("ajout d'/ un membre dans la BDD - 1 membre inséré : ", this.membre);  
             
+console.log('addMembreInBDD - 000 - pWebSocketConnection.id : ',pWebSocketConnection.id)
             let myIndex = this.searchMemberInTableOfMembers('idMember', pWebSocketConnection.id);  // On ajoute le membre nouvellement créé dans la table des memnbres actifs
+console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnection.id : ',pWebSocketConnection.id)
+
+
             this.addMemberToActiveMembers(myIndex, pSocketIo)
                 let messageToSend = {
                     to       :  objetMembreLocal.email,
