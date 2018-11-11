@@ -16,7 +16,7 @@ const DBMgr = require('./db');
 const express =  require('express');
 var app = express();
 const SocketIo = require('socket.io');
-const MemberServer = require('./MemberMgr');
+const MemberServer = require('./memberMgr');
 
 let vMemberServer;  // Instaciation de l'objet "Members" qui gère toutes lesz fonctions liées aux membres dans l'Objet membres
 
