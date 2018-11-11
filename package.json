@@ -1,7 +1,7 @@
 {
   "name": "adopteunmaitre",
   "version": "1.0.0",
-  "description": "projet final reseau social",
+  "description": "projet final reseau social adopte un maitre",
   "main": "serverAdopteUnMaitre.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
