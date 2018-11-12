@@ -111,7 +111,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             li
               a#deconnexion.disabled(href='/') D&eacute;connexion
             li
-              a(href='profile3.html') Admnistrateur
+              a#administrateur.disabled(href='profile3.html') Admnistrateur
 .wrapper
 // *************************************************************************
 // Formulaire
@@ -870,7 +870,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                                 option(value='AC')
                                   | Adopte un chat
                                 option(value='NSP' selected='')
-                                  | Ne sait pas encore
+                                  | Ne sais pas encore
                               br
                         .form-group
                           label.col-md-4.control-label Pr&eacute;f&eacute;rence
@@ -1082,22 +1082,22 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                 .row
                   .col-sm-4
                     span.text-muted Age
-                  #mur-age.col-sm-8 12 January 1990
+                  #mur-age.col-sm-8
               li.padding-v-5
                 .row
                   .col-sm-4
-                    span.text-muted Job
-                  .col-sm-8 Ninja developer
+                    span.text-muted Profile
+                  #mur-profil.col-sm-8
               li.padding-v-5
                 .row
                   .col-sm-4
                     span.text-muted Genre
-                  .col-sm-8 Male
+                  #mur-genre.col-sm-8
               li.padding-v-5
                 .row
                   .col-sm-4
-                    span.text-muted Lives in
-                  .col-sm-8 Miami, FL, USA
+                    span.text-muted Habite
+                  #mur-ville.col-sm-8
               li.padding-v-5
                 .row
                   .col-sm-4

@@ -585,6 +585,11 @@ a.disabled {
     color: darkgrey;
 }
 
+
+#administrateur{
+    color: darkgrey;
+}
+
 #image-apropos {
     height: 120px;
 }

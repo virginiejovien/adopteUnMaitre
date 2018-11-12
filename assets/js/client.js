@@ -17,6 +17,7 @@ window.addEventListener('DOMContentLoaded', function() {
 //**********************************/
     var blockFormulaire =  window.document.getElementById('formulaire'); 
     var deconnexion = window.document.getElementById('deconnexion');
+    var administrateur = window.document.getElementById('administrateur');
     var nbMembresConnectes = window.document.getElementById('nb-membres-connectes');
     var nbMessagesPublic = window.document.getElementById('nb-messages-publies');
     var nbVisiteursConnectes = window.document.getElementById('nb-visiteurs-connectes');
@@ -99,6 +100,10 @@ window.addEventListener('DOMContentLoaded', function() {
    var idProfileChange =  window.document.getElementById('idProfileChange');  
    var murPseudo = window.document.getElementById('mur-pseudo');
    var murEmail = window.document.getElementById('mur-email');
+   var murAge = window.document.getElementById('mur-age');
+   var murGenre = window.document.getElementById('mur-genre');
+   var murProfil = window.document.getElementById('mur-profil');
+   var murVille = window.document.getElementById('mur-ville');
    var murPhotoProfil = window.document.getElementById('mur-photo-profile');
    // variables entrees du formulaires   
   
@@ -312,7 +317,7 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
 // ***********************************************************************************************************
-// click sur mot de passe "oublié" le membre recoit une fenettre pour recuperer son mot de passe
+// click sur mot de passe "oublié" le membre recoit une fenetre pour recuperer son mot de passe
 // ***********************************************************************************************************
     oublie.addEventListener('click', function (event) { 
         console.log('mot de passe oublié');   
@@ -344,9 +349,20 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
 // ***********************************************************************************************************
-// click sur la croix de fermeture  change mot de passe le membre recoit ferme la fenetre de changement de mot de passe
+// click sur la croix de fermeture  recup mot de passe le membre recoit ferme la fenetre de recuperation de mot de passe
 // ***********************************************************************************************************    
-    fermeMpChange.addEventListener('click', function (event) { 
+    fermeMp.addEventListener('click', function (event) { 
+       console.log('ferme fenetre recuperation de mot de passe');   
+       blockFormulaire.style.display = 'block'; 
+       footerActivite.style.display = 'none';                        
+       blockOublie.style.display = 'none';               
+    });
+    
+// ***********************************************************************************************************
+// Reception changement de mot de passe ok le membre recoit ferme la fenetre de changement de mot de passe
+// - renvoie le formulaire de connexion
+// ***********************************************************************************************************    
+    websocketConnection.on('sendFormulaireConnexion', function (data) { 
         console.log('ferme fenetre changement de mot de passe');   
         blockFormulaire.style.display = 'block'; 
         footerActivite.style.display = 'none';                      
@@ -484,14 +500,10 @@ window.addEventListener('DOMContentLoaded', function() {
 
 // ***********************************************************************************************************
 // LE CONNECTE EST UN MEMBRE A PRESENT ON LE REDIRIGE VERS SON PROFILE
-// ==> Désactivation du bouton "Connexion"
-// ==> Désactivation du bouton "Créer un compte"
-// ==> Activation du bouton "Deconnexion"
 // *********************************************************************************************************** 
 
 // *********************************************************************************************************** 
 // Le visiteur s'est loggé avec succès et est donc reconnu comme membre
-// ==> Désactivation du vbouton "Connexion"
 // ==> Activation du bouton "Deconnexion"
 // *********************************************************************************************************** 
    websocketConnection.on('disableConnectBtn', function() {
@@ -499,6 +511,13 @@ window.addEventListener('DOMContentLoaded', function() {
     deconnexion.style.color = '#212529';           //      Activation du bouton 'Déconnexion'  
  });
 
+// ***********************************************************************************************************
+// ==> Activation du bouton "Administrateur si statut du membre = 1 ou 2
+// *********************************************************************************************************** 
+websocketConnection.on('disableAdministrateurBtn', function() {
+    administrateur.setAttribute('class','dropdown-item');
+    administrateur.style.color = '#212529';           //      Activation du bouton 'administrateur'  
+ });
 
 // ***********************************************************************************************************
 // Le client reçoit toutes les données personnelles du membre connecté
@@ -516,8 +535,41 @@ window.addEventListener('DOMContentLoaded', function() {
  
 // affichage des donnees de la page du mur de profile du membre
     murPhotoProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">';    
-    murPseudo.innerHTML = objetDuMembre.pseudo; 
-    murEmail.innerHTML = objetDuMembre.email; 
+    murPseudo.innerHTML = objetDuMembre.pseudo;
+    murVille.innerHTML = objetDuMembre.ville; 
+    switch(objetDuMembre.genre) {
+        case 'F':                                           
+        murGenre.innerHTML = 'Femme';  
+        break;
+        case 'H':                        
+        murGenre.innerHTML = 'Homme';  
+        break;
+        case '':      
+        murGenre.innerHTML = 'Non renseigné';        
+        break;
+    };
+  
+console.log(objetDuMembre.profil);
+switch(objetDuMembre.profil) {
+    case 'AM':                                           
+    murProfil.innerHTML = 'Adopte un maître';  
+    break;
+    case 'AC':                        
+    murProfil.innerHTML = 'Adopte un chat';  
+    break;
+    case 'NSP':      
+    murProfil.innerHTML = 'Ne sais pas encore'; 
+    case '':
+    murProfil.innerHTML = 'Non renseigné'; 
+    break;
+};
+   
+   
+    if (objetDuMembre.age){
+       murAge.innerHTML = objetDuMembre.age + ' ans';
+    } 
+    murEmail.innerHTML = objetDuMembre.email;  
+
 // affichage des donnees de la page d'inscription du prifile du membre    
    photoImageProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">';
    pseudoProfil.innerHTML = objetDuMembre.pseudo;  

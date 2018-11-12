@@ -257,7 +257,12 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
                     this.addMemberToActiveMembers(myIndex, pSocketIo);           // Le visiteur est bien un membre, on l'ajoute à la liste des membres
                     console.log("pSocketIo",pSocketIo);   
                     pWebSocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
-                    pWebSocketConnection.emit('profileConnect', this.membre); // On envoie au client les données de profil du membre     
+                    pWebSocketConnection.emit('profileConnect', this.membre); // On envoie au client les données de profil du membre  
+                  if (this.membre.statut !== '0')  {
+                    console.log("this.membre.statut",this.membre.statut);
+                    pWebSocketConnection.emit('disableAdministrateurBtn'); // on envoie au client activation bouton administrateur car le membre est un administrateur
+                  }
+
                     resolve('Membre loggé');
                 });
         });
@@ -423,6 +428,10 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
             sgMail.send(messageToSend);  // envoie du mail d'inscripotion             
         
             pWebSocketConnection.emit('disableConnectBtn');                 // on envoie au client activation bouton deconnexion 
+            if (this.membre.statut !== '0')  {
+                console.log("this.membre.statut",this.membre.statut);
+                pWebSocketConnection.emit('disableAdministrateurBtn'); // on envoie au client activation bouton administrateur car le membre est un administrateur
+            }
             pWebSocketConnection.emit('profileInscription', this.membre); // On envoie au client ses données de profil 
             pWebSocketConnection.emit('felicitationMembre',this.membre);  // on envoie une demande de félicitation
                 
@@ -555,9 +564,9 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                                 '</p><br /><br /><br /><i>Adopte un Maitre Team</i>',
                         }
                     sgMail.send(messageToSend);  // envoie du mail de prise en compte du nouveau mot de passe
-                    pWebSocketConnection.emit('mailSendInfoChangeMp',this.membre);                 
-                    pWebSocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
-                    pWebSocketConnection.emit('profileConnect', this.membre); // On envoie au client les données de profil du membre                         
+                    pWebSocketConnection.emit('mailSendInfoChangeMp',this.membre);               
+                
+                    pWebSocketConnection.emit('sendFormulaireConnexion', this.membre); // On envoie au client les données de profil du membre                         
             });  
         });
     };
