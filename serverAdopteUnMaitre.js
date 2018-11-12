@@ -123,9 +123,11 @@ socketIo.on('connection', function(webSocketConnection) {        // Une connexio
     }); 
  
 //************************************************************************************************************  
-// Gestion et controle du formulaire d'inscription Profile 
+// Gestion du mur de profile
 //************************************************************************************************************ 
-   
+   // Reception de la demande de recuperer les donnees du membre dans la collection membres de BDD
+   // Envoie par la suite le formulaire d'inscription profile
+ 
 //************************************************************************************************************  
 // Gestion et controle du formulaire d'inscription Profile 
 //************************************************************************************************************

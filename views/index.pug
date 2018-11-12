@@ -246,7 +246,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
       // NAV TABS
       ul#nav-profil.nav.nav-tabs.nav-tabs-custom-colored.tabs-iconized
         li.active
-          a(href='#profile-tab' data-toggle='tab' aria-expanded='true')
+          a#idProfileMur(href='#' data-toggle='tab' aria-expanded='true')
             i.fa.fa-user
             |  Profile
         li
@@ -333,7 +333,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Adresse
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#adresse-profil.form-control.control-groupe(type='text' name='adresse' maxlength='30' size='30' placeholder='Numero et nom de rue ' required='' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                              input#adresse-profil.form-control.control-groupe(type='text' name='adresse' maxlength='30' size='30' required='' placeholder='Numero et nom de rue ' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
                               i.fa.fa-home.darkorange
                               br
                         br
@@ -342,7 +342,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Code Postal
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#cp-profil.form-control.control-groupe(type='number' name='cp' maxlength='5' size='5' required='' placeholder='Ex: 75011' pattern='[0-9]{5}' title='Les caractères doivent être numériques et la longueur doit être de 5 caractères')
+                              input#cp-profil.form-control.control-groupe(type='number' name='cp' maxlength='5' size='5' placeholder='Ex: 75011' required='' pattern='[0-9]{5}' title='Les caractères doivent être numériques et la longueur doit être de 5 caractères')
                               i.fa.fa-home.darkorange
                               br
                         br
@@ -1053,20 +1053,20 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             .avatar
               img#mur-photo-profile(src='static/images/default-avatar.png' alt='people')
             #mur-pseudo.name
-              a(href='#') John Breakgrow jr.
+              a(href='#')
             ul.cover-nav
-              li.active
-                a(href='profile.html')
+              li
+                a#idProfileChange(href='#')
                   i.fa.fa-fw.fa-bars
-                  |  Timeline
+                  | Changer son profile
               li
                 a(href='about.html')
                   i.fa.fa-fw.fa-user
-                  |  About
+                  |  A propos
               li
                 a(href='friends.html')
                   i.fa.fa-fw.fa-users
-                  |  Friends
+                  |  Amis
               li
                 a(href='photos1.html')
                   i.fa.fa-fw.fa-image
@@ -1504,6 +1504,22 @@ nav#top.navbar.navbar-white.navbar-fixed-top
 // FOOTER PAGE INDEX
 // *************************************************************************
 footer.footer
+  // *************************  Activité **********************************************************
+  #footer-activite.activite
+    .row
+      .col-md-4.col-sm-4.col-xs-12
+        i.fa.fa-comments.darkgreen &nbsp;
+        strong Messages publi&eacute;s :&nbsp;
+        span#nbr-messages-publies
+      .col-md-4.col-sm-4.col-xs-12
+        i.fa.fa-users.darkgreen &nbsp;
+        strong Membres connect&eacute;s :&nbsp;
+        span#nbr-membres-connectes
+      .col-md-4.col-sm-4.col-xs-12
+        i.fa.fa-user-secret.darkgreen &nbsp;
+        span
+          strong Visiteurs connect&eacute;s :&nbsp;
+        span#nbr-visiteurs-connectes
 // *************************************************************************
 // Vérification Javascript activé + chargement des librairies
 // *************************************************************************

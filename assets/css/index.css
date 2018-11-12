@@ -506,7 +506,7 @@ footer .container .text-muted {
 
 #profile-membre {
     display:none;
-    margin-top: 90px;
+    margin-top: 113px;
 
 
 }
@@ -530,6 +530,14 @@ footer .container .text-muted {
 #apropos {
     display:none;
 
+}
+
+#footer-activite {
+    width: 100%;
+    display: none;
+    height: 82%;
+    padding: 0px;
+    background-color: white;
 }
 
 #idLoginAlertMsg{
@@ -606,7 +614,7 @@ height: 45px
 
 .activite{
     z-index: 1;
-    background-color: #f1e5e5;
+    background-color: #e9eaed;
     font-size: 14px;
     bottom: 0%;
     position: absolute;
@@ -635,4 +643,11 @@ height: 45px
     color : #537e88;
     font-size: 16px
 
+}
+
+#mur-pseudo{
+    font-size: 15px;
+    font-weight: bold;
+    color: #1c1f20cf;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
 }

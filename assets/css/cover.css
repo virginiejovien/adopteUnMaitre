@@ -127,9 +127,9 @@
 }
 .cover.profile .cover-info .name {
   position: absolute;
-  left: 155px;
+  left: 146px;
   bottom: 0px;
-  margin-bottom: 65px;
+  margin-bottom: 38px;
   display: block;
   z-index: 3;
 }

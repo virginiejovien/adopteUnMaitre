@@ -70,6 +70,7 @@ window.addEventListener('DOMContentLoaded', function() {
  //*****************************************/   
    // Eléments de la page profile inscription 
    var blockProfilMembre =  window.document.getElementById('profile-membre');
+   var idProfilMpAlertMsg = window.document.getElementById('idProfileMur')
    var formProfilInscription = window.document.getElementById('form-profil-inscription');
    var pseudoProfil = window.document.getElementById('pseudo-profil');
    var emailProfil = window.document.getElementById('email-profil');
@@ -95,14 +96,20 @@ window.addEventListener('DOMContentLoaded', function() {
  //*****************************************/   
    // Eléments de la page mur de profile
    var blockMurProfile =  window.document.getElementById('mur-profile');  
+   var idProfileChange =  window.document.getElementById('idProfileChange');  
    var murPseudo = window.document.getElementById('mur-pseudo');
    var murEmail = window.document.getElementById('mur-email');
    var murPhotoProfil = window.document.getElementById('mur-photo-profile');
    // variables entrees du formulaires   
   
-
+ //*****************************************/
+ // elements single page footer
+ //*****************************************/  
    
-
+   var footerActivite = window.document.getElementById('footer-activite');   
+   var nbrMembresConnectes = window.document.getElementById('nbr-membres-connectes');
+   var nbrMessagesPublic = window.document.getElementById('nbr-messages-publies');
+   var nbrVisiteursConnectes = window.document.getElementById('nbr-visiteurs-connectes');
 
  
  //   var pseudoDeProfil = window.document.getElementById('pseudoprofil');
@@ -229,7 +236,10 @@ window.addEventListener('DOMContentLoaded', function() {
         console.log('population',population);
         nbMembresConnectes.innerHTML = population.nbrMembers;   
         nbVisiteursConnectes.innerHTML = population.nbrVisitors; 
-        nbMessagesPublic.innerHTML = population.nbMessagesPublic;       
+        nbMessagesPublic.innerHTML = population.nbMessagesPublic;
+        nbrMembresConnectes.innerHTML = population.nbrMembers;   
+        nbrVisiteursConnectes.innerHTML = population.nbrVisitors; 
+        nbrMessagesPublic.innerHTML = population.nbMessagesPublic;        
     });
 
 //************************************************************************************************
@@ -306,7 +316,8 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
     oublie.addEventListener('click', function (event) { 
         console.log('mot de passe oublié');   
-        blockFormulaire.style.display = 'none';                       
+        blockFormulaire.style.display = 'none'; 
+        footerActivite.style.display = 'block';                        
         blockOublie.style.display = 'block'; 
         websocketConnection.emit('recupMotDePasse');           
     });
@@ -327,7 +338,8 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************    
     fermeMp.addEventListener('click', function (event) { 
         console.log('ferme fenetre recuperation de mot de passe');   
-        blockFormulaire.style.display = 'block';                       
+        blockFormulaire.style.display = 'block'; 
+        footerActivite.style.display = 'none';                        
         blockOublie.style.display = 'none';               
     });
 
@@ -336,7 +348,8 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************    
     fermeMpChange.addEventListener('click', function (event) { 
         console.log('ferme fenetre changement de mot de passe');   
-        blockFormulaire.style.display = 'block';                       
+        blockFormulaire.style.display = 'block'; 
+        footerActivite.style.display = 'none';                      
         blockChangeMp.style.display = 'none';               
     });
 
@@ -491,32 +504,52 @@ window.addEventListener('DOMContentLoaded', function() {
 // Le client reçoit toutes les données personnelles du membre connecté
 // ***********************************************************************************************************
  websocketConnection.on('profileConnect', function(documents) {
-     window.scrollTo(0,0);                           // affichage page haut de page 
-     objetDuMembre = documents;
-     pseudoNav.innerHTML = documents.pseudo; // le pseudo est affiché dans le menu connexion en haut
-     console.log('objetDuMembre profile connexion', objetDuMembre);
-     blockFormulaire.style.display = 'none'; 
-     blockProfilMembre.style.display = 'none'; 
-     console.log('blockFormulaire.style.display', blockFormulaire.style.display);
-     blockMurProfile.style.display = 'block';
-     
-       console.log('documents',documents);
- //    documents.forEach(function(infoMembre) {
-     murPhotoProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">';
-    
-    murPseudo.innerHTML = documents.pseudo; 
-    murEmail.innerHTML = documents.email; 
-  //   nomProfil.innerHTML = documents.nom; 
- //    pseudoDeProfil.innerHTML = documents.pseudo;  
- //    console.log("pseudoDeProfil.innerHTML",pseudoDeProfil.innerHTML); 
-        
-//      });
+   window.scrollTo(0,0);                           // affichage page haut de page 
+   objetDuMembre = documents;
+   pseudoNav.innerHTML = documents.pseudo; // le pseudo est affiché dans le menu connexion en haut
+   console.log('objetDuMembre profile connexion', objetDuMembre);
+   blockFormulaire.style.display = 'none'; 
+   footerActivite.style.display = 'block';  
+   blockProfilMembre.style.display = 'none'; 
+   console.log('blockFormulaire.style.display', blockFormulaire.style.display);
+   blockMurProfile.style.display = 'block';
+ 
+// affichage des donnees de la page du mur de profile du membre
+    murPhotoProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">';    
+    murPseudo.innerHTML = objetDuMembre.pseudo; 
+    murEmail.innerHTML = objetDuMembre.email; 
+// affichage des donnees de la page d'inscription du prifile du membre    
+   photoImageProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">';
+   pseudoProfil.innerHTML = objetDuMembre.pseudo;  
+   emailProfil.innerHTML = objetDuMembre.email;  
+   nomProfil.innerHTML =  objetDuMembre.nom;        
+   prenomProfil.innerHTML =   objetDuMembre.prenom;
+   genreProfil.value= objetDuMembre.genre;
+   ageProfil.innerHTML= objetDuMembre.age;
+   telephoneProfil.innerHTML= objetDuMembre.telephone;
+   adresseProfil.innerHTML= objetDuMembre.adresse;
+   cpProfil.innerHTML= objetDuMembre.cp;
+   villeProfil.innerHTML= objetDuMembre.ville;
+   paysProfil.value= objetDuMembre.pays;
+   profilProfil.value= objetDuMembre.profil;
+   preferenceProfil.innerHTML= objetDuMembre.preference;
  });   
+
+// ***********************************************************************************************************
+// click sur lien changer son profile on affiche le profile d'inscription
+// ***********************************************************************************************************
+
+idProfileChange.addEventListener('click', function (event) { 
+    console.log('change profile');   
+    blockMurProfile.style.display = 'none';                     
+    blockProfilMembre.style.display = 'block'; 
+    websocketConnection.emit('recupererDataMembre', objetDuMembre);  // Transmission au serveur des infos saisies         
+});
 
 // ***********************************************************************************************************
 // Le client reçoit toutes les données personnelles du membre inscrit
 // ***********************************************************************************************************
- websocketConnection.on('profileInscription', function(documents) {
+websocketConnection.on('profileInscription', function(documents) {
     window.scrollTo(0,0);          // affichage page haut de page 
     objetDuMembre = documents;
    // affichage du pseudo dans le menu de navigation
@@ -524,6 +557,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     console.log('objetDuMembre profile inscription', objetDuMembre);
     blockFormulaire.style.display = 'none'; 
+    footerActivite.style.display = 'block';  
     console.log('blockFormulaire.style.display', blockFormulaire.style.display);
     blockProfilMembre.style.display = 'block'; 
     console.log('blockProfilMembre.style.display',blockProfilMembre.style.display);
@@ -568,6 +602,20 @@ formProfilInscription.addEventListener('submit', function (event) {
    
     websocketConnection.emit('controleProfileInscription', objetDuMembre);  // Transmission au serveur des infos saisies
        
+});
+
+// ***********************************************************************************************************
+// click sur lien mur de profile profile on affiche le mur de profile
+// ***********************************************************************************************************
+
+idProfileMur.addEventListener('click', function (event) { 
+    console.log('click mur de  profile');  
+    // affichage des donnees de la page du mur de profile du membre
+    murPhotoProfil = ' <img margin ="auto" src="' +objetDuMembre.photoProfile+'"alt="photo" title="photo de profil">';    
+    murPseudo.innerHTML = objetDuMembre.pseudo; 
+    murEmail.innerHTML = objetDuMembre.email;  
+    blockMurProfile.style.display = 'block';                     
+    blockProfilMembre.style.display = 'none';
 });
 
 // ***********************************************************************************************************

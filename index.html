@@ -290,7 +290,7 @@
           <div class="col-md-10 col-md-offset-1">
               <!-- NAV TABS -->
             <ul class="nav nav-tabs nav-tabs-custom-colored tabs-iconized" id="nav-profil">
-              <li class="active"><a href="#profile-tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-user"></i> Profile</a></li>
+              <li class="active"><a id="idProfileMur" href="#" data-toggle="tab" aria-expanded="true"><i class="fa fa-user"></i> Profile</a></li>
               <li class=""><a href="#activity-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-rss"></i> Recent Activity</a></li>
               <li class=""><a href="#settings-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-gear"></i> Settings</a></li>
             </ul>
@@ -351,7 +351,7 @@
                                 <label class="col-md-4 control-label" >Age</label>
                                 <div class="col-md-6  inputGroupContainer">                                   
                                   <span class="input-icon">
-                                      <input id="age-profil" type="number" name="age"  class="form-control control-groupe"type="number" min="12" max="120" step="1"  required
+                                      <input id="age-profil" type="number" name="age"  class="form-control control-groupe"type="number" min="12" max="120" step="1" required  
                                       pattern="\d+" title="Uniquement des nombres"> 
                                   <br/>                                     
                                   </span>
@@ -363,9 +363,9 @@
                                 <div class="col-md-6 inputGroupContainer">
                                   <span class="input-icon">                                   
                                     <select class="form-control control-groupe" id="genre-profil" name="nom" size="1" required > 
-                                        <option value="F">Femme
-                                        <option value="H">Homme
-                                        </select>
+                                          <option value="F">Femme
+                                          <option value="H">Homme
+                                    </select>
                                       <br/> 
                                     </span>
                                 </div>
@@ -386,7 +386,7 @@
                                 <label class="col-md-4 control-label">Adresse</label>
                                 <div class="col-md-6  inputGroupContainer">
                                   <span class="input-icon">   
-                                    <input type="text" id="adresse-profil" name="adresse" class="form-control control-groupe" maxlength='30' size='30' placeholder="Numero et nom de rue " required pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères">
+                                    <input type="text" id="adresse-profil" name="adresse" class="form-control control-groupe" maxlength='30' size='30' required placeholder="Numero et nom de rue "  pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères">
                                     <i class="fa fa-home darkorange"></i> <br/>   
                                   </span>
                                 </div>
@@ -397,7 +397,7 @@
                                   <label class="col-md-4 control-label">Code Postal</label>
                                   <div class="col-md-6  inputGroupContainer">
                                       <span class="input-icon">   
-                                        <input type="number" id="cp-profil" class="form-control control-groupe" name="cp" maxlength='5' size='5' required placeholder="Ex: 75011" pattern="[0-9]{5}" title="Les caractères doivent être numériques et la longueur doit être de 5 caractères">
+                                        <input type="number" id="cp-profil" class="form-control control-groupe" name="cp" maxlength='5' size='5' placeholder="Ex: 75011" required pattern="[0-9]{5}" title="Les caractères doivent être numériques et la longueur doit être de 5 caractères">
                                         <i class="fa fa-home darkorange"></i> <br/>   
                                       </span>
                                   </div>
@@ -418,7 +418,7 @@
                                 <label class="col-md-4 control-label">Pays</label>
                                 <div class="col-md-6 selectContainer">
                                     <span class="input-icon">  
-                                      <select id="pays-profil" name="pays" class="form-control control-groupe" required >           
+                                      <select id="pays-profil" name="pays" class="form-control control-groupe" required>           
                                         <option value="AF">Afghanistan
                                         <option value="ZA">Afrique du sud
                                         <option value="AX">Åland, îles
@@ -918,11 +918,11 @@
               <div class="avatar">
                 <img id="mur-photo-profile" src="static/images/default-avatar.png" alt="people">
               </div>
-              <div id="mur-pseudo" class="name"><a href="#">John Breakgrow jr.</a></div>
+              <div id="mur-pseudo" class="name"><a href="#"></a></div>
               <ul class="cover-nav">
-                <li class="active"><a href="profile.html"><i class="fa fa-fw fa-bars"></i> Timeline</a></li>
-                <li><a href="about.html"><i class="fa fa-fw fa-user"></i> About</a></li>
-                <li><a href="friends.html"><i class="fa fa-fw fa-users"></i> Friends</a></li>
+                <li> <a id="idProfileChange" href="#"><i class="fa fa-fw fa-bars"></i>Changer son profile</a></li>
+                <li><a href="about.html"><i class="fa fa-fw fa-user"></i> A propos</a></li>
+                <li><a href="friends.html"><i class="fa fa-fw fa-users"></i> Amis</a></li>
                 <li><a href="photos1.html"><i class="fa fa-fw fa-image"></i> Photos</a></li>
               </ul>
             </div>
@@ -1516,6 +1516,20 @@
 <!--                            FOOTER PAGE INDEX                              -->
 <!-- ************************************************************************* -->
     <footer class="footer">
+      <!-- *************************  Activité **********************************************************-->      
+      <div class="activite" id="footer-activite">
+          <div class="row">
+              <div class="col-md-4  col-sm-4 col-xs-12">
+                <i class="fa fa-comments darkgreen">&nbsp;</i>&nbsp;<strong>Messages publiés :&nbsp;</strong>&nbsp;<span id="nbr-messages-publies"></span>&nbsp;
+              </div>
+              <div class="col-md-4  col-sm-4 col-xs-12">
+                  &nbsp;<i class= "fa fa-users darkgreen">&nbsp;</i>&nbsp;<strong>Membres connectés :&nbsp;</strong>&nbsp;&nbsp;<span id="nbr-membres-connectes"></span>&nbsp;
+              </div>
+              <div class="col-md-4  col-sm-4 col-xs-12">
+                  &nbsp;<i class= "fa fa-user-secret darkgreen">&nbsp;</i><span><strong>Visiteurs connectés :&nbsp;</strong></span>&nbsp;&nbsp;<span id="nbr-visiteurs-connectes"></span>
+              </div> 
+            </div>
+      </div>
     </footer>
    <!-- ************************************************************************* -->
     <!--        Vérification Javascript activé + chargement des librairies         -->

@@ -284,6 +284,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
         this.UpdateDisplayPopulation(pSocketIo);
     }
 
+
 //************************************************************************************************************
 // Vérification que le formulaire d'inscription du futur membre est valide:
 // 1 : Vérification de l'unicité du pseudo du futur membre dans la BBD du reseau social
