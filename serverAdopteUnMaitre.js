@@ -18,7 +18,7 @@ var app = express();
 const SocketIo = require('socket.io');
 const MemberServer = require('./memberMgr');
 
-let vMemberServer;  // Instaciation de l'objet "Members" qui gère toutes lesz fonctions liées aux membres dans l'Objet membres
+let vMemberServer;  // Instanciation de l'objet "Members" qui gère toutes les fonctions liées aux membres dans l'Objet membres
 
 // *************************************************************************************************************
 // Connection à mongoDB, on vérifie qu'elle est bien lancée et que la la base de données "adopteUnMaitre"
@@ -28,7 +28,7 @@ let vDBMgr = new DBMgr();                            // Instanciation de la base
 vDBMgr.checkDBConnect()
     .then(result => {
         vMemberServer = new MemberServer(vDBMgr);    // Instanciation de l'objet decrivant l'ensemble des membres et les méthodes de gestion de ces membres
-        vMemberServer.initNbrPublicMsgs();           // Mise en mémoire du Nbre de messages publics stockés en BDD
+        vMemberServer.getNbMessages();           // Mise en mémoire du Nbre de messages publics stockés en BDD
     // });
 
 
@@ -49,20 +49,9 @@ app.set('view engine', 'pug');
 app.use('/static', express.static(__dirname + '/assets'));
 app.use('/static', express.static(__dirname + '/bootstrap.3.3.6'));
 app.use('/static', express.static(__dirname + '/font-awesome.4.6.1'));
-app.get('/', function(req, res, next) {    
-   // dbInterface.connectDB(req,res,next,function(db) {            
-   //     console.log('mongodb connected');
-     //   const collection = db.collection('messages');
-     //   collection.find().toArray(function(err, data){
-      //  if (err) {
-      //      console.log('Erreur de collection');
-      //      return;
-      //  }
-     //   console.log('data',data);  
-   //   res.render('index', {nombreMessage: data})  
-      res.render('index', {})  
-     //   });
-   // });
+
+app.get('/', function(req, res, next) {   
+    res.render('index') 
 });
 
 app.get('/', function(req, res) {
@@ -82,12 +71,6 @@ const server = app.listen(process.env.PORT || 2000, function() {
     console.log('Écoute du serveur NodeJs sur le port %s',portEcoute);
 });
 
-//************************************************************************************************************
-// Déclaration des variables globales
-//************************************************************************************************************
-
-// let client = {};                    // instance de la base de données
-
 
 //************************************************************************************************************
 // **********************                                                               **********************
@@ -101,8 +84,7 @@ const server = app.listen(process.env.PORT || 2000, function() {
 
 let socketIo = new SocketIo(server);
 socketIo.on('connection', function(webSocketConnection) {        // Une connexion au serveur vient d être faite
-    
-          
+         
 
     vMemberServer.initVisiteur(webSocketConnection, socketIo);  //  initialisation 
     vMemberServer.connexionVisiteur(webSocketConnection, socketIo); 

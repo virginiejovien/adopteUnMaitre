@@ -23,9 +23,10 @@ module.exports = function DBMgr() {
                   
                   resolve(true);
                   this.myDB = db;                                                                         // Conservation de l'instance de BDD
-                  this.colMembres = this.myDB.db('adopteunmaitre').collection('membres');              // On sélectionne la collection des joueurs
-                  this.colMessages = this.myDB.db('adopteunmaitre').collection('messages');          // On sélectionne la collection des données techniques
+                  this.colMembres = this.myDB.db('adopteunmaitre').collection('membres');              // On sélectionne la collection des membres
                   console.log('La BDD "adopteunmaitre" - Collection "membres" est bien lancée et tourne');    // Message de notification BDD OK à destination de l'Admin 
+                  this.colMessages = this.myDB.db('adopteunmaitre').collection('messages');          // On sélectionne la collection des données messages
+                  console.log('La BDD "adopteunmaitre" - Collection "messages" est bien lancée et tourne');    // Message de notification BDD OK à destination de l'Admin 
               });
           });
       }

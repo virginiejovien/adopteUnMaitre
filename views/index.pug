@@ -28,7 +28,7 @@ head
 nav#top.navbar.navbar-white.navbar-fixed-top
   #container-nav.container
     span.navbar-brand.welcome-title
-      b Adopte un Ma&icirc;tre 
+      b Adopte un Ma&icirc;tre...
       span.title-suite un r&eacute;seau social 100% chat.rrr.mant
     .navbar-header
       button.navbar-toggle.collapsed.navbar-fixed-top-30(type='button' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar')
@@ -118,7 +118,6 @@ nav#top.navbar.navbar-white.navbar-fixed-top
 // *************************************************************************
 #formulaire.parallax.filter-black
   .parallax-image
-  div Un r&eacute;seau social 100% chat.rrr.mant
   .small-info
     .col-sm-10.col-sm-push-1.col-md-6.col-md-push-3.col-lg-6.col-lg-push-3
       .card-group.animated.flipInX
@@ -129,11 +128,15 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                 span.icon-text Connexion
               p.text-muted Acc&eacute;der &agrave; votre compte
             // ****************  formulaire de connexion **********************
-            form#form-connection
+            form#form-connection.needs-validation
               .form-group
-                input#pseudo.form-control(type='text' name='LoginPseudo' maxlength='23' size='23' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
+                span.input-icon
+                  input#pseudo.form-control.is-invalid(type='text' name='LoginPseudo' maxlength='23' size='23' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
+                  i.fa.fa-user.darkorange
               .form-group
-                input#mp.form-control(type='password' name='LoginPassword' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                span.input-icon
+                  input#mp.form-control(type='password' name='LoginPassword' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                  i.fa.fa-key.darkorange
                 a#oublie.pull-xs-right(href='#')
                   small Oubli&eacute;?
                 p#idLoginAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg Pseudo et/ou mot de passe inconnus
@@ -146,17 +149,41 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               span.icon-text S&apos;inscrire
             p.text-muted Devenir membre
             // ****************  formulaire d'inscription **********************
-            form#form-inscription
+            form#form-inscription.needs-validation
               .form-group
-                input#pseudo-inscription.form-control.control-groupe(type='text' name='pseudoInscrit' maxlength='23' size='23' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
+                span.input-icon
+                  input#pseudo-inscription.form-control.control-groupe(type='text' name='pseudoInscrit' maxlength='23' size='23' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
+                  i.fa.fa-user.darkorange
               .form-group
-                input#mail-inscription.form-control(type='email' name='mailInscrit' maxlength='100' size='100' placeholder='Adresse mail' required='' pattern='^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$' title='Veuillez fournir une adresse électronique valide: exemple@provider.com')
+                span.input-icon
+                  input#mail-inscription.form-control(type='email' name='mailInscrit' maxlength='100' size='100' placeholder='Adresse mail' required='' pattern='^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$' title='Veuillez fournir une adresse électronique valide: exemple@provider.com')
+                  i.fa.fa-envelope-o.darkorange
               .form-group
-                input#mp-inscription.form-control(type='password' name='mpInscrit' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                span.input-icon
+                  input#mp-inscription.form-control(type='password' name='mpInscrit' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                  i.fa.fa-key.darkorange
               .form-group
-                input#mp2-inscription.form-control(type='password' name='mp2Inscrit' minlength='6' maxlength='12' size='12' data-match='#mp-inscription' data-match-error="Whoops, these don't match" placeholder='Confirmer le mot de passe' required='')
+                span.input-icon
+                  input#mp2-inscription.form-control(type='password' name='mp2Inscrit' minlength='6' maxlength='12' size='12' data-match='#mp-inscription' data-match-error="Whoops, these don't match" placeholder='Confirmer le mot de passe' required='')
+                  i.fa.fa-key.darkorange
               p#idInscritAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg L&apos;e-mail et/ou le pseudo sont d&eacute;j&agrave; attribu&eacute;s
               button.btn.btn-azure(type='submit') S&apos;inscrire
+  // *************************  Activité **********************************************************
+  .activite
+    .row
+      .col-md-4.col-sm-4.col-xs-12
+        i.fa.fa-comments.darkgreen &nbsp;
+        strong Messages publi&eacute;s :&nbsp;
+        span#nb-messages-publies
+      .col-md-4.col-sm-4.col-xs-12
+        i.fa.fa-users.darkgreen &nbsp;
+        strong Membres connect&eacute;s :&nbsp;
+        span#nb-membres-connectes
+      .col-md-4.col-sm-4.col-xs-12
+        i.fa.fa-user-secret.darkgreen &nbsp;
+        span
+          strong Visiteurs connect&eacute;s :&nbsp;
+        span#nb-visiteurs-connectes
 // *************************************************************************
 // page  mot de passe oublié
 // *************************************************************************
@@ -169,12 +196,14 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             | Veuiller entrer votre adresse mail
           button#ferme-mp.close.close-mp(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
         .panel-body
-          form#form-recup-mp.form-horizontal(role='form')
+          form#form-recup-mp.form-horizontal.needs-validation(role='form')
             .profile-pic.text-center
               img.img-circle.img-responsive.img-user(src='static/images/default-avatar.png' alt='')
             .form-group
               .col-md-12
-                input#mail-recup-mp.form-control.input-recup(type='email' name='mailRecupMp' maxlength='100' size='100' placeholder='Adresse mail' required='' pattern='^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$' title='Veuillez fournir une adresse électronique valide: exemple@provider.com')
+                span.input-icon
+                  input#mail-recup-mp.form-control.input-recup(type='email' name='mailRecupMp' maxlength='100' size='100' placeholder='Adresse mail' required='' pattern='^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$' title='Veuillez fournir une adresse électronique valide: exemple@provider.com')
+                  i.fa.fa-envelope-o.darkorange
             .form-group
               .col-md-12
                 p#message-recup-mp.lead.mt-5.display-4.text-danger.text-center.alertMsg L&apos;e-mail n&apos;existe pas
@@ -191,13 +220,19 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             | Changer votre mot de passe
           button#ferme-mp-change.close.close-mp(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
         .panel-body
-          form#form-change-mp
+          form#form-change-mp.needs-validation
             .form-group
-              input#change-mp-recup.form-control(type='password' name='change-mp-recup' minlength='6' maxlength='12' size='12' placeholder='Mot de passe provisoire' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+              span.input-icon
+                input#change-mp-recup.form-control(type='password' name='change-mp-recup' minlength='6' maxlength='12' size='12' placeholder='Mot de passe provisoire' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                i.fa.fa-key.darkorange
             .form-group
-              input#change-mp1.form-control(type='password' name='change-mp1' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+              span.input-icon
+                input#change-mp1.form-control(type='password' name='change-mp1' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                i.fa.fa-key.darkorange
             .form-group
-              input#change-mp2.form-control(type='password' name='change-mp2' minlength='6' maxlength='12' size='12' data-match='#change-mp1' data-match-error="Whoops, these don't match" placeholder='Confirmer le mot de passe' required='')
+              span.input-icon
+                input#change-mp2.form-control(type='password' name='change-mp2' minlength='6' maxlength='12' size='12' data-match='#change-mp1' data-match-error="Whoops, these don't match" placeholder='Confirmer le mot de passe' required='')
+                i.fa.fa-key.darkorange
             .form-group
               .col-md-12
                 p#idRecupMpAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg Veuillez saisir le mot de passe provisoire que nous vous avons envoy&eacute; par mail
@@ -243,7 +278,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                       input(type='file' multiple='')
             // ****************  Début Profil formulaire d'inscription **********************
             .col-md-9
-              form#form-profil-inscription
+              form#form-profil-inscription.needs-validation
                 .form-group
                   .user-info-right
                     .basic-info
@@ -1040,13 +1075,13 @@ nav#top.navbar.navbar-white.navbar-fixed-top
       .col-md-5
         .widget
           .widget-header
-            h3.widget-caption About
+            h3.widget-caption A propos
           .widget-body.bordered-top.bordered-sky
             ul.list-unstyled.profile-about.margin-none
               li.padding-v-5
                 .row
                   .col-sm-4
-                    span.text-muted Date of Birth
+                    span.text-muted Age
                   #mur-age.col-sm-8 12 January 1990
               li.padding-v-5
                 .row
@@ -1066,8 +1101,8 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               li.padding-v-5
                 .row
                   .col-sm-4
-                    span.text-muted Credits
-                  .col-sm-8 249
+                    span.text-muted Email
+                  #mur-email.col-sm-8 249
         .widget.widget-friends
           .widget-header
             h3.widget-caption Friends
@@ -1351,7 +1386,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           // end left posts
       // end timeline posts
 // Online users sidebar content
-.chat-sidebar.focus
+.chat-sidebar
   .list-group.text-left
     p.text-center.visible-xs
       a.hide-chat.btn.btn-success(href='#') Hide
@@ -1469,11 +1504,26 @@ nav#top.navbar.navbar-white.navbar-fixed-top
 // FOOTER PAGE INDEX
 // *************************************************************************
 footer.footer
-  .container
-    p.text-muted
-      strong Messages publi&eacute;s :&nbsp;
-      span(id='nb-messages-publiés')
-      span.btn.btn-default.btn-circle.btn-xs
-        i.glyphicon.glyphicon-ok
-      strong Membres connect&eacute;s :&nbsp;
-      span#nb-membres-connectes
+// *************************************************************************
+// Vérification Javascript activé + chargement des librairies
+// *************************************************************************
+noscript
+  p Veuillez activer JavaScript
+script.
+  'use strict';
+  (function() {
+  window.addEventListener('load', function() {
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.getElementsByClassName('needs-validation');
+  // Loop over them and prevent submission
+  var validation = Array.prototype.filter.call(forms, function(form) {
+  form.addEventListener('submit', function(event) {
+  if (form.checkValidity() === false) {
+  event.preventDefault();
+  event.stopPropagation();
+  }
+  form.classList.add('was-validated');
+  }, false);
+  });
+  }, false);
+  })();

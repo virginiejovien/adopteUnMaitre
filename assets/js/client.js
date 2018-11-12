@@ -10,13 +10,16 @@ window.addEventListener('DOMContentLoaded', function() {
 // Déclaration des variables globales
 //************************************************************************************************   
     var websocketConnection = io();
+   
 
 //**********************************/
- // elements single page formulaire
- //**********************************/
+// elements single page formulaire
+//**********************************/
     var blockFormulaire =  window.document.getElementById('formulaire'); 
     var deconnexion = window.document.getElementById('deconnexion');
     var nbMembresConnectes = window.document.getElementById('nb-membres-connectes');
+    var nbMessagesPublic = window.document.getElementById('nb-messages-publies');
+    var nbVisiteursConnectes = window.document.getElementById('nb-visiteurs-connectes');
     var pseudoNav = window.document.getElementById('pseudo-nav');
     // elements formulaire de changement de mots de passe 
     var blockChangeMp =  window.document.getElementById('change-mp');
@@ -141,6 +144,26 @@ window.addEventListener('DOMContentLoaded', function() {
     }; 
 
 // *******************************************************************************
+// Cette fonction vérifie les formulaires
+// *******************************************************************************
+
+    // Loop over them and prevent submission
+    function validation(f,e) {        
+        Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            }, false);
+            return console.log("validation form", form);
+        });
+    };
+
+   
+// *******************************************************************************
 // Cette fonction vérifie que le MDP et sa confirmation sont bien identiques
 // *******************************************************************************
     function validatePasswordChange(pSignInPassword, pSignInConfirmPassword) {
@@ -203,8 +226,19 @@ window.addEventListener('DOMContentLoaded', function() {
 //************************************************************************************************
     websocketConnection.on('nbMembresConnect', function(population) {
         console.log('nbMembresConnectes',population.nbrMembers);
-        nbMembresConnectes.innerHTML = population.nbrMembers;       
+        console.log('population',population);
+        nbMembresConnectes.innerHTML = population.nbrMembers;   
+        nbVisiteursConnectes.innerHTML = population.nbrVisitors; 
+        nbMessagesPublic.innerHTML = population.nbMessagesPublic;       
     });
+
+//************************************************************************************************
+// Réception du nombre de messages publics echangés en temps réel
+//************************************************************************************************
+    websocketConnection.on('nbMessagesPublic', function(nbMessagesPublic) {
+        console.log('nbMessagesPublic',nbMessagesPublic);
+        nbMessagesPublic.innerHTML = nbMessagesPublic;  
+    }); 
 
 //************************************************************************************************************
 // **********************                        PARTIE 1                               ********************** 
@@ -223,8 +257,8 @@ window.addEventListener('DOMContentLoaded', function() {
 //************************************************************************************************************ 
 
     formConnect.addEventListener('submit', function (event) {
-        event.preventDefault();
-    
+        event.preventDefault();       
+      //  validation(formConnect,event);
          objetDuVisiteur =                                     // Mise en forme pour transmission au serveur des données saisies
             {
                 pseudo :    pseudoConnect.value ,

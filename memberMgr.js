@@ -41,14 +41,15 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
     this.DBMgr = pDBMgr;                            // variable pour instanciation la base de donnees
     this.objectFound;                               // Objet d'accueil utilisé lors de la recherche d'un objet dans la table des membres
     this.newPassword;                               // Variable de stockage provisoire du nouveau mot de passe créé
-    this.nbrPublicMsgs;                             // Nbre de messages publics
+    this.nbMessagesPublic;                             // Nbre de messages publics
 
     this.objetPopulation = 
     {
         membres             : [],                   // Tableau de toutes les connexions ( Visiteurs dont [Membres + Admin])
         nbrConnections      : 0,                    // Nbre de connexions actives sans préjuger de leur rôle
-        nbrMembersInSession : 0,                    // ?bre de membres connectés (Membres + Admin)
+        nbrMembersInSession : 0,                    // Nbre de membres connectés (Membres + Admin)
         nbrAdminsInSessions : 0,                    // Nombre d'Admins connectés
+        nbMessagesPublic : 0,                    // Nombre d'Admins connectés
     }
 
     this.membre =                                   // Structure de stockage provisoire du membre
@@ -169,12 +170,14 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
         this.objetPopulation.membres.push(objetMembreLocal);
         this.objetPopulation.nbrConnections++;             // Nombre de visiteurs incluant les [membres + Admins]
         this.UpdateDisplayPopulation(pSocketIo);
+  //      this.getNbMessages(pSocketIo);
 
         console.log('--------------------------------------------------------------------------------------------------------------------')
         console.log('initVisiteur - 000 - : this.objetPopulation.membres.length : ',this.objetPopulation.membres.length,
                     '--- Nbre de visiteurs : ', this.objetPopulation.nbrConnections,
                     '--- Nbre de membres : ',this.objetPopulation.nbrMembersInSession,
                     '--- Nbre d\'Admin : ',this.objetPopulation.nbrAdminsInSessions,
+                    '--- Nbre de messages : ', this.objetPopulation.nbMessagesPublic,
                     '--- pWebSocketConnection.id : ',pWebSocketConnection.id);
         console.log('--------------------------------------------------------------------------------------------------------------------')
     }; 
@@ -191,11 +194,23 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
             nbrVisitors    : this.objetPopulation.nbrConnections,
             nbrMembers     : this.objetPopulation.nbrMembersInSession,
             nbrAdmins      : this.objetPopulation.nbrAdminsInSessions,
-            nbrPublicMsgs  : this.nbrPublicMsgs,
+            nbMessagesPublic  : this.nbMessagesPublic,
         }
         pSocketIo.emit('nbMembresConnect', population); // Affichage sur tous les clients de la MAJ du nombre de membres connectés
     }
 
+//************************************************************************************************************  
+// prépare et envoie à tous les visiteurs qui se connecte le nombre de messages publics echangés:       
+//************************************************************************************************************ 
+MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
+    population = {
+        nbrVisitors    : this.objetPopulation.nbrConnections,
+        nbrMembers     : this.objetPopulation.nbrMembersInSession,
+        nbrAdmins      : this.objetPopulation.nbrAdminsInSessions,
+        nbMessagesPublic  : this.nbMessagesPublic,
+    }
+    pSocketIo.emit('nbMembresConnect', population); // Affichage sur tous les clients de la MAJ du nombre de membres connectés
+}
 //************************************************************************************************************
 // Vérification que le formulaire de connection du membre est valide:
 // Vérification de l'existence du pseudo et du Mot de passe du  membre dans la BDD adopteunmaitre
@@ -633,16 +648,16 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 //************************************************************************************************************
 // Obtention du nombre de messages publiés dans  la BDD et transmission de celles-ci à tout le monde
 //************************************************************************************************************
-    MemberServer.prototype.getNbMessages = function(pSocketIo) {
-        let colNbMessages = client.db('adopteunmaitre').collection('messages');           
-        colNbMessages.count((error, data) => {
-            if (error){
-                console.log('Erreur de comptage dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
-            }
-            pSocketIo.emit('nbMessages', data);     
-                        
-        });   
-    }; 
+ //   MemberServer.prototype.getNbMessages = function(pSocketIo) {
+//        let colNbMessages = client.db('adopteunmaitre').collection('messages');           
+//        colNbMessages.count((error, data) => {
+///            if (error){
+//                console.log('Erreur de comptage dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+//            }
+//            pSocketIo.emit('nbMessages', data);     
+//                        
+//        });   
+//    }; 
 
 
 // ***********************************************************************************************************  
@@ -666,27 +681,29 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
     };
 
 //***********************************************************************************************************  
-// Au lancement du serveur, on tente de lire le Nbre de messages publics stockés dans la BDD, si KO, on initialise a 0
-// On en porofite poour initialiser toutes les variables de population à 0
+// Obtention du nombre de messages publiés dans la BDD et transmission de celles-ci à tout le monde
+// - si ne ramène rien on initialise à 0
+// - sinon on  met à jour le nombre de messages publics publies
 // ***********************************************************************************************************
-    MemberServer.prototype.initNbrPublicMsgs = function(pSocketIo){
+    MemberServer.prototype.getNbMessages = function(pSocketIo){
         this.DBMgr.colMessages.find()
         .limit(1)
         .toArray((error, documents) => {
             if (error) {
-                console.log('Erreur de lecture dans la collection \'technical\' : ',error);   // Si erreur technique... Message et Plantage
+                console.log('Erreur de lecture dans la collection \'messages\' : ',error);   // Si erreur technique... Message et Plantage
                 throw error;
             }
 
             if (documents.length) {
-                this.nbrPublicMsgs = documents[0].nbrPublicMsgs;                    
+                this.nbMessagesPublic = documents[0].nbMessagesPublic;                    
             } else {
-                this.nbrPublicMsgs = 0;
+                this.nbMessagesPublic = 0;
             }
-
-            // this.objectPopulation.nbrConnections = 0;
-            // this.objectPopulation.nbrMembersInSession = 0;
-            // this.objectPopulation.nbrAdminsInSessions = 0;
+            console.log('this.nbMessagesPublic',this.nbMessagesPublic);
+    
+            this.objetPopulation.nbrConnections = 0;
+            this.objetPopulation.nbrMembersInSession = 0;
+            this.objetPopulation.nbrAdminsInSessions = 0;
         });
     }
 // ------------------------------------------- Fin du module -------------------------------------------------------------------------

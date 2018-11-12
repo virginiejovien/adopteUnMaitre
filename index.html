@@ -35,7 +35,7 @@
     <!-- Fixed navbar -->
     <nav class="navbar navbar-white navbar-fixed-top" id="top">
         <div class="container" id="container-nav">
-            <span class="navbar-brand welcome-title"><b>Adopte un Maître </b>&nbsp;<span class="title-suite">un réseau social 100% chat.rrr.mant</span></span>
+            <span class="navbar-brand welcome-title"><b>Adopte un Maître...</b>&nbsp;<span class="title-suite">un réseau social 100% chat.rrr.mant</span></span>
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed navbar-fixed-top-30" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
               <span class="sr-only">Toggle navigation</span>
@@ -104,8 +104,7 @@
 <!--          Formulaire                                                       -->
 <!-- ************************************************************************* --> 
     <div id="formulaire" class="parallax filter-black">
-      <div class="parallax-image"></div>
-      <div>Un réseau social 100% chat.rrr.mant</div>             
+      <div class="parallax-image"></div>               
       <div class="small-info">
         <div class="col-sm-10 col-sm-push-1 col-md-6 col-md-push-3 col-lg-6 col-lg-push-3">   
           <div class="card-group animated flipInX">
@@ -116,13 +115,20 @@
                   <p class="text-muted">Accéder à votre compte</p>
                 </div>
 <!-- ****************  formulaire de connexion ********************** --> 
-                <form id="form-connection">
+                <form id="form-connection" class="needs-validation" >
                   <div class="form-group">
-                    <input type="text" id="pseudo" name="LoginPseudo" class="form-control" maxlength='23' size='23' placeholder="Pseudonyme" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères" >
+                      <span class="input-icon">
+                        <input type="text" id="pseudo" name="LoginPseudo" class="form-control is-invalid" maxlength='23' size='23' placeholder="Pseudonyme" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères" >
+                        <i class="fa fa-user darkorange"></i> 
+                      </span> 
                   </div>
+                 
                   <div class="form-group">
-                      <input type="password" id="mp" name="LoginPassword" class="form-control" maxlength='12' size='12' placeholder="Mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
-                    <a id="oublie" href="#" class="pull-xs-right">
+                      <span class="input-icon">
+                        <input type="password" id="mp" name="LoginPassword" class="form-control" maxlength='12' size='12' placeholder="Mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
+                        <i class="fa fa-key darkorange"></i>
+                      </span>
+                      <a id="oublie" href="#" class="pull-xs-right">
                       <small>Oublié?</small>
                     </a>
                     <p id="idLoginAlertMsg" class="lead mt-5 display-4 text-danger text-center alertMsg">Pseudo et/ou mot de passe inconnus</p>
@@ -141,18 +147,30 @@
                 </h4>
                 <p class="text-muted">Devenir membre</p>
 <!-- ****************  formulaire d'inscription ********************** --> 
-                <form id="form-inscription">
+                <form id="form-inscription" class="needs-validation" >
                   <div class="form-group">
-                    <input id="pseudo-inscription" type="text" name="pseudoInscrit"  class="form-control control-groupe" maxlength='23' size='23' placeholder="Pseudonyme" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères">
+                    <span class="input-icon">
+                      <input id="pseudo-inscription" type="text" name="pseudoInscrit"  class="form-control control-groupe" maxlength='23' size='23' placeholder="Pseudonyme" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères">
+                      <i class="fa fa-user darkorange"></i>
+                    </span>
                   </div>
                   <div class="form-group">
-                    <input id="mail-inscription" type="email" name="mailInscrit"   maxlength='100' size='100' class="form-control" placeholder="Adresse mail" required pattern = "^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$"title="Veuillez fournir une adresse électronique valide: exemple@provider.com">
+                    <span class="input-icon">
+                      <input id="mail-inscription" type="email" name="mailInscrit"   maxlength='100' size='100' class="form-control" placeholder="Adresse mail" required pattern = "^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$"title="Veuillez fournir une adresse électronique valide: exemple@provider.com">
+                      <i class="fa fa-envelope-o darkorange"></i>
+                    </span>
                   </div>
                   <div class="form-group">
-                    <input id="mp-inscription" type="password" name="mpInscrit"  minlength="6" maxlength='12' size='12' class="form-control" placeholder="Mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
+                    <span class="input-icon">
+                      <input id="mp-inscription" type="password" name="mpInscrit"  minlength="6" maxlength='12' size='12' class="form-control" placeholder="Mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
+                      <i class="fa fa-key darkorange"></i>
+                    </span>
                   </div>
                   <div class="form-group">
-                    <input id="mp2-inscription" type="password" name="mp2Inscrit"  minlength="6" maxlength='12' size='12' class="form-control" data-match="#mp-inscription" data-match-error="Whoops, these don't match" placeholder="Confirmer le mot de passe" required >
+                    <span class="input-icon">
+                      <input id="mp2-inscription" type="password" name="mp2Inscrit"  minlength="6" maxlength='12' size='12' class="form-control" data-match="#mp-inscription" data-match-error="Whoops, these don't match" placeholder="Confirmer le mot de passe" required >
+                      <i class="fa fa-key darkorange"></i>
+                    </span>
                   </div>
                   <p id="idInscritAlertMsg" class="lead mt-5 display-4 text-danger text-center alertMsg">L'e-mail et/ou le pseudo sont déjà attribués</p>
                   <button type="submit" class="btn btn-azure">S'inscrire</button>                      
@@ -162,7 +180,22 @@
           </div>
         </div>
       </div>
+<!-- *************************  Activité **********************************************************-->      
+      <div class="activite">
+          <div class="row">
+              <div class="col-md-4  col-sm-4 col-xs-12">
+                <i class="fa fa-comments darkgreen">&nbsp;</i>&nbsp;<strong>Messages publiés :&nbsp;</strong>&nbsp;<span id="nb-messages-publies"></span>&nbsp;
+              </div>
+              <div class="col-md-4  col-sm-4 col-xs-12">
+                  &nbsp;<i class= "fa fa-users darkgreen">&nbsp;</i>&nbsp;<strong>Membres connectés :&nbsp;</strong>&nbsp;&nbsp;<span id="nb-membres-connectes"></span>&nbsp;
+              </div>
+              <div class="col-md-4  col-sm-4 col-xs-12">
+                  &nbsp;<i class= "fa fa-user-secret darkgreen">&nbsp;</i><span><strong>Visiteurs connectés :&nbsp;</strong></span>&nbsp;&nbsp;<span id="nb-visiteurs-connectes"></span>
+              </div> 
+            </div>
+      </div>
     </div>
+ 
 <!-- ************************************************************************* -->
 <!--                          page  mot de passe oublié                        -->
 <!-- ************************************************************************* -->
@@ -178,14 +211,17 @@
                 <button type="button" id = "ferme-mp" class="close close-mp" data-dismiss="modal" aria-label="Fermer" aria-hidden="true">X</button>
             </div>
             <div class="panel-body">
-              <form id= "form-recup-mp" class="form-horizontal" role="form">
+              <form id= "form-recup-mp" class="form-horizontal needs-validation"  role="form">
                 <div class="profile-pic text-center">
                   <img src="static/images/default-avatar.png" alt="" class="img-circle img-responsive img-user">
                 </div>
                 <div class="form-group">
                   <div class="col-md-12">
+                    <span class="input-icon">
                       <input id="mail-recup-mp" type="email" name="mailRecupMp"   maxlength='100' size='100' class="form-control input-recup" placeholder="Adresse mail" required pattern = "^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$"title="Veuillez fournir une adresse électronique valide: exemple@provider.com">
-                  </div>
+                      <i class="fa fa-envelope-o darkorange"></i>
+                    </span>
+                    </div>
                 </div>
                 <div class="form-group">
                   <div class="col-md-12">
@@ -213,15 +249,24 @@
                 <button type="button" id = "ferme-mp-change" class="close close-mp" data-dismiss="modal" aria-label="Fermer" aria-hidden="true">X</button>
             </div>
             <div class="panel-body">
-              <form id="form-change-mp">
+              <form id="form-change-mp" class="needs-validation" >
                 <div class="form-group">
-                  <input type="password" id="change-mp-recup" name="change-mp-recup" minlength="6" maxlength='12' size='12' class="form-control" placeholder="Mot de passe provisoire" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
+                  <span class="input-icon">
+                    <input type="password" id="change-mp-recup" name="change-mp-recup" minlength="6" maxlength='12' size='12' class="form-control" placeholder="Mot de passe provisoire" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
+                    <i class="fa fa-key darkorange"></i>
+                  </span>
                 </div>     
                 <div class="form-group">
-                  <input id="change-mp1" type="password" name="change-mp1"  minlength="6" maxlength='12' size='12' class="form-control" placeholder="Mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
+                  <span class="input-icon">
+                    <input id="change-mp1" type="password" name="change-mp1"  minlength="6" maxlength='12' size='12' class="form-control" placeholder="Mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
+                    <i class="fa fa-key darkorange"></i>
+                  </span>
                 </div>
                 <div class="form-group">
-                  <input id="change-mp2" type="password" name="change-mp2"  minlength="6" maxlength='12' size='12' class="form-control" data-match="#change-mp1" data-match-error="Whoops, these don't match" placeholder="Confirmer le mot de passe" required >
+                  <span class="input-icon">
+                    <input id="change-mp2" type="password" name="change-mp2"  minlength="6" maxlength='12' size='12' class="form-control" data-match="#change-mp1" data-match-error="Whoops, these don't match" placeholder="Confirmer le mot de passe" required >
+                    <i class="fa fa-key darkorange"></i>
+                </span>
                 </div>
                 <div class="form-group">
                   <div class="col-md-12">
@@ -276,7 +321,7 @@
                     </div>
 <!-- ****************  Début Profil formulaire d'inscription ********************** -->                     
                   <div class="col-md-9">
-                    <form id="form-profil-inscription">
+                    <form id="form-profil-inscription" class="needs-validation" >
                       <div class="form-group">
                         <div class="user-info-right">
                           <div class="basic-info">                         
@@ -724,7 +769,7 @@
           
               <!-- SETTINGS TAB CONTENT -->
               <div class="tab-pane settings" id="settings-tab">
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" >
                   <fieldset>
                     <h3><i class="fa fa-square"></i> Change Password</h3>
                     <div class="form-group">
@@ -888,13 +933,13 @@
         <div class="col-md-5">
           <div class="widget">
             <div class="widget-header">
-              <h3 class="widget-caption">About</h3>
+              <h3 class="widget-caption">A propos</h3>
             </div>
             <div class="widget-body bordered-top bordered-sky">
               <ul class="list-unstyled profile-about margin-none">
                 <li class="padding-v-5">
                   <div class="row">
-                    <div class="col-sm-4"><span class="text-muted">Date of Birth</span></div>
+                    <div class="col-sm-4"><span class="text-muted">Age</span></div>
                     <div class="col-sm-8" id="mur-age">12 January 1990</div>
                   </div>
                 </li>
@@ -918,8 +963,8 @@
                 </li>
                 <li class="padding-v-5">
                   <div class="row">
-                    <div class="col-sm-4"><span class="text-muted">Credits</span></div>
-                    <div class="col-sm-8">249</div>
+                    <div class="col-sm-4"><span class="text-muted">Email</span></div>
+                    <div id="mur-email" class="col-sm-8">249</div>
                   </div>
                 </li>
               </ul>
@@ -1308,73 +1353,73 @@
     </div>
 
 
-    <!-- Online users sidebar content-->
-    <div class="chat-sidebar focus">
-      <div class="list-group text-left">
-        <p class="text-center visible-xs"><a href="#" class="hide-chat btn btn-success">Hide</a></p> 
-        <p class="text-center chat-title">Online users</p>  
-        <a href="messages1.html" class="list-group-item">
-          <i class="fa fa-check-circle connected-status"></i>
-          <img src="img/Friends/guy-2.jpg" class="img-chat img-thumbnail">
-          <span class="chat-user-name">Jeferh Smith</span>
-        </a>
-        <a href="messages1.html" class="list-group-item">
-          <i class="fa fa-times-circle absent-status"></i>
-          <img src="img/Friends/woman-1.jpg" class="img-chat img-thumbnail">
-          <span class="chat-user-name">Dapibus acatar</span>
-        </a>
-        <a href="messages1.html" class="list-group-item">
-          <i class="fa fa-check-circle connected-status"></i>
-          <img src="img/Friends/guy-3.jpg" class="img-chat img-thumbnail">
-          <span class="chat-user-name">Antony andrew lobghi</span>
-        </a>
-        <a href="messages1.html" class="list-group-item">
-          <i class="fa fa-check-circle connected-status"></i>
-          <img src="img/Friends/woman-2.jpg" class="img-chat img-thumbnail">
-          <span class="chat-user-name">Maria fernanda coronel</span>
-        </a>
-        <a href="messages1.html" class="list-group-item">
-          <i class="fa fa-check-circle connected-status"></i>
-          <img src="img/Friends/guy-4.jpg" class="img-chat img-thumbnail">
-          <span class="chat-user-name">Markton contz</span>
-        </a>
-        <a href="messages1.html" class="list-group-item">
-          <i class="fa fa-times-circle absent-status"></i>
-          <img src="img/Friends/woman-3.jpg" class="img-chat img-thumbnail">
-          <span class="chat-user-name">Martha creaw</span>
-        </a>
-        <a href="messages1.html" class="list-group-item">
-          <i class="fa fa-times-circle absent-status"></i>
-          <img src="img/Friends/woman-8.jpg" class="img-chat img-thumbnail">
-          <span class="chat-user-name">Yira Cartmen</span>
-        </a>
-        <a href="messages1.html" class="list-group-item">
-          <i class="fa fa-check-circle connected-status"></i>
-          <img src="img/Friends/woman-4.jpg" class="img-chat img-thumbnail">
-          <span class="chat-user-name">Jhoanath matew</span>
-        </a>
-        <a href="messages1.html" class="list-group-item">
-          <i class="fa fa-check-circle connected-status"></i>
-          <img src="img/Friends/woman-5.jpg" class="img-chat img-thumbnail">
-          <span class="chat-user-name">Ryanah Haywofd</span>
-        </a>
-        <a href="messages1.html" class="list-group-item">
-          <i class="fa fa-check-circle connected-status"></i>
-          <img src="img/Friends/woman-9.jpg" class="img-chat img-thumbnail">
-          <span class="chat-user-name">Linda palma</span>
-        </a>
-        <a href="messages1.html" class="list-group-item">
-          <i class="fa fa-check-circle connected-status"></i>
-          <img src="img/Friends/woman-10.jpg" class="img-chat img-thumbnail">
-          <span class="chat-user-name">Andrea ramos</span>
-        </a>
-        <a href="messages1.html" class="list-group-item">
-          <i class="fa fa-check-circle connected-status"></i>
-          <img src="img/Friends/child-1.jpg" class="img-chat img-thumbnail">
-          <span class="chat-user-name">Dora ty bluekl</span>
-        </a>        
-      </div>
-    </div><!-- Online users sidebar content-->
+     <!-- Online users sidebar content-->
+     <div class="chat-sidebar">
+        <div class="list-group text-left">
+          <p class="text-center visible-xs"><a href="#" class="hide-chat btn btn-success">Hide</a></p> 
+          <p class="text-center chat-title">Online users</p>  
+          <a href="messages1.html" class="list-group-item">
+            <i class="fa fa-check-circle connected-status"></i>
+            <img src="img/Friends/guy-2.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Jeferh Smith</span>
+          </a>
+          <a href="messages1.html" class="list-group-item">
+            <i class="fa fa-times-circle absent-status"></i>
+            <img src="img/Friends/woman-1.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Dapibus acatar</span>
+          </a>
+          <a href="messages1.html" class="list-group-item">
+            <i class="fa fa-check-circle connected-status"></i>
+            <img src="img/Friends/guy-3.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Antony andrew lobghi</span>
+          </a>
+          <a href="messages1.html" class="list-group-item">
+            <i class="fa fa-check-circle connected-status"></i>
+            <img src="img/Friends/woman-2.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Maria fernanda coronel</span>
+          </a>
+          <a href="messages1.html" class="list-group-item">
+            <i class="fa fa-check-circle connected-status"></i>
+            <img src="img/Friends/guy-4.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Markton contz</span>
+          </a>
+          <a href="messages1.html" class="list-group-item">
+            <i class="fa fa-times-circle absent-status"></i>
+            <img src="img/Friends/woman-3.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Martha creaw</span>
+          </a>
+          <a href="messages1.html" class="list-group-item">
+            <i class="fa fa-times-circle absent-status"></i>
+            <img src="img/Friends/woman-8.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Yira Cartmen</span>
+          </a>
+          <a href="messages1.html" class="list-group-item">
+            <i class="fa fa-check-circle connected-status"></i>
+            <img src="img/Friends/woman-4.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Jhoanath matew</span>
+          </a>
+          <a href="messages1.html" class="list-group-item">
+            <i class="fa fa-check-circle connected-status"></i>
+            <img src="img/Friends/woman-5.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Ryanah Haywofd</span>
+          </a>
+          <a href="messages1.html" class="list-group-item">
+            <i class="fa fa-check-circle connected-status"></i>
+            <img src="img/Friends/woman-9.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Linda palma</span>
+          </a>
+          <a href="messages1.html" class="list-group-item">
+            <i class="fa fa-check-circle connected-status"></i>
+            <img src="img/Friends/woman-10.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Andrea ramos</span>
+          </a>
+          <a href="messages1.html" class="list-group-item">
+            <i class="fa fa-check-circle connected-status"></i>
+            <img src="img/Friends/child-1.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Dora ty bluekl</span>
+          </a>        
+        </div>
+      </div><!-- Online users sidebar content-->
     <!-- Modal -->
     <div class="modal fade" id="modalShow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -1471,10 +1516,32 @@
 <!--                            FOOTER PAGE INDEX                              -->
 <!-- ************************************************************************* -->
     <footer class="footer">
-      <div class="container">
-          <p class="text-muted"><strong>Messages publiés :&nbsp;</strong><span id="nb-messages-publiés"></span><span class="btn btn-default  btn-circle btn-xs" ><i class="glyphicon glyphicon-ok"></i></span> <strong>Membres connectés :&nbsp;</strong><span id="nb-membres-connectes"></span></p>
-      </div>
     </footer>
+   <!-- ************************************************************************* -->
+    <!--        Vérification Javascript activé + chargement des librairies         -->
+    <!-- ************************************************************************* -->
+
+    <noscript><p>Veuillez activer JavaScript</p></noscript> 
+    <script>  
+    'use strict';
+      (function() {        
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
     
+  </script> 
+  
   </body>
 </html>
