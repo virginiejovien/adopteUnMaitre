@@ -225,7 +225,7 @@
                 </div>
                 <div class="form-group">
                   <div class="col-md-12">
-                    <p id="message-recup-mp" class="lead mt-5 display-4 text-danger text-center alertMsg">L'e-mail n'existe pas</p>
+                    <p id="message-recup-mp-mail" class="lead mt-5 display-4 text-danger text-center alertMsg">L'e-mail n'existe pas</p>
                     <button type="submit" class="btn btn-info btn-block"> Continuer</button> 
                   </div>
                 </div>
@@ -266,7 +266,7 @@
                   <span class="input-icon">
                     <input id="change-mp2" type="password" name="change-mp2"  minlength="6" maxlength='12' size='12' class="form-control" data-match="#change-mp1" data-match-error="Whoops, these don't match" placeholder="Confirmer le mot de passe" required >
                     <i class="fa fa-key darkorange"></i>
-                </span>
+                  </span>
                 </div>
                 <div class="form-group">
                   <div class="col-md-12">
@@ -289,10 +289,11 @@
       <div class="row">
           <div class="col-md-10 col-md-offset-1">
               <!-- NAV TABS -->
-            <ul class="nav nav-tabs nav-tabs-custom-colored tabs-iconized" id="nav-profil">
-              <li class="active"><a id="idProfileMur" href="#" data-toggle="tab" aria-expanded="true"><i class="fa fa-user"></i> Profile</a></li>
-              <li class=""><a href="#activity-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-rss"></i> Recent Activity</a></li>
-              <li class=""><a href="#settings-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-gear"></i> Settings</a></li>
+            <ul class="nav nav-tabs  tabs-iconized" id="nav-profil">
+              <li class="active" id="tab-change-profil"><a href="#profile-tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-bars"></i>Changer son profil</a></li>
+              <li class="" id="tab-profil"><a id="idProfileMur" href="#profile-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-user"></i> Profil</a></li>
+              <li class="" id="tab-activite"><a href="#activity-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-rss"></i> Activités récentes</a></li>             
+              <li class="" id="tab-parametre"><a href="#settings-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-gear"></i> Paramètres</a></li>
             </ul>
             <!-- END NAV TABS -->
             <div class="tab-content profile-page">
@@ -325,7 +326,7 @@
                       <div class="form-group">
                         <div class="user-info-right">
                           <div class="basic-info">                         
-                            <h3><i class="fa fa-square"></i>Complétez votre profile </h3> 
+                            <h3><i class="fa fa-square"></i>Complétez votre profil </h3> 
                             <fieldset>       
                               <div class="form-group">
                                   <label class="col-md-4 control-label">Nom</label>
@@ -675,7 +676,7 @@
                               </div>                                                     
                           <!-- Select -->   
                               <div class="form-group">
-                                <label class="col-md-4 control-label" >Profile</label>
+                                <label class="col-md-4 control-label" >Profil</label>
                                 <div class="col-md-6  inputGroupContainer">
                                   <span class="input-icon">                                   
                                     <select class="form-control control-groupe" id="profil-profil" name="profil" size="1" required > 
@@ -769,88 +770,49 @@
           
               <!-- SETTINGS TAB CONTENT -->
               <div class="tab-pane settings" id="settings-tab">
-                <form class="form-horizontal" role="form" >
-                  <fieldset>
-                    <h3><i class="fa fa-square"></i> Change Password</h3>
+                <form id="form-parametre-mp" class="form-horizontal" role="form" >
+                
+                    <h3><i class="fa fa-square"></i> Changer votre mot de passe</h3>
                     <div class="form-group">
-                      <label for="old-password" class="col-sm-3 control-label">Old Password</label>
+                      <label for="old-password" class="col-sm-3 control-label">Ancien mot de passe</label>
+                      
                       <div class="col-sm-4">
-                        <input type="password" id="old-password" name="old-password" class="form-control">
+                          <span class="input-icon">
+                            <input type="password" id="ancien-mp" name="ancien-mp" minlength="6" maxlength='12' size='12' class="form-control" placeholder="Ancien mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
+                            <i class="fa fa-key darkorange"></i>
+                          </span>                             
                       </div>
                     </div>
                     <hr>
                     <div class="form-group">
-                      <label for="password" class="col-sm-3 control-label">New Password</label>
+                      <label for="password" class="col-sm-3 control-label">Nouveau mot de passe</label>
+                     
                       <div class="col-sm-4">
-                        <input type="password" id="password" name="password" class="form-control">
+                          <span class="input-icon">
+                            <input id="parametre-mp1" type="password" name="parametre-mp1"  minlength="6" maxlength='12' size='12' class="form-control" placeholder="Nouveau mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
+                            <i class="fa fa-key darkorange"></i>
+                          </span>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="password2" class="col-sm-3 control-label">Repeat Password</label>
+                      <label for="password2" class="col-sm-3 control-label">Répéter le mot de passe</label>
                       <div class="col-sm-4">
-                        <input type="password" id="password2" name="password2" class="form-control">
+                          <span class="input-icon">
+                            <input id="parametre-mp2" type="password" name="parametre-mp2"  minlength="6" maxlength='12' size='12' class="form-control" data-match="#parametre-mp1" data-match-error="Whoops, these don't match" placeholder="Confirmer le mot de passe" required >
+                            <i class="fa fa-key darkorange"></i>
+                          </span>
                       </div>
                     </div>
-                  </fieldset>
-                  <fieldset>
-                    <h3><i class="fa fa-square"></i> Privacy</h3>
-                    <div class="checkbox">
-                      <label>
-                          <input type="checkbox" class="colored-blue" checked="checked">
-                          <span class="text">Show my display name</span>
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                          <input type="checkbox" class="colored-blue" checked="checked">
-                          <span class="text">Show my birth date</span>
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                          <input type="checkbox" class="colored-blue" checked="checked">
-                          <span class="text">Show my email</span>
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                          <input type="checkbox" class="colored-blue" checked="checked">
-                          <span class="text">Show my online status on chat</span>
-                      </label>
-                    </div>
-                  </fieldset>
-                  <h3><i class="fa fa-square"> </i>Notifications</h3>
-                  <fieldset>
-                    <div class="checkbox">
-                      <label>
-                          <input type="checkbox" class="colored-blue" checked="checked">
-                          <span class="text">Receive message from administrator</span>
-                      </label>
-                    </div>
-
-                    <div class="checkbox">
-                      <label>
-                          <input type="checkbox" class="colored-blue" checked="checked">
-                          <span class="text">New product has been added</span>
-                      </label>
-                    </div>
-
-                    <div class="checkbox">
-                      <label>
-                          <input type="checkbox" class="colored-blue" checked="checked">
-                          <span class="text">Product review has been approved</span>
-                      </label>
-                    </div>
-
-                    <div class="checkbox">
-                      <label>
-                          <input type="checkbox" class="colored-blue" checked="checked">
-                          <span class="text">Others liked your post</span>
-                      </label>
-                    </div>
-                </fieldset>
+                    <div class="col-sm-12">
+                        <p id="idParametreAlertMsg" class="lead mt-5 display-4 text-danger text-center alertMsg">Veuillez saisir votre ancien mot de passe</p>
+                                           
+                      </div>
+                     <div class="col-sm-12" id="place-btn-parametre">
+                          <button type="submit" class="btn btn-azure">Valider</button>
+                    </div>              
+           
               </form>
-              <p class="text-center"><a href="#" class="btn btn-custom-primary"><i class="fa fa-floppy-o"></i> Save Changes</a></p>
+            
             </div>
             <!-- END SETTINGS TAB CONTENT -->
           </div>
@@ -858,7 +820,7 @@
       </div>
     </div>
 <!-- ************************************************************************* -->
-<!--                          page  profile membre mur                         -->
+<!--                          page  profil membre mur                         -->
 <!-- ************************************************************************* -->
    <!-- Begin page content -->
    <div id="mur-profile" class="row page-content">
@@ -920,7 +882,7 @@
               </div>
               <div id="mur-pseudo" class="name"><a href="#"></a></div>
               <ul class="cover-nav">
-                <li> <a id="idProfileChange" href="#"><i class="fa fa-fw fa-bars"></i>Changer son profile</a></li>
+                <li> <a id="idProfileChange" href="#"><i class="fa fa-fw fa-bars"></i>Changer son profil</a></li>
                 <li><a href="about.html"><i class="fa fa-fw fa-user"></i> A propos</a></li>
                 <li><a href="friends.html"><i class="fa fa-fw fa-users"></i> Amis</a></li>
                 <li><a href="photos1.html"><i class="fa fa-fw fa-image"></i> Photos</a></li>
@@ -945,7 +907,7 @@
                 </li>
                 <li class="padding-v-5">
                   <div class="row">
-                    <div class="col-sm-4"><span class="text-muted">Profile</span></div>
+                    <div class="col-sm-4"><span class="text-muted">Profil</span></div>
                     <div class="col-sm-8" id="mur-profil"></div>
                   </div>
                 </li>
@@ -1445,7 +1407,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="idModalTitleP">A propos...</h5>
+              <h5 class="modal-title titre-apropos" id="idModalTitleP">A propos...</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Fermer" aria-hidden="true">X</button>
           </div>    
           <div class="row">
@@ -1456,7 +1418,7 @@
                     <img src="static/images/chat.jpg" class="show-in-modal" alt="people">
                   </div>  
                   <div class="friends">
-                    <p> <b>"Adopte un maître"</b> est un réseau social qui permet de mettre en relation des personnes qui proposent des chats à l’adoption et celles désirant en adopter.</p>
+                    <p class="texte-apropos"><b>"Adopte un maître"</b> est un réseau social qui permet de mettre en relation des personnes qui proposent des chats à l’adoption et celles désirant en adopter.</p>
                   </div>  
                 </div>                             
               </div>                       
@@ -1489,8 +1451,7 @@
         </div>
       </div>
     </div> 
-    
-   
+
 <!-- ************************************************************************* -->
 <!--                            Fenêtre Modale global                          -->
 <!-- ************************************************************************* --> 
@@ -1538,23 +1499,7 @@
     <noscript><p>Veuillez activer JavaScript</p></noscript> 
     <script>  
     'use strict';
-      (function() {        
-        window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          var forms = document.getElementsByClassName('needs-validation');
-          // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add('was-validated');
-            }, false);
-          });
-        }, false);
-      })();
-    
+     
   </script> 
   
   </body>

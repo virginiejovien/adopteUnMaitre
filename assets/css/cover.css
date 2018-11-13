@@ -162,6 +162,7 @@
     right: 0;
     width: 120px;
     height: auto;
+    padding: 0;
   }
   .cover.profile .wrapper .friends > li {
     width: 50%;
@@ -249,3 +250,4 @@
     border-bottom: 1px solid #e2e9e6;
   }
 }
+

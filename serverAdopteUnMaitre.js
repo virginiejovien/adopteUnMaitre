@@ -105,13 +105,20 @@ socketIo.on('connection', function(webSocketConnection) {        // Une connexio
     webSocketConnection.on('envoieEmailRecupMp', function (email) {
         console.log('recoit email pour mot de passe oublié:', email);
         vMemberServer.checkMpLostSendMail(email, webSocketConnection, socketIo)
-    });         
+    });   
+          
     
 // Reception de la demande de changement de mot de passe : 
     webSocketConnection.on('controleChangeMp', function (data) {       // Reception de la saisie du nouveau mot de passe dans le formulaire
         vMemberServer.changePassWord(data, webSocketConnection, socketIo);
     }); 
-        
+       
+              
+    
+// Reception de la demande dans les parametres de changement de mot de passe : 
+    webSocketConnection.on('controleParametreMp', function (data) {       // Reception de la saisie du nouveau mot de passe dans le formulaire
+        vMemberServer.parametrePassWord(data, webSocketConnection, socketIo);
+    }); 
 
 // ***********************************************************************************************************   
 // Gestion et controle du formulaire d'inscription

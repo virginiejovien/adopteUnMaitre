@@ -206,7 +206,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   i.fa.fa-envelope-o.darkorange
             .form-group
               .col-md-12
-                p#message-recup-mp.lead.mt-5.display-4.text-danger.text-center.alertMsg L&apos;e-mail n&apos;existe pas
+                p#message-recup-mp-mail.lead.mt-5.display-4.text-danger.text-center.alertMsg L&apos;e-mail n&apos;existe pas
                 button.btn.btn-info.btn-block(type='submit')  Continuer
 // *********************************************************************
 // page  changer de mot de passe oublié
@@ -244,19 +244,23 @@ nav#top.navbar.navbar-white.navbar-fixed-top
   .row
     .col-md-10.col-md-offset-1
       // NAV TABS
-      ul#nav-profil.nav.nav-tabs.nav-tabs-custom-colored.tabs-iconized
-        li.active
-          a#idProfileMur(href='#' data-toggle='tab' aria-expanded='true')
+      ul#nav-profil.nav.nav-tabs.tabs-iconized
+        li#tab-change-profil.active
+          a(href='#profile-tab' data-toggle='tab' aria-expanded='true')
+            i.fa.fa-fw.fa-bars
+            | Changer son profil
+        li#tab-profil
+          a#idProfileMur(href='#profile-tab' data-toggle='tab' aria-expanded='false')
             i.fa.fa-user
-            |  Profile
-        li
+            |  Profil
+        li#tab-activite
           a(href='#activity-tab' data-toggle='tab' aria-expanded='false')
             i.fa.fa-rss
-            |  Recent Activity
-        li
+            |  Activit&eacute;s r&eacute;centes
+        li#tab-parametre
           a(href='#settings-tab' data-toggle='tab' aria-expanded='false')
             i.fa.fa-gear
-            |  Settings
+            |  Param&egrave;tres
       // END NAV TABS
       .tab-content.profile-page
         // PROFILE TAB CONTENT
@@ -284,7 +288,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                     .basic-info
                       h3
                         i.fa.fa-square
-                        | Compl&eacute;tez votre profile
+                        | Compl&eacute;tez votre profil
                       fieldset
                         .form-group
                           label.col-md-4.control-label Nom
@@ -861,7 +865,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                               br
                         // Select
                         .form-group
-                          label.col-md-4.control-label Profile
+                          label.col-md-4.control-label Profil
                           .col-md-6.inputGroupContainer
                             span.input-icon
                               select#profil-profil.form-control.control-groupe(name='profil' size='1' required='')
@@ -946,71 +950,36 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         // END ACTIVITY TAB CONTENT
         // SETTINGS TAB CONTENT
         #settings-tab.tab-pane.settings
-          form.form-horizontal(role='form')
-            fieldset
-              h3
-                i.fa.fa-square
-                |  Change Password
-              .form-group
-                label.col-sm-3.control-label(for='old-password') Old Password
-                .col-sm-4
-                  input#old-password.form-control(type='password' name='old-password')
-              hr
-              .form-group
-                label.col-sm-3.control-label(for='password') New Password
-                .col-sm-4
-                  input#password.form-control(type='password' name='password')
-              .form-group
-                label.col-sm-3.control-label(for='password2') Repeat Password
-                .col-sm-4
-                  input#password2.form-control(type='password' name='password2')
-            fieldset
-              h3
-                i.fa.fa-square
-                |  Privacy
-              .checkbox
-                label
-                  input.colored-blue(type='checkbox' checked='checked')
-                  span.text Show my display name
-              .checkbox
-                label
-                  input.colored-blue(type='checkbox' checked='checked')
-                  span.text Show my birth date
-              .checkbox
-                label
-                  input.colored-blue(type='checkbox' checked='checked')
-                  span.text Show my email
-              .checkbox
-                label
-                  input.colored-blue(type='checkbox' checked='checked')
-                  span.text Show my online status on chat
+          form#form-parametre-mp.form-horizontal(role='form')
             h3
-              i.fa.fa-square  
-              | Notifications
-            fieldset
-              .checkbox
-                label
-                  input.colored-blue(type='checkbox' checked='checked')
-                  span.text Receive message from administrator
-              .checkbox
-                label
-                  input.colored-blue(type='checkbox' checked='checked')
-                  span.text New product has been added
-              .checkbox
-                label
-                  input.colored-blue(type='checkbox' checked='checked')
-                  span.text Product review has been approved
-              .checkbox
-                label
-                  input.colored-blue(type='checkbox' checked='checked')
-                  span.text Others liked your post
-          p.text-center
-            a.btn.btn-custom-primary(href='#')
-              i.fa.fa-floppy-o
-              |  Save Changes
+              i.fa.fa-square
+              |  Changer votre mot de passe
+            .form-group
+              label.col-sm-3.control-label(for='old-password') Ancien mot de passe
+              .col-sm-4
+                span.input-icon
+                  input#ancien-mp.form-control(type='password' name='ancien-mp' minlength='6' maxlength='12' size='12' placeholder='Ancien mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                  i.fa.fa-key.darkorange
+            hr
+            .form-group
+              label.col-sm-3.control-label(for='password') Nouveau mot de passe
+              .col-sm-4
+                span.input-icon
+                  input#parametre-mp1.form-control(type='password' name='parametre-mp1' minlength='6' maxlength='12' size='12' placeholder='Nouveau mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                  i.fa.fa-key.darkorange
+            .form-group
+              label.col-sm-3.control-label(for='password2') R&eacute;p&eacute;ter le mot de passe
+              .col-sm-4
+                span.input-icon
+                  input#parametre-mp2.form-control(type='password' name='parametre-mp2' minlength='6' maxlength='12' size='12' data-match='#parametre-mp1' data-match-error="Whoops, these don't match" placeholder='Confirmer le mot de passe' required='')
+                  i.fa.fa-key.darkorange
+            .col-sm-12
+              p#idParametreAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg Veuillez saisir votre ancien mot de passe
+            #place-btn-parametre.col-sm-12
+              button.btn.btn-azure(type='submit') Valider
         // END SETTINGS TAB CONTENT
 // *************************************************************************
-// page  profile membre mur
+// page  profil membre mur
 // *************************************************************************
 // Begin page content
 #mur-profile.row.page-content
@@ -1058,7 +1027,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               li
                 a#idProfileChange(href='#')
                   i.fa.fa-fw.fa-bars
-                  | Changer son profile
+                  | Changer son profil
               li
                 a(href='about.html')
                   i.fa.fa-fw.fa-user
@@ -1086,7 +1055,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               li.padding-v-5
                 .row
                   .col-sm-4
-                    span.text-muted Profile
+                    span.text-muted Profil
                   #mur-profil.col-sm-8
               li.padding-v-5
                 .row
@@ -1459,7 +1428,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
   .modal-dialog.modal-dialog-centered(role='document')
     .modal-content
       .modal-header
-        h5#idModalTitleP.modal-title A propos...
+        h5#idModalTitleP.modal-title.titre-apropos A propos...
         button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
       .row
         .col-md-12
@@ -1468,7 +1437,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               .image
                 img.show-in-modal(src='static/images/chat.jpg' alt='people')
               .friends
-                p
+                p.texte-apropos
                   b &quot;Adopte un ma&icirc;tre&quot;
                   |  est un r&eacute;seau social qui permet de mettre en relation des personnes qui proposent des chats &agrave; l&rsquo;adoption et celles d&eacute;sirant en adopter.
       .modal-footer
@@ -1527,19 +1496,3 @@ noscript
   p Veuillez activer JavaScript
 script.
   'use strict';
-  (function() {
-  window.addEventListener('load', function() {
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.getElementsByClassName('needs-validation');
-  // Loop over them and prevent submission
-  var validation = Array.prototype.filter.call(forms, function(form) {
-  form.addEventListener('submit', function(event) {
-  if (form.checkValidity() === false) {
-  event.preventDefault();
-  event.stopPropagation();
-  }
-  form.classList.add('was-validated');
-  }, false);
-  });
-  }, false);
-  })();

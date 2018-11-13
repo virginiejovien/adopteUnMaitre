@@ -54,13 +54,30 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
 
     this.membre =                                   // Structure de stockage provisoire du membre
     {   
-            email           : '',
             pseudo          : '',
+            email           : '',           
             mp              : '',
+            mpConfirme          : '',
             statut          :  0,                 // Membre 0, Admin 1 ou SuperAdmin 2 
-            dateCreation    : -1,                 // Timestamp de la création du record
+            dateCreation    : -1,                 // date de creation 
+            mpProvisoire    : '',
+            statut          : 0,             // Membre 0, Admin 1 ou SuperAdmin 2                                
+            dateCreation    : -1,            // Timestamp de la création du compte
+            photoProfile    : 'static/images/default-avatar.png',
+            nom             : '',
+            prenom          : '',
+            age             : '',
+            genre           : '',            // femme (F)  ou homme(H)
+            telephone       : '',      
+            adresse         : '', 
+            cp              : '',           // code postal
+            ville           : '',           // ville 
+            pays            : '',           // pays
+            profil          : '',           // est proprietaire ou souhaite adopté ou neutre           
+            preference      : '',           // preferences adopte un maitre(AM) adopte un chat (AC) ne sais pas (NSP)            
+            amis            :[]             // liste d'amis
     }
-
+   
 
 
 //************************************************************************************************************
@@ -215,7 +232,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
 // Vérification que le formulaire de connection du membre est valide:
 // Vérification de l'existence du pseudo et du Mot de passe du  membre dans la BDD adopteunmaitre
 // - Si le mot de passe et le pseudo n'existe pas : on envoie au client "messageNoConnection"
-// - Sinon on a bien un membre:  on demande au client activation bouton deconnexion et affichage profile
+// - Sinon on a bien un membre:  on demande au client activation bouton deconnexion et affichage profil
 //************************************************************************************************************
     MemberServer.prototype.visitorTryToLoginPromise = (pVisiteurLoginData, pWebSocketConnection, pSocketIo) => {
         return new Promise((resolve, reject) => {
@@ -258,7 +275,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
                     console.log("pSocketIo",pSocketIo);   
                     pWebSocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
                     pWebSocketConnection.emit('profileConnect', this.membre); // On envoie au client les données de profil du membre  
-                  if (this.membre.statut !== '0')  {
+                  if (this.membre.statut != '0')  {
                     console.log("this.membre.statut",this.membre.statut);
                     pWebSocketConnection.emit('disableAdministrateurBtn'); // on envoie au client activation bouton administrateur car le membre est un administrateur
                   }
@@ -428,7 +445,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
             sgMail.send(messageToSend);  // envoie du mail d'inscripotion             
         
             pWebSocketConnection.emit('disableConnectBtn');                 // on envoie au client activation bouton deconnexion 
-            if (this.membre.statut !== '0')  {
+            if (this.membre.statut != '0')  {
                 console.log("this.membre.statut",this.membre.statut);
                 pWebSocketConnection.emit('disableAdministrateurBtn'); // on envoie au client activation bouton administrateur car le membre est un administrateur
             }
@@ -458,7 +475,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
             console.log('apres find',email); 
             if (!documents.length) {  
                 console.log('adresse mail n existe pas dans nos bases de donnees ',documents);
-                return pWebSocketConnection.emit('messageNoRecupMp');               
+                return pWebSocketConnection.emit('messageNoRecupMpMail');               
             } 
              // La mail est valide, récupération des infos nécessaires et suffisantes pour renvoyer le nouveau MDP
              this.membre.email = documents[0].email;          // Récupération des infos nécessaires et suffisantes pour renvoyer le nouveau MDP
@@ -499,8 +516,9 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 
 //************************************************************************************************************
 // Vérification du mot de passe provisoire dans la collection membres
-// - Si pseudo n'existe pas on envoie probleme
-// - Par contre, s'il existe, on génère un un mot de passe provisoire et on le transmet par mail 
+// - Si le mot de passe provisoire n'est pas bon on envoie un message pour signaler le probleme
+// - Par contre, si tout est ok:    - on met à jour le nouveau mot de passe 
+//                                  - on transmet les nouveaux parametres du compte par mail 
 //************************************************************************************************************
     MemberServer.prototype.changePassWord = function(pObjetMembreLocalMotDePasse, pWebSocketConnection, pSocketIo) { 
         console.log('pObjetMembreLocalMotDePasse.mpProvisoire verif change mot de passe',pObjetMembreLocalMotDePasse.mpProvisoire); 
@@ -571,15 +589,90 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
         });
     };
 
+    
+//************************************************************************************************************
+// Vérification de l'ancien mot de passe saisie dans la collection membres
+// - Si le mot de passe saisie n'est pas bon:  -on envoie un message pour signaler le probleme
+// - Par contre, si tout est ok:    - on met à jour le nouveau mot de passe 
+//                                  - on transmet les nouveaux parametres du compte par mail 
+//************************************************************************************************************
+MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse, pWebSocketConnection, pSocketIo) { 
+    console.log('pObjetMembreLocalMotDePasse.ancienMp verif change mot de passe',pObjetMembreLocalMotDePasse.ancienMp); 
+    this.DBMgr.colMembres.find(
+        {
+            pseudo:pObjetMembreLocalMotDePasse.pseudo
+
+        }).toArray((error, documents) => {                     
+        if (error) {
+            console.log('Erreur de find dans collection colMembres',error);
+            throw error;
+        }                                
+        if (!documents.length) {  
+            console.log('documents change mot de passe false',documents); 
+            let message = {};              
+            message.message = "Veuillez saisir votre mot de passe actuel pour en créer un nouveau";
+            console.log('connection message.message',message.message);
+            return pWebSocketConnection.emit('messagePbParametreChangeMp', message, pObjetMembreLocalMotDePasse);                                   
+        }  
+        console.log('documents connection',documents);
+        console.log('pDocuments.mp verif mot de passe dans la collection',documents[0].mp); 
+
+        if ((pObjetMembreLocalMotDePasse.ancienMp) !== (documents[0].mp)) {  ///est ce que les deux anciens mots de passe sont différents
+            console.log('Pb parametre mot de passe car pas les mêmes mots de passe');
+            let message = {};
+            message.message = "Veuillez saisir votre mot de passe actuel pour en créer un nouveau";
+            return pWebSocketConnection.emit('messagePbParametreChangeMp', message);               
+        } 
+            let pseudoSengrid   = documents[0].pseudo;  
+            let emailSengrid    = documents[0].email; 
+            let mpNew           = pObjetMembreLocalMotDePasse.mp;   // nouveau mot de passe 
+
+            // misa à jour de l'objet membre
+            this.membre.pseudo         = pObjetMembreLocalMotDePasse.pseudo;
+            this.membre.email          = emailSengrid;
+            this.membre.mp             = mpNew;                   
+            this.membre.mpConfirme     = mpNew;
+            this.membre.mpProvisoire   = mpNew;               
+            console.log("pObjetMembreLocalMotDePasse.mpProvisoire et pDocumentsmpProvisoire true",pObjetMembreLocalMotDePasse.mp);       
+            this.DBMgr.colMembres.updateOne(        // misa à jour du nouveau mots de passe
+                {pseudo:    this.membre.pseudo},
+                {$set:
+                        {
+                        mp             :mpNew,
+                        mpConfirme     :mpNew,                         
+                        mpProvisoire   :mpNew
+                        }
+                    },(error, document) => {
+
+                if (error) {
+                    console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                    throw error;
+                }          
+                console.log('update ok');                               
+                console.log("mpNew",mpNew);                       
+                let messageToSend = {
+                    to       : emailSengrid,
+                    from     : constMailFrom,
+                    subject  : 'Info changement de mots de passe',
+                    html     : '<h1 style="color: black;">Hello '+pseudoSengrid+'</h1><p><h2>Voici vos nouvelles données de connexion pour naviguer sur le site :<b>Adopte un Maître</b> </h2><br />Vos identifiants sont : <p><Strong>Pseudonyme : </strong>'+pseudoSengrid+'<p><strong>Mot de passe : </strong>'+mpNew +
+                            '</p><br /><br /><br /><i>Adopte un Maitre Team</i>',
+                    }
+                sgMail.send(messageToSend);  // envoie du mail de prise en compte du nouveau mot de passe
+                pWebSocketConnection.emit('mailSendInfoParametreMp',this.membre);               
+                                 
+        });  
+    });
+};
+
 //************************************************************************************************************  
-// Gestion et controle du formulaire d'inscription Profile 
+// Gestion et controle du formulaire d'inscription Profil
 // - verification des champs saisies 
 // - Mise à jour des donnees du memebre dans la collection membres de la BDD adopteunmaitre
 //************************************************************************************************************ 
     MemberServer.prototype.miseAjourProfilMembre = function(pObjetMembreLocal, pWebSocketConnection, pSocketIo) {   
         console.log('pObjetMembreLocal  avant MAJ de la collection membres',pObjetMembreLocal); 
         if ((!pObjetMembreLocal.genre) || (!pObjetMembreLocal.profil) || (!pObjetMembreLocal.pays)) {
-            console.log("pObjetMembreLocal profile inscription champs vide",pObjetMembreLocal);
+            console.log("pObjetMembreLocal profil inscription champs vide",pObjetMembreLocal);
             let message = {};
             message.message = 'Vous devez renseigner tous les champs du formulaire';
             return pWebSocketConnection.emit('messageErrorProfilInscription', message);
@@ -595,7 +688,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                 //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
                     return false;                     
                 }  
-                    console.log('documents avant MAJ profile inscription', documents);
+                    console.log('documents avant MAJ profil inscription', documents);
                 
                 
                     let pseudoSengrid = documents[0].pseudo;  
@@ -642,12 +735,12 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                         let messageToSend = {
                             to       : emailSengrid,
                             from     : constMailFrom,
-                            subject  : 'Informations de Profile',
-                            html     : '<h1 style="color: black;">Hello '+pseudoSengrid+'</h1><p><h2>Votre fiche de renseignements de votre profile a bien été prise en compte sur notre site:<b>Adopte un Maître</b> </h2><br />' +
+                            subject  : 'Informations de Profil',
+                            html     : '<h1 style="color: black;">Hello '+pseudoSengrid+'</h1><p><h2>Votre fiche de renseignements de votre profil a bien été prise en compte sur notre site:<b>Adopte un Maître</b> </h2><br />' +
                                 '<br /><i>Adopte un Maitre Team</i>',
                             }
-                        sgMail.send(messageToSend);  // envoie du mail d'information maj profile
-                        pWebSocketConnection.emit('mailSendInfoChangeMp',this.membre);             
+                        sgMail.send(messageToSend);  // envoie du mail d'information maj profil
+                        pWebSocketConnection.emit('mailSendInfoChangeProfil',this.membre);             
                     
                         pWebSocketConnection.emit('profileConnect', this.membre); // On envoie au client les données de profil du membre                         
                 });  

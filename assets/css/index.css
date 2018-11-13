@@ -549,15 +549,32 @@ footer .container .text-muted {
     display:none;
 }
 
+#idParametreAlertMsg{
+    font-size: 15px;
+    text-align: left;
+    display:none;
+}
+
+#mpOublie{
+    font-size: 15px;
+    display:none;
+}
+
+#place-btn-parametre {
+    padding-left: 150px;
+    text-align: left;
+}
+
 #idRecupMpAlertMsg{
     font-size: 15px;
     display:none;
 }
 
-#message-recup-mp{
+#message-recup-mp-mail{
     font-size: 15px;
     display:none;
 }
+
 #idProfilMpAlertMsg{
     font-size: 15px;
     display:none;
@@ -649,6 +666,16 @@ height: 45px
     font-size: 16px
 
 }
+
+.titre-apropos {
+    font-size: 20px;
+}
+
+.texte-apropos {
+    margin: 24px 0 34px;
+    padding: 7px;
+}
+
 
 #mur-pseudo{
     font-size: 15px;

@@ -31,7 +31,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var messageRecup= window.document.getElementById('idRecupMpAlertMsg'); 
     var formRecupMp =  window.document.getElementById('form-recup-mp');
     var mailRecupMp =  window.document.getElementById('mail-recup-mp');
-    var messageRecupMp = window.document.getElementById('message-recup-mp'); 
+    var messageRecupMpMail = window.document.getElementById('message-recup-mp-mail'); 
     var fermeMp = window.document.getElementById('ferme-mp');
     var fermeMpChange = window.document.getElementById('ferme-mp-change');
 
@@ -71,6 +71,10 @@ window.addEventListener('DOMContentLoaded', function() {
  //*****************************************/   
    // Eléments de la page profile inscription 
    var blockProfilMembre =  window.document.getElementById('profile-membre');
+   var tabChangeProfil =  window.document.getElementById('tab-change-profil');
+   var tabProfil =  window.document.getElementById('tab-profil');
+   var tabActivite =  window.document.getElementById('tab-activite');
+   var tabParametre =  window.document.getElementById('tab-parametre');
    var idProfilMpAlertMsg = window.document.getElementById('idProfileMur')
    var formProfilInscription = window.document.getElementById('form-profil-inscription');
    var pseudoProfil = window.document.getElementById('pseudo-profil');
@@ -90,8 +94,13 @@ window.addEventListener('DOMContentLoaded', function() {
    var preferenceProfil = window.document.getElementById('preference-profil');
    var messageErrProfilInscrit = window.document.getElementById('idProfilMpAlertMsg');
 
- //   var pseudoProfil = window.document.getElementById('pseudo-profil');
- 
+ //parametres de compte modifier le mot de passe
+    var formParametreMp =  window.document.getElementById('form-parametre-mp');
+    var ancienMp = window.document.getElementById('ancien-mp');
+    var parametreMp1 = window.document.getElementById('parametre-mp1'); 
+    var parametreMp2 = window.document.getElementById('parametre-mp2');
+    var messageParametreMp= window.document.getElementById('idParametreAlertMsg'); 
+   
  //*****************************************/
  // elements single page mur de profile 
  //*****************************************/   
@@ -131,19 +140,43 @@ window.addEventListener('DOMContentLoaded', function() {
     mp2Inscription.onkeyup = function(){validatePassword(mp1Inscription, mp2Inscription)};     //
     changeMp1.onchange = function(){validatePassword(changeMp1, changeMp2)};    // Vérification que les MDP sont identiques
     changeMp2.onkeyup = function(){validatePassword(changeMp1, changeMp2)};     //
-
+    parametreMp1.onchange = function(){validatePassword(parametreMp1, parametreMp2)};    // Vérification que les MDP sont identiques
+    parametreMp2.onkeyup = function(){validatePassword(parametreMp1, parametreMp2)};   
 // -------------------------------------------------------------------------------------
 // Cette fonction initialise le contenu de la fenetre modale "Recuperation Mot de Passe"
 // après la demande réussie de recuperation de mot de passe du nouveau membre
 // -------------------------------------------------------------------------------------
-    function initModalRecupText(pModalTitleG, pModalBodyTextG) {
-        pModalTitleG.innerText = 'Recuperation mot de passe reussie dans Adopte un Maitre'
+    function initModalRecupTextBravo(pModalTitleG, pModalBodyTextG) {
+        pModalTitleG.innerText = 'Récuperation du mot de passe reussie dans Adopte un Maitre'
         pModalBodyTextG.innerHTML = '<h2>Adopte un Maitre Team vous informe:</h2>';
         pModalBodyTextG.innerHTML += '<br /><p>Vos identifiants vous ont été envoyés avec succès.</p>';
         pModalBodyTextG.innerHTML += '<br /><p>Nous venons de vous envoyer un email avec vos identifiants de connexion, consultez votre boîte spam si vous ne le voyez pas !</p>';
         pModalBodyTextG.innerHTML += '<br /><p>Bonne navigation !</p>';
     };
 
+// -------------------------------------------------------------------------------------
+// Cette fonction initialise le contenu de la fenetre modale "Changement de Mot de Passe"
+// après la demande réussie de changement de mot de passe du nouveau membre
+// -------------------------------------------------------------------------------------
+    function initModalRecupTextMp(pModalTitleG, pModalBodyTextG) {
+        pModalTitleG.innerText = 'Changement de mot de passe reussie dans Adopte un Maitre'
+        pModalBodyTextG.innerHTML = '<h2>Adopte un Maitre Team vous informe:</h2>';
+        pModalBodyTextG.innerHTML += '<br /><p>Votre nouveau mot de passe est pris en compte</p>';
+        pModalBodyTextG.innerHTML += '<br /><p>Nous venons de vous envoyer un email avec un rappel de vos identifiants de connexion, consultez votre boîte spam si vous ne le voyez pas !</p>';
+        pModalBodyTextG.innerHTML += '<br /><p>Bonne navigation !</p>';
+    };
+
+// -------------------------------------------------------------------------------------
+// Cette fonction initialise le contenu de la fenetre modale "mise à jour fiche profil"
+// après la validation réussie du formulaire d'inscription fiche profil
+// -------------------------------------------------------------------------------------
+    function initModalRecupTextProfil(pModalTitleG, pModalBodyTextG) {
+        pModalTitleG.innerText = 'Fiche de renseignements mise à jour dans Adopte un Maitre'
+        pModalBodyTextG.innerHTML = '<h2>Adopte un Maitre Team vous informe:</h2>';
+        pModalBodyTextG.innerHTML += '<br /><p>Bravo votre fiche de renseignements est à jour</p>';
+        pModalBodyTextG.innerHTML += '<br /><p>Nous venons de vous envoyer un email confirmant que nous avons bien pris en compte vos données de profil, consultez votre boîte spam si vous ne le voyez pas !</p>';
+        pModalBodyTextG.innerHTML += '<br /><p>Bonne navigation !</p>';
+    };
 // *******************************************************************************
 // Cette fonction vérifie que le MDP et sa confirmation sont bien identiques
 // *******************************************************************************
@@ -326,6 +359,7 @@ window.addEventListener('DOMContentLoaded', function() {
         blockOublie.style.display = 'block'; 
         websocketConnection.emit('recupMotDePasse');           
     });
+ 
 
 // ***********************************************************************************************************
 // A l'évènement submit on envoi au serveur les données du formulaire de recuperation de mot de passe
@@ -377,19 +411,22 @@ window.addEventListener('DOMContentLoaded', function() {
         console.log('bravo mail de recup envoyé');
         console.log("pseudoRecup",pseudoRecup);
         objetDuMembre.pseudo = pseudoRecup;
-        initModalRecupText(vModalTitleG, vModalBodyTextG);
+        initModalRecupTextBravo(vModalTitleG, vModalBodyTextG);
         $('#idGenericModal').modal('toggle');    // ouverture de la fenêtre modale bravo la recuperation de mot de passe ok
    //     blockFormulaire.style.display = 'block';                       
         blockOublie.style.display = 'none';  
         blockChangeMp.style.display = 'block';        // préparation page pour obliger le membre à changer de mot de passe                                
     });  
 
+ 
+
+
 // ***********************************************************************************************************
 // message au visiteur qu'on n'a pas trouver son adresse mail
 // ***********************************************************************************************************
-    websocketConnection.on('messageNoRecupMp', function(message) { 
-        messageRecupMp.style.display= 'block';        
-        setTimeout(function(){ messageRecupMp.style.display= 'none';},9000);      
+    websocketConnection.on('messageNoRecupMpMail', function(message) { 
+        messageRecupMpMail.style.display= 'block';        
+        setTimeout(function(){ messageRecupMpMail.style.display= 'none';},9000);      
     });
 
 // ***********************************************************************************************************
@@ -413,7 +450,7 @@ window.addEventListener('DOMContentLoaded', function() {
         changeMp1.value = '';                                   
         changeMp2.value = '';    
     });
-  
+
 // ***********************************************************************************************************
 // Formulaire d'inscription
 // A l'évènement submit on envoi au serveur les données du formulaire d'inscription
@@ -468,11 +505,26 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // recoit changement mot de passe ok on cache la fenettre de changement de mot de passe 
 // ***********************************************************************************************************
-    websocketConnection.on('mailSendInfoChangeMp', function(message) { 
-        alert('Un mail avec vos nouvelles coordonnees de connexion vous a été envoyé');
-       blockChangeMp.style.display = 'none';           
+    websocketConnection.on('mailSendInfoChangeMp', function(data) { 
+        console.log("bravo mail d'info de prise en compte du nouveau mot de passe envoyé partie connexion");
+        console.log("data membre apres changement de mot de passe dans les parametres du compte",data);
+        objetDuMembre.pseudo;
+        initModalRecupTextMp(vModalTitleG, vModalBodyTextG);
+        $('#idGenericModal').modal('toggle');    // ouverture de la fenêtre modale bravo le changement de mot de passe ok          
+        blockChangeMp.style.display = 'none';           
     });
 
+// ***********************************************************************************************************
+// recoit modification du profile ok 
+// ***********************************************************************************************************
+    websocketConnection.on('mailSendInfoChangeProfil', function(data) { 
+        console.log("bravo mail d'info de prise en compte du formulaire de renseignements du profile mise à jour");
+        console.log("data membre apres renseignement du formulaire du profilez d'inscription",data);
+        objetDuMembre.pseudo;
+        initModalRecupTextProfil(vModalTitleG, vModalBodyTextG);
+        $('#idGenericModal').modal('toggle');    // ouverture de la fenêtre modale bravo le changement de mot de passe ok                     
+    });
+    
 //***********************************************************************************************************
 // Le visiteur a créé son compte avec succès et est donc reconnu comme membre
 // Message d'accueil et de b=Bienvenue
@@ -498,187 +550,241 @@ window.addEventListener('DOMContentLoaded', function() {
 // **********************                       - envoie mail de confirmation           **********************    
 // ***********************************************************************************************************
 
-// ***********************************************************************************************************
-// LE CONNECTE EST UN MEMBRE A PRESENT ON LE REDIRIGE VERS SON PROFILE
-// *********************************************************************************************************** 
 
 // *********************************************************************************************************** 
 // Le visiteur s'est loggé avec succès et est donc reconnu comme membre
 // ==> Activation du bouton "Deconnexion"
 // *********************************************************************************************************** 
-   websocketConnection.on('disableConnectBtn', function() {
-    deconnexion.setAttribute('class','dropdown-item');
-    deconnexion.style.color = '#212529';           //      Activation du bouton 'Déconnexion'  
- });
+    websocketConnection.on('disableConnectBtn', function() {
+        deconnexion.setAttribute('class','dropdown-item');
+        deconnexion.style.color = '#212529';           //      Activation du bouton 'Déconnexion'  
+    });
 
 // ***********************************************************************************************************
 // ==> Activation du bouton "Administrateur si statut du membre = 1 ou 2
 // *********************************************************************************************************** 
-websocketConnection.on('disableAdministrateurBtn', function() {
-    administrateur.setAttribute('class','dropdown-item');
-    administrateur.style.color = '#212529';           //      Activation du bouton 'administrateur'  
- });
+    websocketConnection.on('disableAdministrateurBtn', function() {
+        administrateur.setAttribute('class','dropdown-item');
+        administrateur.style.color = '#212529';           //      Activation du bouton 'administrateur'  
+    });
 
+// ***********************************************************************************************************
+// LE NOUVEAU MEMBRE FAIT PARTI DES CONNECTES A PRESENT ON LE REDIRIGE VERS SON PROFILE D'INSCRIPTION
+// ***********************************************************************************************************
+// ***********************************************************************************************************
+// Le client reçoit toutes les données personnelles du membre inscrit
+// ***********************************************************************************************************
+    websocketConnection.on('profileInscription', function(documents) {
+        window.scrollTo(0,0);          // affichage page haut de page 
+        objetDuMembre = documents;
+    // affichage du pseudo dans le menu de navigation
+        pseudoNav.innerHTML = documents.pseudo;
+
+        console.log('objetDuMembre profile inscription', objetDuMembre);
+        blockFormulaire.style.display = 'none'; 
+        footerActivite.style.display = 'block';  
+        console.log('blockFormulaire.style.display', blockFormulaire.style.display);
+        blockProfilMembre.style.display = 'block'; 
+        console.log('blockProfilMembre.style.display',blockProfilMembre.style.display);
+        console.log(' inscription documents',documents);
+        console.log("documents.pseudoInscription", documents.pseudoInscription);
+    //    documents.forEach(function(infoMembre) {
+        photoImageProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">'; 
+    //      photoProfil.innerHTML = photoImage; 
+        pseudoProfil.innerHTML = documents.pseudo;  
+    //      pseudoDeProfil.innerHTML = documents.pseudoInscription; 
+        emailProfil.innerHTML = documents.email;    
+        //     console.log("pseudoDeProfil.innerHTML",pseudoDeProfil.innerHTML); 
+        console.log("emailProfil.innerHTML",emailProfil.innerHTML); 
+    //      console.log("photoProfil.innerHTML",photoProfil.innerHTML); 
+    //      });
+    
+    });   
+ 
+// ***********************************************************************************************************
+// Formulaire suite inscription profile du memmbre 
+// A l'évènement submit on envoi au serveur les données du formulaire d'inscription
+// ***********************************************************************************************************
+    formProfilInscription.addEventListener('submit', function (event) { 
+        event.preventDefault(); 
+        window.scrollTo(0,0);  
+        
+    //   Mise en forme pour transmission au serveur des données saisies    
+            
+        objetDuMembre.nom         =   nomProfil.value;
+        objetDuMembre.prenom      =   prenomProfil.value;
+        objetDuMembre.genre       =   genreProfil.value;
+        objetDuMembre.age         =   ageProfil.value;
+        objetDuMembre.telephone   =   telephoneProfil.value;  
+        objetDuMembre.adresse     =   adresseProfil.value;
+        objetDuMembre.cp          =   cpProfil.value;
+        objetDuMembre.ville       =   villeProfil.value;
+        objetDuMembre.pays        =   paysProfil.value;
+        objetDuMembre.profil      =   profilProfil.value;
+        objetDuMembre.preference  =   preferenceProfil.value;
+        
+        console.log("objetDuMembre avant envoie au serveur web",objetDuMembre);
+    
+        websocketConnection.emit('controleProfileInscription', objetDuMembre);  // Transmission au serveur des infos saisies
+        
+    });
+
+// ***********************************************************************************************************
+// click sur lien mur de profile profile on affiche le mur de profile
+// ***********************************************************************************************************
+    idProfileMur.addEventListener('click', function (event) { 
+        console.log('click mur de  profile');  
+        // affichage des donnees de la page du mur de profile du membre
+        murPhotoProfil = ' <img margin ="auto" src="' +objetDuMembre.photoProfile+'"alt="photo" title="photo de profil">';    
+        murPseudo.innerHTML = objetDuMembre.pseudo; 
+        murEmail.innerHTML = objetDuMembre.email;  
+        blockMurProfile.style.display = 'block';                     
+        blockProfilMembre.style.display = 'none';
+    });
+
+// ***********************************************************************************************************
+// message erreur formulaire profile inscription
+// ***********************************************************************************************************
+    websocketConnection.on('messageErrorProfilInscription', function(message) { 
+        console.log('message reçu veuillez renseigner tous les champs',message);   
+        messageErrProfilInscrit.innerHTML = message.message; 
+        messageErrProfilInscrit.style.display= 'block'; 
+        setTimeout(function(){ messageErrProfilInscrit.style.display= 'none';},9000);         
+    });
+
+// ***********************************************************************************************************
+// Formulaire dans la page parametre de changement de mot de passe
+// A l'évènement submit on envoi au serveur les données du formulaire dans la page parametre de changement de mot de passe
+// *********************************************************************************************************** 
+    formParametreMp.addEventListener('submit', function (event) { 
+        event.preventDefault();     
+        objetDuMembre.ancienMp      =  ancienMp.value;
+        objetDuMembre.mp            =  parametreMp1.value;
+        objetDuMembre.mpConfirme    =  parametreMp2.value;
+        
+        console.log("ancienMp.value dans formulaire parametre de mot de passe",ancienMp.value);
+        
+        console.log("parametreMp2.value dans formulaire parametre de mot de passe",parametreMp1.value);
+        console.log("objetDuMembre dans formulaire parametre de mot de passe",objetDuMembre);
+
+        websocketConnection.emit('controleParametreMp', objetDuMembre);  // Transmission au serveur des infos saisies
+        ancienMp.value = '';                                   // RAZ des données saisies
+        parametreMp1.value = '';                                   
+        parametreMp2.value = '';    
+    });
+
+// ***********************************************************************************************************
+// message au membre qui change de mot de passe que le mot de passe saisie n'est pas valable
+// ***********************************************************************************************************
+    websocketConnection.on('messagePbParametreChangeMp', function(message,pObjetMembre) { 
+        ancienMp.value = ''; 
+        parametreMp1.value = ''; 
+        parametreMp2.value = ''; 
+        messageParametreMp.style.display= 'block';      
+    });
+
+// ***********************************************************************************************************
+// Le membre a changé de mot de passe dans ses parametres de compte
+// Message de confirmation d'envoie du nouveau mot de passe 
+// ***********************************************************************************************************
+    websocketConnection.on('mailSendInfoParametreMp', function(data) { 
+        console.log("bravo mail d'info de prise en compte du nouveau mot de passe envoyé partie paramèetre");
+        console.log("data membre apres changement des parametres de mot de passe dans les parametres du compte",data);
+        objetDuMembre.pseudo;
+        initModalRecupTextMp(vModalTitleG, vModalBodyTextG);
+        $('#idGenericModal').modal('toggle');    // ouverture de la fenêtre modale bravo le changement de mot de passe ok       
+        messageParametreMp.style.display= 'none'; 
+    //    tabChangeProfil.className ="active";   // positionne le li sur changer son profil
+    //    tabProfil.className = "";   
+    //    tabActivite.className = "";   
+     //   tabParametre.className = "";                              
+    }); 
+
+// ***********************************************************************************************************
+// LE CONNECTE EST UN MEMBRE A PRESENT ON LE REDIRIGE VERS SON PROFILE
+// *********************************************************************************************************** 
 // ***********************************************************************************************************
 // Le client reçoit toutes les données personnelles du membre connecté
 // ***********************************************************************************************************
- websocketConnection.on('profileConnect', function(documents) {
-   window.scrollTo(0,0);                           // affichage page haut de page 
-   objetDuMembre = documents;
-   pseudoNav.innerHTML = documents.pseudo; // le pseudo est affiché dans le menu connexion en haut
-   console.log('objetDuMembre profile connexion', objetDuMembre);
-   blockFormulaire.style.display = 'none'; 
-   footerActivite.style.display = 'block';  
-   blockProfilMembre.style.display = 'none'; 
-   console.log('blockFormulaire.style.display', blockFormulaire.style.display);
-   blockMurProfile.style.display = 'block';
- 
-// affichage des donnees de la page du mur de profile du membre
-    murPhotoProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">';    
-    murPseudo.innerHTML = objetDuMembre.pseudo;
-    murVille.innerHTML = objetDuMembre.ville; 
-    switch(objetDuMembre.genre) {
-        case 'F':                                           
-        murGenre.innerHTML = 'Femme';  
-        break;
-        case 'H':                        
-        murGenre.innerHTML = 'Homme';  
-        break;
-        case '':      
-        murGenre.innerHTML = 'Non renseigné';        
-        break;
-    };
-  
-console.log(objetDuMembre.profil);
-switch(objetDuMembre.profil) {
-    case 'AM':                                           
-    murProfil.innerHTML = 'Adopte un maître';  
-    break;
-    case 'AC':                        
-    murProfil.innerHTML = 'Adopte un chat';  
-    break;
-    case 'NSP':      
-    murProfil.innerHTML = 'Ne sais pas encore'; 
-    case '':
-    murProfil.innerHTML = 'Non renseigné'; 
-    break;
-};
-   
-   
-    if (objetDuMembre.age){
-       murAge.innerHTML = objetDuMembre.age + ' ans';
-    } 
-    murEmail.innerHTML = objetDuMembre.email;  
+    websocketConnection.on('profileConnect', function(documents) {
+        window.scrollTo(0,0);                           // affichage page haut de page 
+        objetDuMembre = documents;
+        pseudoNav.innerHTML = documents.pseudo; // le pseudo est affiché dans le menu connexion en haut
+        console.log('objetDuMembre profile connexion', objetDuMembre);
+        blockFormulaire.style.display = 'none'; 
+        footerActivite.style.display = 'block';  
+        blockProfilMembre.style.display = 'none'; 
+        console.log('blockFormulaire.style.display', blockFormulaire.style.display);
+        blockMurProfile.style.display = 'block';
+        
+        // affichage des donnees de la page du mur de profile du membre
+        murPhotoProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">';    
+        murPseudo.innerHTML = objetDuMembre.pseudo;
+        murVille.innerHTML = objetDuMembre.ville; 
+        switch(objetDuMembre.genre) {
+            case 'F':                                           
+            murGenre.innerHTML = 'Femme';  
+            break;
+            case 'H':                        
+            murGenre.innerHTML = 'Homme';  
+            break;
+            case '':      
+            murGenre.innerHTML = 'Non renseigné';        
+            break;
+        };
+        
+        console.log(objetDuMembre.profil);
+        switch(objetDuMembre.profil) {
+            case 'AM':                                           
+            murProfil.innerHTML = 'Adopte un maître';  
+            break;
+            case 'AC':                        
+            murProfil.innerHTML = 'Adopte un chat';  
+            break;
+            case 'NSP':      
+            murProfil.innerHTML = 'Ne sais pas encore'; 
+            case '':
+            murProfil.innerHTML = 'Non renseigné'; 
+            break;
+        };
+                
+        if (objetDuMembre.age){
+        murAge.innerHTML = objetDuMembre.age + ' ans';
+        } 
+        murEmail.innerHTML = objetDuMembre.email;  
 
-// affichage des donnees de la page d'inscription du prifile du membre    
-   photoImageProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">';
-   pseudoProfil.innerHTML = objetDuMembre.pseudo;  
-   emailProfil.innerHTML = objetDuMembre.email;  
-   nomProfil.innerHTML =  objetDuMembre.nom;        
-   prenomProfil.innerHTML =   objetDuMembre.prenom;
-   genreProfil.value= objetDuMembre.genre;
-   ageProfil.innerHTML= objetDuMembre.age;
-   telephoneProfil.innerHTML= objetDuMembre.telephone;
-   adresseProfil.innerHTML= objetDuMembre.adresse;
-   cpProfil.innerHTML= objetDuMembre.cp;
-   villeProfil.innerHTML= objetDuMembre.ville;
-   paysProfil.value= objetDuMembre.pays;
-   profilProfil.value= objetDuMembre.profil;
-   preferenceProfil.innerHTML= objetDuMembre.preference;
- });   
+        // affichage des donnees de la page d'inscription du profile du membre    
+        photoImageProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">';
+        pseudoProfil.innerHTML = objetDuMembre.pseudo; 
+        emailProfil.innerHTML = objetDuMembre.email;  
+        nomProfil.value =  objetDuMembre.nom;    
+        console.log("mur profile preparation affichage profile inscription nomProfil.value", nomProfil.value);   
+        prenomProfil.value =   objetDuMembre.prenom;
+        genreProfil.value= objetDuMembre.genre;
+        ageProfil.value= objetDuMembre.age;
+        telephoneProfil.value= objetDuMembre.telephone;
+        adresseProfil.value= objetDuMembre.adresse;
+        cpProfil.value= objetDuMembre.cp;
+        villeProfil.value= objetDuMembre.ville;
+        paysProfil.value= objetDuMembre.pays;
+        profilProfil.value= objetDuMembre.profil;
+        preferenceProfil.value= objetDuMembre.preference;
+    });   
 
 // ***********************************************************************************************************
 // click sur lien changer son profile on affiche le profile d'inscription
 // ***********************************************************************************************************
 
-idProfileChange.addEventListener('click', function (event) { 
-    console.log('change profile');   
-    blockMurProfile.style.display = 'none';                     
-    blockProfilMembre.style.display = 'block'; 
-    websocketConnection.emit('recupererDataMembre', objetDuMembre);  // Transmission au serveur des infos saisies         
-});
+    idProfileChange.addEventListener('click', function (event) { 
+        console.log('change profile');   
+        blockMurProfile.style.display = 'none';                     
+        blockProfilMembre.style.display = 'block';  
+        tabChangeProfil.className ="active";   // positionne le li sur changer son profil
+        tabProfil.className ="";   
+        tabActivite.className ="";   
+        tabParametre.className ="";        
+    });
 
-// ***********************************************************************************************************
-// Le client reçoit toutes les données personnelles du membre inscrit
-// ***********************************************************************************************************
-websocketConnection.on('profileInscription', function(documents) {
-    window.scrollTo(0,0);          // affichage page haut de page 
-    objetDuMembre = documents;
-   // affichage du pseudo dans le menu de navigation
-    pseudoNav.innerHTML = documents.pseudo;
-
-    console.log('objetDuMembre profile inscription', objetDuMembre);
-    blockFormulaire.style.display = 'none'; 
-    footerActivite.style.display = 'block';  
-    console.log('blockFormulaire.style.display', blockFormulaire.style.display);
-    blockProfilMembre.style.display = 'block'; 
-    console.log('blockProfilMembre.style.display',blockProfilMembre.style.display);
-    console.log(' inscription documents',documents);
-    console.log("documents.pseudoInscription", documents.pseudoInscription);
- //    documents.forEach(function(infoMembre) {
-    photoImageProfil = ' <img margin ="auto" src="' +documents.photoProfile+'"alt="photo" title="photo de profil">'; 
-   //      photoProfil.innerHTML = photoImage; 
-    pseudoProfil.innerHTML = documents.pseudo;  
-   //      pseudoDeProfil.innerHTML = documents.pseudoInscription; 
-    emailProfil.innerHTML = documents.email;    
-    //     console.log("pseudoDeProfil.innerHTML",pseudoDeProfil.innerHTML); 
-    console.log("emailProfil.innerHTML",emailProfil.innerHTML); 
-   //      console.log("photoProfil.innerHTML",photoProfil.innerHTML); 
-//      });
-   
- });   
-
-// ***********************************************************************************************************
-// Formulaire suite inscription profile du memmbre 
-// A l'évènement submit on envoi au serveur les données du formulaire d'inscription
-// ***********************************************************************************************************
-formProfilInscription.addEventListener('submit', function (event) { 
-    event.preventDefault(); 
-    window.scrollTo(0,0);  
-     
-  //   Mise en forme pour transmission au serveur des données saisies    
-        
-    objetDuMembre.nom         =   nomProfil.value;
-    objetDuMembre.prenom      =   prenomProfil.value;
-    objetDuMembre.genre       =   genreProfil.value;
-    objetDuMembre.age         =   ageProfil.value;
-    objetDuMembre.telephone   =   telephoneProfil.value;  
-    objetDuMembre.adresse     =   adresseProfil.value;
-    objetDuMembre.cp          =   cpProfil.value;
-    objetDuMembre.ville       =   villeProfil.value;
-    objetDuMembre.pays        =   paysProfil.value;
-    objetDuMembre.profil      =   profilProfil.value;
-    objetDuMembre.preference  =   preferenceProfil.value;
-     
-    console.log("objetDuMembre avant envoie au serveur web",objetDuMembre);
-   
-    websocketConnection.emit('controleProfileInscription', objetDuMembre);  // Transmission au serveur des infos saisies
-       
-});
-
-// ***********************************************************************************************************
-// click sur lien mur de profile profile on affiche le mur de profile
-// ***********************************************************************************************************
-
-idProfileMur.addEventListener('click', function (event) { 
-    console.log('click mur de  profile');  
-    // affichage des donnees de la page du mur de profile du membre
-    murPhotoProfil = ' <img margin ="auto" src="' +objetDuMembre.photoProfile+'"alt="photo" title="photo de profil">';    
-    murPseudo.innerHTML = objetDuMembre.pseudo; 
-    murEmail.innerHTML = objetDuMembre.email;  
-    blockMurProfile.style.display = 'block';                     
-    blockProfilMembre.style.display = 'none';
-});
-
-// ***********************************************************************************************************
-// message erreur formulaire profile inscription
-// ***********************************************************************************************************
-websocketConnection.on('messageErrorProfilInscription', function(message) { 
-    console.log('message reçu veuillez renseigner tous les champs',message);   
-    messageErrProfilInscrit.innerHTML = message.message; 
-    messageErrProfilInscrit.style.display= 'block'; 
-    setTimeout(function(){ messageErrProfilInscrit.style.display= 'none';},9000);         
-});
 
 
 
