@@ -49,7 +49,7 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
         nbrConnections      : 0,                    // Nbre de connexions actives sans préjuger de leur rôle
         nbrMembersInSession : 0,                    // Nbre de membres connectés (Membres + Admin)
         nbrAdminsInSessions : 0,                    // Nombre d'Admins connectés
-        nbMessagesPublic : 0,                    // Nombre d'Admins connectés
+        nbMessagesPublic : 0,                       // Nombre d'Admins connectés
     }
 
     this.membre =                                   // Structure de stockage provisoire du membre
@@ -299,7 +299,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
     MemberServer.prototype.addMemberToActiveMembers = function(pIndex, pSocketIo){
         this.objetPopulation.membres[pIndex].isMember  = true;
         this.objetPopulation.nbrMembersInSession++;  // On ajoute +1 au nbre de membres connectés le membre qu'on vient de lire pour cette connexion dans un objet qui les recense
-        
+     //   this.objetPopulation.nbrConnections--; // et par conséquent on retire -1 au nombre de visiteurs en ligne 
         if (this.objetPopulation.membres[pIndex].statut > cstMembre){    // si statut > 0 c'est forcément un Admin ou un SuperAdmin 
             this.objetPopulation.nbrAdminsInSessions++;  // On ajoute +1 aux nbre de membres connectés le membre qu'on vient de lire pour cette connexion dans un objet qui les recense
         }   
@@ -671,10 +671,10 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 //************************************************************************************************************ 
     MemberServer.prototype.miseAjourProfilMembre = function(pObjetMembreLocal, pWebSocketConnection, pSocketIo) {   
         console.log('pObjetMembreLocal  avant MAJ de la collection membres',pObjetMembreLocal); 
-        if ((!pObjetMembreLocal.genre) || (!pObjetMembreLocal.profil) || (!pObjetMembreLocal.pays)) {
+        if (!pObjetMembreLocal.profil) {
             console.log("pObjetMembreLocal profil inscription champs vide",pObjetMembreLocal);
             let message = {};
-            message.message = 'Vous devez renseigner tous les champs du formulaire';
+            message.message = 'Vous devez renseigner votre profil, les autres champs ne sont pas obligatoires';
             return pWebSocketConnection.emit('messageErrorProfilInscription', message);
             
         } 
@@ -745,7 +745,63 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                         pWebSocketConnection.emit('profileConnect', this.membre); // On envoie au client les données de profil du membre                         
                 });  
             });
-    };   
+    };  
+
+//************************************************************************************************************  
+// Gestion de la liste de tous les membres pour les Administrateurs
+// - récupération des données des membres dans la collection membres dans la BDD
+// - envoie de la liste
+//************************************************************************************************************ 
+    MemberServer.prototype.sendListDesMembres = function(pDataAdmin, pWebSocketConnection, pSocketIo) {   
+        console.log('pDataAdmin  avant MAJ de la collection membres',pDataAdmin); 
+        if (pDataAdmin.statut == '0') {
+            console.log("Ce n'est pas un administrateur --- pDataAdmin.statut:",pDataAdmin.statut);
+            let message = {};
+            message.message = "Vous n'êtes pas autorisés, seuls les administrateurs peuvent consulter les profils de tous les membres";
+            return pWebSocketConnection.emit('messageNoAutorise', message.message);
+            
+        } 
+            this.DBMgr.colMembres.find().toArray((error, documents) => {                     
+                if (error) {
+                    console.log('Erreur de find liste de tous les membres dans collection colMembres',error);
+                    throw error;
+                }                                
+                if (!documents.length) { 
+                    console.log('erreur la collection est vide',documents);
+                //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+                    return false;                     
+                }  
+                    console.log('documents avant MAJ profil inscription', documents);
+                
+                
+                    
+                    pWebSocketConnection.emit('SendlisteDesMembres', documents); // On envoie au client qui est un administrateur la liste de données de tous les membres                         
+                });  
+    };
+
+//************************************************************************************************************  
+// Gestion de l'affichage des infos d'un membre demandé par un administrateur
+// - récupération des donnees du membre dans la collection membres 
+// - envoie des données au client
+//************************************************************************************************************ 
+MemberServer.prototype.sendInfoMurDunMembre = function(pPseudoDunMembre, pWebSocketConnection, pSocketIo) {   
+    console.log('pPseudoDunMembre  avant Find dans la collection membres partie ADMIN',pPseudoDunMembre); 
+  
+    this.DBMgr.colMembres.find({pseudo:pPseudoDunMembre}).toArray((error, documents) => {                     
+        if (error) {
+            console.log('Erreur de find dans collection colMembres',error);
+            throw error;
+        }                                
+        if (!documents.length) { 
+            console.log('erreur avant traitement du membre on ne le retrouve pas on observe le  documents',documents);
+        //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+            return false;                     
+        }  
+            console.log("documents avant envoie des infos d'un memmbre partie ADMIN", documents);
+            let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+        pWebSocketConnection.emit('infoDunMembre',infoMembre);   // On envoie au client les données de profil du membre      
+    });       
+};  
 
 
 //************************************************************************************************************
@@ -764,7 +820,7 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 
 
 // ***********************************************************************************************************  
-// Gestion de la deconnection des visiteurs et des membres 
+// Gestion de la deconnexion des visiteurs et des membres 
 // Deconnexion d'un visiteur et eventuellement d'un membre  :
 // ***********************************************************************************************************
     MemberServer.prototype.disconnectMember = function(pWebSocketConnection, pSocketIo){

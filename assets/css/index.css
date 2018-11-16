@@ -500,6 +500,7 @@ footer .container .text-muted {
     background: #000;
 }
 
+/* début block des pages */
 #formulaire {
     display:block;
 }
@@ -507,31 +508,92 @@ footer .container .text-muted {
 #profile-membre {
     display:none;
     margin-top: 113px;
-
-
 }
 
 #mur-profile {
-    display:none;  
-
-
+    display:none;
 }
 
+#block-administrateur {
+    display:none;
+}
+
+#block-detail-membre{
+    display:none;
+}
+
+#block-recherche-amis {
+    display:none;
+}
+
+#block-messages {
+    display:none;
+}
+
+/* titre prinsipal page d'accueil du site*/
+.welcome-title {
+    text-align: center;
+    font-size: 26px;
+    margin-top: 2px;
+    font-weight: bold;
+    color:#537e88;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+.welcome-title span{
+    padding-left: 10px;
+}
+
+.title-suite{
+    color : #537e88;
+    font-size: 16px
+}
+
+/* menu de navigation pricipale*/
+.navbar{
+    min-height: 70px;
+}
+
+#deconnexion{
+    color: darkgrey;
+}
+
+#administrateur{
+    color: darkgrey;
+}
+
+/* pages modales */
 #mot-de-passe-oublie {
     display:none;
-
 }
 
 #change-mp {
     display:none;
-
 }
 
 #apropos {
     display:none;
-
 }
 
+#mpOublie{
+    font-size: 15px;
+    display:none;
+}
+
+/* modale apropos */
+.titre-apropos {
+    font-size: 20px;
+}
+
+.texte-apropos {
+    margin: 24px 0 34px;
+    padding: 7px;
+}
+
+#image-apropos {
+    height: 120px;
+}
+
+/* pied de page*/
 #footer-activite {
     width: 100%;
     display: none;
@@ -540,6 +602,23 @@ footer .container .text-muted {
     background-color: white;
 }
 
+/* activies mise en forme des compteurs: messages et nb de membres connectes*/
+.activite{
+    z-index: 1;
+    background-color: #e9eaed;
+    font-size: 14px;
+    bottom: 0%;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    z-index: 2;
+}
+
+.activite div{
+    padding-right: 10px;
+}
+
+/* messages d'erreurs*/
 #idLoginAlertMsg{
     font-size: 15px;
     display:none;
@@ -553,16 +632,6 @@ footer .container .text-muted {
     font-size: 15px;
     text-align: left;
     display:none;
-}
-
-#mpOublie{
-    font-size: 15px;
-    display:none;
-}
-
-#place-btn-parametre {
-    padding-left: 150px;
-    text-align: left;
 }
 
 #idRecupMpAlertMsg{
@@ -580,8 +649,12 @@ footer .container .text-muted {
     display:none;
 }
 
+/* feuille de style boutons */
+
+
+/* feuille de styles des formulaires */
 input:invalid {
-border-color:rgb(114, 108, 154);
+    border-color:rgb(114, 108, 154);
 } 
 
 textarea:invalid {
@@ -593,36 +666,10 @@ select:invalid {
 } 
 
 a.disabled {
-   color:  darkgrey;
-   pointer-events: none;
-   cursor: default;
+    color:  darkgrey;
+    pointer-events: none;
+    cursor: default;
 }
-
-#deconnexion{
-    color: darkgrey;
-}
-
-
-#administrateur{
-    color: darkgrey;
-}
-
-#image-apropos {
-    height: 120px;
-}
-
-.input-profil {
-    margin-top: -6px;
-}
-#nav-profil{
-height: 45px
-
-}
-#btn-profil {
-    display: flex;
-    justify-content: center;
-}
-
 .input-group :invalid{
     position: relative;
     display: table;
@@ -630,56 +677,48 @@ height: 45px
     border-color:rgb(114, 108, 154);
 }
 
-.navbar{
-    min-height: 70px;
+/* page profil inscription */
+#place-btn-parametre {
+    padding-left: 150px;
+    text-align: left;
 }
 
-.activite{
-    z-index: 1;
-    background-color: #e9eaed;
-    font-size: 14px;
-    bottom: 0%;
-    position: absolute;
-    text-align: center;
-    width: 100%;
-    z-index: 2;
+.input-profil {
+    margin-top: -6px;
 }
 
-.activite div{
-    padding-right: 10px;
-}
-   
-.welcome-title {
-    text-align: center;
-    font-size: 26px;
-    margin-top: 2px;
-    font-weight: bold;
-    color:#537e88;
-    text-shadow: 0 0 3px rgba(0,0,0,0.5);
-}
-.welcome-title span{
-    padding-left: 10px;
+#nav-profil{
+    height: 45px;
 }
 
-.title-suite{
-    color : #537e88;
-    font-size: 16px
-
+#btn-profil {
+    display: flex;
+    justify-content: center;
 }
 
-.titre-apropos {
-    font-size: 20px;
-}
-
-.texte-apropos {
-    margin: 24px 0 34px;
-    padding: 7px;
-}
-
-
+/* page du mur de profil*/
 #mur-pseudo{
     font-size: 15px;
     font-weight: bold;
     color: #1c1f20cf;
     text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+/* page recherche amis */
+#nav-amis{
+    height: 45px;
+}
+
+.image-nav{
+    height: 40px;
+    width: 100%;
+}
+
+/* page administrateur */
+.titre-nav-admin{
+    color: #0a831e;
+    text-align: center;
+}
+#mur-pseudo-admin{
+    color:rgb(133, 133, 133);
 }

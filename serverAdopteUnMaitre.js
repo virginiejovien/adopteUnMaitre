@@ -29,7 +29,7 @@ vDBMgr.checkDBConnect()
     .then(result => {
         vMemberServer = new MemberServer(vDBMgr);    // Instanciation de l'objet decrivant l'ensemble des membres et les méthodes de gestion de ces membres
         vMemberServer.getNbMessages();           // Mise en mémoire du Nbre de messages publics stockés en BDD
-    // });
+    
 
 
 
@@ -45,22 +45,22 @@ vDBMgr.checkDBConnect()
 //  Requete des infos du nombre de messages echangés dans la collection "messages" de la BDD adopteunmaitre
 //*************************************************************************************************************
 
-app.set('view engine', 'pug');
-app.use('/static', express.static(__dirname + '/assets'));
-app.use('/static', express.static(__dirname + '/bootstrap.3.3.6'));
-app.use('/static', express.static(__dirname + '/font-awesome.4.6.1'));
+    app.set('view engine', 'pug');
+    app.use('/static', express.static(__dirname + '/assets'));
+    app.use('/static', express.static(__dirname + '/bootstrap.3.3.6'));
+    app.use('/static', express.static(__dirname + '/font-awesome.4.6.1'));
 
-app.get('/', function(req, res, next) {   
-    res.render('index') 
-});
+    app.get('/', function(req, res, next) {   
+        res.render('index') 
+    });
 
-app.get('/', function(req, res) {
-    res.render('index', {})  
-});
+    app.get('/', function(req, res) {
+        res.render('index', {})  
+    });
 
-app.get('/index.html', function(req, res) {
-    res.render('index', {})  
-});
+    app.get('/index.html', function(req, res) {
+        res.render('index', {})  
+    });
 
 
 // ***********************************************************************************************************
@@ -82,80 +82,93 @@ const server = app.listen(process.env.PORT || 2000, function() {
 // **********************                                                               **********************    
 // ***********************************************************************************************************
 
-let socketIo = new SocketIo(server);
-socketIo.on('connection', function(webSocketConnection) {        // Une connexion au serveur vient d être faite
-         
+    let socketIo = new SocketIo(server);
+    socketIo.on('connection', function(webSocketConnection) {        // Une connexion au serveur vient d être faite
+            
 
-    vMemberServer.initVisiteur(webSocketConnection, socketIo);  //  initialisation 
-    vMemberServer.connexionVisiteur(webSocketConnection, socketIo); 
+        vMemberServer.initVisiteur(webSocketConnection, socketIo);  //  initialisation 
+        vMemberServer.connexionVisiteur(webSocketConnection, socketIo); 
 
 //************************************************************************************************************  
 // Gestion et controle du formulaire de connection  
 //************************************************************************************************************    
 
-// Reception des donnees de connexion : Vérification dans la BDD que le membre qui se connecte (Pseudo et mot de passe) existe
+    // Reception des donnees de connexion : Vérification dans la BDD que le membre qui se connecte (Pseudo et mot de passe) existe
 
-    webSocketConnection.on('controleConnection',function(pVisiteurLoginData){
-        vMemberServer.visitorTryToLogin(pVisiteurLoginData, webSocketConnection, socketIo)
-        .then((result) => {
-        });
-    });  
+        webSocketConnection.on('controleConnection',function(pVisiteurLoginData){
+            vMemberServer.visitorTryToLogin(pVisiteurLoginData, webSocketConnection, socketIo)
+            .then((result) => {
+            });
+        });  
 
-// Reception de la demande de recuperation du mot de passe oublié : Vérification dans la BDD que l'adresse mail existe
-    webSocketConnection.on('envoieEmailRecupMp', function (email) {
-        console.log('recoit email pour mot de passe oublié:', email);
-        vMemberServer.checkMpLostSendMail(email, webSocketConnection, socketIo)
-    });   
-          
+    // Reception de la demande de recuperation du mot de passe oublié : Vérification dans la BDD que l'adresse mail existe
+        webSocketConnection.on('envoieEmailRecupMp', function (email) {
+            console.log('recoit email pour mot de passe oublié:', email);
+            vMemberServer.checkMpLostSendMail(email, webSocketConnection, socketIo)
+        });   
     
-// Reception de la demande de changement de mot de passe : 
-    webSocketConnection.on('controleChangeMp', function (data) {       // Reception de la saisie du nouveau mot de passe dans le formulaire
-        vMemberServer.changePassWord(data, webSocketConnection, socketIo);
-    }); 
-       
-              
-    
-// Reception de la demande dans les parametres de changement de mot de passe : 
-    webSocketConnection.on('controleParametreMp', function (data) {       // Reception de la saisie du nouveau mot de passe dans le formulaire
-        vMemberServer.parametrePassWord(data, webSocketConnection, socketIo);
-    }); 
+    // Reception de la demande de changement de mot de passe : 
+        webSocketConnection.on('controleChangeMp', function (data) {       // Reception de la saisie du nouveau mot de passe dans le formulaire
+            vMemberServer.changePassWord(data, webSocketConnection, socketIo);
+        }); 
+                    
+    // Reception de la demande dans les parametres de changement de mot de passe : 
+        webSocketConnection.on('controleParametreMp', function (data) {       // Reception de la saisie du nouveau mot de passe dans le formulaire
+            vMemberServer.parametrePassWord(data, webSocketConnection, socketIo);
+        }); 
 
 // ***********************************************************************************************************   
 // Gestion et controle du formulaire d'inscription
 // *********************************************************************************************************** 
 
-// Reception des données de creation de membre : Vérification dans la BDD que le futur membre (Pseudo et Mail) n'existe pas 
-    webSocketConnection.on('controleInscription',function(pVisiteurSignInData){
-        vMemberServer.checkVisitorSignInISValid(pVisiteurSignInData, webSocketConnection, socketIo)
-    }); 
- 
+    // Reception des données de creation de membre : Vérification dans la BDD que le futur membre (Pseudo et Mail) n'existe pas 
+        webSocketConnection.on('controleInscription',function(pVisiteurSignInData){
+            vMemberServer.checkVisitorSignInISValid(pVisiteurSignInData, webSocketConnection, socketIo)
+        }); 
+
 //************************************************************************************************************  
 // Gestion du mur de profile
 //************************************************************************************************************ 
-   // Reception de la demande de recuperer les donnees du membre dans la collection membres de BDD
-   // Envoie par la suite le formulaire d'inscription profile
- 
+    // Reception de la demande de recuperer les donnees du membre dans la collection membres de BDD
+    // Envoie par la suite le formulaire d'inscription profile
+
+
 //************************************************************************************************************  
-// Gestion et controle du formulaire d'inscription Profile 
-//************************************************************************************************************
+// Gestion de la fiche de renseignement du profil du membre
+//************************************************************************************************************ 
+    // Reception du formulaire du profile d'inscription  
+        webSocketConnection.on('controleProfileInscription', function (dataProfilInscription) {  
+            vMemberServer.miseAjourProfilMembre(dataProfilInscription, webSocketConnection, socketIo);
+        });   
 
-// Reception du formulaire du profile d'inscription  
-    webSocketConnection.on('controleProfileInscription', function (dataProfilInscription) {  
-        vMemberServer.miseAjourProfilMembre(dataProfilInscription, webSocketConnection, socketIo);
-    });   
-  
+//************************************************************************************************************  
+// Gestion du Dasboard Administrateur
+// Reception de la demande de recuperer les donnees de tous les membres dans la collection membres de BDD
+// Envoie par la suite la liste des membres
+//************************************************************************************************************ 
 
+    // Reception demande d'afficher la liste des membres  
+        webSocketConnection.on('demandeListeMembres', function (dataAdmin) { 
+            console.log('serveur recoit demande liste membres'); 
+            vMemberServer.sendListDesMembres(dataAdmin, webSocketConnection, socketIo);
+        });   
+
+    // Reception demande d'afficher le mur d'un membre 
+        webSocketConnection.on('demandeAffiMurDunMembre', function (pseudoDunMembre) { 
+            console.log("serveur recoit demande information d'un membre"); 
+            vMemberServer.sendInfoMurDunMembre(pseudoDunMembre, webSocketConnection, socketIo);
+        });  
     
 // ***********************************************************************************************************  
 // Gestion de la deconnection des visiteurs et des membres 
 // Deconnexion d'un visiteur et eventuellement d'un membre  :
 // ***********************************************************************************************************
-   // Un membre se déconnecte
-    webSocketConnection.on('disconnect', function() {
-    console.log('disconnect')        
-            vMemberServer.disconnectMember(webSocketConnection, socketIo);
-    });
+    // Un membre se déconnecte
+        webSocketConnection.on('disconnect', function() {
+        console.log('disconnect')        
+                vMemberServer.disconnectMember(webSocketConnection, socketIo);
+        });
 
-});   //  Fin de la partie "Connexion" 
+    });   //  Fin de la partie "Connexion" 
 
-    });
+});  // fin de la partie "connexion BDD"

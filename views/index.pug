@@ -15,6 +15,8 @@ head
   link(href='static/css/buttons.css' rel='stylesheet')
   link(href='static/css/forms.css' rel='stylesheet')
   link(href='static/css/cover.css' rel='stylesheet')
+  link(href='static/css/messages2.css' rel='stylesheet')
+  link(href='static/css/user_detail.css' rel='stylesheet')
   link(href='static/css/index.css' rel='stylesheet')
   link(href='static/css/recover_password.css' rel='stylesheet')
   // Javascript socket.io
@@ -111,11 +113,11 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             li
               a#deconnexion.disabled(href='/') D&eacute;connexion
             li
-              a#administrateur.disabled(href='profile3.html') Admnistrateur
+              a#administrateur.disabled(href='#block-administrateur') Admnistrateur
 .wrapper
-// *************************************************************************
-// Formulaire
-// *************************************************************************
+// ****************************************************************************************
+// FORMULAIRE CONNEXION ET INSCRIPTION
+// ****************************************************************************************
 #formulaire.parallax.filter-black
   .parallax-image
   .small-info
@@ -127,7 +129,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               h4.m-b-0
                 span.icon-text Connexion
               p.text-muted Acc&eacute;der &agrave; votre compte
-            // ****************  formulaire de connexion **********************
+            // ****************  FORMULAIRE DE CONNEXION **********************
             form#form-connection.needs-validation
               .form-group
                 span.input-icon
@@ -148,7 +150,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             h4.m-b-0
               span.icon-text S&apos;inscrire
             p.text-muted Devenir membre
-            // ****************  formulaire d'inscription **********************
+            // ****************  FORMULAIRE D'INSCRIPTION **********************
             form#form-inscription.needs-validation
               .form-group
                 span.input-icon
@@ -168,7 +170,9 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   i.fa.fa-key.darkorange
               p#idInscritAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg L&apos;e-mail et/ou le pseudo sont d&eacute;j&agrave; attribu&eacute;s
               button.btn.btn-azure(type='submit') S&apos;inscrire
-  // *************************  Activité **********************************************************
+  // ****************************************************************************************
+  // ACTIVITES: nombre de messages et de connectes
+  // ****************************************************************************************
   .activite
     .row
       .col-md-4.col-sm-4.col-xs-12
@@ -184,9 +188,9 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         span
           strong Visiteurs connect&eacute;s :&nbsp;
         span#nb-visiteurs-connectes
-// *************************************************************************
-// page  mot de passe oublié
-// *************************************************************************
+// ****************************************************************************************
+// PAGE MOT DE PASSE OUBLIE
+// ****************************************************************************************
 #mot-de-passe-oublie.container.page-content
   .row
     .col-md-6.col-sm-8.col-xs-12.col-md-offset-3
@@ -208,9 +212,9 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               .col-md-12
                 p#message-recup-mp-mail.lead.mt-5.display-4.text-danger.text-center.alertMsg L&apos;e-mail n&apos;existe pas
                 button.btn.btn-info.btn-block(type='submit')  Continuer
-// *********************************************************************
-// page  changer de mot de passe oublié
-// *********************************************************************
+// ****************************************************************************************
+// PAGE CHANGER DE MOT DE PASSE
+// ****************************************************************************************
 #change-mp.container.page-content
   .row
     .col-md-6.col-sm-8.col-xs-12.col-md-offset-3
@@ -237,28 +241,28 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               .col-md-12
                 p#idRecupMpAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg Veuillez saisir le mot de passe provisoire que nous vous avons envoy&eacute; par mail
               button.btn.btn-info.btn-block(type='submit')  Valider
-// *************************************************************************
-// page  profile membre inscription
-// *************************************************************************
+// ****************************************************************************************
+// PAGE DE RENSEIGNEMENTS PROFIL APRES INSCRIPTION
+// ****************************************************************************************
 #profile-membre.container.page-content.edit-profile
   .row
     .col-md-10.col-md-offset-1
       // NAV TABS
       ul#nav-profil.nav.nav-tabs.tabs-iconized
         li#tab-change-profil.active
-          a(href='#profile-tab' data-toggle='tab' aria-expanded='true')
+          a.a-nav-profil(href='#profile-tab' data-toggle='tab' aria-expanded='true')
             i.fa.fa-fw.fa-bars
             | Changer son profil
         li#tab-profil
-          a#idProfileMur(href='#profile-tab' data-toggle='tab' aria-expanded='false')
+          a#idProfileMur.a-nav-profil(href='#profile-tab' data-toggle='tab' aria-expanded='false')
             i.fa.fa-user
             |  Profil
         li#tab-activite
-          a(href='#activity-tab' data-toggle='tab' aria-expanded='false')
+          a.a-nav-profil(href='#activity-tab' data-toggle='tab' aria-expanded='false')
             i.fa.fa-rss
             |  Activit&eacute;s r&eacute;centes
         li#tab-parametre
-          a(href='#settings-tab' data-toggle='tab' aria-expanded='false')
+          a.a-nav-profil(href='#settings-tab' data-toggle='tab' aria-expanded='false')
             i.fa.fa-gear
             |  Param&egrave;tres
       // END NAV TABS
@@ -280,7 +284,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                     span.file-input.btn.btn-azure.btn-file
                       | Change  Cover 
                       input(type='file' multiple='')
-            // ****************  Début Profil formulaire d'inscription **********************
+            // ****************  DEBUT FORMULAIRE DE RENSEIGNEMENTS PROFIL  **********************
             .col-md-9
               form#form-profil-inscription.needs-validation
                 .form-group
@@ -294,7 +298,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Nom
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#nom-profil.form-control.control-groupe(type='text' name='nom' maxlength='21' size='21' placeholder='Nom' required='' pattern='^[a-zA-Z\u00C0-\u00FF]+[ -]?[a-zA-Z\u00C0-\u00FF]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères' autofocus='')
+                              input#nom-profil.form-control.control-groupe(type='text' name='nom' maxlength='21' size='21' placeholder='Nom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{0,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères' autofocus='')
                               i.fa.fa-user.darkorange
                               br
                         // Text input
@@ -302,7 +306,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Pr&eacute;nom
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#prenom-profil.form-control.control-groupe(type='text' name='prenom' maxlength='21' size='21' placeholder='Prénom' required='' pattern='^[a-zA-Z\u00C0-\u00FF]+[ -]?[a-zA-Z\u00C0-\u00FF]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                              input#prenom-profil.form-control.control-groupe(type='text' name='prenom' maxlength='21' size='21' placeholder='Prénom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
                               i.fa.fa-user.darkorange
                               br
                         // Text input
@@ -310,25 +314,26 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Age
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#age-profil.form-control.control-groupe(type='number' name='age' min='12' max='120' step='1' required='' pattern='\d+' title='Uniquement des nombres')
+                              input#age-profil.form-control.control-groupe(type='number' name='age' min='12' max='120' step='1' pattern='\d+' title='Uniquement des nombres')
                               br
                         // Select
                         .form-group
                           label.col-md-4.control-label Genre
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              select#genre-profil.form-control.control-groupe(name='nom' size='1' required='')
+                              select#genre-profil.form-control.control-groupe(name='nom' size='1')
                                 option(value='F')
                                   | Femme
                                 option(value='H')
                                   | Homme
+                                option(value='')
                               br
                         // Text input
                         .form-group
                           label.col-md-4.control-label T&eacute;l&eacute;phone
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#telephone-profil.form-control.control-groupe(type='text' name='telephoneProfil' maxlength='10' size='10' placeholder='Ex: 0605040302' required='' pattern='^[0-9]{10}$' title='Les caractères doivent être numériques et la longueur doit être de 10 caractères')
+                              input#telephone-profil.form-control.control-groupe(type='text' name='telephoneProfil' maxlength='10' size='10' placeholder='Ex: 0605040302' pattern='^[0-9]{10}$' title='Les caractères doivent être numériques et la longueur doit être de 10 caractères')
                               i.fa.fa-phone.darkorange
                               br
                         br
@@ -337,7 +342,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Adresse
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#adresse-profil.form-control.control-groupe(type='text' name='adresse' maxlength='30' size='30' required='' placeholder='Numero et nom de rue ' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                              input#adresse-profil.form-control.control-groupe(type='text' name='adresse' maxlength='30' size='30' placeholder='Numero et nom de rue ' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
                               i.fa.fa-home.darkorange
                               br
                         br
@@ -346,7 +351,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Code Postal
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#cp-profil.form-control.control-groupe(type='number' name='cp' maxlength='5' size='5' placeholder='Ex: 75011' required='' pattern='[0-9]{5}' title='Les caractères doivent être numériques et la longueur doit être de 5 caractères')
+                              input#cp-profil.form-control.control-groupe(type='number' name='cp' maxlength='5' size='5' placeholder='Ex: 75011' pattern='[0-9]{5}' title='Les caractères doivent être numériques et la longueur doit être de 5 caractères')
                               i.fa.fa-home.darkorange
                               br
                         br
@@ -355,7 +360,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Ville
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#ville-profil.form-control.control-groupe(type='text' name='ville' maxlength='21' size='21' placeholder='Ville' required='' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{1,21}" title='Uniquement des lettres puis des espaces ou des tirets et la longueur comprise entre 2 et 21 caractères')
+                              input#ville-profil.form-control.control-groupe(type='text' name='ville' maxlength='21' size='21' placeholder='Ville' pattern="^[a-zA-Z\u00C0-\u00FF-'[a-zA-Z\u00C0-\u00FF-']{1,21}" title='Uniquement des lettres puis des espaces ou des tirets et la longueur comprise entre 2 et 21 caractères')
                               i.fa.fa-home.darkorange
                               br
                         // Select Basic
@@ -363,7 +368,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Pays
                           .col-md-6.selectContainer
                             span.input-icon
-                              select#pays-profil.form-control.control-groupe(name='pays' required='')
+                              select#pays-profil.form-control.control-groupe(name='pays')
                                 option(value='AF')
                                   | Afghanistan
                                 option(value='ZA')
@@ -877,15 +882,15 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                                   | Ne sais pas encore
                               br
                         .form-group
-                          label.col-md-4.control-label Pr&eacute;f&eacute;rence
+                          label.col-md-4.control-label Pr&eacute;f&eacute;rences
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              textarea#preference-profil.form-control.control-groupe(type='text' name='preference' rows='2' cols='40' maxlength='400' placeholder="C'est le moment de parler chat" required='' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
+                              textarea#preference-profil.form-control.control-groupe(type='text' name='preference' rows='2' cols='40' maxlength='400' placeholder="C'est le moment de parler chat" pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
                       .form-group
                         .center
                           button.btn.btn-azure(type='submit') Valider
                         p#idProfilMpAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg
-        // **************** fin profil formulaire d'inscription **********************
+        // **************** FIN FORMULAIRE DE RENSEIGNEMENTS PROFIL **********************
         // ACTIVITY TAB CONTENT
         #activity-tab.tab-pane.activity
           ul.list-unstyled.activity-list
@@ -948,7 +953,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               | View more 
               i.fa.fa-long-arrow-right
         // END ACTIVITY TAB CONTENT
-        // SETTINGS TAB CONTENT
+        // ****  DEBUT PARAMETRE CHANGEMENT DE MOT DE PASSE  ****
         #settings-tab.tab-pane.settings
           form#form-parametre-mp.form-horizontal(role='form')
             h3
@@ -977,10 +982,10 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               p#idParametreAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg Veuillez saisir votre ancien mot de passe
             #place-btn-parametre.col-sm-12
               button.btn.btn-azure(type='submit') Valider
-        // END SETTINGS TAB CONTENT
-// *************************************************************************
-// page  profil membre mur
-// *************************************************************************
+        // FIN PARAMETRES CHANGEMENT DE MOT DE PASSE
+// ****************************************************************************************
+// PAGE MUR DE PROFIL
+// ****************************************************************************************
 // Begin page content
 #mur-profile.row.page-content
   .col-md-8.col-md-offset-2
@@ -1029,17 +1034,13 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   i.fa.fa-fw.fa-bars
                   | Changer son profil
               li
-                a(href='about.html')
-                  i.fa.fa-fw.fa-user
-                  |  A propos
-              li
-                a(href='friends.html')
+                a#idRechercheAmis(href='#')
                   i.fa.fa-fw.fa-users
-                  |  Amis
+                  |  Recherche d&apos;amis
               li
-                a(href='photos1.html')
+                a#idDiscussions(href='#')
                   i.fa.fa-fw.fa-image
-                  |  Photos
+                  |  Discussions
     .row
       .col-md-5
         .widget
@@ -1074,38 +1075,46 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   #mur-email.col-sm-8 249
         .widget.widget-friends
           .widget-header
-            h3.widget-caption Friends
+            h3.widget-caption Pr&eacute;f&eacute;rences
+          .widget-body.bordered-top.bordered-sky
+            ul.list-unstyled.profile-about.margin-none
+              li.padding-v-5
+                .row
+                  #mur-preference.col-sm-12
+        .widget.widget-friends
+          .widget-header
+            h3.widget-caption Amis
           .widget-body.bordered-top.bordered-sky
             .row
               .col-md-12
                 ul.img-grid(style='margin: 0 auto;')
                   li
                     a(href='#')
-                      img(src='img/Friends/guy-6.jpg' alt='image')
+                      img(src='static/images/Friends/guy-6.jpg' alt='image')
                   li
                     a(href='#')
-                      img(src='img/Friends/woman-3.jpg' alt='image')
+                      img(src='static/images/Friends/woman-3.jpg' alt='image')
                   li
                     a(href='#')
-                      img(src='img/Friends/guy-2.jpg' alt='image')
+                      img(src='static/images/Friends/guy-2.jpg' alt='image')
                   li
                     a(href='#')
-                      img(src='img/Friends/guy-9.jpg' alt='image')
+                      img(src='static/images/Friends/guy-9.jpg' alt='image')
                   li
                     a(href='#')
-                      img(src='img/Friends/woman-9.jpg' alt='image')
+                      img(src='static/images/Friends/woman-9.jpg' alt='image')
                   li.clearfix
                     a(href='#')
-                      img(src='img/Friends/guy-4.jpg' alt='image')
+                      img(src='static/images/Friends/guy-4.jpg' alt='image')
                   li
                     a(href='#')
-                      img(src='img/Friends/guy-1.jpg' alt='image')
+                      img(src='static/images/Friends/guy-1.jpg' alt='image')
                   li
                     a(href='#')
-                      img(src='img/Friends/woman-4.jpg' alt='image')
+                      img(src='static/images/Friends/woman-4.jpg' alt='image')
                   li
                     a(href='#')
-                      img(src='img/Friends/guy-6.jpg' alt='image')
+                      img(src='static/images/Friends/guy-6.jpg' alt='image')
         .widget
           .widget-header
             h3.widget-caption Groups
@@ -1117,31 +1126,31 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                     .row
                       .col-xs-3
                         .avatar
-                          img.img-circle.img-no-padding.img-responsive(src='img/Likes/likes-1.png' alt='Circle Image')
+                          img.img-circle.img-no-padding.img-responsive(src='static/images/Likes/likes-1.png' alt='Circle Image')
                       .col-xs-6
                         | Github
                       .col-xs-3.text-right
-                        btn.btn.btn-sm.btn-azure.btn-icon
+                        p.btn.btn-sm.btn-azure.btn-icon
                           i.fa.fa-user
                   li
                     .row
                       .col-xs-3
                         .avatar
-                          img.img-circle.img-no-padding.img-responsive(src='img/Likes/likes-3.png' alt='Circle Image')
+                          img.img-circle.img-no-padding.img-responsive(src='static/images/Likes/likes-3.png' alt='Circle Image')
                       .col-xs-6
                         | Css snippets
                       .col-xs-3.text-right
-                        btn.btn.btn-sm.btn-azure.btn-icon
+                        p.btn.btn-sm.btn-azure.btn-icon
                           i.fa.fa-user
                   li
                     .row
                       .col-xs-3
                         .avatar
-                          img.img-circle.img-no-padding.img-responsive(src='img/Likes/likes-2.png ' alt='Circle Image')
+                          img.img-circle.img-no-padding.img-responsive(src='static/images/Likes/likes-2.png ' alt='Circle Image')
                       .col-xs-6
                         | Html Action
                       .col-xs-3.text-right
-                        btn.btn.btn-sm.btn-azure.btn-icon
+                        p.btn.btn-sm.btn-azure.btn-icon
                           i.fa.fa-user
       // ============= timeline posts
       .col-md-7
@@ -1174,12 +1183,12 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                 .box.box-widget
                   .box-header.with-border
                     .user-block
-                      img.img-circle(src='img/Friends/guy-3.jpg' alt='User Image')
+                      img.img-circle(src='static/images/Friends/guy-3.jpg' alt='User Image')
                       span.username
                         a(href='#') John Breakgrow jr.
                       span.description Shared publicly - 7:30 PM Today
                   .box-body(style='display: block;')
-                    img.img-responsive.show-in-modal(src='img/Post/young-couple-in-love.jpg' alt='Photo')
+                    img.img-responsive.show-in-modal(src='static/images/Post/young-couple-in-love.jpg' alt='Photo')
                     p I took this photo this morning. What do you guys think?
                     button.btn.btn-default.btn-xs(type='button')
                       i.fa.fa-share
@@ -1190,24 +1199,24 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                     span.pull-right.text-muted 127 likes - 3 comments
                   .box-footer.box-comments(style='display: block;')
                     .box-comment
-                      img.img-circle.img-sm(src='img/Friends/guy-2.jpg' alt='User Image')
+                      img.img-circle.img-sm(src='static/images/Friends/guy-2.jpg' alt='User Image')
                       .comment-text
                         span.username
                           | Maria Gonzales
                           span.text-muted.pull-right 8:03 PM Today
-                        |                           It is a long established fact that a reader will be distracted
-                        |                           by the readable content of a page when looking at its layout.
+                        |                             It is a long established fact that a reader will be distracted
+                        |                             by the readable content of a page when looking at its layout.
                     .box-comment
-                      img.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='User Image')
+                      img.img-circle.img-sm(src='static/images/Friends/guy-3.jpg' alt='User Image')
                       .comment-text
                         span.username
                           | Luna Stark
                           span.text-muted.pull-right 8:03 PM Today
-                        |                           It is a long established fact that a reader will be distracted
-                        |                           by the readable content of a page when looking at its layout.
+                        |                             It is a long established fact that a reader will be distracted
+                        |                             by the readable content of a page when looking at its layout.
                   .box-footer(style='display: block;')
                     form(action='#' method='post')
-                      img.img-responsive.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='Alt Text')
+                      img.img-responsive.img-circle.img-sm(src='static/images/Friends/guy-3.jpg' alt='Alt Text')
                       .img-push
                         input.form-control.input-sm(type='text' placeholder='Press enter to post comment')
                 // end posts
@@ -1215,7 +1224,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                 .box.box-widget
                   .box-header.with-border
                     .user-block
-                      img.img-circle(src='img/Friends/guy-3.jpg' alt='User Image')
+                      img.img-circle(src='static/images/Friends/guy-3.jpg' alt='User Image')
                       span.username
                         a(href='#') Jonathan Burke Jr.
                       span.description Shared publicly - 7:30 PM Today
@@ -1231,7 +1240,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                       | country, in which roasted parts of sentences fly into
                       | your mouth.
                     .attachment-block.clearfix
-                      img.attachment-img.show-in-modal(src='img/Photos/2.jpg' alt='Attachment Image')
+                      img.attachment-img.show-in-modal(src='static/images/Photos/2.jpg' alt='Attachment Image')
                       .attachment-pushed
                         h4.attachment-heading
                           a(href='http://www.bootdey.com/') Lorem ipsum text generator
@@ -1248,25 +1257,25 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                     span.pull-right.text-muted 45 likes - 2 comments
                   .box-footer.box-comments
                     .box-comment
-                      img.img-circle.img-sm(src='img/Friends/guy-5.jpg' alt='User Image')
+                      img.img-circle.img-sm(src='static/images/Friends/guy-5.jpg' alt='User Image')
                       .comment-text
                         span.username
                           | Maria Gonzales
                           span.text-muted.pull-right 8:03 PM Today
-                        |                           It is a long established fact that a reader will be distracted
-                        |                           by the readable content of a page when looking at its layout.
+                        |                             It is a long established fact that a reader will be distracted
+                        |                             by the readable content of a page when looking at its layout.
                     .box-comment
-                      img.img-circle.img-sm(src='img/Friends/guy-6.jpg' alt='User Image')
+                      img.img-circle.img-sm(src='static/images/Friends/guy-6.jpg' alt='User Image')
                       .comment-text
                         span.username
                           | Nora Havisham
                           span.text-muted.pull-right 8:03 PM Today
-                        |                           The point of using Lorem Ipsum is that it has a more-or-less
-                        |                           normal distribution of letters, as opposed to using
-                        |                           &apos;Content here, content here&apos;, making it look like readable English.
+                        |                             The point of using Lorem Ipsum is that it has a more-or-less
+                        |                             normal distribution of letters, as opposed to using
+                        |                             &apos;Content here, content here&apos;, making it look like readable English.
                   .box-footer
                     form(action='#' method='post')
-                      img.img-responsive.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='Alt Text')
+                      img.img-responsive.img-circle.img-sm(src='static/images/Friends/guy-3.jpg' alt='Alt Text')
                       .img-push
                         input.form-control.input-sm(type='text' placeholder='Press enter to post comment')
                 // end post
@@ -1274,7 +1283,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                 .box.box-widget
                   .box-header.with-border
                     .user-block
-                      img.img-circle(src='img/Friends/guy-3.jpg' alt='User Image')
+                      img.img-circle(src='static/images/Friends/guy-3.jpg' alt='User Image')
                       span.username
                         a(href='#') John Breakgrow jr.
                       span.description Shared publicly - 7:30 PM Today
@@ -1290,24 +1299,24 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                     span.pull-right.text-muted 127 likes - 3 comments
                   .box-footer.box-comments(style='display: block;')
                     .box-comment
-                      img.img-circle.img-sm(src='img/Friends/guy-2.jpg' alt='User Image')
+                      img.img-circle.img-sm(src='static/images/Friends/guy-2.jpg' alt='User Image')
                       .comment-text
                         span.username
                           | Maria Gonzales
                           span.text-muted.pull-right 8:03 PM Today
-                        |                           It is a long established fact that a reader will be distracted
-                        |                           by the readable content of a page when looking at its layout.
+                        |                             It is a long established fact that a reader will be distracted
+                        |                             by the readable content of a page when looking at its layout.
                     .box-comment
-                      img.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='User Image')
+                      img.img-circle.img-sm(src='static/images/Friends/guy-3.jpg' alt='User Image')
                       .comment-text
                         span.username
                           | Luna Stark
                           span.text-muted.pull-right 8:03 PM Today
-                        |                           It is a long established fact that a reader will be distracted
-                        |                           by the readable content of a page when looking at its layout.
+                        |                             It is a long established fact that a reader will be distracted
+                        |                             by the readable content of a page when looking at its layout.
                   .box-footer(style='display: block;')
                     form(action='#' method='post')
-                      img.img-responsive.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='Alt Text')
+                      img.img-responsive.img-circle.img-sm(src='static/images/Friends/guy-3.jpg' alt='Alt Text')
                       .img-push
                         input.form-control.input-sm(type='text' placeholder='Press enter to post comment')
                 // end posts
@@ -1315,12 +1324,12 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                 .box.box-widget
                   .box-header.with-border
                     .user-block
-                      img.img-circle(src='img/Friends/guy-3.jpg' alt='User Image')
+                      img.img-circle(src='static/images/Friends/guy-3.jpg' alt='User Image')
                       span.username
                         a(href='#') John Breakgrow jr.
                       span.description Shared publicly - 7:30 PM Today
                   .box-body(style='display: block;')
-                    img.img-responsive.pad.show-in-modal(src='img/Photos/3.jpg' alt='Photo')
+                    img.img-responsive.pad.show-in-modal(src='static/images/Photos/3.jpg' alt='Photo')
                     p I took this photo this morning. What do you guys think?
                     button.btn.btn-default.btn-xs(type='button')
                       i.fa.fa-share
@@ -1331,24 +1340,24 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                     span.pull-right.text-muted 127 likes - 3 comments
                   .box-footer.box-comments(style='display: block;')
                     .box-comment
-                      img.img-circle.img-sm(src='img/Friends/guy-2.jpg' alt='User Image')
+                      img.img-circle.img-sm(src='static/images/Friends/guy-2.jpg' alt='User Image')
                       .comment-text
                         span.username
                           | Maria Gonzales
                           span.text-muted.pull-right 8:03 PM Today
-                        |                           It is a long established fact that a reader will be distracted
-                        |                           by the readable content of a page when looking at its layout.
+                        |                             It is a long established fact that a reader will be distracted
+                        |                             by the readable content of a page when looking at its layout.
                     .box-comment
-                      img.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='User Image')
+                      img.img-circle.img-sm(src='static/images/Friends/guy-3.jpg' alt='User Image')
                       .comment-text
                         span.username
                           | Luna Stark
                           span.text-muted.pull-right 8:03 PM Today
-                        |                           It is a long established fact that a reader will be distracted
-                        |                           by the readable content of a page when looking at its layout.
+                        |                             It is a long established fact that a reader will be distracted
+                        |                             by the readable content of a page when looking at its layout.
                   .box-footer(style='display: block;')
                     form(action='#' method='post')
-                      img.img-responsive.img-circle.img-sm(src='img/Friends/guy-3.jpg' alt='Alt Text')
+                      img.img-responsive.img-circle.img-sm(src='static/images/Friends/guy-3.jpg' alt='Alt Text')
                       .img-push
                         input.form-control.input-sm(type='text' placeholder='Press enter to post comment')
                 // end posts
@@ -1362,51 +1371,51 @@ nav#top.navbar.navbar-white.navbar-fixed-top
     p.text-center.chat-title Online users
     a.list-group-item(href='messages1.html')
       i.fa.fa-check-circle.connected-status
-      img.img-chat.img-thumbnail(src='img/Friends/guy-2.jpg')
+      img.img-chat.img-thumbnail(src='static/images/Friends/guy-2.jpg')
       span.chat-user-name Jeferh Smith
     a.list-group-item(href='messages1.html')
       i.fa.fa-times-circle.absent-status
-      img.img-chat.img-thumbnail(src='img/Friends/woman-1.jpg')
+      img.img-chat.img-thumbnail(src='static/images/Friends/woman-1.jpg')
       span.chat-user-name Dapibus acatar
     a.list-group-item(href='messages1.html')
       i.fa.fa-check-circle.connected-status
-      img.img-chat.img-thumbnail(src='img/Friends/guy-3.jpg')
+      img.img-chat.img-thumbnail(src='static/images/Friends/guy-3.jpg')
       span.chat-user-name Antony andrew lobghi
     a.list-group-item(href='messages1.html')
       i.fa.fa-check-circle.connected-status
-      img.img-chat.img-thumbnail(src='img/Friends/woman-2.jpg')
+      img.img-chat.img-thumbnail(src='static/images/Friends/woman-2.jpg')
       span.chat-user-name Maria fernanda coronel
     a.list-group-item(href='messages1.html')
       i.fa.fa-check-circle.connected-status
-      img.img-chat.img-thumbnail(src='img/Friends/guy-4.jpg')
+      img.img-chat.img-thumbnail(src='static/images/Friends/guy-4.jpg')
       span.chat-user-name Markton contz
     a.list-group-item(href='messages1.html')
       i.fa.fa-times-circle.absent-status
-      img.img-chat.img-thumbnail(src='img/Friends/woman-3.jpg')
+      img.img-chat.img-thumbnail(src='static/images/Friends/woman-3.jpg')
       span.chat-user-name Martha creaw
     a.list-group-item(href='messages1.html')
       i.fa.fa-times-circle.absent-status
-      img.img-chat.img-thumbnail(src='img/Friends/woman-8.jpg')
+      img.img-chat.img-thumbnail(src='static/images/Friends/woman-8.jpg')
       span.chat-user-name Yira Cartmen
     a.list-group-item(href='messages1.html')
       i.fa.fa-check-circle.connected-status
-      img.img-chat.img-thumbnail(src='img/Friends/woman-4.jpg')
+      img.img-chat.img-thumbnail(src='static/images/Friends/woman-4.jpg')
       span.chat-user-name Jhoanath matew
     a.list-group-item(href='messages1.html')
       i.fa.fa-check-circle.connected-status
-      img.img-chat.img-thumbnail(src='img/Friends/woman-5.jpg')
+      img.img-chat.img-thumbnail(src='static/images/Friends/woman-5.jpg')
       span.chat-user-name Ryanah Haywofd
     a.list-group-item(href='messages1.html')
       i.fa.fa-check-circle.connected-status
-      img.img-chat.img-thumbnail(src='img/Friends/woman-9.jpg')
+      img.img-chat.img-thumbnail(src='static/images/Friends/woman-9.jpg')
       span.chat-user-name Linda palma
     a.list-group-item(href='messages1.html')
       i.fa.fa-check-circle.connected-status
-      img.img-chat.img-thumbnail(src='img/Friends/woman-10.jpg')
+      img.img-chat.img-thumbnail(src='static/images/Friends/woman-10.jpg')
       span.chat-user-name Andrea ramos
     a.list-group-item(href='messages1.html')
       i.fa.fa-check-circle.connected-status
-      img.img-chat.img-thumbnail(src='img/Friends/child-1.jpg')
+      img.img-chat.img-thumbnail(src='static/images/Friends/child-1.jpg')
       span.chat-user-name Dora ty bluekl
 // Online users sidebar content
 // Modal
@@ -1421,9 +1430,477 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         | ...
       .modal-footer
         button.btn.btn-default(type='button' data-dismiss='modal') Close
-// *************************************************************************
-// Fenêtre Modale A propos
-// *************************************************************************
+// ****************************************************************************************
+// PAGE RECHERCHE D'AMIS
+// ******************************************************************************************
+// Begin page content
+#block-recherche-amis.row.page-content
+  .row
+    .col-md-10.col-md-offset-1
+      // NAV TABS
+      // END NAV TABS
+      .col-md-8.col-md-offset-2
+        .row
+          .col-md-12
+            .cover.profile
+              .wrapper
+                .image
+                  img.show-in-modal(src='static/images/favicon.png' alt='people')
+                ul.friends
+                  li
+                    a(href='#')
+                      img.img-responsive(src='static/images/favicon.png' alt='people')
+                  li
+                    a(href='#')
+                      img.img-responsive(src='static/images/favicon.png' alt='people')
+                  li
+                    a(href='#')
+                      img.img-responsive(src='static/images/favicon.png' alt='people')
+                  li
+                    a(href='#')
+                      img.img-responsive(src='static/images/favicon.png' alt='people')
+                  li
+                    a(href='#')
+                      img.img-responsive(src='static/images/favicon.png' alt='people')
+                  li
+                    a(href='#')
+                      img.img-responsive(src='static/images/favicon.png' alt='people')
+                  li
+                    a(href='#')
+                      img.img-responsive(src='static/images/favicon.png' alt='people')
+                  li
+                    a(href='#')
+                      img.img-responsive(src='static/images/favicon.png' alt='people')
+                  li
+                    a.group(href='#')
+                      i.fa.fa-group
+              .cover-info
+                .avatar
+                  img(src='static/images/Friends/guy-5.jpg' alt='people')
+                .name
+                  a(href='#') John Breakgrow jr.
+                ul.cover-nav
+                  li
+                    a#amis-vers-mur(href='#')
+                      i.fa.fa-fw.fa-bars
+                      |  Profil
+                  li
+                    a#amis-vers-messages(href='#')
+                      i.fa.fa-fw.fa-user
+                      |  Messages
+        .row
+          .col-md-3
+            .contact-box.center-version
+              a(href='#')
+                img.img-circle(alt='image' src='static/images/Friends/guy-1.jpg')
+                h3.m-b-xs
+                  strong John Doe
+                .font-bold Graphics designer
+              .contact-box-footer
+                .m-t-xs.btn-group
+                  a.btn.btn-xs.btn-white(href='messages1.html')
+                    i.fa.fa-envelope
+                    | Send Messages
+                  a.btn.btn-xs.btn-white
+                    i.fa.fa-user-plus
+                    |  Follow
+          .col-md-3
+            .contact-box.center-version
+              a(href='#')
+                img.img-circle(alt='image' src='static/images/Friends/guy-2.jpg')
+                h3.m-b-xs
+                  strong John Doe
+                .font-bold Graphics designer
+              .contact-box-footer
+                .m-t-xs.btn-group
+                  a.btn.btn-xs.btn-white(href='messages1.html')
+                    i.fa.fa-envelope
+                    | Send Messages
+                  a.btn.btn-xs.btn-white
+                    i.fa.fa-user-plus
+                    |  Follow
+          .col-md-3
+            .contact-box.center-version
+              a(href='#')
+                img.img-circle(alt='image' src='static/images/Friends/guy-3.jpg')
+                h3.m-b-xs
+                  strong John Doe
+                .font-bold Graphics designer
+              .contact-box-footer
+                .m-t-xs.btn-group
+                  a.btn.btn-xs.btn-white(href='messages1.html')
+                    i.fa.fa-envelope
+                    | Send Messages
+                  a.btn.btn-xs.btn-white
+                    i.fa.fa-user-plus
+                    |  Follow
+          .col-md-3
+            .contact-box.center-version
+              a(href='#')
+                img.img-circle(alt='image' src='static/images/Friends/woman-1.jpg')
+                h3.m-b-xs
+                  strong John Doe
+                .font-bold Graphics designer
+              .contact-box-footer
+                .m-t-xs.btn-group
+                  a.btn.btn-xs.btn-white(href='messages1.html')
+                    i.fa.fa-envelope
+                    | Send Messages
+                  a.btn.btn-xs.btn-white
+                    i.fa.fa-user-plus
+                    |  Follow
+          .col-md-3
+            .contact-box.center-version
+              a(href='#')
+                img.img-circle(alt='image' src='static/images/Friends/woman-2.jpg')
+                h3.m-b-xs
+                  strong John Doe
+                .font-bold Graphics designer
+              .contact-box-footer
+                .m-t-xs.btn-group
+                  a.btn.btn-xs.btn-white(href='messages1.html')
+                    i.fa.fa-envelope
+                    | Send Messages
+                  a.btn.btn-xs.btn-white
+                    i.fa.fa-user-plus
+                    |  Follow
+          .col-md-3
+            .contact-box.center-version
+              a(href='#')
+                img.img-circle(alt='image' src='static/images/Friends/woman-3.jpg')
+                h3.m-b-xs
+                  strong John Doe
+                .font-bold Graphics designer
+              .contact-box-footer
+                .m-t-xs.btn-group
+                  a.btn.btn-xs.btn-white(href='messages1.html')
+                    i.fa.fa-envelope
+                    | Send Messages
+                  a.btn.btn-xs.btn-white
+                    i.fa.fa-user-plus
+                    |  Follow
+          .col-md-3
+            .contact-box.center-version
+              a(href='#')
+                img.img-circle(alt='image' src='static/images/Friends/guy-5.jpg')
+                h3.m-b-xs
+                  strong John Doe
+                .font-bold Graphics designer
+              .contact-box-footer
+                .m-t-xs.btn-group
+                  a.btn.btn-xs.btn-white(href='messages1.html')
+                    i.fa.fa-envelope
+                    | Send Messages
+                  a.btn.btn-xs.btn-white
+                    i.fa.fa-user-plus
+                    |  Follow
+          .col-md-3
+            .contact-box.center-version
+              a(href='#')
+                img.img-circle(alt='image' src='static/images/Friends/woman-1.jpg')
+                h3.m-b-xs
+                  strong John Doe
+                .font-bold Graphics designer
+              .contact-box-footer
+                .m-t-xs.btn-group
+                  a.btn.btn-xs.btn-white(href='messages1.html')
+                    i.fa.fa-envelope
+                    | Send Messages
+                  a.btn.btn-xs.btn-white
+                    i.fa.fa-user-plus
+                    |  Follow
+// Modal
+#modalShow.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        button.close(type='button' data-dismiss='modal' aria-label='Close')
+          span(aria-hidden='true') &times;
+        h4#myModalLabel.modal-title Modal title
+      .modal-body.text-centers
+        | ...
+      .modal-footer
+        button.btn.btn-default(type='button' data-dismiss='modal') Close
+// ****************************************************************************************
+// PAGE DES MESSAGES INSTANTANNEES
+// ****************************************************************************************
+// Begin page content
+#block-messages.container.page-content
+  .row
+    .col-md-10.col-md-offset-1
+      // NAV TABS
+      ul#nav-profil.nav.nav-tabs.tabs-iconized
+        li#mess-vers-mur
+          a#messages-vers-mur.a-nav-profil(href='#' data-toggle='tab' aria-expanded='false')
+            i.fa.fa-user
+            |  Profil
+      #messages-main.tile.tile-alt
+        .ms-menu
+          .ms-user.clearfix
+            img.img-avatar.pull-left(src='static/images/Friends/guy-3.jpg' alt='')
+            div
+              | Signed in as 
+              br
+              |  gronemo@gmail.com
+          .p-15
+            .dropdown
+              a.btn.btn-azure.btn-block(href='' data-toggle='dropdown')
+                | Messages 
+                i.caret.m-l-5
+              ul.dropdown-menu.dm-icon.w-100
+                li
+                  a(href='')
+                    i.fa.fa-envelope
+                    |  Messages
+                li
+                  a(href='')
+                    i.fa.fa-users
+                    |  Contacts
+                li
+                  a(href='')
+                    i.fa.fa-format-list-bulleted  
+                    | Todo Lists
+          .list-group.lg-alt
+            a.list-group-item.media(href='')
+              .pull-left
+                img.img-avatar(src='static/images/Friends/guy-2.jpg' alt='')
+              .media-body
+                small.list-group-item-heading Davil Parnell
+                small.list-group-item-text.c-gray Fierent fastidii recteque ad pro
+            a.list-group-item.media(href='')
+              .pull-left
+                img.img-avatar(src='static/images/Friends/guy-3.jpg' alt='')
+              .media-body
+                .list-group-item-heading Ann Watkinson
+                small.list-group-item-text.c-gray Cum sociis natoque penatibus 
+            a.list-group-item.media(href='')
+              .pull-left
+                img.img-avatar(src='static/images/Friends/guy-4.jpg' alt='')
+              .media-body
+                .list-group-item-heading Marse Walter
+                small.list-group-item-text.c-gray Suspendisse sapien ligula
+            a.list-group-item.media(href='')
+              .lv-avatar.pull-left
+                img.img-avatar(src='static/images/Friends/guy-5.jpg' alt='')
+              .media-body
+                .list-group-item-heading Jeremy Robbins
+                small.list-group-item-text.c-gray Phasellus porttitor tellus nec
+            a.list-group-item.media(href='')
+              .lv-avatar.pull-left
+                img.img-avatar(src='static/images/Friends/guy-6.jpg' alt='')
+              .media-body
+                .list-group-item-heading Reginald Horace
+                small.list-group-item-text.c-gray Quisque consequat arcu eget
+            a.list-group-item.media(href='')
+              .pull-left
+                img.img-avatar(src='static/images/Friends/guy-7.jpg' alt='')
+              .media-body
+                .list-group-item-heading Shark Henry
+                small.list-group-item-text.c-gray Nam lobortis odio et leo maximu
+            a.list-group-item.media(href='')
+              .pull-left
+                img.img-avatar(src='static/images/Friends/guy-3.jpg' alt='')
+              .media-body
+                .list-group-item-heading Paul Van Dack
+                small.list-group-item-text.c-gray Nam posuere purus sed velit auctor sodales
+            a.list-group-item.media(href='')
+              .lv-avatar.pull-left
+                img.img-avatar(src='static/images/Friends/guy-2.jpg' alt='')
+              .media-body
+                .list-group-item-heading James Anderson
+                small.list-group-item-text.c-gray Vivamus imperdiet sagittis quam
+            a.list-group-item.media(href='')
+              .lv-avatar.pull-left
+                img.img-avatar(src='static/images/Friends/guy-3.jpg' alt='')
+              .media-body
+                .list-group-item-heading Kane Williams
+                small.list-group-item-text.c-gray Suspendisse justo nulla luctus nec
+        .ms-body
+          .action-header.clearfix
+            #ms-menu-trigger.visible-xs
+              i.fa.fa-bars
+            .pull-left.hidden-xs
+              img.img-avatar.m-r-10(src='static/images/Friends/guy-2.jpg' alt='')
+              .lv-avatar.pull-left
+              span David Parbell
+            ul.ah-actions.actions
+              li
+                a(href='')
+                  i.fa.fa-trash
+              li
+                a(href='')
+                  i.fa.fa-check
+              li
+                a(href='')
+                  i.fa.fa-clock-o
+              li.dropdown
+                a(href='' data-toggle='dropdown' aria-expanded='true')
+                  i.fa.fa-sort
+                ul.dropdown-menu.dropdown-menu-right
+                  li
+                    a(href='') Latest
+                  li
+                    a(href='') Oldest
+              li.dropdown
+                a(href='' data-toggle='dropdown' aria-expanded='true')
+                  i.fa.fa-bars
+                ul.dropdown-menu.dropdown-menu-right
+                  li
+                    a(href='') Refresh
+                  li
+                    a(href='') Message Settings
+          .message-feed.media
+            .pull-left
+              img.img-avatar(src='static/images/Friends/guy-3.jpg' alt='')
+            .media-body
+              .mf-content
+                | Quisque consequat arcu eget odio cursus, ut tempor arcu vestibulum. Etiam ex arcu, porta a urna non, lacinia pellentesque orci. Proin semper sagittis erat, eget condimentum sapien viverra et. Mauris volutpat magna nibh, et condimentum est rutrum a. Nunc sed turpis mi. In eu massa a sem pulvinar lobortis.
+              small.mf-date
+                i.fa.fa-clock-o
+                |  20/02/2015 at 09:00
+          .message-feed.right
+            .pull-right
+              img.img-avatar(src='static/images/Friends/guy-2.jpg' alt='')
+            .media-body
+              .mf-content
+                | Mauris volutpat magna nibh, et condimentum est rutrum a. Nunc sed turpis mi. In eu massa a sem pulvinar lobortis.
+              small.mf-date
+                i.fa.fa-clock-o
+                |  20/02/2015 at 09:30
+          .message-feed.media
+            .pull-left
+              img.img-avatar(src='static/images/Friends/guy-3.jpg' alt='')
+            .media-body
+              .mf-content
+                | Etiam ex arcumentum
+              small.mf-date
+                i.fa.fa-clock-o
+                |  20/02/2015 at 09:33
+          .message-feed.right
+            .pull-right
+              img.img-avatar(src='static/images/Friends/guy-2.jpg' alt='')
+            .media-body
+              .mf-content
+                | Etiam nec facilisis lacus. Nulla imperdiet augue ullamcorper dui ullamcorper, eu laoreet sem consectetur. Aenean et ligula risus. Praesent sed posuere sem. Cum sociis natoque penatibus et magnis dis parturient montes,
+              small.mf-date
+                i.fa.fa-clock-o
+                |  20/02/2015 at 10:10
+          .message-feed.media
+            .pull-left
+              img.img-avatar(src='static/images/Friends/guy-3.jpg' alt='')
+            .media-body
+              .mf-content
+                | Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam ac tortor ut elit sodales varius. Mauris id ipsum id mauris malesuada tincidunt. Vestibulum elit massa, pulvinar at sapien sed, luctus vestibulum eros. Etiam finibus tristique ante, vitae rhoncus sapien volutpat eget
+              small.mf-date
+                i.fa.fa-clock-o
+                |  20/02/2015 at 10:24
+          .msb-reply
+            textarea(placeholder="What's on your mind...")
+            button
+              i.fa.fa-paper-plane-o
+// ****************************************************************************************
+// DASHBOARD ADMINISTRATEUR
+// ****************************************************************************************
+// Begin page content
+#block-administrateur.container.page-content
+  .row
+    .col-md-10.col-md-offset-1
+      // NAV TABS
+      ul#nav-profil.nav.nav-tabs.tabs-iconized
+        li#idProfilAdmin
+          a.a-nav-profil(href='#' data-toggle='tab' aria-expanded='false')
+            i.fa.fa-user &nbsp;
+            | Profil&nbsp;
+            strong#mur-pseudo-admin
+      h4.titre-nav-admin Tableau de bord administrateur
+      .row
+        .col-md-12
+          .widget
+            .table-responsive
+              table#table-liste-membres.table.user-list
+                thead
+                  tr
+                    th
+                      span Membres
+                    th
+                      span Depuis
+                    th.text-center
+                      span Statut
+                    th
+                      span Email
+                    th &nbsp;
+            ul.pagination.pull-right
+              li
+                a(href='#')
+                  i.fa.fa-chevron-left
+              li
+                a(href='#') 1
+              li
+                a(href='#') 2
+              li
+                a(href='#') 3
+              li
+                a(href='#') 4
+              li
+                a(href='#') 5
+              li
+                a(href='#')
+                  i.fa.fa-chevron-right
+// ****************************************************************************************
+// DASHBOARD ADMINISTRATEUR  : DETAIL MEMBRE
+// ****************************************************************************************
+// Begin page content
+#block-detail-membre.container.page-content
+  .row
+    .col-md-10.col-md-offset-1
+      // NAV TABS
+      ul#nav-profil.nav.nav-tabs.tabs-iconized
+        li#idDasboard
+          a.a-nav-profil(href='#' data-toggle='tab' aria-expanded='false')
+            i.fa.fa-user &nbsp;
+            | Tableau de bord&nbsp;
+            strong
+      h4#pseudo-detail.titre-nav-admin
+      .col-md-10.col-md-offset-1.container-contact
+        .row.decor-default
+          .col-md-12
+            .contact
+              .controls
+                span.write(data-toggle='tooltip' data-placement='top' title='' data-original-title='New')
+                img.cover(src='static/images/Cover/nature.jpg' alt='cover')
+                .cont
+                  img.avatar(src='static/images/Friends/guy-3.jpg' alt='avatar')
+                  .name
+                    span.s-text John Breakgrow jr.
+              .row
+                .col-md-4.col-md-5.col-xs-12
+                  .row
+                    .col-xs-3
+                      | Email:
+                    .col-xs-9
+                      | example@yourdomain.com
+                    .col-xs-3
+                      | Phone:
+                    .col-xs-9
+                      | +1-800-600-9898
+                    .col-xs-3
+                      | Address:
+                    .col-xs-9
+                      | Sacramento, CA
+                    .col-xs-3
+                      | Birthday:
+                    .col-xs-9
+                      | 1975/8/17
+                    .col-xs-3
+                      | URL:
+                    .col-xs-9
+                      | http://yourdomain.com
+                .col-lg-8.col-md-7.col-xs-12
+                  p.contact-description
+                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+// ****************************************************************************************
+// FENETRE MODAL A PROPOS
+// ****************************************************************************************
 #idAbout.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalAboutTitlePa' aria-hidden='true')
   .modal-dialog.modal-dialog-centered(role='document')
     .modal-content
@@ -1442,9 +1919,9 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   |  est un r&eacute;seau social qui permet de mettre en relation des personnes qui proposent des chats &agrave; l&rsquo;adoption et celles d&eacute;sirant en adopter.
       .modal-footer
         button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
-// *************************************************************************
-// Fenêtre Modale felicitation
-// *************************************************************************
+// ****************************************************************************************
+// FENETRE MODAL DE BIENVENUE ET FELICITATION
+// ****************************************************************************************
 #idFelicitation.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalFelicitationTitle' aria-hidden='true')
   .modal-dialog.modal-dialog-centered(role='document')
     #idModalContent.modal-content
@@ -1455,9 +1932,9 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         img.mb-4.mx-auto.d-block(src='static/images/favicon.png' alt='Logo du site adopte un maitre' width='auto' height='72')
       .modal-footer
         button#ferme-felicitation.btn.btn-azure(type='button' data-dismiss='modal') Fermer
-// *************************************************************************
-// Fenêtre Modale global
-// *************************************************************************
+// ****************************************************************************************
+// FENETRE MODAL MODULABLE
+// ****************************************************************************************
 #idGenericModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idGenericModalTitle' aria-hidden='true')
   .modal-dialog.modal-dialog-centered(role='document')
     #idModalContentG.modal-content
@@ -1469,11 +1946,11 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         #idModalBodyText
       .modal-footer
         button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
-// *************************************************************************
+// ****************************************************************************************
 // FOOTER PAGE INDEX
-// *************************************************************************
+// ****************************************************************************************
 footer.footer
-  // *************************  Activité **********************************************************
+  // *************************  ACTIVITES  **********************************************************
   #footer-activite.activite
     .row
       .col-md-4.col-sm-4.col-xs-12
@@ -1489,9 +1966,9 @@ footer.footer
         span
           strong Visiteurs connect&eacute;s :&nbsp;
         span#nbr-visiteurs-connectes
-// *************************************************************************
-// Vérification Javascript activé + chargement des librairies
-// *************************************************************************
+// ****************************************************************************************
+// PARTIE JAVASCRIPT
+// ****************************************************************************************
 noscript
   p Veuillez activer JavaScript
 script.

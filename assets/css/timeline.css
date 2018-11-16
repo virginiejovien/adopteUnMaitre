@@ -1409,6 +1409,7 @@ h4, .h4 {
 
 a, a:hover {
  text-decoration: none;
+ color: gray;
 }
 
 .navbar-toggle {
@@ -1418,4 +1419,3 @@ a, a:hover {
 .navbar-toggle .icon-bar {
     background: #000;
 }
-

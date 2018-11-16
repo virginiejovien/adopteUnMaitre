@@ -75,7 +75,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var tabProfil =  window.document.getElementById('tab-profil');
     var tabActivite =  window.document.getElementById('tab-activite');
     var tabParametre =  window.document.getElementById('tab-parametre');
-    var idProfileMur= window.document.getElementById('idProfileMur')
+    var idProfilMpAlertMsg = window.document.getElementById('idProfileMur')
     var formProfilInscription = window.document.getElementById('form-profil-inscription');
     var pseudoProfil = window.document.getElementById('pseudo-profil');
     var emailProfil = window.document.getElementById('email-profil');
@@ -108,7 +108,6 @@ window.addEventListener('DOMContentLoaded', function() {
     var blockMurProfile =  window.document.getElementById('mur-profile');  
     var idProfileChange =  window.document.getElementById('idProfileChange');
     var idRechercheAmis  =  window.document.getElementById('idRechercheAmis');  
-    var idDiscussions  =  window.document.getElementById('idDiscussions');  
     var murPseudo = window.document.getElementById('mur-pseudo');
     var murEmail = window.document.getElementById('mur-email');
     var murAge = window.document.getElementById('mur-age');
@@ -117,66 +116,57 @@ window.addEventListener('DOMContentLoaded', function() {
     var murVille = window.document.getElementById('mur-ville');
     var murPreference = window.document.getElementById('mur-preference');
     var murPhotoProfil = window.document.getElementById('mur-photo-profile');
-    // variables entrees du formulaires   
-
+   // variables entrees du formulaires   
+  
 //*****************************************/
 // elements single page recherche d'amis
 //*****************************************/   
-    // Eléments de la page recherche amis
-    var blockRechercheAmis =  window.document.getElementById('block-recherche-amis'); 
-    var idRechercheAmis  =  window.document.getElementById('idRechercheAmis'); 
-    var idAmisVersMur =  window.document.getElementById('amis-vers-mur');
-    var idAmisVersMessages =  window.document.getElementById('amis-vers-messages');
-
-//*****************************************/
-// elements single page messagerie instantannée
-//*****************************************/   
-    // Eléments de la page recherche amis
-    var blockMessages =  window.document.getElementById('block-messages'); 
- //   var idRechercheAmis  =  window.document.getElementById('idRechercheAmis'); 
-    var idMessagesVersMur =  window.document.getElementById('messages-vers-mur');
- //   var idAmisVersMessages =  window.document.getElementById('amis-vers-messages');
+   // Eléments de la page recherche amis
+   var blockRechercheAmis =  window.document.getElementById('block-recherche-amis'); 
+   var idRechercheAmis  =  window.document.getElementById('idRechercheAmis'); 
 
 //*****************************************/
 // elements single page administrateur
 //*****************************************/   
-    // Eléments de la page administrateurs
+   // Eléments de la page administrateurs
     var blockAdministrateur =  window.document.getElementById('block-administrateur'); 
     var idProfilAdmin  =  window.document.getElementById('idProfilAdmin'); 
     var murPseudoAdmin = window.document.getElementById('mur-pseudo-admin'); 
-   
-    var tbodyExiste = false; // variable pour identifier sur la tableau liste des membres existe
-
-//*****************************************/
-// elements single page administrateur
-//*****************************************/  
-    var blockDetailMembre =  window.document.getElementById('block-detail-membre');
-    var idDasboard       =   window.document.getElementById('idDasboard');
-   
-//*****************************************/
-// elements single page footer
-//*****************************************/  
+    var murPhotoProfilAdmin = window.document.getElementById('mur-photo-profile-Admin');
+    var listePseudo = window.document.getElementById('liste-pseudo')
+    var listeStatut = window.document.getElementById('liste-statut');
+    var listeDate = window.document.getElementById('liste-date');
+    var listeEmail = window.document.getElementById('liste-email');
+    var info = window.document.getElementById('info');
+    var listeDesMembres = window.document.getElementById('liste-des-membres')
+ //*****************************************/
+ // elements single page footer
+ //*****************************************/  
     
     var footerActivite = window.document.getElementById('footer-activite');   
     var nbrMembresConnectes = window.document.getElementById('nbr-membres-connectes');
     var nbrMessagesPublic = window.document.getElementById('nbr-messages-publies');
     var nbrVisiteursConnectes = window.document.getElementById('nbr-visiteurs-connectes');
 
+ 
+ //   var pseudoDeProfil = window.document.getElementById('pseudoprofil');
+
+    var lienPseudo=[];
     var objetDuMembre = {};
     var objetDuVisiteur = {};
     var objetDesMembres = {};
     var objetDunMembre = {};
-
+   
 //************************************************************************************************
 // Déclaration des fonctions globales
-//************************************************************************************************     
+//************************************************************************************************      
+    
     mp1Inscription.onchange = function(){validatePassword(mp1Inscription, mp2Inscription)};    // Vérification que les MDP sont identiques
     mp2Inscription.onkeyup = function(){validatePassword(mp1Inscription, mp2Inscription)};     //
     changeMp1.onchange = function(){validatePassword(changeMp1, changeMp2)};    // Vérification que les MDP sont identiques
     changeMp2.onkeyup = function(){validatePassword(changeMp1, changeMp2)};     //
     parametreMp1.onchange = function(){validatePassword(parametreMp1, parametreMp2)};    // Vérification que les MDP sont identiques
     parametreMp2.onkeyup = function(){validatePassword(parametreMp1, parametreMp2)};   
-
 // -------------------------------------------------------------------------------------
 // Cette fonction initialise le contenu de la fenetre modale "Recuperation Mot de Passe"
 // après la demande réussie de recuperation de mot de passe du nouveau membre
@@ -316,41 +306,6 @@ window.addEventListener('DOMContentLoaded', function() {
         
     };
 
-// -----------------------------------------------------------------------------
-// Cette fonction ajoute un événement onclick à une ligne du tableau 
-// tableau liste-des-membres
-// -----------------------------------------------------------------------------
-    function addRowHandlersListeMembres() {
-        console.log('je suis dans la fonction addRowHandlersListeMembres');
-        var tableauListeMembres = document.getElementById("liste-des-membres");
-        var rows = tableauListeMembres.getElementsByTagName("tr");
-        for (var j = 0; j < rows.length; j++) {
-            var currentRow = tableauListeMembres.rows[j];
-            var createClickHandler = function(row) {
-                return function() {
-                    var cell = row.getElementsByTagName("td")[0];
-                    var cella = cell.getElementsByTagName("a")[0];
-                    var id = cella.innerHTML;
-                    console.log("id:" + id);                    
-                    websocketConnection.emit('demandeAffiMurDunMembre', id);  // Demande au serveur la liste de tous les membres   
-                };
-            };
-            var createClickHandlerBis = function(row) {
-                return function() {
-                    var cell = row.getElementsByTagName("td")[0];
-                    var cella = cell.getElementsByTagName("a")[0];
-                    console.log('cella',cella);
-                    var id = cella.innerHTML;
-                    console.log("id:" + id);                    
-                    websocketConnection.emit('demandeAffiMurDunMembre', id);  // Demande au serveur la liste de tous les membres   
-                };
-            };
-        currentRow.onclick = createClickHandler(currentRow);
-        currentRow.onclick = createClickHandlerBis(currentRow);
- 
-        }
-    };
-
 //******************************************************************************** 
 // convertisseur de date en format JJ/MM/AAAA
 //********************************************************************************  
@@ -373,122 +328,165 @@ window.addEventListener('DOMContentLoaded', function() {
 //************************************************************************************************************
 // Fonction qui affichage des infos de tous les membres  membres  : pseudo, date, statut email
 //************************************************************************************************************
-    var affichageListeMembres = function(pObjetDesMembres) { 
-        if (tbodyExiste){                                   // on verifie si le tableau des membres existe ou pas pour ne pas le créer deux fois
-                console.log('tbodyExiste :',tbodyExiste);
-        } else {
-            var tbody = document.createElement('tbody');
-            tbody.id = 'liste-des-membres';
-            document.getElementById('table-liste-membres').appendChild(tbody); 
-            tbodyExiste = true;
-            for (var i=0; i < pObjetDesMembres.length; i++) {            
-            
-                var today = getFormatDate(pObjetDesMembres[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
-                
-        // Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
-                var tr = document.createElement('tr');
-                document.getElementById('liste-des-membres').appendChild(tr);      
-            
-                var td = document.createElement('td');
-                tr.appendChild(td);
-                
-                var a = document.createElement('a');
-                a.id = 'liste-pseudo'+[i];
-                a.setAttribute ( 'href' , '#');
-                a.className = 'user-link';
-                a.innerHTML =  pObjetDesMembres[i].pseudo;
-                td.appendChild(a); 
+    var affichageListeMembres = function(pObjetDesMembres) {  
+        var listeExiste = false;
+        console.log('1 listeExiste',listeExiste)
+        if (!listeExiste) {
+        for (var i=0; i < pObjetDesMembres.length; i++) {            
+        
+        var today = getFormatDate(pObjetDesMembres[i].dateCreation);
+        
+   // Création physique dynamique et ajout au DOM de la liste des membres
+        var tr = document.createElement('tr');
+        document.getElementById('liste-des-membres').appendChild(tr);      
+    
+        var td = document.createElement('td');
+        tr.appendChild(td);
+        
+        var a = document.createElement('a');
+        a.id = 'liste-pseudo'+[i];
+        a.setAttribute ( 'href' , '#');
+        a.className = 'user-link';
+        a.innerHTML =  pObjetDesMembres[i].pseudo;
+        td.appendChild(a); 
 
-                var span = document.createElement('span');
-                span.className = 'user-subhead';
-                span.innerHTML = pObjetDesMembres[i].profil;
-                td.appendChild(span);
+        var span = document.createElement('span');
+        span.className = 'user-subhead';
+        span.innerHTML = pObjetDesMembres[i].profil;
+        td.appendChild(span);
 
-                var td1 = document.createElement('td'); 
-                td1.id= 'liste-date'+[i];
-                td1.innerHTML =  today; 
-                tr.appendChild(td1);
+        var td1 = document.createElement('td'); 
+        td1.id= 'liste-date'+[i];
+        td1.innerHTML =  today; 
+        tr.appendChild(td1);
 
-                var td2 = document.createElement('td'); 
-                td2.className = 'text-center';       
-                tr.appendChild(td2);
+        var td2 = document.createElement('td'); 
+        td2.className = 'text-center';       
+        tr.appendChild(td2);
 
-                var span2 = document.createElement('span');
-                span2.className = 'label label-default';
-                span2.id = 'liste-statut';
-                span2.innerHTML = pObjetDesMembres[i].statut;
-                td2.appendChild(span2);
+        var span2 = document.createElement('span');
+        span2.className = 'label label-default';
+        span2.id = 'liste-statut';
+        span2.innerHTML = pObjetDesMembres[i].statut;
+        td2.appendChild(span2);
 
-                var td3 = document.createElement('td');
-                tr.appendChild(td3);
-                
-                var a3 = document.createElement('a');
-                a3.id = 'listes-email'+[i];
-                a3.setAttribute ( 'href' , '#');
-                a3.innerHTML =  pObjetDesMembres[i].email;
-                td3.appendChild(a3); 
+        var td3 = document.createElement('td');
+        tr.appendChild(td3);
+        
+        var a3 = document.createElement('a');
+        a3.id = 'listes-email'+[i];
+        a3.setAttribute ( 'href' , '#');
+        a3.innerHTML =  pObjetDesMembres[i].email;
+        td3.appendChild(a3); 
 
-                var td4 = document.createElement('td');       
-                td4.setAttribute ( 'style' , 'width: 20%;');
-                tr.appendChild(td4);
+        var td4 = document.createElement('td');       
+        td4.setAttribute ( 'style' , 'width: 20%;');
+        tr.appendChild(td4);
 
-                var a4 = document.createElement('a');
-                a4.id = 'info'+[i];
-                a4.setAttribute ( 'href' , '#');
-                a4.className = 'table-link success';        
-                td4.appendChild(a4); 
+        var a4 = document.createElement('a');
+        a4.id = 'info'+[i];
+        a4.setAttribute ( 'href' , '#');
+        a4.className = 'table-link success';        
+        td4.appendChild(a4); 
 
-                var span4 = document.createElement('span');
-                span4.className = 'fa-stack';       
-                a4.appendChild(span4);
+        var span4 = document.createElement('span');
+        span4.className = 'fa-stack';       
+        a4.appendChild(span4);
 
-                var i1 = document.createElement('i');
-                i1.className = 'fa fa-square fa-stack-2x';
-                span4.appendChild(i1);
+        var i1 = document.createElement('i');
+        i1.className = 'fa fa-square fa-stack-2x';
+        span4.appendChild(i1);
 
-                var i2 = document.createElement('i');
-                i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
-                span4.appendChild(i2);
-                
-                var a5 = document.createElement('a');
-                a5.id = 'modifie'+[i];
-                a5.setAttribute ( 'href' , '#');
-                a5.className = 'table-link';        
-                td4.appendChild(a5); 
+        var i2 = document.createElement('i');
+        i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
+        span4.appendChild(i2);
 
-                var span5 = document.createElement('span');
-                span5.className = 'fa-stack';       
-                a5.appendChild(span5);
+        
+        var a5 = document.createElement('a');
+        a5.id = 'modifie'+[i];
+        a5.setAttribute ( 'href' , '#');
+        a5.className = 'table-link';        
+        td4.appendChild(a5); 
 
-                var i3 = document.createElement('i');
-                i3.className = 'fa fa-square fa-stack-2x';
-                span5.appendChild(i3);
+        var span5 = document.createElement('span');
+        span5.className = 'fa-stack';       
+        a5.appendChild(span5);
 
-                var i4 = document.createElement('i');
-                i4.className = 'fa fa-pencil fa-stack-1x fa-inverse';
-                span5.appendChild(i4);
+        var i3 = document.createElement('i');
+        i3.className = 'fa fa-square fa-stack-2x';
+        span5.appendChild(i3);
 
-                var a6 = document.createElement('a');
-                a6.id = 'supprime'+[i];
-                a6.setAttribute ( 'href' , '#');               
-                a6.className = 'table-link danger';        
-                td4.appendChild(a6); 
+        var i4 = document.createElement('i');
+        i4.className = 'fa fa-pencil fa-stack-1x fa-inverse';
+        span5.appendChild(i4);
 
-                var span6 = document.createElement('span');
-                span6.className = 'fa-stack';       
-                a6.appendChild(span6);
+        var a6 = document.createElement('a');
+        a6.id = 'supprime'+[i];
+        a6.setAttribute ( 'href' , '#');
+        a6.className = 'table-link danger';        
+        td4.appendChild(a6); 
 
-                var i5 = document.createElement('i');
-                i5.className = 'fa fa-square fa-stack-2x';
-                span6.appendChild(i5);
+        var span6 = document.createElement('span');
+        span6.className = 'fa-stack';       
+        a6.appendChild(span6);
 
-                var i6 = document.createElement('i');
-                i6.className = 'fa fa-trash-o fa-stack-1x fa-inverse';
-                span6.appendChild(i6);
-            };
+        var i5 = document.createElement('i');
+        i5.className = 'fa fa-square fa-stack-2x';
+        span6.appendChild(i5);
+
+        var i6 = document.createElement('i');
+        i6.className = 'fa fa-trash-o fa-stack-1x fa-inverse';
+        span6.appendChild(i6);
+  /*      
+        var affichageListeMembres  = '<tr><td><a id="liste-pseudo'+[i]+'" href="#" class="user-link">'
+        + pObjetDesMembres[i].pseudo+'</a><span class="user-subhead">'+pObjetDesMembres[i].profil+'</span></td><td id="liste-date">'+today+
+        '</td><td class="text-center"><span class="label label-default" id="liste-statut">' + pObjetDesMembres[i].statut+
+        '</span></td><td><a id="liste-email" href="#">'+pObjetDesMembres[i].email+'</a></td></td>'+
+        '<td style="width: 20%;"><a id="info'+[i]+'" href="" class="table-link success"><span class="fa-stack">'+
+        '<i class="fa fa-square fa-stack-2x"></i><i class="fa fa-search-plus fa-stack-1x fa-inverse"></i></span></a>'+
+        '<a href="#" class="table-link"><span class="fa-stack"><i class="fa fa-square fa-stack-2x"></i>'+
+        '<i class="fa fa-pencil fa-stack-1x fa-inverse"></i></span></a><a href="#" class="table-link danger"><span class="fa-stack">'+
+        '<i class="fa fa-square fa-stack-2x"></i><i class="fa fa-trash-o fa-stack-1x fa-inverse"></i></span></a></td></tr>';
+*/
+
+
+        lienPseudo[i]=  window.document.getElementById('liste-pseudo'+[i]); 
+        console.log("lienPseudo",lienPseudo);     
+    
+        console.log("pseudo avec innerhtml  lienPseudo[i].innerHTML",lienPseudo[i].innerHTML);
+    
+    
+        };
+        listeExiste = true;
+        console.log('2 listeExiste',listeExiste);
+        // ***********************************************************************************************************
+        // click sur un des membres de la liste on consulte son mur de profil
+        // ***********************************************************************************************************
+    ////    info[i].addEventListener('click', function (event) { 
+    //        console.log("click sur le pseudo d'un des membres --info:",listePseudo[i].innerHTML);         
+    //        websocketConnection.emit('demandeAffiMurDunMembre', listePseudo[i].innerHTML);  // Demande au serveur la liste de tous les membres     
+    //    });       
+    //   listePseudo.innerHTML += pObjetDesMembres[i].pseudo;
+    //   listeDate.innerHTML += today;
+    //   listeEmail.innerHTML += pObjetDesMembres[i].email;
+    //   listeStatut.innerHTML +=    pObjetDesMembres[i].statut;
+
+
         }
+         // ***********************************************************************************************************
+        // click sur un des membres de la liste on consulte son mur de profil
+        // ***********************************************************************************************************
 
-        addRowHandlersListeMembres(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
+        console.log("lienPseudo.length",lienPseudo.length);
+        for(var j=0;j<lienPseudo.length;j++){
+            lienPseudo[j].addEventListener('click', function (event) { 
+            console.log("click sur le pseudo d'un des membres --lienPseudo", lienPseudo); 
+            console.log("lienPseudo[i] dans le click",lienPseudo); 
+            console.log('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',j);                  
+            websocketConnection.emit('demandeAffiMurDunMembre', lienPseudo);  // Demande au serveur la liste de tous les membres     
+        });
+    }; 
+        
     };
 
 //************************************************************************************************************
@@ -500,7 +498,8 @@ window.addEventListener('DOMContentLoaded', function() {
 // Verification que la connexion est établie avec le serveur sur le port:2000
 //************************************************************************************************
     websocketConnection.on('connexionServeurOK', function(msg) {
-        console.log('msg',msg);    
+        console.log('msg',msg);
+    
     });
 
 //************************************************************************************************
@@ -596,6 +595,7 @@ window.addEventListener('DOMContentLoaded', function() {
         blockOublie.style.display = 'block'; 
         websocketConnection.emit('recupMotDePasse');           
     });
+
 
 // ***********************************************************************************************************
 // A l'évènement submit on envoi au serveur les données du formulaire de recuperation de mot de passe
@@ -769,6 +769,9 @@ window.addEventListener('DOMContentLoaded', function() {
         $('#idFelicitation').modal('toggle');                                    // ouverture de la fenêtre modale de Félicitations
     });    
 
+
+
+
 //************************************************************************************************************
 // **********************                        PARTIE 2                               ********************** 
 // **********************           ****************  **************                    **********************
@@ -833,7 +836,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 // ***********************************************************************************************************
 // Formulaire suite inscription profile du memmbre 
-// A l'évènement submit on envoi au serveur les données du formulaire de renseignements de profil 
+// A l'évènement submit on envoi au serveur les données du formulaire d'inscription
 // ***********************************************************************************************************
     formProfilInscription.addEventListener('submit', function (event) { 
         event.preventDefault(); 
@@ -979,20 +982,13 @@ window.addEventListener('DOMContentLoaded', function() {
         tabParametre.className ="";        
     });
 
-// ***********************************************************************************************************
-// click sur lien messages on affiche la messagerie instantanée
-// ***********************************************************************************************************
-    idDiscussions.addEventListener('click', function (event) { 
-        console.log('click de mur vers discussions');  
-        // affichage des donnees de la page du mur de profile du membre
-    //   initMurProfil(objetDuMembre);
-        blockMurProfile.style.display = 'none';
-        blockMessages.style.display = 'block';                     
-    });
-
+//***********************************************************************************************************
+// PARTIE RECHERCHE D'AMIS
+// ***********************************************************************************************************     
 // ***********************************************************************************************************
 // click sur lien chercher des amis on affiche la page de recherche d'amis
 // ***********************************************************************************************************
+
     idRechercheAmis.addEventListener('click', function (event) { 
         console.log('demande rechercher amis');   
         blockMurProfile.style.display = 'none';                     
@@ -1001,55 +997,6 @@ window.addEventListener('DOMContentLoaded', function() {
         tabActivite.className ="";   
         tabParametre.className ="";        
     });
-
-
-//***********************************************************************************************************
-// PARTIE RECHERCHE D'AMIS
-// ***********************************************************************************************************    
-
-// ***********************************************************************************************************
-// click sur lien mur de profile profile on affiche le mur de profile
-// ***********************************************************************************************************
-    idAmisVersMur.addEventListener('click', function (event) { 
-        console.log('click de amis vers mur de  profile');  
-        // affichage des donnees de la page du mur de profile du membre
-    //   initMurProfil(objetDuMembre);
-        blockMurProfile.style.display = 'block';                     
-        blockRechercheAmis.style.display = 'none';
-    });
-
-
-// ***********************************************************************************************************
-// click sur lien messages on affiche la messagerie instantanée
-// ***********************************************************************************************************
-    idAmisVersMessages.addEventListener('click', function (event) { 
-        console.log('click de amis vers mur de  profile');  
-        // affichage des donnees de la page du mur de profile du membre
-    //   initMurProfil(objetDuMembre);
-        blockMessages.style.display = 'block';                     
-        blockRechercheAmis.style.display = 'none';
-    });
-
-
-
-
-//***********************************************************************************************************
-// PARTIE RECHERCHE D'AMIS
-// ***********************************************************************************************************    
-
-// ***********************************************************************************************************
-// click sur lien mur de profile profile on affiche le mur de profile
-// ***********************************************************************************************************
-    idMessagesVersMur.addEventListener('click', function (event) { 
-        console.log('click de amis vers mur de  profile');  
-        // affichage des donnees de la page du mur de profile du membre
-    //   initMurProfil(objetDuMembre);
-        blockMurProfile.style.display = 'block';                     
-        blockMessages.style.display = 'none';
-    });
-
-
-
 // ***********************************************************************************************************
 // PARTIE ADMINISTRATEUR
 // *********************************************************************************************************** 
@@ -1060,15 +1007,13 @@ window.addEventListener('DOMContentLoaded', function() {
     administrateur.addEventListener('click', function (event) { 
         console.log('click lien vers page administrateur objetDuMembre', objetDuMembre);          
         // affichage des donnees de la page administrateur
-      //  murPhotoProfilAdmin = ' <img margin ="auto" src="' +objetDuMembre.photoProfile+'"alt="photo" title="photo de profil">';    
+        murPhotoProfilAdmin = ' <img margin ="auto" src="' +objetDuMembre.photoProfile+'"alt="photo" title="photo de profil">';    
         murPseudoAdmin.innerHTML = objetDuMembre.pseudo; 
         // affichage liste des comptes des  membres       
         blockAdministrateur.style.display = 'block';                     
         blockFormulaire.style.display = 'none';
         blockMurProfile.style.display = 'none';
         blockProfilMembre.style.display ='none';
-        blockRechercheAmis.style.display = 'none';
-        blockMessages.style.display = 'none';
         websocketConnection.emit('demandeListeMembres', objetDuMembre);  // Demande au serveur la liste de tous les membres
     });
 
@@ -1113,23 +1058,8 @@ window.addEventListener('DOMContentLoaded', function() {
         initMurProfil(objetDunMembre);    // affichage des donnees de la page du mur de profile du membre
         blockAdministrateur.style.display = 'none';                     
         blockFormulaire.style.display = 'none';
-        blockMurProfile.style.display = 'none';
-        blockProfilMembre.style.display ='none';  
-        blockDetailMembre.style.display ='block';    
+        blockMurProfile.style.display = 'block';
+        blockProfilMembre.style.display ='none';    
     }); 
 
-// ***********************************************************************************************************
-// click sur lien tableau de bord on affiche le tablrau de bord
-// ***********************************************************************************************************
-    idDasboard.addEventListener('click', function (event) { 
-        console.log('click lien verstableau de bord');         
-        // affichage des donnees de la page administrateur
-        tbodyExiste = false; // comme il est possible que le membre est été supprimé on detruit le tableau et on force sa création
-        initMurProfil(objetDuMembre);    // affichage des donnees de la page du mur de profile du membre                          
-        blockFormulaire.style.display = 'none';
-        blockMurProfile.style.display = 'none';
-        blockProfilMembre.style.display ='none';  
-        blockDetailMembre.style.display ='none';  
-        blockAdministrateur.style.display = 'block';      
-    });
 });     

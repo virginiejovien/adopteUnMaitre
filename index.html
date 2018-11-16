@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,10 +16,10 @@
     <link href="static/css/buttons.css" rel="stylesheet">  
     <link href="static/css/forms.css" rel="stylesheet">
     <link href="static/css/cover.css" rel="stylesheet">  
-     
+    <link href="static/css/messages2.css" rel="stylesheet">
+    <link href="static/css/user_detail.css" rel="stylesheet">
     <link href="static/css/index.css" rel="stylesheet"> 
-    <link href="static/css/recover_password.css" rel="stylesheet">  
-
+    <link href="static/css/recover_password.css" rel="stylesheet"> 
     <!-- Javascript socket.io -->
     <script src="static/js/jquery.1.11.1.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>    
@@ -28,83 +27,81 @@
     <script type="text/javascript" src="static/js/jquery.validate.js"></script> 
     <script src="static/js/client.js"></script>
     <script src="static/js/custom.js"></script>
-   
   </head>
 
   <body>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-white navbar-fixed-top" id="top">
-        <div class="container" id="container-nav">
-            <span class="navbar-brand welcome-title"><b>Adopte un Maître...</b>&nbsp;<span class="title-suite">un réseau social 100% chat.rrr.mant</span></span>
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed navbar-fixed-top-30" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>           
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">             
-              <li><a href="#idAbout" data-toggle="modal" data-target="#idAbout">A propos</a></li>
-              
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                  Pages <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="static/pdf/DIW JS - Atelier final.pdf">Cahier des charges</a></li>
-                  <li><a href="profile2.html">Profile 2</a></li>
-                  <li><a href="profile3.html">Profile 3</a></li>
-                  <li><a href="profile4.html">Profile 4</a></li>
-                  <li><a href="sidebar_profile.html">Sidebar profile</a></li>
-                  <li><a href="user_detail.html">User detail</a></li>
-                  <li><a href="/profile_membre">Profile du membre</a></li>
-                  <li><a href="edit_profile.html">Edit profile</a></li>
-                  <li><a href="about.html">About</a></li>
-                  <li><a href="friends.html">Friends</a></li>
-                  <li><a href="friends2.html">Friends 2</a></li>
-                  <li><a id="profil" href="profile_wall.html">Profile wall</a></li>
-                  <li><a href="photos1.html">Photos 1</a></li>
-                  <li><a href="photos2.html">Photos 2</a></li>
-                  <li><a href="view_photo.html">View photo</a></li>
-                  <li><a href="messages1.html">Messages 1</a></li>
-                  <li><a href="messages2.html">Messages 2</a></li>
-                  <li><a href="group.html">Group</a></li>
-                  <li><a href="list_users.html">List users</a></li>
-                  <li><a href="file_manager.html">File manager</a></li>
-                  <li><a href="people_directory.html">People directory</a></li>
-                  <li><a href="list_posts.html">List posts</a></li>
-                  <li><a href="grid_posts.html">Grid posts</a></li>
-                  <li><a href="forms.html">Forms</a></li>
-                  <li><a href="buttons.html">Buttons</a></li>
-                  <li><a href="error404.html">Error 404</a></li>
-                  <li><a href="error500.html">Error 500</a></li>
-                  <li><a href="recover_password.html">Recover password</a></li>
-                  <li><a href="registration_mail.html">Registration mail</a></li>
-                </ul>
-              </li>
-              <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-               <i class="fa fa-user">&nbsp;&nbsp;</i><strong id="pseudo-nav"></strong>
-                </a>
-               
-                <ul class="dropdown-menu">
-                    <li><a class="disabled" id ="deconnexion" href="/">Déconnexion</a></li>
-                    <li><a class="disabled" id ="administrateur" href="profile3.html">Admnistrateur</a></li>                    
-                </ul>
-              </li>
-            </ul>
-          </div>
+      <div class="container" id="container-nav">
+          <span class="navbar-brand welcome-title"><b>Adopte un Maître...</b>&nbsp;<span class="title-suite">un réseau social 100% chat.rrr.mant</span></span>
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed navbar-fixed-top-30" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>           
         </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">             
+            <li><a href="#idAbout" data-toggle="modal" data-target="#idAbout">A propos</a></li>              
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                Pages <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="static/pdf/DIW JS - Atelier final.pdf">Cahier des charges</a></li>
+                <li><a href="profile2.html">Profile 2</a></li>
+                <li><a href="profile3.html">Profile 3</a></li>
+                <li><a href="profile4.html">Profile 4</a></li>
+                <li><a href="sidebar_profile.html">Sidebar profile</a></li>
+                <li><a href="user_detail.html">User detail</a></li>
+                <li><a href="/profile_membre">Profile du membre</a></li>
+                <li><a href="edit_profile.html">Edit profile</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="friends.html">Friends</a></li>
+                <li><a href="friends2.html">Friends 2</a></li>
+                <li><a id="profil" href="profile_wall.html">Profile wall</a></li>
+                <li><a href="photos1.html">Photos 1</a></li>
+                <li><a href="photos2.html">Photos 2</a></li>
+                <li><a href="view_photo.html">View photo</a></li>
+                <li><a href="messages1.html">Messages 1</a></li>
+                <li><a href="messages2.html">Messages 2</a></li>
+                <li><a href="group.html">Group</a></li>
+                <li><a href="list_users.html">List users</a></li>
+                <li><a href="file_manager.html">File manager</a></li>
+                <li><a href="people_directory.html">People directory</a></li>
+                <li><a href="list_posts.html">List posts</a></li>
+                <li><a href="grid_posts.html">Grid posts</a></li>
+                <li><a href="forms.html">Forms</a></li>
+                <li><a href="buttons.html">Buttons</a></li>
+                <li><a href="error404.html">Error 404</a></li>
+                <li><a href="error500.html">Error 500</a></li>
+                <li><a href="recover_password.html">Recover password</a></li>
+                <li><a href="registration_mail.html">Registration mail</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-user">&nbsp;&nbsp;</i><strong id="pseudo-nav"></strong></a>          
+              <ul class="dropdown-menu">
+                <li><a class="disabled" id ="deconnexion" href="/">Déconnexion</a></li>
+                <li><a class="disabled" id ="administrateur" href="#block-administrateur">Admnistrateur</a></li>                    
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
 
-    <div class="wrapper"></div>
+    <div class="wrapper">      
+    </div>
     
-<!-- ************************************************************************* -->
-<!--          Formulaire                                                       -->
-<!-- ************************************************************************* --> 
+<!-- **************************************************************************************** -->
+<!--                FORMULAIRE CONNEXION ET INSCRIPTION                                       -->
+<!-- **************************************************************************************** --> 
     <div id="formulaire" class="parallax filter-black">
-      <div class="parallax-image"></div>               
+      <div class="parallax-image">        
+      </div>               
       <div class="small-info">
         <div class="col-sm-10 col-sm-push-1 col-md-6 col-md-push-3 col-lg-6 col-lg-push-3">   
           <div class="card-group animated flipInX">
@@ -114,7 +111,7 @@
                   <h4 class="m-b-0"><span class="icon-text">Connexion</span></h4>
                   <p class="text-muted">Accéder à votre compte</p>
                 </div>
-<!-- ****************  formulaire de connexion ********************** --> 
+<!-- ****************  FORMULAIRE DE CONNEXION ********************** --> 
                 <form id="form-connection" class="needs-validation" >
                   <div class="form-group">
                       <span class="input-icon">
@@ -122,7 +119,7 @@
                         <i class="fa fa-user darkorange"></i> 
                       </span> 
                   </div>
-                 
+              
                   <div class="form-group">
                       <span class="input-icon">
                         <input type="password" id="mp" name="LoginPassword" class="form-control" maxlength='12' size='12' placeholder="Mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
@@ -146,7 +143,7 @@
                   <span class="icon-text">S'inscrire</span>
                 </h4>
                 <p class="text-muted">Devenir membre</p>
-<!-- ****************  formulaire d'inscription ********************** --> 
+<!-- ****************  FORMULAIRE D'INSCRIPTION ********************** --> 
                 <form id="form-inscription" class="needs-validation" >
                   <div class="form-group">
                     <span class="input-icon">
@@ -180,26 +177,27 @@
           </div>
         </div>
       </div>
-<!-- *************************  Activité **********************************************************-->      
+<!-- **************************************************************************************** -->
+<!--                ACTIVITES: nombre de messages et de connectes                             -->
+<!-- **************************************************************************************** -->   
       <div class="activite">
-          <div class="row">
-              <div class="col-md-4  col-sm-4 col-xs-12">
-                <i class="fa fa-comments darkgreen">&nbsp;</i>&nbsp;<strong>Messages publiés :&nbsp;</strong>&nbsp;<span id="nb-messages-publies"></span>&nbsp;
-              </div>
-              <div class="col-md-4  col-sm-4 col-xs-12">
-                  &nbsp;<i class= "fa fa-users darkgreen">&nbsp;</i>&nbsp;<strong>Membres connectés :&nbsp;</strong>&nbsp;&nbsp;<span id="nb-membres-connectes"></span>&nbsp;
-              </div>
-              <div class="col-md-4  col-sm-4 col-xs-12">
-                  &nbsp;<i class= "fa fa-user-secret darkgreen">&nbsp;</i><span><strong>Visiteurs connectés :&nbsp;</strong></span>&nbsp;&nbsp;<span id="nb-visiteurs-connectes"></span>
-              </div> 
-            </div>
+        <div class="row">
+          <div class="col-md-4  col-sm-4 col-xs-12">
+            <i class="fa fa-comments darkgreen">&nbsp;</i>&nbsp;<strong>Messages publiés :&nbsp;</strong>&nbsp;<span id="nb-messages-publies"></span>&nbsp;
+          </div>
+          <div class="col-md-4  col-sm-4 col-xs-12">
+            &nbsp;<i class= "fa fa-users darkgreen">&nbsp;</i>&nbsp;<strong>Membres connectés :&nbsp;</strong>&nbsp;&nbsp;<span id="nb-membres-connectes"></span>&nbsp;
+          </div>
+          <div class="col-md-4  col-sm-4 col-xs-12">
+            &nbsp;<i class= "fa fa-user-secret darkgreen">&nbsp;</i><span><strong>Visiteurs connectés :&nbsp;</strong></span>&nbsp;&nbsp;<span id="nb-visiteurs-connectes"></span>
+          </div> 
+        </div>
       </div>
     </div>
- 
-<!-- ************************************************************************* -->
-<!--                          page  mot de passe oublié                        -->
-<!-- ************************************************************************* -->
 
+<!-- **************************************************************************************** -->
+<!--                          PAGE MOT DE PASSE OUBLIE                                        -->
+<!-- **************************************************************************************** -->
     <div id="mot-de-passe-oublie" class="container page-content ">
       <div class="row">
         <div class="col-md-6  col-sm-8 col-xs-12 col-md-offset-3">
@@ -235,9 +233,10 @@
         </div>
       </div>
     </div>
-<!-- ********************************************************************* -->
-<!--                      page  changer de mot de passe oublié             -->
-<!-- ********************************************************************* -->
+
+<!-- **************************************************************************************** -->
+<!--                      PAGE CHANGER DE MOT DE PASSE                                        -->
+<!-- **************************************************************************************** -->
     <div id="change-mp" class="container page-content ">
       <div class="row">
         <div class="col-md-6  col-sm-8 col-xs-12 col-md-offset-3">
@@ -271,7 +270,7 @@
                 <div class="form-group">
                   <div class="col-md-12">
                     <p id="idRecupMpAlertMsg" class="lead mt-5 display-4 text-danger text-center alertMsg">Veuillez saisir le mot de passe provisoire que nous vous avons envoyé par mail</p>
-                   
+              
                   </div>
                   <button type="submit" class="btn btn-info btn-block"> Valider</button>   
                 </div>                          
@@ -282,420 +281,420 @@
       </div>
     </div>
 
-<!-- ************************************************************************* -->
-<!--                          page  profile membre inscription                -->
-<!-- ************************************************************************* -->
+<!-- **************************************************************************************** -->
+<!--                  PAGE DE RENSEIGNEMENTS PROFIL APRES INSCRIPTION                         -->
+<!-- **************************************************************************************** -->
     <div id="profile-membre" class="container page-content edit-profile">
       <div class="row">
-          <div class="col-md-10 col-md-offset-1">
-              <!-- NAV TABS -->
-            <ul class="nav nav-tabs  tabs-iconized" id="nav-profil">
-              <li class="active" id="tab-change-profil"><a href="#profile-tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-bars"></i>Changer son profil</a></li>
-              <li class="" id="tab-profil"><a id="idProfileMur" href="#profile-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-user"></i> Profil</a></li>
-              <li class="" id="tab-activite"><a href="#activity-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-rss"></i> Activités récentes</a></li>             
-              <li class="" id="tab-parametre"><a href="#settings-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-gear"></i> Paramètres</a></li>
-            </ul>
-            <!-- END NAV TABS -->
-            <div class="tab-content profile-page">
-              <!-- PROFILE TAB CONTENT -->
-              <div class="tab-pane profile active" id="profile-tab">
-                <div class="row">
-                    <div class="col-md-3">
-                      <div class="user-info-left">
-                        <img id="photo-profil" src="static/images/default-avatar.png" alt="Profile Picture">
-                        <h2 id="pseudo-profil"></h2>
-                        <h3 id="email-profil"></h3>
-                        <div class="contact">
-                          <p>
-                            <span class="file-input btn btn-azure btn-file">
-                              Change Avatar <input type="file" multiple="">
-                            </span>
-                          </p>
-                          <p>
-                            <span class="file-input btn btn-azure btn-file">
-                              Change  Cover <input type="file" multiple="">
-                            </span>
-                          </p>
-                        
-                        </div>
-                      </div>
+        <div class="col-md-10 col-md-offset-1">
+          <!-- NAV TABS -->
+          <ul class="nav nav-tabs  tabs-iconized" id="nav-profil">
+            <li class="active" id="tab-change-profil"><a class="a-nav-profil" href="#profile-tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-bars"></i>Changer son profil</a></li>
+            <li class="" id="tab-profil"><a class="a-nav-profil" id="idProfileMur" href="#profile-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-user"></i> Profil</a></li>
+            <li class="" id="tab-activite"><a class="a-nav-profil" href="#activity-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-rss"></i> Activités récentes</a></li>             
+            <li class="" id="tab-parametre"><a class="a-nav-profil" href="#settings-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-gear"></i> Paramètres</a></li>
+          </ul>
+          <!-- END NAV TABS -->
+          <div class="tab-content profile-page">
+            <!-- PROFILE TAB CONTENT -->
+            <div class="tab-pane profile active" id="profile-tab">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="user-info-left">
+                    <img id="photo-profil" src="static/images/default-avatar.png" alt="Profile Picture">
+                    <h2 id="pseudo-profil"></h2>
+                    <h3 id="email-profil"></h3>
+                    <div class="contact">
+                      <p>
+                        <span class="file-input btn btn-azure btn-file">
+                          Change Avatar <input type="file" multiple="">
+                        </span>
+                      </p>
+                      <p>
+                        <span class="file-input btn btn-azure btn-file">
+                          Change  Cover <input type="file" multiple="">
+                        </span>
+                      </p>                    
                     </div>
-<!-- ****************  Début Profil formulaire d'inscription ********************** -->                     
-                  <div class="col-md-9">
-                    <form id="form-profil-inscription" class="needs-validation" >
-                      <div class="form-group">
-                        <div class="user-info-right">
-                          <div class="basic-info">                         
-                            <h3><i class="fa fa-square"></i>Complétez votre profil </h3> 
-                            <fieldset>       
-                              <div class="form-group">
-                                  <label class="col-md-4 control-label">Nom</label>
-                                  <div class="col-md-6  inputGroupContainer">                   
-                                    <span class="input-icon">
-                                        <input id="nom-profil" type="text" name="nom"  class="form-control control-groupe" maxlength='21' size='21' placeholder='Nom' required pattern="^[a-zA-Z\u00C0-\u00FF]+[ -]?[a-zA-Z\u00C0-\u00FF]{1,21}$" title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères' autofocus>
-                                        <i class="fa fa-user darkorange"></i> <br/> 
-                                    </span>                                 
-                                  </div>                       
-                              </div>                             
-                              <!-- Text input-->                                
-                              <div class="form-group">
-                                <label class="col-md-4 control-label" >Prénom</label>
-                                <div class="col-md-6  inputGroupContainer">                                   
+                  </div>
+                </div>
+<!-- ****************  DEBUT FORMULAIRE DE RENSEIGNEMENTS PROFIL  ********************** -->                     
+                <div class="col-md-9">
+                  <form id="form-profil-inscription" class="needs-validation" >
+                    <div class="form-group">
+                      <div class="user-info-right">
+                        <div class="basic-info">                         
+                          <h3><i class="fa fa-square"></i>Complétez votre profil </h3> 
+                          <fieldset>       
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Nom</label>
+                                <div class="col-md-6  inputGroupContainer">                   
                                   <span class="input-icon">
-                                    <input id="prenom-profil" type="text" name="prenom"  class="form-control control-groupe" maxlength='21' size='21' placeholder='Prénom' required pattern="^[a-zA-Z\u00C0-\u00FF]+[ -]?[a-zA-Z\u00C0-\u00FF]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
-                                    <i class="fa fa-user darkorange"></i> <br/>   
+                                      <input id="nom-profil" type="text" name="nom"  class="form-control control-groupe" maxlength='21' size='21' placeholder='Nom' pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{0,21}$" title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères' autofocus>
+                                      <i class="fa fa-user darkorange"></i> <br/> 
+                                  </span>                                 
+                                </div>                       
+                            </div>                             
+                            <!-- Text input-->                                
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" >Prénom</label>
+                              <div class="col-md-6  inputGroupContainer">                                   
+                                <span class="input-icon">
+                                  <input id="prenom-profil" type="text" name="prenom"  class="form-control control-groupe" maxlength='21' size='21' placeholder='Prénom' pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
+                                  <i class="fa fa-user darkorange"></i> <br/>   
+                                </span>
+                              </div>
+                            </div>                               
+                            <!-- Text input-->  
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" >Age</label>
+                              <div class="col-md-6  inputGroupContainer">                                   
+                                <span class="input-icon">
+                                    <input id="age-profil" type="number" name="age"  class="form-control control-groupe"type="number" min="12" max="120" step="1"  
+                                    pattern="\d+" title="Uniquement des nombres"> 
+                                <br/>                                     
+                                </span>
+                              </div>
+                            </div> 
+                            <!-- Select -->  
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" >Genre</label>
+                              <div class="col-md-6 inputGroupContainer">
+                                <span class="input-icon">                                   
+                                  <select class="form-control control-groupe" id="genre-profil" name="nom" size="1" > 
+                                        <option value="F">Femme
+                                        <option value="H">Homme
+                                        <option value=""></option>  
+                                  </select>
+                                    <br/> 
                                   </span>
-                                </div>
-                              </div>                               
-                              <!-- Text input-->  
-                              <div class="form-group">
-                                <label class="col-md-4 control-label" >Age</label>
-                                <div class="col-md-6  inputGroupContainer">                                   
-                                  <span class="input-icon">
-                                      <input id="age-profil" type="number" name="age"  class="form-control control-groupe"type="number" min="12" max="120" step="1" required  
-                                      pattern="\d+" title="Uniquement des nombres"> 
-                                  <br/>                                     
+                              </div>
+                            </div>                               
+                            <!-- Text input-->                                  
+                            <div class="form-group">
+                              <label class="col-md-4 control-label">Téléphone</label>
+                              <div class="col-md-6  inputGroupContainer">
+                                  <span class="input-icon">   
+                                    <input id="telephone-profil" type="text" name="telephoneProfil"  class="form-control control-groupe" maxlength='10' size='10' placeholder='Ex: 0605040302'  pattern='^[0-9]{10}$' title='Les caractères doivent être numériques et la longueur doit être de 10 caractères'>
+                                    <i class="fa fa-phone darkorange"></i> <br/> 
                                   </span>
-                                </div>
-                              </div> 
-                              <!-- Select -->  
-                              <div class="form-group">
-                                <label class="col-md-4 control-label" >Genre</label>
-                                <div class="col-md-6 inputGroupContainer">
-                                  <span class="input-icon">                                   
-                                    <select class="form-control control-groupe" id="genre-profil" name="nom" size="1" required > 
-                                          <option value="F">Femme
-                                          <option value="H">Homme
-                                    </select>
-                                      <br/> 
-                                    </span>
-                                </div>
-                              </div>                               
-                              <!-- Text input-->                                  
-                              <div class="form-group">
-                                <label class="col-md-4 control-label">Téléphone</label>
+                              </div>
+                            </div>
+                            <br/>
+                            <!-- Text input-->                                
+                            <div class="form-group">
+                              <label class="col-md-4 control-label">Adresse</label>
+                              <div class="col-md-6  inputGroupContainer">
+                                <span class="input-icon">   
+                                  <input type="text" id="adresse-profil" name="adresse" class="form-control control-groupe" maxlength='30' size='30'  placeholder="Numero et nom de rue "  pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères">
+                                  <i class="fa fa-home darkorange"></i> <br/>   
+                                </span>
+                              </div>
+                            </div>
+                            <br/>                                  
+                            <!-- Text input-->                                  
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Code Postal</label>
                                 <div class="col-md-6  inputGroupContainer">
                                     <span class="input-icon">   
-                                      <input id="telephone-profil" type="text" name="telephoneProfil"  class="form-control control-groupe" maxlength='10' size='10' placeholder='Ex: 0605040302' required pattern='^[0-9]{10}$' title='Les caractères doivent être numériques et la longueur doit être de 10 caractères'>
-                                      <i class="fa fa-phone darkorange"></i> <br/> 
-                                    </span>
-                                </div>
-                              </div>
-                              <br/>
-                              <!-- Text input-->                                
-                              <div class="form-group">
-                                <label class="col-md-4 control-label">Adresse</label>
-                                <div class="col-md-6  inputGroupContainer">
-                                  <span class="input-icon">   
-                                    <input type="text" id="adresse-profil" name="adresse" class="form-control control-groupe" maxlength='30' size='30' required placeholder="Numero et nom de rue "  pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères">
-                                    <i class="fa fa-home darkorange"></i> <br/>   
-                                  </span>
-                                </div>
-                              </div>
-                              <br/>                                  
-                              <!-- Text input-->                                  
-                              <div class="form-group">
-                                  <label class="col-md-4 control-label">Code Postal</label>
-                                  <div class="col-md-6  inputGroupContainer">
-                                      <span class="input-icon">   
-                                        <input type="number" id="cp-profil" class="form-control control-groupe" name="cp" maxlength='5' size='5' placeholder="Ex: 75011" required pattern="[0-9]{5}" title="Les caractères doivent être numériques et la longueur doit être de 5 caractères">
-                                        <i class="fa fa-home darkorange"></i> <br/>   
-                                      </span>
-                                  </div>
-                              </div>
-                              <br/>
-                              <!-- Text input-->                                  
-                              <div class="form-group">
-                                <label class="col-md-4 control-label">Ville</label>
-                                <div class="col-md-6  inputGroupContainer">
-                                    <span class="input-icon">  
-                                      <input type="text" id="ville-profil" name="ville"  class="form-control control-groupe" maxlength='21' size='21' placeholder="Ville" required pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{1,21}" title='Uniquement des lettres puis des espaces ou des tirets et la longueur comprise entre 2 et 21 caractères'>
+                                      <input type="number" id="cp-profil" class="form-control control-groupe" name="cp" maxlength='5' size='5' placeholder="Ex: 75011"  pattern="[0-9]{5}" title="Les caractères doivent être numériques et la longueur doit être de 5 caractères">
                                       <i class="fa fa-home darkorange"></i> <br/>   
                                     </span>
                                 </div>
-                              </div>                                 
-                          <!-- Select Basic -->                            
-                              <div class="form-group">
-                                <label class="col-md-4 control-label">Pays</label>
-                                <div class="col-md-6 selectContainer">
-                                    <span class="input-icon">  
-                                      <select id="pays-profil" name="pays" class="form-control control-groupe" required>           
-                                        <option value="AF">Afghanistan
-                                        <option value="ZA">Afrique du sud
-                                        <option value="AX">Åland, îles
-                                        <option value="AL">Albanie
-                                        <option value="DZ">Algérie
-                                        <option value="DE">Allemagne
-                                        <option value="AD">Andorre
-                                        <option value="AO">Angola
-                                        <option value="AI">Anguilla
-                                        <option value="AQ">Antarctique
-                                        <option value="AG">Antigua et barbuda
-                                        <option value="SA">Arabie saoudite
-                                        <option value="AR">Argentine
-                                        <option value="AM">Arménie
-                                        <option value="AW">Aruba
-                                        <option value="AU">Australie
-                                        <option value="AT">Autriche
-                                        <option value="AZ">Azerbaïdjan
-                                        <option value="BS">Bahamas
-                                        <option value="BH">Bahreïn
-                                        <option value="BD">Bangladesh
-                                        <option value="BB">Barbade
-                                        <option value="BY">Bélarus
-                                        <option value="BE">Belgique
-                                        <option value="BZ">Belize
-                                        <option value="BJ">Bénin
-                                        <option value="BM">Bermudes
-                                        <option value="BT">Bhoutan
-                                        <option value="BO">Bolivie, l'état plurinational de
-                                        <option value="BQ">Bonaire, saint eustache et saba
-                                        <option value="BA">Bosnie herzégovine
-                                        <option value="BW">Botswana
-                                        <option value="BV">Bouvet, île
-                                        <option value="BR">Brésil
-                                        <option value="BN">Brunei darussalam
-                                        <option value="BG">Bulgarie
-                                        <option value="BF">Burkina faso
-                                        <option value="BI">Burundi
-                                        <option value="KY">Caïmans, îles
-                                        <option value="KH">Cambodge
-                                        <option value="CM">Cameroun
-                                        <option value="CA">Canada
-                                        <option value="CV">Cap vert
-                                        <option value="CF">Centrafricaine, république
-                                        <option value="CL">Chili
-                                        <option value="CN">Chine
-                                        <option value="CX">Christmas, île
-                                        <option value="CY">Chypre
-                                        <option value="CC">Cocos (keeling), îles
-                                        <option value="CO">Colombie
-                                        <option value="KM">Comores
-                                        <option value="CG">Congo
-                                        <option value="CD">Congo, la république démocratique du
-                                        <option value="CK">Cook, îles
-                                        <option value="KR">Corée, république de
-                                        <option value="KP">Corée, république populaire démocratique de
-                                        <option value="CR">Costa rica
-                                        <option value="CI">Côte d'ivoire
-                                        <option value="HR">Croatie
-                                        <option value="CU">Cuba
-                                        <option value="CW">Curaçao
-                                        <option value="DK">Danemark
-                                        <option value="DJ">Djibouti
-                                        <option value="DO">Dominicaine, république
-                                        <option value="DM">Dominique
-                                        <option value="EG">Égypte
-                                        <option value="SV">El salvador
-                                        <option value="AE">Émirats arabes unis
-                                        <option value="EC">Équateur
-                                        <option value="ER">Érythrée
-                                        <option value="ES">Espagne
-                                        <option value="EE">Estonie
-                                        <option value="US">États unis
-                                        <option value="ET">Éthiopie
-                                        <option value="FK">Falkland, îles (malvinas)
-                                        <option value="FO">Féroé, îles
-                                        <option value="FJ">Fidji
-                                        <option value="FI">Finlande
-                                        <option value="FR" selected>France
-                                        <option value="GA">Gabon
-                                        <option value="GM">Gambie
-                                        <option value="GE">Géorgie
-                                        <option value="GS">Géorgie du sud et les îles sandwich du sud
-                                        <option value="GH">Ghana
-                                        <option value="GI">Gibraltar
-                                        <option value="GR">Grèce
-                                        <option value="GD">Grenade
-                                        <option value="GL">Groenland
-                                        <option value="GP">Guadeloupe
-                                        <option value="GU">Guam
-                                        <option value="GT">Guatemala
-                                        <option value="GG">Guernesey
-                                        <option value="GN">Guinée
-                                        <option value="GW">Guinée bissau
-                                        <option value="GQ">Guinée équatoriale
-                                        <option value="GY">Guyana
-                                        <option value="GF">Guyane française
-                                        <option value="HT">Haïti
-                                        <option value="HM">Heard et îles macdonald, île
-                                        <option value="HN">Honduras
-                                        <option value="HK">Hong kong
-                                        <option value="HU">Hongrie
-                                        <option value="IM">Île de man
-                                        <option value="UM">Îles mineures éloignées des états unis
-                                        <option value="VG">Îles vierges britanniques
-                                        <option value="VI">Îles vierges des états unis
-                                        <option value="IN">Inde
-                                        <option value="ID">Indonésie
-                                        <option value="IR">Iran, république islamique d'
-                                        <option value="IQ">Iraq
-                                        <option value="IE">Irlande
-                                        <option value="IS">Islande
-                                        <option value="IL">Israël
-                                        <option value="IT">Italie
-                                        <option value="JM">Jamaïque
-                                        <option value="JP">Japon
-                                        <option value="JE">Jersey
-                                        <option value="JO">Jordanie
-                                        <option value="KZ">Kazakhstan
-                                        <option value="KE">Kenya
-                                        <option value="KG">Kirghizistan
-                                        <option value="KI">Kiribati
-                                        <option value="KW">Koweït
-                                        <option value="LA">Lao, république démocratique populaire
-                                        <option value="LS">Lesotho
-                                        <option value="LV">Lettonie
-                                        <option value="LB">Liban
-                                        <option value="LR">Libéria
-                                        <option value="LY">Libye
-                                        <option value="LI">Liechtenstein
-                                        <option value="LT">Lituanie
-                                        <option value="LU">Luxembourg
-                                        <option value="MO">Macao
-                                        <option value="MK">Macédoine, l'ex république yougoslave de
-                                        <option value="MG">Madagascar
-                                        <option value="MY">Malaisie
-                                        <option value="MW">Malawi
-                                        <option value="MV">Maldives
-                                        <option value="ML">Mali
-                                        <option value="MT">Malte
-                                        <option value="MP">Mariannes du nord, îles
-                                        <option value="MA">Maroc
-                                        <option value="MH">Marshall, îles
-                                        <option value="MQ">Martinique
-                                        <option value="MU">Maurice
-                                        <option value="MR">Mauritanie
-                                        <option value="YT">Mayotte
-                                        <option value="MX">Mexique
-                                        <option value="FM">Micronésie, états fédérés de
-                                        <option value="MD">Moldova, république de
-                                        <option value="MC">Monaco
-                                        <option value="MN">Mongolie
-                                        <option value="ME">Monténégro
-                                        <option value="MS">Montserrat
-                                        <option value="MZ">Mozambique
-                                        <option value="MM">Myanmar
-                                        <option value="NA">Namibie
-                                        <option value="NR">Nauru
-                                        <option value="NP">Népal
-                                        <option value="NI">Nicaragua
-                                        <option value="NE">Niger
-                                        <option value="NG">Nigéria
-                                        <option value="NU">Niué
-                                        <option value="NF">Norfolk, île
-                                        <option value="NO">Norvège
-                                        <option value="NC">Nouvelle calédonie
-                                        <option value="NZ">Nouvelle zélande
-                                        <option value="IO">Océan indien, territoire britannique de l'
-                                        <option value="OM">Oman
-                                        <option value="UG">Ouganda
-                                        <option value="UZ">Ouzbékistan
-                                        <option value="PK">Pakistan
-                                        <option value="PW">Palaos
-                                        <option value="PS">Palestinien occupé, territoire
-                                        <option value="PA">Panama
-                                        <option value="PG">Papouasie nouvelle guinée
-                                        <option value="PY">Paraguay
-                                        <option value="NL">Pays bas
-                                        <option value="PE">Pérou
-                                        <option value="PH">Philippines
-                                        <option value="PN">Pitcairn
-                                        <option value="PL">Pologne
-                                        <option value="PF">Polynésie française
-                                        <option value="PR">Porto rico
-                                        <option value="PT">Portugal
-                                        <option value="QA">Qatar
-                                        <option value="RE">Réunion
-                                        <option value="RO">Roumanie
-                                        <option value="GB">Royaume uni
-                                        <option value="RU">Russie, fédération de
-                                        <option value="RW">Rwanda
-                                        <option value="EH">Sahara occidental
-                                        <option value="BL">Saint barthélemy
-                                        <option value="SH">Sainte hélène, ascension et tristan da cunha
-                                        <option value="LC">Sainte lucie
-                                        <option value="KN">Saint kitts et nevis
-                                        <option value="SM">Saint marin
-                                        <option value="MF">Saint martin(partie française)
-                                        <option value="SX">Saint martin (partie néerlandaise)
-                                        <option value="PM">Saint pierre et miquelon
-                                        <option value="VA">Saint siège (état de la cité du vatican)
-                                        <option value="VC">Saint vincent et les grenadines
-                                        <option value="SB">Salomon, îles
-                                        <option value="WS">Samoa
-                                        <option value="AS">Samoa américaines
-                                        <option value="ST">Sao tomé et principe
-                                        <option value="SN">Sénégal
-                                        <option value="RS">Serbie
-                                        <option value="SC">Seychelles
-                                        <option value="SL">Sierra leone
-                                        <option value="SG">Singapour
-                                        <option value="SK">Slovaquie
-                                        <option value="SI">Slovénie
-                                        <option value="SO">Somalie
-                                        <option value="SD">Soudan
-                                        <option value="SS">Soudan du sud
-                                        <option value="LK">Sri lanka
-                                        <option value="SE">Suède
-                                        <option value="CH">Suisse
-                                        <option value="SR">Suriname
-                                        <option value="SJ">Svalbard et île jan mayen
-                                        <option value="SZ">Swaziland
-                                        <option value="SY">Syrienne, république arabe
-                                        <option value="TJ">Tadjikistan
-                                        <option value="TW">Taïwan, province de chine
-                                        <option value="TZ">Tanzanie, république unie de
-                                        <option value="TD">Tchad
-                                        <option value="CZ">Tchèque, république
-                                        <option value="TF">Terres australes françaises
-                                        <option value="TH">Thaïlande
-                                        <option value="TL">Timor leste
-                                        <option value="TG">Togo
-                                        <option value="TK">Tokelau
-                                        <option value="TO">Tonga
-                                        <option value="TT">Trinité et tobago
-                                        <option value="TN">Tunisie
-                                        <option value="TM">Turkménistan
-                                        <option value="TC">Turks et caïcos, îles
-                                        <option value="TR">Turquie
-                                        <option value="TV">Tuvalu
-                                        <option value="UA">Ukraine
-                                        <option value="UY">Uruguay
-                                        <option value="VU">Vanuatu
-                                        <option value="VE">Venezuela, république bolivarienne du
-                                        <option value="VN">Viet nam
-                                        <option value="WF">Wallis et futuna
-                                        <option value="YE">Yémen
-                                        <option value="ZM">Zambie
-                                        <option value="ZW">Zimbabwe​​​​​
-                                      </select>
-                                      <br/> 
+                            </div>
+                            <br/>
+                            <!-- Text input-->                                  
+                            <div class="form-group">
+                              <label class="col-md-4 control-label">Ville</label>
+                              <div class="col-md-6  inputGroupContainer">
+                                  <span class="input-icon">  
+                                    <input type="text" id="ville-profil" name="ville"  class="form-control control-groupe" maxlength='21' size='21' placeholder="Ville"  pattern="^[a-zA-Z\u00C0-\u00FF-'[a-zA-Z\u00C0-\u00FF-']{1,21}" title='Uniquement des lettres puis des espaces ou des tirets et la longueur comprise entre 2 et 21 caractères'>
+                                    <i class="fa fa-home darkorange"></i> <br/>   
                                   </span>
-                                </div>
-                              </div>                                                     
-                          <!-- Select -->   
-                              <div class="form-group">
-                                <label class="col-md-4 control-label" >Profil</label>
-                                <div class="col-md-6  inputGroupContainer">
-                                  <span class="input-icon">                                   
-                                    <select class="form-control control-groupe" id="profil-profil" name="profil" size="1" required > 
-                                      <option value="AM">Adopte un maître
-                                      <option value="AC" >Adopte un chat
-                                      <option value="NSP" selected>Ne sais pas encore
+                              </div>
+                            </div>                                 
+                        <!-- Select Basic -->                            
+                            <div class="form-group">
+                              <label class="col-md-4 control-label">Pays</label>
+                              <div class="col-md-6 selectContainer">
+                                  <span class="input-icon">  
+                                    <select id="pays-profil" name="pays" class="form-control control-groupe" >           
+                                      <option value="AF">Afghanistan
+                                      <option value="ZA">Afrique du sud
+                                      <option value="AX">Åland, îles
+                                      <option value="AL">Albanie
+                                      <option value="DZ">Algérie
+                                      <option value="DE">Allemagne
+                                      <option value="AD">Andorre
+                                      <option value="AO">Angola
+                                      <option value="AI">Anguilla
+                                      <option value="AQ">Antarctique
+                                      <option value="AG">Antigua et barbuda
+                                      <option value="SA">Arabie saoudite
+                                      <option value="AR">Argentine
+                                      <option value="AM">Arménie
+                                      <option value="AW">Aruba
+                                      <option value="AU">Australie
+                                      <option value="AT">Autriche
+                                      <option value="AZ">Azerbaïdjan
+                                      <option value="BS">Bahamas
+                                      <option value="BH">Bahreïn
+                                      <option value="BD">Bangladesh
+                                      <option value="BB">Barbade
+                                      <option value="BY">Bélarus
+                                      <option value="BE">Belgique
+                                      <option value="BZ">Belize
+                                      <option value="BJ">Bénin
+                                      <option value="BM">Bermudes
+                                      <option value="BT">Bhoutan
+                                      <option value="BO">Bolivie, l'état plurinational de
+                                      <option value="BQ">Bonaire, saint eustache et saba
+                                      <option value="BA">Bosnie herzégovine
+                                      <option value="BW">Botswana
+                                      <option value="BV">Bouvet, île
+                                      <option value="BR">Brésil
+                                      <option value="BN">Brunei darussalam
+                                      <option value="BG">Bulgarie
+                                      <option value="BF">Burkina faso
+                                      <option value="BI">Burundi
+                                      <option value="KY">Caïmans, îles
+                                      <option value="KH">Cambodge
+                                      <option value="CM">Cameroun
+                                      <option value="CA">Canada
+                                      <option value="CV">Cap vert
+                                      <option value="CF">Centrafricaine, république
+                                      <option value="CL">Chili
+                                      <option value="CN">Chine
+                                      <option value="CX">Christmas, île
+                                      <option value="CY">Chypre
+                                      <option value="CC">Cocos (keeling), îles
+                                      <option value="CO">Colombie
+                                      <option value="KM">Comores
+                                      <option value="CG">Congo
+                                      <option value="CD">Congo, la république démocratique du
+                                      <option value="CK">Cook, îles
+                                      <option value="KR">Corée, république de
+                                      <option value="KP">Corée, république populaire démocratique de
+                                      <option value="CR">Costa rica
+                                      <option value="CI">Côte d'ivoire
+                                      <option value="HR">Croatie
+                                      <option value="CU">Cuba
+                                      <option value="CW">Curaçao
+                                      <option value="DK">Danemark
+                                      <option value="DJ">Djibouti
+                                      <option value="DO">Dominicaine, république
+                                      <option value="DM">Dominique
+                                      <option value="EG">Égypte
+                                      <option value="SV">El salvador
+                                      <option value="AE">Émirats arabes unis
+                                      <option value="EC">Équateur
+                                      <option value="ER">Érythrée
+                                      <option value="ES">Espagne
+                                      <option value="EE">Estonie
+                                      <option value="US">États unis
+                                      <option value="ET">Éthiopie
+                                      <option value="FK">Falkland, îles (malvinas)
+                                      <option value="FO">Féroé, îles
+                                      <option value="FJ">Fidji
+                                      <option value="FI">Finlande
+                                      <option value="FR" selected>France
+                                      <option value="GA">Gabon
+                                      <option value="GM">Gambie
+                                      <option value="GE">Géorgie
+                                      <option value="GS">Géorgie du sud et les îles sandwich du sud
+                                      <option value="GH">Ghana
+                                      <option value="GI">Gibraltar
+                                      <option value="GR">Grèce
+                                      <option value="GD">Grenade
+                                      <option value="GL">Groenland
+                                      <option value="GP">Guadeloupe
+                                      <option value="GU">Guam
+                                      <option value="GT">Guatemala
+                                      <option value="GG">Guernesey
+                                      <option value="GN">Guinée
+                                      <option value="GW">Guinée bissau
+                                      <option value="GQ">Guinée équatoriale
+                                      <option value="GY">Guyana
+                                      <option value="GF">Guyane française
+                                      <option value="HT">Haïti
+                                      <option value="HM">Heard et îles macdonald, île
+                                      <option value="HN">Honduras
+                                      <option value="HK">Hong kong
+                                      <option value="HU">Hongrie
+                                      <option value="IM">Île de man
+                                      <option value="UM">Îles mineures éloignées des états unis
+                                      <option value="VG">Îles vierges britanniques
+                                      <option value="VI">Îles vierges des états unis
+                                      <option value="IN">Inde
+                                      <option value="ID">Indonésie
+                                      <option value="IR">Iran, république islamique d'
+                                      <option value="IQ">Iraq
+                                      <option value="IE">Irlande
+                                      <option value="IS">Islande
+                                      <option value="IL">Israël
+                                      <option value="IT">Italie
+                                      <option value="JM">Jamaïque
+                                      <option value="JP">Japon
+                                      <option value="JE">Jersey
+                                      <option value="JO">Jordanie
+                                      <option value="KZ">Kazakhstan
+                                      <option value="KE">Kenya
+                                      <option value="KG">Kirghizistan
+                                      <option value="KI">Kiribati
+                                      <option value="KW">Koweït
+                                      <option value="LA">Lao, république démocratique populaire
+                                      <option value="LS">Lesotho
+                                      <option value="LV">Lettonie
+                                      <option value="LB">Liban
+                                      <option value="LR">Libéria
+                                      <option value="LY">Libye
+                                      <option value="LI">Liechtenstein
+                                      <option value="LT">Lituanie
+                                      <option value="LU">Luxembourg
+                                      <option value="MO">Macao
+                                      <option value="MK">Macédoine, l'ex république yougoslave de
+                                      <option value="MG">Madagascar
+                                      <option value="MY">Malaisie
+                                      <option value="MW">Malawi
+                                      <option value="MV">Maldives
+                                      <option value="ML">Mali
+                                      <option value="MT">Malte
+                                      <option value="MP">Mariannes du nord, îles
+                                      <option value="MA">Maroc
+                                      <option value="MH">Marshall, îles
+                                      <option value="MQ">Martinique
+                                      <option value="MU">Maurice
+                                      <option value="MR">Mauritanie
+                                      <option value="YT">Mayotte
+                                      <option value="MX">Mexique
+                                      <option value="FM">Micronésie, états fédérés de
+                                      <option value="MD">Moldova, république de
+                                      <option value="MC">Monaco
+                                      <option value="MN">Mongolie
+                                      <option value="ME">Monténégro
+                                      <option value="MS">Montserrat
+                                      <option value="MZ">Mozambique
+                                      <option value="MM">Myanmar
+                                      <option value="NA">Namibie
+                                      <option value="NR">Nauru
+                                      <option value="NP">Népal
+                                      <option value="NI">Nicaragua
+                                      <option value="NE">Niger
+                                      <option value="NG">Nigéria
+                                      <option value="NU">Niué
+                                      <option value="NF">Norfolk, île
+                                      <option value="NO">Norvège
+                                      <option value="NC">Nouvelle calédonie
+                                      <option value="NZ">Nouvelle zélande
+                                      <option value="IO">Océan indien, territoire britannique de l'
+                                      <option value="OM">Oman
+                                      <option value="UG">Ouganda
+                                      <option value="UZ">Ouzbékistan
+                                      <option value="PK">Pakistan
+                                      <option value="PW">Palaos
+                                      <option value="PS">Palestinien occupé, territoire
+                                      <option value="PA">Panama
+                                      <option value="PG">Papouasie nouvelle guinée
+                                      <option value="PY">Paraguay
+                                      <option value="NL">Pays bas
+                                      <option value="PE">Pérou
+                                      <option value="PH">Philippines
+                                      <option value="PN">Pitcairn
+                                      <option value="PL">Pologne
+                                      <option value="PF">Polynésie française
+                                      <option value="PR">Porto rico
+                                      <option value="PT">Portugal
+                                      <option value="QA">Qatar
+                                      <option value="RE">Réunion
+                                      <option value="RO">Roumanie
+                                      <option value="GB">Royaume uni
+                                      <option value="RU">Russie, fédération de
+                                      <option value="RW">Rwanda
+                                      <option value="EH">Sahara occidental
+                                      <option value="BL">Saint barthélemy
+                                      <option value="SH">Sainte hélène, ascension et tristan da cunha
+                                      <option value="LC">Sainte lucie
+                                      <option value="KN">Saint kitts et nevis
+                                      <option value="SM">Saint marin
+                                      <option value="MF">Saint martin(partie française)
+                                      <option value="SX">Saint martin (partie néerlandaise)
+                                      <option value="PM">Saint pierre et miquelon
+                                      <option value="VA">Saint siège (état de la cité du vatican)
+                                      <option value="VC">Saint vincent et les grenadines
+                                      <option value="SB">Salomon, îles
+                                      <option value="WS">Samoa
+                                      <option value="AS">Samoa américaines
+                                      <option value="ST">Sao tomé et principe
+                                      <option value="SN">Sénégal
+                                      <option value="RS">Serbie
+                                      <option value="SC">Seychelles
+                                      <option value="SL">Sierra leone
+                                      <option value="SG">Singapour
+                                      <option value="SK">Slovaquie
+                                      <option value="SI">Slovénie
+                                      <option value="SO">Somalie
+                                      <option value="SD">Soudan
+                                      <option value="SS">Soudan du sud
+                                      <option value="LK">Sri lanka
+                                      <option value="SE">Suède
+                                      <option value="CH">Suisse
+                                      <option value="SR">Suriname
+                                      <option value="SJ">Svalbard et île jan mayen
+                                      <option value="SZ">Swaziland
+                                      <option value="SY">Syrienne, république arabe
+                                      <option value="TJ">Tadjikistan
+                                      <option value="TW">Taïwan, province de chine
+                                      <option value="TZ">Tanzanie, république unie de
+                                      <option value="TD">Tchad
+                                      <option value="CZ">Tchèque, république
+                                      <option value="TF">Terres australes françaises
+                                      <option value="TH">Thaïlande
+                                      <option value="TL">Timor leste
+                                      <option value="TG">Togo
+                                      <option value="TK">Tokelau
+                                      <option value="TO">Tonga
+                                      <option value="TT">Trinité et tobago
+                                      <option value="TN">Tunisie
+                                      <option value="TM">Turkménistan
+                                      <option value="TC">Turks et caïcos, îles
+                                      <option value="TR">Turquie
+                                      <option value="TV">Tuvalu
+                                      <option value="UA">Ukraine
+                                      <option value="UY">Uruguay
+                                      <option value="VU">Vanuatu
+                                      <option value="VE">Venezuela, république bolivarienne du
+                                      <option value="VN">Viet nam
+                                      <option value="WF">Wallis et futuna
+                                      <option value="YE">Yémen
+                                      <option value="ZM">Zambie
+                                      <option value="ZW">Zimbabwe​​​​​
                                     </select>
                                     <br/> 
-                                  </span>
-                                </div>
-                              </div>                       
-                              <div class="form-group">
-                                <label class="col-md-4 control-label">Préférence</label>
-                                <div class="col-md-6  inputGroupContainer">
-                                  <span class="input-icon">  
-                                    <textarea id="preference-profil" type="text" name="preference"  class="form-control control-groupe" rows="2" COLS="40"  maxlength = "400" placeholder="C'est le moment de parler chat" required pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères"></textarea>
-                                  </span>
-                                </div>
-                              </div>                           
+                                </span>
+                              </div>
+                            </div>                                                     
+                        <!-- Select -->   
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" >Profil</label>
+                              <div class="col-md-6  inputGroupContainer">
+                                <span class="input-icon">                                   
+                                  <select class="form-control control-groupe" id="profil-profil" name="profil" size="1" required > 
+                                    <option value="AM">Adopte un maître
+                                    <option value="AC" >Adopte un chat
+                                    <option value="NSP" selected>Ne sais pas encore
+                                  </select>
+                                  <br/> 
+                                </span>
+                              </div>
+                            </div>                       
+                            <div class="form-group">
+                              <label class="col-md-4 control-label">Préférences</label>
+                              <div class="col-md-6  inputGroupContainer">
+                                <span class="input-icon">  
+                                  <textarea id="preference-profil" type="text" name="preference"  class="form-control control-groupe" rows="2" COLS="40"  maxlength = "400" placeholder="C'est le moment de parler chat"  pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères"></textarea>
+                                </span>
+                              </div>
+                            </div>                           
                             </fieldset> 
                             <div class="form-group"> 
                               <div class="center">
@@ -706,682 +705,690 @@
                           </div>
                         </div>
                       </div>                                       
-                    </form>
-                  </div>
+                  </form>
                 </div>
               </div>
-<!-- **************** fin profil formulaire d'inscription ********************** --> 
+            </div>
+<!-- **************** FIN FORMULAIRE DE RENSEIGNEMENTS PROFIL ********************** --> 
           
               <!-- ACTIVITY TAB CONTENT -->
-              <div class="tab-pane activity" id="activity-tab">
-                <ul class="list-unstyled activity-list">
-                  <li>
-                    <i class="fa fa-times activity-icon pull-left"></i>
-                    <p>
-                      <a href="#">Jonathan</a> commented on <a href="#">Special Deal 2013</a> <span class="timestamp">12 minutes ago</span>
-                    </p>
-                  </li>
-                  <li>
-                    <i class="fa fa-times activity-icon pull-left"></i>
-                    <p>
-                      <a href="#">Jonathan</a> posted <a href="#">a new blog post</a> <span class="timestamp">4 hours ago</span>
-                    </p>
-                  </li>
-                  <li>
-                    <i class="fa fa-times activity-icon pull-left"></i>
-                    <p>
-                      <a href="#">Jonathan</a> edited his profile <span class="timestamp">11 hours ago</span>
-                    </p>
-                  </li>
-                  <li>
-                    <i class="fa fa-times activity-icon pull-left"></i>
-                    <p>
-                      <a href="#">Jonathan</a> has added review on <a href="#">jQuery Complete Guide</a> book <span class="timestamp">Yesterday</span>
-                    </p>
-                  </li>
-                  <li>
-                    <i class="fa fa-times activity-icon pull-left"></i>
-                    <p>
-                      <a href="#">Jonathan</a> liked <a href="#">a post</a> <span class="timestamp">December 12</span>
-                    </p>
-                  </li>
-                  <li>
-                    <i class="fa fa-times activity-icon pull-left"></i>
-                    <p>
-                      <a href="#">Jonathan</a> has completed one task <span class="timestamp">December 11</span>
-                    </p>
-                  </li>
-                  <li>
-                    <i class="fa fa-times activity-icon pull-left"></i>
-                    <p>
-                      <a href="#">Jonathan</a> uploaded <a href="#">new photos</a> <span class="timestamp">December 5</span>
-                    </p>
-                  </li>
-                  <li>
-                    <i class="fa fa-times activity-icon pull-left"></i>
-                    <p>
-                      <a href="#">Jonathan</a> has updated his credit card info <span class="timestamp">September 28</span>
-                    </p>
-                  </li>
-                </ul>
-                <p class="text-center more"><a href="#" class="btn btn-custom-primary">View more <i class="fa fa-long-arrow-right"></i></a></p>
-              </div>
+            <div class="tab-pane activity" id="activity-tab">
+              <ul class="list-unstyled activity-list">
+                <li>
+                  <i class="fa fa-times activity-icon pull-left"></i>
+                  <p>
+                    <a href="#">Jonathan</a> commented on <a href="#">Special Deal 2013</a> <span class="timestamp">12 minutes ago</span>
+                  </p>
+                </li>
+                <li>
+                  <i class="fa fa-times activity-icon pull-left"></i>
+                  <p>
+                    <a href="#">Jonathan</a> posted <a href="#">a new blog post</a> <span class="timestamp">4 hours ago</span>
+                  </p>
+                </li>
+                <li>
+                  <i class="fa fa-times activity-icon pull-left"></i>
+                  <p>
+                    <a href="#">Jonathan</a> edited his profile <span class="timestamp">11 hours ago</span>
+                  </p>
+                </li>
+                <li>
+                  <i class="fa fa-times activity-icon pull-left"></i>
+                  <p>
+                    <a href="#">Jonathan</a> has added review on <a href="#">jQuery Complete Guide</a> book <span class="timestamp">Yesterday</span>
+                  </p>
+                </li>
+                <li>
+                  <i class="fa fa-times activity-icon pull-left"></i>
+                  <p>
+                    <a href="#">Jonathan</a> liked <a href="#">a post</a> <span class="timestamp">December 12</span>
+                  </p>
+                </li>
+                <li>
+                  <i class="fa fa-times activity-icon pull-left"></i>
+                  <p>
+                    <a href="#">Jonathan</a> has completed one task <span class="timestamp">December 11</span>
+                  </p>
+                </li>
+                <li>
+                  <i class="fa fa-times activity-icon pull-left"></i>
+                  <p>
+                    <a href="#">Jonathan</a> uploaded <a href="#">new photos</a> <span class="timestamp">December 5</span>
+                  </p>
+                </li>
+                <li>
+                  <i class="fa fa-times activity-icon pull-left"></i>
+                  <p>
+                    <a href="#">Jonathan</a> has updated his credit card info <span class="timestamp">September 28</span>
+                  </p>
+                </li>
+              </ul>
+              <p class="text-center more"><a href="#" class="btn btn-custom-primary">View more <i class="fa fa-long-arrow-right"></i></a></p>
+            </div>
               <!-- END ACTIVITY TAB CONTENT -->
           
-              <!-- SETTINGS TAB CONTENT -->
-              <div class="tab-pane settings" id="settings-tab">
-                <form id="form-parametre-mp" class="form-horizontal" role="form" >
-                
-                    <h3><i class="fa fa-square"></i> Changer votre mot de passe</h3>
-                    <div class="form-group">
-                      <label for="old-password" class="col-sm-3 control-label">Ancien mot de passe</label>
-                      
-                      <div class="col-sm-4">
-                          <span class="input-icon">
-                            <input type="password" id="ancien-mp" name="ancien-mp" minlength="6" maxlength='12' size='12' class="form-control" placeholder="Ancien mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
-                            <i class="fa fa-key darkorange"></i>
-                          </span>                             
-                      </div>
+      <!--****  DEBUT PARAMETRE CHANGEMENT DE MOT DE PASSE  ****-->
+            <div class="tab-pane settings" id="settings-tab">
+              <form id="form-parametre-mp" class="form-horizontal" role="form" >              
+                  <h3><i class="fa fa-square"></i> Changer votre mot de passe</h3>
+                  <div class="form-group">
+                    <label for="old-password" class="col-sm-3 control-label">Ancien mot de passe</label>                    
+                    <div class="col-sm-4">
+                      <span class="input-icon">
+                        <input type="password" id="ancien-mp" name="ancien-mp" minlength="6" maxlength='12' size='12' class="form-control" placeholder="Ancien mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
+                        <i class="fa fa-key darkorange"></i>
+                      </span>                             
                     </div>
-                    <hr>
-                    <div class="form-group">
-                      <label for="password" class="col-sm-3 control-label">Nouveau mot de passe</label>
-                     
-                      <div class="col-sm-4">
-                          <span class="input-icon">
-                            <input id="parametre-mp1" type="password" name="parametre-mp1"  minlength="6" maxlength='12' size='12' class="form-control" placeholder="Nouveau mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
-                            <i class="fa fa-key darkorange"></i>
-                          </span>
-                      </div>
+                  </div>
+                  <hr>
+                  <div class="form-group">
+                    <label for="password" class="col-sm-3 control-label">Nouveau mot de passe</label>
+                    <div class="col-sm-4">
+                      <span class="input-icon">
+                        <input id="parametre-mp1" type="password" name="parametre-mp1"  minlength="6" maxlength='12' size='12' class="form-control" placeholder="Nouveau mot de passe" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères">
+                        <i class="fa fa-key darkorange"></i>
+                      </span>
                     </div>
-                    <div class="form-group">
-                      <label for="password2" class="col-sm-3 control-label">Répéter le mot de passe</label>
-                      <div class="col-sm-4">
-                          <span class="input-icon">
-                            <input id="parametre-mp2" type="password" name="parametre-mp2"  minlength="6" maxlength='12' size='12' class="form-control" data-match="#parametre-mp1" data-match-error="Whoops, these don't match" placeholder="Confirmer le mot de passe" required >
-                            <i class="fa fa-key darkorange"></i>
-                          </span>
-                      </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="password2" class="col-sm-3 control-label">Répéter le mot de passe</label>
+                    <div class="col-sm-4">
+                      <span class="input-icon">
+                        <input id="parametre-mp2" type="password" name="parametre-mp2"  minlength="6" maxlength='12' size='12' class="form-control" data-match="#parametre-mp1" data-match-error="Whoops, these don't match" placeholder="Confirmer le mot de passe" required >
+                        <i class="fa fa-key darkorange"></i>
+                      </span>
                     </div>
-                    <div class="col-sm-12">
-                        <p id="idParametreAlertMsg" class="lead mt-5 display-4 text-danger text-center alertMsg">Veuillez saisir votre ancien mot de passe</p>
-                                           
-                      </div>
-                     <div class="col-sm-12" id="place-btn-parametre">
-                          <button type="submit" class="btn btn-azure">Valider</button>
-                    </div>              
-           
+                  </div>
+                  <div class="col-sm-12">
+                    <p id="idParametreAlertMsg" class="lead mt-5 display-4 text-danger text-center alertMsg">Veuillez saisir votre ancien mot de passe</p>
+                  </div>
+                  <div class="col-sm-12" id="place-btn-parametre">
+                    <button type="submit" class="btn btn-azure">Valider</button>
+                  </div>             
               </form>
-            
             </div>
-            <!-- END SETTINGS TAB CONTENT -->
+            <!-- FIN PARAMETRES CHANGEMENT DE MOT DE PASSE -->
           </div>
         </div>    
       </div>
     </div>
-<!-- ************************************************************************* -->
-<!--                          page  profil membre mur                         -->
-<!-- ************************************************************************* -->
-   <!-- Begin page content -->
-   <div id="mur-profile" class="row page-content">
-    <div class="col-md-8 col-md-offset-2">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="cover profile">
-            <div class="wrapper">
-              <div class="image">
-                <img id="mur-photo-cover" src="static/images/chat2.jpg" class="show-in-modal" alt="people">
+
+<!-- **************************************************************************************** -->
+<!--                          PAGE MUR DE PROFIL                                              -->
+<!-- **************************************************************************************** -->
+  <!-- Begin page content -->
+    <div id="mur-profile" class="row page-content">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="cover profile">
+              <div class="wrapper">
+                <div class="image">
+                  <img id="mur-photo-cover" src="static/images/chat2.jpg" class="show-in-modal" alt="people">
+                </div>
+                <ul class="friends">
+                  <li>
+                    <a href="#">
+                      <img src="static/images/Friends/guy-6.jpg" alt="people" class="img-responsive">
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <img src="static/images/Friends/woman-3.jpg" alt="people" class="img-responsive">
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <img src="static/images/Friends/guy-2.jpg" alt="people" class="img-responsive">
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <img src="static/images/Friends/guy-9.jpg" alt="people" class="img-responsive">
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <img src="static/images/Friends/woman-9.jpg" alt="people" class="img-responsive">
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <img src="static/images/Friends/guy-4.jpg" alt="people" class="img-responsive">
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <img src="static/images/Friends/guy-1.jpg" alt="people" class="img-responsive">
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <img src="static/images/Friends/woman-4.jpg" alt="people" class="img-responsive">
+                    </a>
+                  </li>
+                  <li><a href="#" class="group"><i class="fa fa-group"></i></a></li>
+                </ul>
               </div>
-              <ul class="friends">
-                <li>
-                  <a href="#">
-                    <img src="static/images/Friends/guy-6.jpg" alt="people" class="img-responsive">
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <img src="static/images/Friends/woman-3.jpg" alt="people" class="img-responsive">
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <img src="static/images/Friends/guy-2.jpg" alt="people" class="img-responsive">
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <img src="static/images/Friends/guy-9.jpg" alt="people" class="img-responsive">
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <img src="static/images/Friends/woman-9.jpg" alt="people" class="img-responsive">
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <img src="static/images/Friends/guy-4.jpg" alt="people" class="img-responsive">
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <img src="static/images/Friends/guy-1.jpg" alt="people" class="img-responsive">
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <img src="static/images/Friends/woman-4.jpg" alt="people" class="img-responsive">
-                  </a>
-                </li>
-                <li><a href="#" class="group"><i class="fa fa-group"></i></a></li>
-              </ul>
-            </div>
-            <div class="cover-info">
-              <div class="avatar">
-                <img id="mur-photo-profile" src="static/images/default-avatar.png" alt="people">
+              <div class="cover-info">
+                <div class="avatar">
+                  <img id="mur-photo-profile" src="static/images/default-avatar.png" alt="people">
+                </div>
+                <div id="mur-pseudo" class="name"><a href="#"></a></div>
+                <ul class="cover-nav">
+                  <li> <a id="idProfileChange" href="#"><i class="fa fa-fw fa-bars"></i>Changer son profil</a></li>               
+                  <li><a id="idRechercheAmis" href="#"><i class="fa fa-fw fa-users"></i> Recherche d'amis</a></li>
+                  <li><a id="idDiscussions" href="#"><i class="fa fa-fw fa-image"></i> Discussions</a></li>
+                </ul>
               </div>
-              <div id="mur-pseudo" class="name"><a href="#"></a></div>
-              <ul class="cover-nav">
-                <li> <a id="idProfileChange" href="#"><i class="fa fa-fw fa-bars"></i>Changer son profil</a></li>
-                <li><a href="about.html"><i class="fa fa-fw fa-user"></i> A propos</a></li>
-                <li><a href="friends.html"><i class="fa fa-fw fa-users"></i> Amis</a></li>
-                <li><a href="photos1.html"><i class="fa fa-fw fa-image"></i> Photos</a></li>
-              </ul>
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-5">
-          <div class="widget">
-            <div class="widget-header">
-              <h3 class="widget-caption">A propos</h3>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="widget">
+              <div class="widget-header">
+                <h3 class="widget-caption">A propos</h3>
+              </div>
+              <div class="widget-body bordered-top bordered-sky">
+                <ul class="list-unstyled profile-about margin-none">
+                  <li class="padding-v-5">
+                    <div class="row">
+                      <div class="col-sm-4"><span class="text-muted">Age</span></div>
+                      <div class="col-sm-8" id="mur-age"></div>
+                    </div>
+                  </li>
+                  <li class="padding-v-5">
+                    <div class="row">
+                      <div class="col-sm-4"><span class="text-muted">Profil</span></div>
+                      <div class="col-sm-8" id="mur-profil"></div>
+                    </div>
+                  </li>
+                  <li class="padding-v-5">
+                    <div class="row">
+                      <div class="col-sm-4"><span class="text-muted">Genre</span></div>
+                      <div class="col-sm-8" id="mur-genre"></div>
+                    </div>
+                  </li>
+                  <li class="padding-v-5">
+                    <div class="row">
+                      <div class="col-sm-4"><span class="text-muted">Habite</span></div>
+                      <div class="col-sm-8" id="mur-ville"></div>
+                    </div>
+                  </li>
+                  <li class="padding-v-5">
+                    <div class="row">
+                      <div class="col-sm-4"><span class="text-muted">Email</span></div>
+                      <div id="mur-email" class="col-sm-8">249</div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div class="widget-body bordered-top bordered-sky">
-              <ul class="list-unstyled profile-about margin-none">
-                <li class="padding-v-5">
-                  <div class="row">
-                    <div class="col-sm-4"><span class="text-muted">Age</span></div>
-                    <div class="col-sm-8" id="mur-age"></div>
-                  </div>
-                </li>
-                <li class="padding-v-5">
-                  <div class="row">
-                    <div class="col-sm-4"><span class="text-muted">Profil</span></div>
-                    <div class="col-sm-8" id="mur-profil"></div>
-                  </div>
-                </li>
-                <li class="padding-v-5">
-                  <div class="row">
-                    <div class="col-sm-4"><span class="text-muted">Genre</span></div>
-                    <div class="col-sm-8" id="mur-genre"></div>
-                  </div>
-                </li>
-                <li class="padding-v-5">
-                  <div class="row">
-                    <div class="col-sm-4"><span class="text-muted">Habite</span></div>
-                    <div class="col-sm-8" id="mur-ville"></div>
-                  </div>
-                </li>
-                <li class="padding-v-5">
-                  <div class="row">
-                    <div class="col-sm-4"><span class="text-muted">Email</span></div>
-                    <div id="mur-email" class="col-sm-8">249</div>
-                  </div>
-                </li>
-              </ul>
+            <div class="widget widget-friends">
+              <div class="widget-header">
+                <h3 class="widget-caption">Préférences</h3>
+              </div>
+              <div class="widget-body bordered-top bordered-sky">
+                <ul class="list-unstyled profile-about margin-none">
+                  <li class="padding-v-5">
+                    <div class="row">
+                      <div class="col-sm-12" id="mur-preference"></div>                    
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-
-          <div class="widget widget-friends">
-            <div class="widget-header">
-              <h3 class="widget-caption">Friends</h3>
-            </div>
-            <div class="widget-body bordered-top  bordered-sky">
-              <div class="row">
-                <div class="col-md-12">
-                  <ul class="img-grid" style="margin: 0 auto;">
-                    <li>
-                      <a href="#">
-                        <img src="img/Friends/guy-6.jpg" alt="image">
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <img src="img/Friends/woman-3.jpg" alt="image">
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <img src="img/Friends/guy-2.jpg" alt="image">
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <img src="img/Friends/guy-9.jpg" alt="image">
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <img src="img/Friends/woman-9.jpg" alt="image">
-                      </a>
-                    </li>
-                    <li class="clearfix">
-                      <a href="#">
-                        <img src="img/Friends/guy-4.jpg" alt="image">
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <img src="img/Friends/guy-1.jpg" alt="image">
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <img src="img/Friends/woman-4.jpg" alt="image">
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <img src="img/Friends/guy-6.jpg" alt="image">
-                      </a>
-                    </li>
-                  </ul>
+          
+            <div class="widget widget-friends">
+              <div class="widget-header">
+                <h3 class="widget-caption">Amis</h3>
+              </div>
+              <div class="widget-body bordered-top  bordered-sky">
+                <div class="row">
+                  <div class="col-md-12">
+                    <ul class="img-grid" style="margin: 0 auto;">
+                      <li>
+                        <a href="#">
+                          <img src="static/images/Friends/guy-6.jpg" alt="image">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/Friends/woman-3.jpg" alt="image">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/Friends/guy-2.jpg" alt="image">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/Friends/guy-9.jpg" alt="image">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/Friends/woman-9.jpg" alt="image">
+                        </a>
+                      </li>
+                      <li class="clearfix">
+                        <a href="#">
+                          <img src="static/images/Friends/guy-4.jpg" alt="image">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/Friends/guy-1.jpg" alt="image">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/Friends/woman-4.jpg" alt="image">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/Friends/guy-6.jpg" alt="image">
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
+              </div>
+            </div>
+
+            <div class="widget">
+              <div class="widget-header">
+                <h3 class="widget-caption">Groups</h3>
+              </div>
+              <div class="widget-body bordered-top bordered-sky">
+                <div class="card">
+                  <div class="content">
+                    <ul class="list-unstyled team-members">
+                      <li>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <div class="avatar">
+                                    <img src="static/images/Likes/likes-1.png" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                              Github
+                            </div>
+                
+                            <div class="col-xs-3 text-right">
+                                <p class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user"></i></p>
+                            </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <div class="avatar">
+                                    <img src="static/images/Likes/likes-3.png" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                Css snippets
+                            </div>
+                
+                            <div class="col-xs-3 text-right">
+                                <p class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user"></i></p>
+                            </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <div class="avatar">
+                                    <img src="static/images/Likes/likes-2.png " alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                Html Action
+                            </div>
+                
+                            <div class="col-xs-3 text-right">
+                                <p class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user"></i></p>
+                            </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>  
               </div>
             </div>
           </div>
 
-          <div class="widget">
-            <div class="widget-header">
-              <h3 class="widget-caption">Groups</h3>
-            </div>
-            <div class="widget-body bordered-top bordered-sky">
-              <div class="card">
-                <div class="content">
-                  <ul class="list-unstyled team-members">
-                    <li>
-                      <div class="row">
-                          <div class="col-xs-3">
-                              <div class="avatar">
-                                  <img src="img/Likes/likes-1.png" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                              </div>
-                          </div>
-                          <div class="col-xs-6">
-                             Github
-                          </div>
-              
-                          <div class="col-xs-3 text-right">
-                              <btn class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user"></i></btn>
-                          </div>
+
+          <!--============= timeline posts-->
+          <div class="col-md-7">
+            <div class="row">
+              <!-- left posts-->
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-12">
+                  <!-- post state form -->
+                    <div class="box profile-info n-border-top">
+                      <form>
+                          <textarea class="form-control input-lg p-text-area" rows="2" placeholder="Whats in your mind today?"></textarea>
+                      </form>
+                      <div class="box-footer box-form">
+                          <button type="button" class="btn btn-azure pull-right">Post</button>
+                          <ul class="nav nav-pills">
+                              <li><a href="#"><i class="fa fa-map-marker"></i></a></li>
+                              <li><a href="#"><i class="fa fa-camera"></i></a></li>
+                              <li><a href="#"><i class=" fa fa-film"></i></a></li>
+                              <li><a href="#"><i class="fa fa-microphone"></i></a></li>
+                          </ul>
                       </div>
-                    </li>
-                    <li>
-                      <div class="row">
-                          <div class="col-xs-3">
-                              <div class="avatar">
-                                  <img src="img/Likes/likes-3.png" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                              </div>
-                          </div>
-                          <div class="col-xs-6">
-                              Css snippets
-                          </div>
-              
-                          <div class="col-xs-3 text-right">
-                              <btn class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user"></i></btn>
-                          </div>
+                    </div><!-- end post state form -->
+
+                    <!--   posts -->
+                    <div class="box box-widget">
+                      <div class="box-header with-border">
+                        <div class="user-block">
+                          <img class="img-circle" src="static/images/Friends/guy-3.jpg" alt="User Image">
+                          <span class="username"><a href="#">John Breakgrow jr.</a></span>
+                          <span class="description">Shared publicly - 7:30 PM Today</span>
+                        </div>
                       </div>
-                    </li>
-                    <li>
-                      <div class="row">
-                          <div class="col-xs-3">
-                              <div class="avatar">
-                                  <img src="img/Likes/likes-2.png " alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                              </div>
-                          </div>
-                          <div class="col-xs-6">
-                              Html Action
-                          </div>
-              
-                          <div class="col-xs-3 text-right">
-                              <btn class="btn btn-sm btn-azure btn-icon"><i class="fa fa-user"></i></btn>
-                          </div>
+
+                      <div class="box-body" style="display: block;">
+                        <img class="img-responsive show-in-modal" src="static/images/Post/young-couple-in-love.jpg" alt="Photo">
+                        <p>I took this photo this morning. What do you guys think?</p>
+                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
+                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                        <span class="pull-right text-muted">127 likes - 3 comments</span>
                       </div>
-                    </li>
-                  </ul>
+                      <div class="box-footer box-comments" style="display: block;">
+                        <div class="box-comment">
+                          <img class="img-circle img-sm" src="static/images/Friends/guy-2.jpg" alt="User Image">
+                          <div class="comment-text">
+                            <span class="username">
+                            Maria Gonzales
+                            <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span>
+                            It is a long established fact that a reader will be distracted
+                            by the readable content of a page when looking at its layout.
+                          </div>
+                        </div>
+
+                        <div class="box-comment">
+                          <img class="img-circle img-sm" src="static/images/Friends/guy-3.jpg" alt="User Image">
+                          <div class="comment-text">
+                            <span class="username">
+                            Luna Stark
+                            <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span>
+                            It is a long established fact that a reader will be distracted
+                            by the readable content of a page when looking at its layout.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="box-footer" style="display: block;">
+                        <form action="#" method="post">
+                          <img class="img-responsive img-circle img-sm" src="static/images/Friends/guy-3.jpg" alt="Alt Text">
+                          <div class="img-push">
+                            <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                          </div>
+                        </form>
+                      </div>
+                    </div><!--  end posts-->
+
+
+                    <!-- post -->
+                    <div class="box box-widget">
+                      <div class="box-header with-border">
+                        <div class="user-block">
+                          <img class="img-circle" src="static/images/Friends/guy-3.jpg" alt="User Image">
+                          <span class="username"><a href="#">Jonathan Burke Jr.</a></span>
+                          <span class="description">Shared publicly - 7:30 PM Today</span>
+                        </div>
+                      </div>
+                      <div class="box-body">
+                        <p>Far far away, behind the word mountains, far from the
+                        countries Vokalia and Consonantia, there live the blind
+                        texts. Separated they live in Bookmarksgrove right at</p>
+
+                        <p>the coast of the Semantics, a large language ocean.
+                        A small river named Duden flows by their place and supplies
+                        it with the necessary regelialia. It is a paradisematic
+                        country, in which roasted parts of sentences fly into
+                        your mouth.</p>
+
+                        <div class="attachment-block clearfix">
+                          <img class="attachment-img show-in-modal" src="static/images/Photos/2.jpg" alt="Attachment Image">
+                          <div class="attachment-pushed">
+                          <h4 class="attachment-heading"><a href="http://www.bootdey.com/">Lorem ipsum text generator</a></h4>
+                          <div class="attachment-text">
+                          Description about the attachment can be placed here.
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry... <a href="#">more</a>
+                          </div>
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
+                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                        <span class="pull-right text-muted">45 likes - 2 comments</span>
+                      </div>
+                      <div class="box-footer box-comments">
+                        <div class="box-comment">
+                          <img class="img-circle img-sm" src="static/images/Friends/guy-5.jpg" alt="User Image">
+                          <div class="comment-text">
+                            <span class="username">
+                            Maria Gonzales
+                            <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span>
+                            It is a long established fact that a reader will be distracted
+                            by the readable content of a page when looking at its layout.
+                          </div>
+                        </div>
+                        <div class="box-comment">
+                          <img class="img-circle img-sm" src="static/images/Friends/guy-6.jpg" alt="User Image">
+                          <div class="comment-text">
+                            <span class="username">
+                            Nora Havisham
+                            <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span>
+                            The point of using Lorem Ipsum is that it has a more-or-less
+                            normal distribution of letters, as opposed to using
+                            'Content here, content here', making it look like readable English.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="box-footer">
+                        <form action="#" method="post">
+                          <img class="img-responsive img-circle img-sm" src="static/images/Friends/guy-3.jpg" alt="Alt Text">
+                          <div class="img-push">
+                            <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                          </div>
+                        </form>
+                      </div>
+                    </div><!-- end post -->
+
+                    <!--  posts -->
+                    <div class="box box-widget">
+                      <div class="box-header with-border">
+                        <div class="user-block">
+                          <img class="img-circle" src="static/images/Friends/guy-3.jpg" alt="User Image">
+                          <span class="username"><a href="#">John Breakgrow jr.</a></span>
+                          <span class="description">Shared publicly - 7:30 PM Today</span>
+                        </div>
+                      </div>
+
+                      <div class="box-body" style="display: block;">
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac iaculis ligula, eget efficitur nisi. In vel rutrum orci. Etiam ut orci volutpat, maximus quam vel, euismod orci. Nunc in urna non lectus malesuada aliquet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam dignissim mi ac metus consequat, a pharetra neque molestie. Maecenas condimentum lorem quis vulputate volutpat. Etiam sapien diam
+                        </p>
+                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
+                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                        <span class="pull-right text-muted">127 likes - 3 comments</span>
+                      </div>
+                      <div class="box-footer box-comments" style="display: block;">
+                        <div class="box-comment">
+                          <img class="img-circle img-sm" src="static/images/Friends/guy-2.jpg" alt="User Image">
+                          <div class="comment-text">
+                            <span class="username">
+                            Maria Gonzales
+                            <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span>
+                            It is a long established fact that a reader will be distracted
+                            by the readable content of a page when looking at its layout.
+                          </div>
+                        </div>
+
+                        <div class="box-comment">
+                          <img class="img-circle img-sm" src="static/images/Friends/guy-3.jpg" alt="User Image">
+                          <div class="comment-text">
+                            <span class="username">
+                            Luna Stark
+                            <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span>
+                            It is a long established fact that a reader will be distracted
+                            by the readable content of a page when looking at its layout.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="box-footer" style="display: block;">
+                        <form action="#" method="post">
+                          <img class="img-responsive img-circle img-sm" src="static/images/Friends/guy-3.jpg" alt="Alt Text">
+                          <div class="img-push">
+                            <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                          </div>
+                        </form>
+                      </div>
+                    </div><!--  end posts -->
+
+                    <!--   posts -->
+                    <div class="box box-widget">
+                      <div class="box-header with-border">
+                        <div class="user-block">
+                          <img class="img-circle" src="static/images/Friends/guy-3.jpg" alt="User Image">
+                          <span class="username"><a href="#">John Breakgrow jr.</a></span>
+                          <span class="description">Shared publicly - 7:30 PM Today</span>
+                        </div>
+                      </div>
+
+                      <div class="box-body" style="display: block;">
+                        <img class="img-responsive pad show-in-modal" src="static/images/Photos/3.jpg" alt="Photo">
+                        <p>I took this photo this morning. What do you guys think?</p>
+                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
+                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                        <span class="pull-right text-muted">127 likes - 3 comments</span>
+                      </div>
+                      <div class="box-footer box-comments" style="display: block;">
+                        <div class="box-comment">
+                          <img class="img-circle img-sm" src="static/images/Friends/guy-2.jpg" alt="User Image">
+                          <div class="comment-text">
+                            <span class="username">
+                            Maria Gonzales
+                            <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span>
+                            It is a long established fact that a reader will be distracted
+                            by the readable content of a page when looking at its layout.
+                          </div>
+                        </div>
+
+                        <div class="box-comment">
+                          <img class="img-circle img-sm" src="static/images/Friends/guy-3.jpg" alt="User Image">
+                          <div class="comment-text">
+                            <span class="username">
+                            Luna Stark
+                            <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span>
+                            It is a long established fact that a reader will be distracted
+                            by the readable content of a page when looking at its layout.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="box-footer" style="display: block;">
+                        <form action="#" method="post">
+                          <img class="img-responsive img-circle img-sm" src="static/images/Friends/guy-3.jpg" alt="Alt Text">
+                          <div class="img-push">
+                            <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                          </div>
+                        </form>
+                      </div>
+                    </div><!--  end posts -->
+                  </div>
                 </div>
-              </div>  
+              </div><!-- end left posts-->
             </div>
-          </div>
+          </div><!-- end timeline posts-->
         </div>
-
-
-        <!--============= timeline posts-->
-        <div class="col-md-7">
-          <div class="row">
-            <!-- left posts-->
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-12">
-                <!-- post state form -->
-                  <div class="box profile-info n-border-top">
-                    <form>
-                        <textarea class="form-control input-lg p-text-area" rows="2" placeholder="Whats in your mind today?"></textarea>
-                    </form>
-                    <div class="box-footer box-form">
-                        <button type="button" class="btn btn-azure pull-right">Post</button>
-                        <ul class="nav nav-pills">
-                            <li><a href="#"><i class="fa fa-map-marker"></i></a></li>
-                            <li><a href="#"><i class="fa fa-camera"></i></a></li>
-                            <li><a href="#"><i class=" fa fa-film"></i></a></li>
-                            <li><a href="#"><i class="fa fa-microphone"></i></a></li>
-                        </ul>
-                    </div>
-                  </div><!-- end post state form -->
-
-                  <!--   posts -->
-                  <div class="box box-widget">
-                    <div class="box-header with-border">
-                      <div class="user-block">
-                        <img class="img-circle" src="img/Friends/guy-3.jpg" alt="User Image">
-                        <span class="username"><a href="#">John Breakgrow jr.</a></span>
-                        <span class="description">Shared publicly - 7:30 PM Today</span>
-                      </div>
-                    </div>
-
-                    <div class="box-body" style="display: block;">
-                      <img class="img-responsive show-in-modal" src="img/Post/young-couple-in-love.jpg" alt="Photo">
-                      <p>I took this photo this morning. What do you guys think?</p>
-                      <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
-                      <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                      <span class="pull-right text-muted">127 likes - 3 comments</span>
-                    </div>
-                    <div class="box-footer box-comments" style="display: block;">
-                      <div class="box-comment">
-                        <img class="img-circle img-sm" src="img/Friends/guy-2.jpg" alt="User Image">
-                        <div class="comment-text">
-                          <span class="username">
-                          Maria Gonzales
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                          </span>
-                          It is a long established fact that a reader will be distracted
-                          by the readable content of a page when looking at its layout.
-                        </div>
-                      </div>
-
-                      <div class="box-comment">
-                        <img class="img-circle img-sm" src="img/Friends/guy-3.jpg" alt="User Image">
-                        <div class="comment-text">
-                          <span class="username">
-                          Luna Stark
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                          </span>
-                          It is a long established fact that a reader will be distracted
-                          by the readable content of a page when looking at its layout.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="box-footer" style="display: block;">
-                      <form action="#" method="post">
-                        <img class="img-responsive img-circle img-sm" src="img/Friends/guy-3.jpg" alt="Alt Text">
-                        <div class="img-push">
-                          <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
-                        </div>
-                      </form>
-                    </div>
-                  </div><!--  end posts-->
-
-
-                  <!-- post -->
-                  <div class="box box-widget">
-                    <div class="box-header with-border">
-                      <div class="user-block">
-                        <img class="img-circle" src="img/Friends/guy-3.jpg" alt="User Image">
-                        <span class="username"><a href="#">Jonathan Burke Jr.</a></span>
-                        <span class="description">Shared publicly - 7:30 PM Today</span>
-                      </div>
-                    </div>
-                    <div class="box-body">
-                      <p>Far far away, behind the word mountains, far from the
-                      countries Vokalia and Consonantia, there live the blind
-                      texts. Separated they live in Bookmarksgrove right at</p>
-
-                      <p>the coast of the Semantics, a large language ocean.
-                      A small river named Duden flows by their place and supplies
-                      it with the necessary regelialia. It is a paradisematic
-                      country, in which roasted parts of sentences fly into
-                      your mouth.</p>
-
-                      <div class="attachment-block clearfix">
-                        <img class="attachment-img show-in-modal" src="img/Photos/2.jpg" alt="Attachment Image">
-                        <div class="attachment-pushed">
-                        <h4 class="attachment-heading"><a href="http://www.bootdey.com/">Lorem ipsum text generator</a></h4>
-                        <div class="attachment-text">
-                        Description about the attachment can be placed here.
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry... <a href="#">more</a>
-                        </div>
-                        </div>
-                      </div>
-                      <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
-                      <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                      <span class="pull-right text-muted">45 likes - 2 comments</span>
-                    </div>
-                    <div class="box-footer box-comments">
-                      <div class="box-comment">
-                        <img class="img-circle img-sm" src="img/Friends/guy-5.jpg" alt="User Image">
-                        <div class="comment-text">
-                          <span class="username">
-                          Maria Gonzales
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                          </span>
-                          It is a long established fact that a reader will be distracted
-                          by the readable content of a page when looking at its layout.
-                        </div>
-                      </div>
-                      <div class="box-comment">
-                        <img class="img-circle img-sm" src="img/Friends/guy-6.jpg" alt="User Image">
-                        <div class="comment-text">
-                          <span class="username">
-                          Nora Havisham
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                          </span>
-                          The point of using Lorem Ipsum is that it has a more-or-less
-                          normal distribution of letters, as opposed to using
-                          'Content here, content here', making it look like readable English.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="box-footer">
-                      <form action="#" method="post">
-                        <img class="img-responsive img-circle img-sm" src="img/Friends/guy-3.jpg" alt="Alt Text">
-                        <div class="img-push">
-                          <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
-                        </div>
-                      </form>
-                    </div>
-                  </div><!-- end post -->
-
-                  <!--  posts -->
-                  <div class="box box-widget">
-                    <div class="box-header with-border">
-                      <div class="user-block">
-                        <img class="img-circle" src="img/Friends/guy-3.jpg" alt="User Image">
-                        <span class="username"><a href="#">John Breakgrow jr.</a></span>
-                        <span class="description">Shared publicly - 7:30 PM Today</span>
-                      </div>
-                    </div>
-
-                    <div class="box-body" style="display: block;">
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac iaculis ligula, eget efficitur nisi. In vel rutrum orci. Etiam ut orci volutpat, maximus quam vel, euismod orci. Nunc in urna non lectus malesuada aliquet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam dignissim mi ac metus consequat, a pharetra neque molestie. Maecenas condimentum lorem quis vulputate volutpat. Etiam sapien diam
-                      </p>
-                      <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
-                      <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                      <span class="pull-right text-muted">127 likes - 3 comments</span>
-                    </div>
-                    <div class="box-footer box-comments" style="display: block;">
-                      <div class="box-comment">
-                        <img class="img-circle img-sm" src="img/Friends/guy-2.jpg" alt="User Image">
-                        <div class="comment-text">
-                          <span class="username">
-                          Maria Gonzales
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                          </span>
-                          It is a long established fact that a reader will be distracted
-                          by the readable content of a page when looking at its layout.
-                        </div>
-                      </div>
-
-                      <div class="box-comment">
-                        <img class="img-circle img-sm" src="img/Friends/guy-3.jpg" alt="User Image">
-                        <div class="comment-text">
-                          <span class="username">
-                          Luna Stark
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                          </span>
-                          It is a long established fact that a reader will be distracted
-                          by the readable content of a page when looking at its layout.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="box-footer" style="display: block;">
-                      <form action="#" method="post">
-                        <img class="img-responsive img-circle img-sm" src="img/Friends/guy-3.jpg" alt="Alt Text">
-                        <div class="img-push">
-                          <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
-                        </div>
-                      </form>
-                    </div>
-                  </div><!--  end posts -->
-
-                  <!--   posts -->
-                  <div class="box box-widget">
-                    <div class="box-header with-border">
-                      <div class="user-block">
-                        <img class="img-circle" src="img/Friends/guy-3.jpg" alt="User Image">
-                        <span class="username"><a href="#">John Breakgrow jr.</a></span>
-                        <span class="description">Shared publicly - 7:30 PM Today</span>
-                      </div>
-                    </div>
-
-                    <div class="box-body" style="display: block;">
-                      <img class="img-responsive pad show-in-modal" src="img/Photos/3.jpg" alt="Photo">
-                      <p>I took this photo this morning. What do you guys think?</p>
-                      <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
-                      <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                      <span class="pull-right text-muted">127 likes - 3 comments</span>
-                    </div>
-                    <div class="box-footer box-comments" style="display: block;">
-                      <div class="box-comment">
-                        <img class="img-circle img-sm" src="img/Friends/guy-2.jpg" alt="User Image">
-                        <div class="comment-text">
-                          <span class="username">
-                          Maria Gonzales
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                          </span>
-                          It is a long established fact that a reader will be distracted
-                          by the readable content of a page when looking at its layout.
-                        </div>
-                      </div>
-
-                      <div class="box-comment">
-                        <img class="img-circle img-sm" src="img/Friends/guy-3.jpg" alt="User Image">
-                        <div class="comment-text">
-                          <span class="username">
-                          Luna Stark
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                          </span>
-                          It is a long established fact that a reader will be distracted
-                          by the readable content of a page when looking at its layout.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="box-footer" style="display: block;">
-                      <form action="#" method="post">
-                        <img class="img-responsive img-circle img-sm" src="img/Friends/guy-3.jpg" alt="Alt Text">
-                        <div class="img-push">
-                          <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
-                        </div>
-                      </form>
-                    </div>
-                  </div><!--  end posts -->
-                </div>
-              </div>
-            </div><!-- end left posts-->
-          </div>
-        </div><!-- end timeline posts-->
       </div>
     </div>
-    </div>
 
 
-     <!-- Online users sidebar content-->
-     <div class="chat-sidebar">
+    <!-- Online users sidebar content-->
+    <div class="chat-sidebar">
         <div class="list-group text-left">
           <p class="text-center visible-xs"><a href="#" class="hide-chat btn btn-success">Hide</a></p> 
           <p class="text-center chat-title">Online users</p>  
           <a href="messages1.html" class="list-group-item">
             <i class="fa fa-check-circle connected-status"></i>
-            <img src="img/Friends/guy-2.jpg" class="img-chat img-thumbnail">
+            <img src="static/images/Friends/guy-2.jpg" class="img-chat img-thumbnail">
             <span class="chat-user-name">Jeferh Smith</span>
           </a>
           <a href="messages1.html" class="list-group-item">
             <i class="fa fa-times-circle absent-status"></i>
-            <img src="img/Friends/woman-1.jpg" class="img-chat img-thumbnail">
+            <img src="static/images/Friends/woman-1.jpg" class="img-chat img-thumbnail">
             <span class="chat-user-name">Dapibus acatar</span>
           </a>
           <a href="messages1.html" class="list-group-item">
             <i class="fa fa-check-circle connected-status"></i>
-            <img src="img/Friends/guy-3.jpg" class="img-chat img-thumbnail">
+            <img src="static/images/Friends/guy-3.jpg" class="img-chat img-thumbnail">
             <span class="chat-user-name">Antony andrew lobghi</span>
           </a>
           <a href="messages1.html" class="list-group-item">
             <i class="fa fa-check-circle connected-status"></i>
-            <img src="img/Friends/woman-2.jpg" class="img-chat img-thumbnail">
+            <img src="static/images/Friends/woman-2.jpg" class="img-chat img-thumbnail">
             <span class="chat-user-name">Maria fernanda coronel</span>
           </a>
           <a href="messages1.html" class="list-group-item">
             <i class="fa fa-check-circle connected-status"></i>
-            <img src="img/Friends/guy-4.jpg" class="img-chat img-thumbnail">
+            <img src="static/images/Friends/guy-4.jpg" class="img-chat img-thumbnail">
             <span class="chat-user-name">Markton contz</span>
           </a>
           <a href="messages1.html" class="list-group-item">
             <i class="fa fa-times-circle absent-status"></i>
-            <img src="img/Friends/woman-3.jpg" class="img-chat img-thumbnail">
+            <img src="static/images/Friends/woman-3.jpg" class="img-chat img-thumbnail">
             <span class="chat-user-name">Martha creaw</span>
           </a>
           <a href="messages1.html" class="list-group-item">
             <i class="fa fa-times-circle absent-status"></i>
-            <img src="img/Friends/woman-8.jpg" class="img-chat img-thumbnail">
+            <img src="static/images/Friends/woman-8.jpg" class="img-chat img-thumbnail">
             <span class="chat-user-name">Yira Cartmen</span>
           </a>
           <a href="messages1.html" class="list-group-item">
             <i class="fa fa-check-circle connected-status"></i>
-            <img src="img/Friends/woman-4.jpg" class="img-chat img-thumbnail">
+            <img src="static/images/Friends/woman-4.jpg" class="img-chat img-thumbnail">
             <span class="chat-user-name">Jhoanath matew</span>
           </a>
           <a href="messages1.html" class="list-group-item">
             <i class="fa fa-check-circle connected-status"></i>
-            <img src="img/Friends/woman-5.jpg" class="img-chat img-thumbnail">
+            <img src="static/images/Friends/woman-5.jpg" class="img-chat img-thumbnail">
             <span class="chat-user-name">Ryanah Haywofd</span>
           </a>
           <a href="messages1.html" class="list-group-item">
             <i class="fa fa-check-circle connected-status"></i>
-            <img src="img/Friends/woman-9.jpg" class="img-chat img-thumbnail">
+            <img src="static/images/Friends/woman-9.jpg" class="img-chat img-thumbnail">
             <span class="chat-user-name">Linda palma</span>
           </a>
           <a href="messages1.html" class="list-group-item">
             <i class="fa fa-check-circle connected-status"></i>
-            <img src="img/Friends/woman-10.jpg" class="img-chat img-thumbnail">
+            <img src="static/images/Friends/woman-10.jpg" class="img-chat img-thumbnail">
             <span class="chat-user-name">Andrea ramos</span>
           </a>
           <a href="messages1.html" class="list-group-item">
             <i class="fa fa-check-circle connected-status"></i>
-            <img src="img/Friends/child-1.jpg" class="img-chat img-thumbnail">
+            <img src="static/images/Friends/child-1.jpg" class="img-chat img-thumbnail">
             <span class="chat-user-name">Dora ty bluekl</span>
           </a>        
         </div>
-      </div><!-- Online users sidebar content-->
+    </div><!-- Online users sidebar content-->
     <!-- Modal -->
     <div class="modal fade" id="modalShow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -1399,9 +1406,606 @@
         </div>
       </div>
     </div>  
-  <!-- ************************************************************************* -->
-  <!--                            Fenêtre Modale A propos                        -->
-  <!-- ************************************************************************* -->
+
+<!-- **************************************************************************************** -->
+<!--                        PAGE RECHERCHE D'AMIS                                             -->
+<!--******************************************************************************************-->
+    <!-- Begin page content -->
+    <div id="block-recherche-amis" class="row page-content">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <!-- NAV TABS -->
+         
+          
+          <!-- END NAV TABS -->
+          <div class="col-md-8 col-md-offset-2">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="cover profile">
+                  <div class="wrapper">
+                    <div class="image">
+                      <img src="static/images/favicon.png" class="show-in-modal" alt="people">
+                    </div>
+                    <ul class="friends">
+                      <li>
+                        <a href="#">
+                          <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                        </a>
+                      </li>
+                      <li><a href="#" class="group"><i class="fa fa-group"></i></a></li>
+                    </ul>
+                  </div>
+                  <div class="cover-info">
+                    <div class="avatar">
+                      <img src="static/images/Friends/guy-5.jpg" alt="people">
+                    </div>
+                    <div class="name"><a href="#">John Breakgrow jr.</a></div>
+                    <ul class="cover-nav">
+                      <li><a id="amis-vers-mur"  href="#"><i class="fa fa-fw fa-bars"></i> Profil</a></li>
+                      <li><a id="amis-vers-messages" href="#"><i class="fa fa-fw fa-user"></i> Messages</a></li>           
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="contact-box center-version">
+                  <a href="#">
+                    <img alt="image" class="img-circle" src="static/images/Friends/guy-1.jpg">
+                    <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+      
+                    <div class="font-bold">Graphics designer</div>
+                  </a>
+                  <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                      <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                      <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="contact-box center-version">
+                    <a href="#">
+                      <img alt="image" class="img-circle" src="static/images/Friends/guy-2.jpg">
+                      <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+        
+                      <div class="font-bold">Graphics designer</div>
+                    </a>
+                    <div class="contact-box-footer">
+                      <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="contact-box center-version">
+                    <a href="#">
+                      <img alt="image" class="img-circle" src="static/images/Friends/guy-3.jpg">
+                      <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+        
+                      <div class="font-bold">Graphics designer</div>
+                    </a>
+                    <div class="contact-box-footer">
+                      <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="contact-box center-version">
+                    <a href="#">
+                      <img alt="image" class="img-circle" src="static/images/Friends/woman-1.jpg">
+                      <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+        
+                      <div class="font-bold">Graphics designer</div>
+                    </a>
+                    <div class="contact-box-footer">
+                      <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="contact-box center-version">
+                    <a href="#">
+                      <img alt="image" class="img-circle" src="static/images/Friends/woman-2.jpg">
+                      <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+        
+                      <div class="font-bold">Graphics designer</div>
+                    </a>
+                    <div class="contact-box-footer">
+                      <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="contact-box center-version">
+                    <a href="#">
+                      <img alt="image" class="img-circle" src="static/images/Friends/woman-3.jpg">
+                      <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+        
+                      <div class="font-bold">Graphics designer</div>
+                    </a>
+                    <div class="contact-box-footer">
+                      <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="contact-box center-version">
+                    <a href="#">
+                      <img alt="image" class="img-circle" src="static/images/Friends/guy-5.jpg">
+                      <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+        
+                      <div class="font-bold">Graphics designer</div>
+                    </a>
+                    <div class="contact-box-footer">
+                      <div class="m-t-xs btn-group">
+                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+              <div class="contact-box center-version">
+                <a href="#">
+                  <img alt="image" class="img-circle" src="static/images/Friends/woman-1.jpg">
+                  <h3 class="m-b-xs"><strong>John Doe</strong></h3>
+    
+                  <div class="font-bold">Graphics designer</div>
+                </a>
+                <div class="contact-box-footer">
+                  <div class="m-t-xs btn-group">
+                    <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
+                    <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalShow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body text-centers">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- **************************************************************************************** -->
+  <!--                PAGE DES MESSAGES INSTANTANNEES                                           -->
+  <!-- **************************************************************************************** -->
+    <!-- Begin page content -->
+    <div id="block-messages" class="container page-content">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <!-- NAV TABS -->
+          <ul class="nav nav-tabs  tabs-iconized" id="nav-profil">            
+            <li class="" id="mess-vers-mur"><a class="a-nav-profil" id="messages-vers-mur" href="#" data-toggle="tab" aria-expanded="false"><i class="fa fa-user"></i> Profil</a></li>           
+          </ul>
+          <div class="tile tile-alt" id="messages-main">
+            <div class="ms-menu">
+              <div class="ms-user clearfix">
+                  <img src="static/images/Friends/guy-3.jpg" alt="" class="img-avatar pull-left">
+                  <div>Signed in as <br> gronemo@gmail.com</div>
+              </div>
+              <div class="p-15">
+                <div class="dropdown">
+                    <a class="btn btn-azure btn-block" href="" data-toggle="dropdown">Messages <i class="caret m-l-5"></i></a>
+                    <ul class="dropdown-menu dm-icon w-100">
+                      <li><a href=""><i class="fa fa-envelope"></i> Messages</a></li>
+                      <li><a href=""><i class="fa fa-users"></i> Contacts</a></li>
+                      <li><a href=""><i class="fa fa-format-list-bulleted"> </i>Todo Lists</a></li>
+                    </ul>
+                </div>
+              </div>
+              <div class="list-group lg-alt">
+                <a class="list-group-item media" href="">
+                  <div class="pull-left">
+                    <img src="static/images/Friends/guy-2.jpg" alt="" class="img-avatar">
+                  </div>
+                  <div class="media-body">
+                    <small class="list-group-item-heading">Davil Parnell</small>
+                    <small class="list-group-item-text c-gray">Fierent fastidii recteque ad pro</small>
+                  </div>
+                </a>
+                <a class="list-group-item media" href="">
+                  <div class="pull-left">
+                    <img src="static/images/Friends/guy-3.jpg" alt="" class="img-avatar">
+                  </div>
+                  <div class="media-body">
+                    <div class="list-group-item-heading">Ann Watkinson</div>
+                    <small class="list-group-item-text c-gray">Cum sociis natoque penatibus </small>
+                  </div>
+                </a>
+                <a class="list-group-item media" href="">
+                  <div class="pull-left">
+                    <img src="static/images/Friends/guy-4.jpg" alt="" class="img-avatar">
+                  </div>
+                  <div class="media-body">
+                    <div class="list-group-item-heading">Marse Walter</div>
+                    <small class="list-group-item-text c-gray">Suspendisse sapien ligula</small>
+                  </div>
+                </a>
+                <a class="list-group-item media" href="">
+                  <div class="lv-avatar pull-left">
+                    <img src="static/images/Friends/guy-5.jpg" alt="" class="img-avatar">
+                  </div>
+                  <div class="media-body">
+                    <div class="list-group-item-heading">Jeremy Robbins</div>
+                    <small class="list-group-item-text c-gray">Phasellus porttitor tellus nec</small>
+                  </div>
+                </a>
+                <a class="list-group-item media" href="">
+                  <div class="lv-avatar pull-left">
+                    <img src="static/images/Friends/guy-6.jpg" alt="" class="img-avatar">
+                  </div>
+                  <div class="media-body">
+                    <div class="list-group-item-heading">Reginald Horace</div>
+                    <small class="list-group-item-text c-gray">Quisque consequat arcu eget</small>
+                  </div>
+                </a>
+                <a class="list-group-item media" href="">
+                  <div class="pull-left">
+                    <img src="static/images/Friends/guy-7.jpg" alt="" class="img-avatar">
+                  </div>
+                  <div class="media-body">
+                    <div class="list-group-item-heading">Shark Henry</div>
+                    <small class="list-group-item-text c-gray">Nam lobortis odio et leo maximu</small>
+                  </div>
+                </a>
+                <a class="list-group-item media" href="">
+                  <div class="pull-left">
+                    <img src="static/images/Friends/guy-3.jpg" alt="" class="img-avatar">
+                  </div>
+                  <div class="media-body">
+                    <div class="list-group-item-heading">Paul Van Dack</div>
+                    <small class="list-group-item-text c-gray">Nam posuere purus sed velit auctor sodales</small>
+                  </div>
+                </a>
+                <a class="list-group-item media" href="">
+                  <div class="lv-avatar pull-left">
+                      <img src="static/images/Friends/guy-2.jpg" alt="" class="img-avatar">
+                  </div>
+                  <div class="media-body">
+                    <div class="list-group-item-heading">James Anderson</div>
+                    <small class="list-group-item-text c-gray">Vivamus imperdiet sagittis quam</small>
+                  </div>
+                </a>
+                <a class="list-group-item media" href="">
+                  <div class="lv-avatar pull-left">
+                    <img src="static/images/Friends/guy-3.jpg" alt="" class="img-avatar">
+                  </div>
+                  <div class="media-body">
+                    <div class="list-group-item-heading">Kane Williams</div>
+                    <small class="list-group-item-text c-gray">Suspendisse justo nulla luctus nec</small>
+                  </div>
+                </a>
+              </div>
+            </div>  
+            <div class="ms-body">
+              <div class="action-header clearfix">
+                  <div class="visible-xs" id="ms-menu-trigger">
+                      <i class="fa fa-bars"></i>
+                  </div>
+                  
+                  <div class="pull-left hidden-xs">
+                      <img src="static/images/Friends/guy-2.jpg" alt="" class="img-avatar m-r-10">
+                      <div class="lv-avatar pull-left">
+                          
+                      </div>
+                      <span>David Parbell</span>
+                  </div>
+                  
+                  <ul class="ah-actions actions">
+                      <li>
+                          <a href="">
+                              <i class="fa fa-trash"></i>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="">
+                              <i class="fa fa-check"></i>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="">
+                              <i class="fa fa-clock-o"></i>
+                          </a>
+                      </li>
+                      <li class="dropdown">
+                          <a href="" data-toggle="dropdown" aria-expanded="true">
+                              <i class="fa fa-sort"></i>
+                          </a>
+              
+                          <ul class="dropdown-menu dropdown-menu-right">
+                              <li>
+                                  <a href="">Latest</a>
+                              </li>
+                              <li>
+                                  <a href="">Oldest</a>
+                              </li>
+                          </ul>
+                      </li>                             
+                      <li class="dropdown">
+                          <a href="" data-toggle="dropdown" aria-expanded="true">
+                              <i class="fa fa-bars"></i>
+                          </a>
+              
+                          <ul class="dropdown-menu dropdown-menu-right">
+                              <li>
+                                  <a href="">Refresh</a>
+                              </li>
+                              <li>
+                                  <a href="">Message Settings</a>
+                              </li>
+                          </ul>
+                      </li>
+                  </ul>
+              </div>
+              <div class="message-feed media">
+                  <div class="pull-left">
+                      <img src="static/images/Friends/guy-3.jpg" alt="" class="img-avatar">
+                  </div>
+                  <div class="media-body">
+                      <div class="mf-content">
+                          Quisque consequat arcu eget odio cursus, ut tempor arcu vestibulum. Etiam ex arcu, porta a urna non, lacinia pellentesque orci. Proin semper sagittis erat, eget condimentum sapien viverra et. Mauris volutpat magna nibh, et condimentum est rutrum a. Nunc sed turpis mi. In eu massa a sem pulvinar lobortis.
+                      </div>
+                      <small class="mf-date"><i class="fa fa-clock-o"></i> 20/02/2015 at 09:00</small>
+                  </div>
+              </div>
+              
+              <div class="message-feed right">
+                  <div class="pull-right">
+                      <img src="static/images/Friends/guy-2.jpg" alt="" class="img-avatar">
+                  </div>
+                  <div class="media-body">
+                      <div class="mf-content">
+                          Mauris volutpat magna nibh, et condimentum est rutrum a. Nunc sed turpis mi. In eu massa a sem pulvinar lobortis.
+                      </div>
+                      <small class="mf-date"><i class="fa fa-clock-o"></i> 20/02/2015 at 09:30</small>
+                  </div>
+              </div>
+              
+              <div class="message-feed media">
+                  <div class="pull-left">
+                      <img src="static/images/Friends/guy-3.jpg" alt="" class="img-avatar">
+                  </div>
+                  <div class="media-body">
+                      <div class="mf-content">
+                          Etiam ex arcumentum
+                      </div>
+                      <small class="mf-date"><i class="fa fa-clock-o"></i> 20/02/2015 at 09:33</small>
+                  </div>
+              </div>
+              
+              <div class="message-feed right">
+                <div class="pull-right">
+                    <img src="static/images/Friends/guy-2.jpg" alt="" class="img-avatar">
+                </div>
+                <div class="media-body">
+                    <div class="mf-content">
+                        Etiam nec facilisis lacus. Nulla imperdiet augue ullamcorper dui ullamcorper, eu laoreet sem consectetur. Aenean et ligula risus. Praesent sed posuere sem. Cum sociis natoque penatibus et magnis dis parturient montes,
+                    </div>
+                    <small class="mf-date"><i class="fa fa-clock-o"></i> 20/02/2015 at 10:10</small>
+                </div>
+              </div>
+              
+              <div class="message-feed media">
+                <div class="pull-left">
+                    <img src="static/images/Friends/guy-3.jpg" alt="" class="img-avatar">
+                </div>
+                <div class="media-body">
+                  <div class="mf-content">
+                      Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam ac tortor ut elit sodales varius. Mauris id ipsum id mauris malesuada tincidunt. Vestibulum elit massa, pulvinar at sapien sed, luctus vestibulum eros. Etiam finibus tristique ante, vitae rhoncus sapien volutpat eget
+                  </div>
+                  <small class="mf-date"><i class="fa fa-clock-o"></i> 20/02/2015 at 10:24</small>
+                </div>
+              </div>
+              
+              <div class="msb-reply">
+                <textarea placeholder="What's on your mind..."></textarea>
+                <button><i class="fa fa-paper-plane-o"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+<!-- **************************************************************************************** -->
+<!--                     DASHBOARD ADMINISTRATEUR                                             -->
+<!-- **************************************************************************************** -->
+ <!-- Begin page content -->
+    <div id="block-administrateur" class="container page-content">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <!-- NAV TABS -->
+
+          <ul class="nav nav-tabs  tabs-iconized" id="nav-profil">            
+            <li class="" id="idProfilAdmin"><a class="a-nav-profil"  href="#" data-toggle="tab" aria-expanded="false"><i class="fa fa-user">&nbsp;</i>Profil&nbsp;<strong id="mur-pseudo-admin" ></strong></a></li>                 
+          </ul>
+          <h4 class="titre-nav-admin">Tableau de bord administrateur</h4>
+          <div class="row">
+              <div class="col-md-12">
+                <div class="widget">
+                  <div class="table-responsive">
+                  <table id="table-liste-membres" class="table user-list">
+                    <thead>
+                      <tr>
+                        <th><span>Membres</span></th>
+                        <th><span>Depuis</span></th>
+                        <th class="text-center"><span>Statut</span></th>
+                        <th><span>Email</span></th>
+                        <th>&nbsp;</th>
+                      </tr>
+                    </thead>
+                  </table>
+                  </div>
+                  <ul class="pagination pull-right">
+                    <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+<!-- **************************************************************************************** -->
+<!--                     DASHBOARD ADMINISTRATEUR  : DETAIL MEMBRE                            -->
+<!-- **************************************************************************************** -->
+ <!-- Begin page content -->
+ <div id="block-detail-membre" class="container page-content">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <!-- NAV TABS -->
+
+        <ul class="nav nav-tabs  tabs-iconized" id="nav-profil">            
+          <li class="" id="idDasboard"><a class="a-nav-profil"  href="#" data-toggle="tab" aria-expanded="false"><i class="fa fa-user">&nbsp;</i>Tableau de bord&nbsp;<strong></strong></a></li>                 
+        </ul>
+        <h4 class="titre-nav-admin" id="pseudo-detail"></h4>
+        <div class="col-md-10 col-md-offset-1 container-contact">
+            <div class="row decor-default">
+                <div class="col-md-12">
+                  <div class="contact">
+                    <div class="controls">
+                      <span class="write" data-toggle="tooltip" data-placement="top" title="" data-original-title="New"></span>
+                      <img src="static/images/Cover/nature.jpg" alt="cover" class="cover">
+                      <div class="cont">
+                        <img src="static/images/Friends/guy-3.jpg" alt="avatar" class="avatar">
+                        <div class="name"><span class="s-text">John Breakgrow jr.</span></div>
+                      </div>
+                    </div>
+            
+                    <div class="row">
+                      <div class="col-md-4 col-md-5 col-xs-12">
+                        <div class="row">
+                          <div class="col-xs-3">
+                            Email:
+                          </div>
+                          <div class="col-xs-9">
+                            example@yourdomain.com
+                          </div>
+                          <div class="col-xs-3">
+                            Phone:
+                          </div>
+                          <div class="col-xs-9">
+                            +1-800-600-9898
+                          </div>
+                          <div class="col-xs-3">
+                            Address:
+                          </div>
+                          <div class="col-xs-9">
+                            Sacramento, CA
+                          </div>
+                          <div class="col-xs-3">
+                            Birthday:
+                          </div>
+                          <div class="col-xs-9">
+                            1975/8/17
+                          </div>
+                          <div class="col-xs-3">
+                            URL:
+                          </div>
+                          <div class="col-xs-9">
+                            http://yourdomain.com
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-8 col-md-7 col-xs-12">
+                        <p class="contact-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+<!-- **************************************************************************************** -->
+<!--                       FENETRE MODAL A PROPOS                                             -->
+<!-- **************************************************************************************** -->
 
     <div class="modal fade" tabindex="-1" role="dialog" id="idAbout" aria-labelledby="idModalAboutTitlePa" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1431,11 +2035,10 @@
       </div>
     </div>
 
-<!-- ************************************************************************* -->
-<!--                            Fenêtre Modale felicitation                    -->
-<!-- ************************************************************************* -->
-
-  <div class="modal fade" tabindex="-1" role="dialog" id="idFelicitation" aria-labelledby="idModalFelicitationTitle" aria-hidden="true">
+<!-- **************************************************************************************** -->
+<!--        FENETRE MODAL DE BIENVENUE ET FELICITATION                                        -->
+<!-- **************************************************************************************** -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="idFelicitation" aria-labelledby="idModalFelicitationTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="idModalContent">
           <div class="modal-header" id="idModalBodyText">
@@ -1452,9 +2055,9 @@
       </div>
     </div> 
 
-<!-- ************************************************************************* -->
-<!--                            Fenêtre Modale global                          -->
-<!-- ************************************************************************* --> 
+<!-- **************************************************************************************** -->
+<!--                   FENETRE MODAL MODULABLE                                                -->
+<!-- **************************************************************************************** -->
     <div class="modal fade" tabindex="-1" role="dialog" id="idGenericModal" aria-labelledby="idGenericModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" id="idModalContentG">
@@ -1473,11 +2076,12 @@
             </div>
         </div>
     </div>
-<!-- ************************************************************************* -->
-<!--                            FOOTER PAGE INDEX                              -->
-<!-- ************************************************************************* -->
+
+<!-- **************************************************************************************** -->
+<!--                            FOOTER PAGE INDEX                                             -->
+<!-- **************************************************************************************** -->
     <footer class="footer">
-      <!-- *************************  Activité **********************************************************-->      
+      <!-- *************************  ACTIVITES  **********************************************************-->      
       <div class="activite" id="footer-activite">
           <div class="row">
               <div class="col-md-4  col-sm-4 col-xs-12">
@@ -1492,14 +2096,15 @@
             </div>
       </div>
     </footer>
-   <!-- ************************************************************************* -->
-    <!--        Vérification Javascript activé + chargement des librairies         -->
-    <!-- ************************************************************************* -->
 
-    <noscript><p>Veuillez activer JavaScript</p></noscript> 
-    <script>  
+<!-- **************************************************************************************** -->
+<!--      PARTIE JAVASCRIPT                                                                   -->
+<!-- **************************************************************************************** -->
+
+  <noscript><p>Veuillez activer JavaScript</p></noscript> 
+  <script>  
     'use strict';
-     
+  
   </script> 
   
   </body>
