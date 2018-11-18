@@ -1094,31 +1094,31 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                 ul.img-grid(style='margin: 0 auto;')
                   li
                     a(href='#')
-                      img(src='static/images/Friends/guy-6.jpg' alt='image')
+                      img(src='static/images/favicon.png' alt='image')
                   li
                     a(href='#')
-                      img(src='static/images/Friends/woman-3.jpg' alt='image')
+                      img(src='static/images/favicon.png' alt='image')
                   li
                     a(href='#')
-                      img(src='static/images/Friends/guy-2.jpg' alt='image')
+                      img(src='static/images/favicon.png' alt='image')
                   li
                     a(href='#')
-                      img(src='static/images/Friends/guy-9.jpg' alt='image')
+                      img(src='static/images/favicon.png' alt='image')
                   li
                     a(href='#')
-                      img(src='static/images/Friends/woman-9.jpg' alt='image')
+                      img(src='static/images/favicon.png' alt='image')
                   li.clearfix
                     a(href='#')
-                      img(src='static/images/Friends/guy-4.jpg' alt='image')
+                      img(src='static/images/favicon.png' alt='image')
                   li
                     a(href='#')
-                      img(src='static/images/Friends/guy-1.jpg' alt='image')
+                      img(src='static/images/favicon.png' alt='image')
                   li
                     a(href='#')
-                      img(src='static/images/Friends/woman-4.jpg' alt='image')
+                      img(src='static/images/favicon.png' alt='image')
                   li
                     a(href='#')
-                      img(src='static/images/Friends/guy-6.jpg' alt='image')
+                      img(src='static/images/favicon.png' alt='image')
         .widget
           .widget-header
             h3.widget-caption Groups
@@ -1449,7 +1449,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             .cover.profile
               .wrapper
                 .image
-                  img.show-in-modal(src='static/images/favicon.png' alt='people')
+                  img#amis-photo-cover.show-in-modal(src='' alt='people')
                 ul.friends
                   li
                     a(href='#')
@@ -1480,9 +1480,9 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                       i.fa.fa-group
               .cover-info
                 .avatar
-                  img(src='static/images/Friends/guy-5.jpg' alt='people')
-                .name
-                  a(href='#') John Breakgrow jr.
+                  img#amis-photo-profil(src='' alt='people')
+                #amis-pseudo.name
+                  a(href='#')
                 ul.cover-nav
                   li
                     a#amis-vers-mur(href='#')
@@ -1492,6 +1492,33 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                     a#amis-vers-messages(href='#')
                       i.fa.fa-fw.fa-user
                       |  Messages
+        // début formulaire recherche d'amis
+        .row
+          .col-md-12
+            form#form-recherche-amis.needs-validation
+              .row
+                .col-md-6-offset-1.col-sm-6-offset-1.col-xs-12-offset-1
+                  .form-group
+                    label.control-label(for='inputWarning2') Trouver un membre
+              .row
+                .col-md-3.col-sm-3.col-xs-12
+                  .form-group
+                    span.input-icon
+                      input#nom-amis.form-control.control-groupe.input-sm(type='text' name='nom' maxlength='21' size='21' placeholder='par son nom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                      i.glyphicon.glyphicon-search.darkorange
+                .col-md-3.col-sm-3.col-xs-12
+                  .form-group
+                    span.input-icon
+                      input#prenom-amis.form-control.control-groupe.input-sm(type='text' name='prenom' maxlength='21' size='21' placeholder='par son prénom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                      i.glyphicon.glyphicon-search.darkorange
+                .col-md-3.col-sm-3.col-xs-12
+                  .form-group
+                    span.input-icon
+                      input#pseudo-amis.form-control.control-groupe.input-sm(type='text' name='pseudo' maxlength='21' size='21' placeholder='par son pseudo' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                      i.glyphicon.glyphicon-search.darkorange
+                .col-md-3.col-sm-6.col-xs-12
+                  button.btn.btn-azure(type='submit') Rechercher
+        // fin formulaire rechercher d'amis
         .row
           .col-md-3
             .contact-box.center-version

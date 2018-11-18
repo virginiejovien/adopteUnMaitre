@@ -76,8 +76,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var vModalBodyTextG = window.document.getElementById('idModalBodyTextG');  
     var vModalTitleG = window.document.getElementById('idModalTitleG');
 
-    // Eléments de fenêtres modales partie fiche membre formulaire à modifier
-   
+    // Eléments de fenêtres modales partie fiche membre formulaire à modifier   
     var idFiche = window.document.getElementById('idFiche');
     var fermeFiche = window.document.getElementById('ferme-fiche');
     var formFiche = window.document.getElementById('form-fiche');
@@ -140,17 +139,17 @@ window.addEventListener('DOMContentLoaded', function() {
     var preferenceProfil = window.document.getElementById('preference-profil');
     var messageErrProfilInscrit = window.document.getElementById('idProfilMpAlertMsg');
 
- //parametres de compte modifier le mot de passe
+    //parametres de compte modifier le mot de passe
     var formParametreMp =  window.document.getElementById('form-parametre-mp');
     var ancienMp = window.document.getElementById('ancien-mp');
     var parametreMp1 = window.document.getElementById('parametre-mp1'); 
     var parametreMp2 = window.document.getElementById('parametre-mp2');
     var messageParametreMp= window.document.getElementById('idParametreAlertMsg'); 
-   
+
  //*****************************************/
- // elements single page mur de profile 
+// elements single page mur de profile 
  //*****************************************/   
-   // Eléments de la page mur de profile
+    // Eléments de la page mur de profile
     var blockMurProfile =  window.document.getElementById('mur-profile');  
     var idProfileChange =  window.document.getElementById('idProfileChange');
     var idRechercheAmis  =  window.document.getElementById('idRechercheAmis');  
@@ -174,15 +173,18 @@ window.addEventListener('DOMContentLoaded', function() {
     var idRechercheAmis  =  window.document.getElementById('idRechercheAmis'); 
     var idAmisVersMur =  window.document.getElementById('amis-vers-mur');
     var idAmisVersMessages =  window.document.getElementById('amis-vers-messages');
+    var amisPseudo = window.document.getElementById('amis-pseudo');
+    var amisPhotoProfil = window.document.getElementById('amis-photo-profil');
+    var amisPhotoCover = window.document.getElementById('amis-photo-cover');
 
 //*****************************************/
 // elements single page messagerie instantannée
 //*****************************************/   
     // Eléments de la page recherche amis
     var blockMessages =  window.document.getElementById('block-messages'); 
- //   var idRechercheAmis  =  window.document.getElementById('idRechercheAmis'); 
+    var idRechercheAmis  =  window.document.getElementById('idRechercheAmis'); 
     var idMessagesVersMur =  window.document.getElementById('messages-vers-mur');
- //   var idAmisVersMessages =  window.document.getElementById('amis-vers-messages');
+//   var idAmisVersMessages =  window.document.getElementById('amis-vers-messages');
 
 //*****************************************/
 // elements single page administrateur
@@ -302,6 +304,18 @@ window.addEventListener('DOMContentLoaded', function() {
         pModalBodyTextG.innerHTML += '<br /><p>Team Adopte un Maître!</p>';
     };
 
+// -------------------------------------------------------------------------------------
+// Cette fonction initialise le contenu de la fenetre modale "inscription administrateur"
+// apres inscription réussit d'un administrateur du site
+// -------------------------------------------------------------------------------------
+    function initModalRecupTextBienvenueAdmin(pModalTitleG, pModalBodyTextG) {
+        pModalTitleG.innerText = 'Administrateur inscrit avec succès dans Adopte un Maitre'
+        pModalBodyTextG.innerHTML = '<h2>Adopte un Maitre Team vous informe:</h2>';
+        pModalBodyTextG.innerHTML += "<br /><p>Vous faites partis de nos administrateurs</p>";
+        pModalBodyTextG.innerHTML += "<br /><p>Vous avez accès à l'interface de gestion du site!</p>";
+        pModalBodyTextG.innerHTML += '<br /><p>Bienvenue dans la Team Adopte un Maître!</p>';
+    };
+
 // *******************************************************************************
 // Cette fonction vérifie que le MDP et sa confirmation sont bien identiques
 // *******************************************************************************
@@ -353,8 +367,8 @@ window.addEventListener('DOMContentLoaded', function() {
 // -----------------------------------------------------------------------------
     function initMurProfil(pObjetDuMembre) {
         // affichage des donnees de la page du mur de profile du membre
-        murPhotoProfil.setAttribute('src','static/images/membres/'+objetDuMembre.photoProfile);  
-        murPhotoCover.setAttribute('src','static/images/membres/'+objetDuMembre.photoCover);     
+        murPhotoProfil.setAttribute('src','static/images/membres/'+pObjetDuMembre.photoProfile);  
+        murPhotoCover.setAttribute('src','static/images/membres/'+pObjetDuMembre.photoCover);     
         murPseudo.innerHTML = pObjetDuMembre.pseudo;
     
         if (pObjetDuMembre.ville == ''){
@@ -426,7 +440,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     webSocketConnection.emit('demandeAffiMurDunMembre', id);  // Demande au serveur la liste de tous les membres   
                 };
             };
-          
+        
         currentRow.onclick = createClickHandler(currentRow);
         
         }
@@ -531,7 +545,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 var i2 = document.createElement('i');
                 i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
                 span4.appendChild(i2);
-       
+    
         }
 
         addRowHandlersListeMembres(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
@@ -870,11 +884,11 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
 // ***********************************************************************************************************
-// message au visiteur qui se connecte avec un code administrateur erroné
+// message au visiteur qui se connecte avec un code administrateur 
 // ***********************************************************************************************************
     webSocketConnection.on('inscriptionAdministrateur', function(message) { 
-        var message = message; 
-        alert(message.message);      
+        initModalRecupTextBienvenueAdmin(vModalTitleG, vModalBodyTextG);
+        $('#idGenericModal').modal('toggle');    // ouverture de la fenêtre modale inscription en tant qu'admin  ok      
     });
 
 // ***********************************************************************************************************
@@ -1149,6 +1163,11 @@ window.addEventListener('DOMContentLoaded', function() {
         paysProfil.value= objetDuMembre.pays;
         profilProfil.value= objetDuMembre.profil;
         preferenceProfil.value= objetDuMembre.preference;
+        // affichage des donnees de la page recherche d'amis
+        amisPhotoProfil.setAttribute('src','static/images/membres/'+objetDuMembre.photoProfile);  
+        amisPhotoCover.setAttribute('src','static/images/membres/'+objetDuMembre.photoCover); 
+        amisPseudo.innerHTML = objetDuMembre.pseudo; 
+        
     });   
 
 // ***********************************************************************************************************
@@ -1181,7 +1200,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
     idRechercheAmis.addEventListener('click', function (event) { 
         console.log('demande rechercher amis');   
-        blockMurProfile.style.display = 'none';                     
+        blockMurProfile.style.display = 'none';                   
         blockRechercheAmis.style.display = 'block';
         tabProfil.className ="";   
         tabActivite.className ="";   
@@ -1245,9 +1264,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
     administrateur.addEventListener('click', function (event) { 
         console.log('click lien vers page administrateur objetDuMembre', objetDuMembre);         
-    // affichage des donnees de la page administrateur
-     //   murPhotoProfilAdmin.setAttribute('src','static/images/membres/'+objetDuMembre.photoProfile);  
-     //   murPhotoCoverAdmin.setAttribute('src','static/images/membres/'+objetDuMembre.photoCover);    
+    // affichage des donnees de la page administrateur       
         compteurAdmin ++;   // on ajoute 1 au compteurAdministrateur pour savoir si on créé le tableau liste des membres 
         console.log("compteur des cliques sur le tableau de bord Administrateur",compteurAdmin);
         murPseudoAdmin.innerHTML = objetDuMembre.pseudo; 

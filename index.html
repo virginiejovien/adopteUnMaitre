@@ -954,47 +954,47 @@
                     <ul class="img-grid" style="margin: 0 auto;">
                       <li>
                         <a href="#">
-                          <img src="static/images/Friends/guy-6.jpg" alt="image">
+                          <img src="static/images/favicon.png" alt="image">
                         </a>
                       </li>
                       <li>
                         <a href="#">
-                          <img src="static/images/Friends/woman-3.jpg" alt="image">
+                          <img src="static/images/favicon.png" alt="image">
                         </a>
                       </li>
                       <li>
                         <a href="#">
-                          <img src="static/images/Friends/guy-2.jpg" alt="image">
+                          <img src="static/images/favicon.png" alt="image">
                         </a>
                       </li>
                       <li>
                         <a href="#">
-                          <img src="static/images/Friends/guy-9.jpg" alt="image">
+                          <img src="static/images/favicon.png" alt="image">
                         </a>
                       </li>
                       <li>
                         <a href="#">
-                          <img src="static/images/Friends/woman-9.jpg" alt="image">
+                          <img src="static/images/favicon.png" alt="image">
                         </a>
                       </li>
                       <li class="clearfix">
                         <a href="#">
-                          <img src="static/images/Friends/guy-4.jpg" alt="image">
+                          <img src="static/images/favicon.png" alt="image">
                         </a>
                       </li>
                       <li>
                         <a href="#">
-                          <img src="static/images/Friends/guy-1.jpg" alt="image">
+                          <img src="static/images/favicon.png" alt="image">
                         </a>
                       </li>
                       <li>
                         <a href="#">
-                          <img src="static/images/Friends/woman-4.jpg" alt="image">
+                          <img src="static/images/favicon.png" alt="image">
                         </a>
                       </li>
                       <li>
                         <a href="#">
-                          <img src="static/images/Friends/guy-6.jpg" alt="image">
+                          <img src="static/images/favicon.png" alt="image">
                         </a>
                       </li>
                     </ul>
@@ -1424,7 +1424,7 @@
                 <div class="cover profile">
                   <div class="wrapper">
                     <div class="image">
-                      <img src="static/images/favicon.png" class="show-in-modal" alt="people">
+                      <img id="amis-photo-cover" src="" class="show-in-modal" alt="people">
                     </div>
                     <ul class="friends">
                       <li>
@@ -1472,9 +1472,9 @@
                   </div>
                   <div class="cover-info">
                     <div class="avatar">
-                      <img src="static/images/Friends/guy-5.jpg" alt="people">
+                      <img id="amis-photo-profil" src="" alt="people">
                     </div>
-                    <div class="name"><a href="#">John Breakgrow jr.</a></div>
+                    <div class="name" id="amis-pseudo"><a href="#"></a></div>
                     <ul class="cover-nav">
                       <li><a id="amis-vers-mur"  href="#"><i class="fa fa-fw fa-bars"></i> Profil</a></li>
                       <li><a id="amis-vers-messages" href="#"><i class="fa fa-fw fa-user"></i> Messages</a></li>           
@@ -1484,6 +1484,50 @@
               </div>
 
             </div>
+            <!--début formulaire recherche d'amis-->
+            <div class="row">
+              <div class="col-md-12">
+                <form id="form-recherche-amis" class="needs-validation" >
+                  <div class="row">
+                    <div class="col-md-6-offset-1 col-sm-6-offset-1 col-xs-12-offset-1"> 
+                        <div class="form-group">                      
+                        <label class="control-label" for="inputWarning2">Trouver un membre</label>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <div class="form-group">
+                        <span class="input-icon">
+                            <input id="nom-amis" type="text" name="nom"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="par son nom" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
+                          <i class="glyphicon glyphicon-search darkorange"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <div class="form-group">
+                        <span class="input-icon">
+                          <input id="prenom-amis" type="text" name="prenom"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="par son prénom" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
+                          <i class="glyphicon glyphicon-search darkorange"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <div class="form-group">
+                          <span class="input-icon">
+                            <input id="pseudo-amis" type="text" name="pseudo"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="par son pseudo" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
+                            <i class="glyphicon glyphicon-search darkorange"></i>
+                            </span>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">                       
+                        <button type="submit" class="btn btn-azure">Rechercher</button>
+                      </div>
+                  </div>
+                </form>
+              </div>  
+            </div>
+            <!--fin formulaire rechercher d'amis-->
             <div class="row">
               <div class="col-md-3">
                 <div class="contact-box center-version">
