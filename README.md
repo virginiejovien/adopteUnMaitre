@@ -25,6 +25,7 @@ Ci-dessous les installations locales à faire :
    - $ npm install mongodb --save     // Cette commande installe le module d'interface avec MongoDB
    - $ npm install express --save     // Cette commande installe le module Express.JS
    - $ npm install socket.io --save   // Cette commande installe le module Client-Serveur "socket.io"
+   - $ npm install --save socketio-file-upload  //cette commande installe  le module permettant de télécharger des fichiers d’un navigateur vers un serveur Node.JS qui exécute Socket.IO.
    - $ npm install pug --save         // Cette commande installe le moteur de template "Pug"
 
 En dessous du répertoire ": ~/adopteUnMaitre"   on devrait avoir l'arborescence suivante :

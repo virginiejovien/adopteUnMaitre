@@ -19,12 +19,13 @@ head
   link(href='static/css/user_detail.css' rel='stylesheet')
   link(href='static/css/index.css' rel='stylesheet')
   link(href='static/css/recover_password.css' rel='stylesheet')
-  // Javascript socket.io
+  // Javascript  js
   script(src='static/js/jquery.1.11.1.min.js')
   script(src='static/js/bootstrap.min.js')
   script(src='/socket.io/socket.io.js')
+  script(src='/siofu/client.js')
   script(type='text/javascript' src='static/js/jquery.validate.js')
-  script(src='static/js/client.js')
+  script(src='static/js/clientAdopteUnMaitre.js')
   script(src='static/js/custom.js')
 // Fixed navbar
 nav#top.navbar.navbar-white.navbar-fixed-top
@@ -272,18 +273,21 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           .row
             .col-md-3
               .user-info-left
-                img#photo-profil(src='static/images/default-avatar.png' alt='Profile Picture')
-                h2#pseudo-profil
+                h2#pseudo-profil.titre-nav-admin
                 h3#email-profil
                 .contact
                   p
+                    img#capturePhotoImg.image-profil(src='' alt='photo de profil')
+                    br
                     span.file-input.btn.btn-azure.btn-file
                       | Change Avatar 
-                      input(type='file' multiple='')
+                      input#capturePhotoFile(type='file' name='capturePhotoFileCover' accept='image/png, image/jpeg')
                   p
+                    img#capturePhotoImgCover.image-profil(src='' alt='photo de couverture')
+                    br
                     span.file-input.btn.btn-azure.btn-file
-                      | Change  Cover 
-                      input(type='file' multiple='')
+                      | Change photo  
+                      input#capturePhotoFileCover(type='file' name='capturePhotoFileCover' accept='image/png, image/jpeg')
             // ****************  DEBUT FORMULAIRE DE RENSEIGNEMENTS PROFIL  **********************
             .col-md-9
               form#form-profil-inscription.needs-validation
@@ -360,7 +364,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Ville
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#ville-profil.form-control.control-groupe(type='text' name='ville' maxlength='21' size='21' placeholder='Ville' pattern="^[a-zA-Z\u00C0-\u00FF-'[a-zA-Z\u00C0-\u00FF-']{1,21}" title='Uniquement des lettres puis des espaces ou des tirets et la longueur comprise entre 2 et 21 caractères')
+                              input#ville-profil.form-control.control-groupe(type='text' name='ville' maxlength='21' size='21' placeholder='Ville' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{1,21}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 2 et 20 caractères')
                               i.fa.fa-home.darkorange
                               br
                         // Select Basic
@@ -994,7 +998,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         .cover.profile
           .wrapper
             .image
-              img#mur-photo-cover.show-in-modal(src='static/images/chat2.jpg' alt='people')
+              img#mur-photo-cover.show-in-modal(src='' alt='people')
             ul.friends
               li
                 a(href='#')
@@ -1025,7 +1029,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   i.fa.fa-group
           .cover-info
             .avatar
-              img#mur-photo-profile(src='static/images/default-avatar.png' alt='people')
+              img#mur-photo-profile(src='' alt='people')
             #mur-pseudo.name
               a(href='#')
             ul.cover-nav
@@ -1866,38 +1870,85 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           .col-md-12
             .contact
               .controls
-                span.write(data-toggle='tooltip' data-placement='top' title='' data-original-title='New')
-                img.cover(src='static/images/Cover/nature.jpg' alt='cover')
+                span#modif-membre.write(href='#' data-toggle='tooltip' data-placement='top' title='' data-original-title='New')
+                span#supprime-membre.delite.fa.fa-stack(href='#' data-toggle='tooltip' data-placement='top' title='' data-original-title='New')
+                img#detail-photo-cover.cover(src='' alt='cover')
                 .cont
-                  img.avatar(src='static/images/Friends/guy-3.jpg' alt='avatar')
+                  img#detail-photo-profile.avatar(src='' alt='avatar')
                   .name
-                    span.s-text John Breakgrow jr.
+                    span#detail-pseudo.s-text
               .row
-                .col-md-4.col-md-5.col-xs-12
-                  .row
-                    .col-xs-3
-                      | Email:
-                    .col-xs-9
-                      | example@yourdomain.com
-                    .col-xs-3
-                      | Phone:
-                    .col-xs-9
-                      | +1-800-600-9898
-                    .col-xs-3
-                      | Address:
-                    .col-xs-9
-                      | Sacramento, CA
-                    .col-xs-3
-                      | Birthday:
-                    .col-xs-9
-                      | 1975/8/17
-                    .col-xs-3
-                      | URL:
-                    .col-xs-9
-                      | http://yourdomain.com
-                .col-lg-8.col-md-7.col-xs-12
-                  p.contact-description
-                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+                .col-md-5
+                  .widget
+                    .widget-header
+                      h3.widget-caption A propos
+                    .widget-body.bordered-top.bordered-sky
+                      ul.list-unstyled.profile-about.margin-none
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Nom:
+                            #detail-nom.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Pr&eacute;nom:
+                            #detail-prenom.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Email
+                            #detail-email.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted T&eacute;l&eacute;phone
+                            #detail-telephone.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Adresse
+                            #detail-adresse.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted CP:
+                            #detail-cp.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Ville:
+                            #detail-ville.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Pays
+                            #detail-pays.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Age
+                            #detail-age.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Genre:
+                            #detail-genre.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Profil:
+                            #detail-profil.col-sm-8
+                .col-md-7
+                  .widget
+                    .widget-header
+                      h3.widget-caption Pr&eacute;f&eacute;rences
+                    .widget-body.bordered-top.bordered-sky
+                      ul.list-unstyled.profile-about.margin-none
+                        li.padding-v-5
+                          .row
+                            #detail-preference.col-sm-12
+                // end timeline posts
 // ****************************************************************************************
 // FENETRE MODAL A PROPOS
 // ****************************************************************************************
@@ -1919,6 +1970,641 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   |  est un r&eacute;seau social qui permet de mettre en relation des personnes qui proposent des chats &agrave; l&rsquo;adoption et celles d&eacute;sirant en adopter.
       .modal-footer
         button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
+// *****************************************************************************************
+// FENETRE MODAL MODIFICATION FORMULAIRE D'UN MEMBRE
+// *****************************************************************************************
+#idFiche.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalFicheTitle' aria-hidden='true')
+  .modal-dialog.modal-dialog-centered(role='document')
+    #idModalContentFiche.modal-content
+      #idModalBodyTextFiche.modal-header
+        h5#idModalTitleFiche.modal-title.titre-nav-admin
+        button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+      .modal-body
+        #fiche-tab.tab-pane.profile.active
+          .row
+            .col-md-3
+              .user-info-left
+                h2#pseudo-fiche.titre-nav-admin
+                h3#email-fiche
+                .contact
+                  p
+                    img#capturePhotoImgFiche.image-profil(src='' alt='photo de profil')
+                    br
+                    span.file-input.btn.btn-azure.btn-file
+                      | Change Avatar 
+                      input#capturePhotoFileFiche(type='file' name='capturePhotoFileCoverFiche' accept='image/png, image/jpeg')
+                  p
+                    img#capturePhotoImgCoverFiche.image-profil(src='' alt='photo de couverture')
+                    br
+                    span.file-input.btn.btn-azure.btn-file
+                      | Change photo  
+                      input#capturePhotoFileCoverFiche(type='file' name='capturePhotoFileCoverFiche' accept='image/png, image/jpeg')
+            // ****************  DEBUT FORMULAIRE DE RENSEIGNEMENTS FICHES  **********************
+            .col-md-9
+              form#form-fiche.needs-validation
+                .form-group
+                  .user-info-right
+                    .basic-info
+                      h3
+                        i.fa.fa-square
+                        | Modifier le  profil de ce membre
+                      fieldset
+                        .form-group
+                          label.col-md-4.control-label Nom
+                          .col-md-6.inputGroupContainer
+                            span.input-icon
+                              input#nom-fiche.form-control.control-groupe(type='text' name='nom' maxlength='21' size='21' placeholder='Nom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{0,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères' autofocus='')
+                              i.fa.fa-user.darkorange
+                              br
+                        // Text input
+                        .form-group
+                          label.col-md-4.control-label Pr&eacute;nom
+                          .col-md-6.inputGroupContainer
+                            span.input-icon
+                              input#prenom-fiche.form-control.control-groupe(type='text' name='prenom' maxlength='21' size='21' placeholder='Prénom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                              i.fa.fa-user.darkorange
+                              br
+                        // Text input
+                        .form-group
+                          label.col-md-4.control-label Age
+                          .col-md-6.inputGroupContainer
+                            span.input-icon
+                              input#age-fiche.form-control.control-groupe(type='number' name='age' min='12' max='120' step='1' pattern='\d+' title='Uniquement des nombres')
+                              br
+                        // Select
+                        .form-group
+                          label.col-md-4.control-label Genre
+                          .col-md-6.inputGroupContainer
+                            span.input-icon
+                              select#genre-fiche.form-control.control-groupe(name='nom' size='1')
+                                option(value='F')
+                                  | Femme
+                                option(value='H')
+                                  | Homme
+                                option(value='')
+                              br
+                        // Text input
+                        .form-group
+                          label.col-md-4.control-label T&eacute;l&eacute;phone
+                          .col-md-6.inputGroupContainer
+                            span.input-icon
+                              input#telephone-fiche.form-control.control-groupe(type='text' name='telephonefiche' maxlength='10' size='10' placeholder='Ex: 0605040302' pattern='^[0-9]{10}$' title='Les caractères doivent être numériques et la longueur doit être de 10 caractères')
+                              i.fa.fa-phone.darkorange
+                              br
+                        br
+                        // Text input
+                        .form-group
+                          label.col-md-4.control-label Adresse
+                          .col-md-6.inputGroupContainer
+                            span.input-icon
+                              input#adresse-fiche.form-control.control-groupe(type='text' name='adresse' maxlength='30' size='30' placeholder='Numero et nom de rue ' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                              i.fa.fa-home.darkorange
+                              br
+                        br
+                        // Text input
+                        .form-group
+                          label.col-md-4.control-label Code Postal
+                          .col-md-6.inputGroupContainer
+                            span.input-icon
+                              input#cp-fiche.form-control.control-groupe(type='number' name='cp' maxlength='5' size='5' placeholder='Ex: 75011' pattern='[0-9]{5}' title='Les caractères doivent être numériques et la longueur doit être de 5 caractères')
+                              i.fa.fa-home.darkorange
+                              br
+                        br
+                        // Text input
+                        .form-group
+                          label.col-md-4.control-label Ville
+                          .col-md-6.inputGroupContainer
+                            span.input-icon
+                              input#ville-fiche.form-control.control-groupe(type='text' name='ville' maxlength='21' size='21' placeholder='Ville' pattern="^[a-zA-Z\u00C0-\u00FF-'[a-zA-Z\u00C0-\u00FF-']{1,21}" title='Uniquement des lettres puis des espaces ou des tirets et la longueur comprise entre 2 et 21 caractères')
+                              i.fa.fa-home.darkorange
+                              br
+                        // Select Basic
+                        .form-group
+                          label.col-md-4.control-label Pays
+                          .col-md-6.selectContainer
+                            span.input-icon
+                              select#pays-fiche.form-control.control-groupe(name='pays')
+                                option(value='AF')
+                                  | Afghanistan
+                                option(value='ZA')
+                                  | Afrique du sud
+                                option(value='AX')
+                                  | &angst;land, &icirc;les
+                                option(value='AL')
+                                  | Albanie
+                                option(value='DZ')
+                                  | Alg&eacute;rie
+                                option(value='DE')
+                                  | Allemagne
+                                option(value='AD')
+                                  | Andorre
+                                option(value='AO')
+                                  | Angola
+                                option(value='AI')
+                                  | Anguilla
+                                option(value='AQ')
+                                  | Antarctique
+                                option(value='AG')
+                                  | Antigua et barbuda
+                                option(value='SA')
+                                  | Arabie saoudite
+                                option(value='AR')
+                                  | Argentine
+                                option(value='AM')
+                                  | Arm&eacute;nie
+                                option(value='AW')
+                                  | Aruba
+                                option(value='AU')
+                                  | Australie
+                                option(value='AT')
+                                  | Autriche
+                                option(value='AZ')
+                                  | Azerba&iuml;djan
+                                option(value='BS')
+                                  | Bahamas
+                                option(value='BH')
+                                  | Bahre&iuml;n
+                                option(value='BD')
+                                  | Bangladesh
+                                option(value='BB')
+                                  | Barbade
+                                option(value='BY')
+                                  | B&eacute;larus
+                                option(value='BE')
+                                  | Belgique
+                                option(value='BZ')
+                                  | Belize
+                                option(value='BJ')
+                                  | B&eacute;nin
+                                option(value='BM')
+                                  | Bermudes
+                                option(value='BT')
+                                  | Bhoutan
+                                option(value='BO')
+                                  | Bolivie, l&apos;&eacute;tat plurinational de
+                                option(value='BQ')
+                                  | Bonaire, saint eustache et saba
+                                option(value='BA')
+                                  | Bosnie herz&eacute;govine
+                                option(value='BW')
+                                  | Botswana
+                                option(value='BV')
+                                  | Bouvet, &icirc;le
+                                option(value='BR')
+                                  | Br&eacute;sil
+                                option(value='BN')
+                                  | Brunei darussalam
+                                option(value='BG')
+                                  | Bulgarie
+                                option(value='BF')
+                                  | Burkina faso
+                                option(value='BI')
+                                  | Burundi
+                                option(value='KY')
+                                  | Ca&iuml;mans, &icirc;les
+                                option(value='KH')
+                                  | Cambodge
+                                option(value='CM')
+                                  | Cameroun
+                                option(value='CA')
+                                  | Canada
+                                option(value='CV')
+                                  | Cap vert
+                                option(value='CF')
+                                  | Centrafricaine, r&eacute;publique
+                                option(value='CL')
+                                  | Chili
+                                option(value='CN')
+                                  | Chine
+                                option(value='CX')
+                                  | Christmas, &icirc;le
+                                option(value='CY')
+                                  | Chypre
+                                option(value='CC')
+                                  | Cocos (keeling), &icirc;les
+                                option(value='CO')
+                                  | Colombie
+                                option(value='KM')
+                                  | Comores
+                                option(value='CG')
+                                  | Congo
+                                option(value='CD')
+                                  | Congo, la r&eacute;publique d&eacute;mocratique du
+                                option(value='CK')
+                                  | Cook, &icirc;les
+                                option(value='KR')
+                                  | Cor&eacute;e, r&eacute;publique de
+                                option(value='KP')
+                                  | Cor&eacute;e, r&eacute;publique populaire d&eacute;mocratique de
+                                option(value='CR')
+                                  | Costa rica
+                                option(value='CI')
+                                  | C&ocirc;te d&apos;ivoire
+                                option(value='HR')
+                                  | Croatie
+                                option(value='CU')
+                                  | Cuba
+                                option(value='CW')
+                                  | Cura&ccedil;ao
+                                option(value='DK')
+                                  | Danemark
+                                option(value='DJ')
+                                  | Djibouti
+                                option(value='DO')
+                                  | Dominicaine, r&eacute;publique
+                                option(value='DM')
+                                  | Dominique
+                                option(value='EG')
+                                  | &Eacute;gypte
+                                option(value='SV')
+                                  | El salvador
+                                option(value='AE')
+                                  | &Eacute;mirats arabes unis
+                                option(value='EC')
+                                  | &Eacute;quateur
+                                option(value='ER')
+                                  | &Eacute;rythr&eacute;e
+                                option(value='ES')
+                                  | Espagne
+                                option(value='EE')
+                                  | Estonie
+                                option(value='US')
+                                  | &Eacute;tats unis
+                                option(value='ET')
+                                  | &Eacute;thiopie
+                                option(value='FK')
+                                  | Falkland, &icirc;les (malvinas)
+                                option(value='FO')
+                                  | F&eacute;ro&eacute;, &icirc;les
+                                option(value='FJ')
+                                  | Fidji
+                                option(value='FI')
+                                  | Finlande
+                                option(value='FR' selected='')
+                                  | France
+                                option(value='GA')
+                                  | Gabon
+                                option(value='GM')
+                                  | Gambie
+                                option(value='GE')
+                                  | G&eacute;orgie
+                                option(value='GS')
+                                  | G&eacute;orgie du sud et les &icirc;les sandwich du sud
+                                option(value='GH')
+                                  | Ghana
+                                option(value='GI')
+                                  | Gibraltar
+                                option(value='GR')
+                                  | Gr&egrave;ce
+                                option(value='GD')
+                                  | Grenade
+                                option(value='GL')
+                                  | Groenland
+                                option(value='GP')
+                                  | Guadeloupe
+                                option(value='GU')
+                                  | Guam
+                                option(value='GT')
+                                  | Guatemala
+                                option(value='GG')
+                                  | Guernesey
+                                option(value='GN')
+                                  | Guin&eacute;e
+                                option(value='GW')
+                                  | Guin&eacute;e bissau
+                                option(value='GQ')
+                                  | Guin&eacute;e &eacute;quatoriale
+                                option(value='GY')
+                                  | Guyana
+                                option(value='GF')
+                                  | Guyane fran&ccedil;aise
+                                option(value='HT')
+                                  | Ha&iuml;ti
+                                option(value='HM')
+                                  | Heard et &icirc;les macdonald, &icirc;le
+                                option(value='HN')
+                                  | Honduras
+                                option(value='HK')
+                                  | Hong kong
+                                option(value='HU')
+                                  | Hongrie
+                                option(value='IM')
+                                  | &Icirc;le de man
+                                option(value='UM')
+                                  | &Icirc;les mineures &eacute;loign&eacute;es des &eacute;tats unis
+                                option(value='VG')
+                                  | &Icirc;les vierges britanniques
+                                option(value='VI')
+                                  | &Icirc;les vierges des &eacute;tats unis
+                                option(value='IN')
+                                  | Inde
+                                option(value='ID')
+                                  | Indon&eacute;sie
+                                option(value='IR')
+                                  | Iran, r&eacute;publique islamique d&apos;
+                                option(value='IQ')
+                                  | Iraq
+                                option(value='IE')
+                                  | Irlande
+                                option(value='IS')
+                                  | Islande
+                                option(value='IL')
+                                  | Isra&euml;l
+                                option(value='IT')
+                                  | Italie
+                                option(value='JM')
+                                  | Jama&iuml;que
+                                option(value='JP')
+                                  | Japon
+                                option(value='JE')
+                                  | Jersey
+                                option(value='JO')
+                                  | Jordanie
+                                option(value='KZ')
+                                  | Kazakhstan
+                                option(value='KE')
+                                  | Kenya
+                                option(value='KG')
+                                  | Kirghizistan
+                                option(value='KI')
+                                  | Kiribati
+                                option(value='KW')
+                                  | Kowe&iuml;t
+                                option(value='LA')
+                                  | Lao, r&eacute;publique d&eacute;mocratique populaire
+                                option(value='LS')
+                                  | Lesotho
+                                option(value='LV')
+                                  | Lettonie
+                                option(value='LB')
+                                  | Liban
+                                option(value='LR')
+                                  | Lib&eacute;ria
+                                option(value='LY')
+                                  | Libye
+                                option(value='LI')
+                                  | Liechtenstein
+                                option(value='LT')
+                                  | Lituanie
+                                option(value='LU')
+                                  | Luxembourg
+                                option(value='MO')
+                                  | Macao
+                                option(value='MK')
+                                  | Mac&eacute;doine, l&apos;ex r&eacute;publique yougoslave de
+                                option(value='MG')
+                                  | Madagascar
+                                option(value='MY')
+                                  | Malaisie
+                                option(value='MW')
+                                  | Malawi
+                                option(value='MV')
+                                  | Maldives
+                                option(value='ML')
+                                  | Mali
+                                option(value='MT')
+                                  | Malte
+                                option(value='MP')
+                                  | Mariannes du nord, &icirc;les
+                                option(value='MA')
+                                  | Maroc
+                                option(value='MH')
+                                  | Marshall, &icirc;les
+                                option(value='MQ')
+                                  | Martinique
+                                option(value='MU')
+                                  | Maurice
+                                option(value='MR')
+                                  | Mauritanie
+                                option(value='YT')
+                                  | Mayotte
+                                option(value='MX')
+                                  | Mexique
+                                option(value='FM')
+                                  | Micron&eacute;sie, &eacute;tats f&eacute;d&eacute;r&eacute;s de
+                                option(value='MD')
+                                  | Moldova, r&eacute;publique de
+                                option(value='MC')
+                                  | Monaco
+                                option(value='MN')
+                                  | Mongolie
+                                option(value='ME')
+                                  | Mont&eacute;n&eacute;gro
+                                option(value='MS')
+                                  | Montserrat
+                                option(value='MZ')
+                                  | Mozambique
+                                option(value='MM')
+                                  | Myanmar
+                                option(value='NA')
+                                  | Namibie
+                                option(value='NR')
+                                  | Nauru
+                                option(value='NP')
+                                  | N&eacute;pal
+                                option(value='NI')
+                                  | Nicaragua
+                                option(value='NE')
+                                  | Niger
+                                option(value='NG')
+                                  | Nig&eacute;ria
+                                option(value='NU')
+                                  | Niu&eacute;
+                                option(value='NF')
+                                  | Norfolk, &icirc;le
+                                option(value='NO')
+                                  | Norv&egrave;ge
+                                option(value='NC')
+                                  | Nouvelle cal&eacute;donie
+                                option(value='NZ')
+                                  | Nouvelle z&eacute;lande
+                                option(value='IO')
+                                  | Oc&eacute;an indien, territoire britannique de l&apos;
+                                option(value='OM')
+                                  | Oman
+                                option(value='UG')
+                                  | Ouganda
+                                option(value='UZ')
+                                  | Ouzb&eacute;kistan
+                                option(value='PK')
+                                  | Pakistan
+                                option(value='PW')
+                                  | Palaos
+                                option(value='PS')
+                                  | Palestinien occup&eacute;, territoire
+                                option(value='PA')
+                                  | Panama
+                                option(value='PG')
+                                  | Papouasie nouvelle guin&eacute;e
+                                option(value='PY')
+                                  | Paraguay
+                                option(value='NL')
+                                  | Pays bas
+                                option(value='PE')
+                                  | P&eacute;rou
+                                option(value='PH')
+                                  | Philippines
+                                option(value='PN')
+                                  | Pitcairn
+                                option(value='PL')
+                                  | Pologne
+                                option(value='PF')
+                                  | Polyn&eacute;sie fran&ccedil;aise
+                                option(value='PR')
+                                  | Porto rico
+                                option(value='PT')
+                                  | Portugal
+                                option(value='QA')
+                                  | Qatar
+                                option(value='RE')
+                                  | R&eacute;union
+                                option(value='RO')
+                                  | Roumanie
+                                option(value='GB')
+                                  | Royaume uni
+                                option(value='RU')
+                                  | Russie, f&eacute;d&eacute;ration de
+                                option(value='RW')
+                                  | Rwanda
+                                option(value='EH')
+                                  | Sahara occidental
+                                option(value='BL')
+                                  | Saint barth&eacute;lemy
+                                option(value='SH')
+                                  | Sainte h&eacute;l&egrave;ne, ascension et tristan da cunha
+                                option(value='LC')
+                                  | Sainte lucie
+                                option(value='KN')
+                                  | Saint kitts et nevis
+                                option(value='SM')
+                                  | Saint marin
+                                option(value='MF')
+                                  | Saint martin(partie fran&ccedil;aise)
+                                option(value='SX')
+                                  | Saint martin (partie n&eacute;erlandaise)
+                                option(value='PM')
+                                  | Saint pierre et miquelon
+                                option(value='VA')
+                                  | Saint si&egrave;ge (&eacute;tat de la cit&eacute; du vatican)
+                                option(value='VC')
+                                  | Saint vincent et les grenadines
+                                option(value='SB')
+                                  | Salomon, &icirc;les
+                                option(value='WS')
+                                  | Samoa
+                                option(value='AS')
+                                  | Samoa am&eacute;ricaines
+                                option(value='ST')
+                                  | Sao tom&eacute; et principe
+                                option(value='SN')
+                                  | S&eacute;n&eacute;gal
+                                option(value='RS')
+                                  | Serbie
+                                option(value='SC')
+                                  | Seychelles
+                                option(value='SL')
+                                  | Sierra leone
+                                option(value='SG')
+                                  | Singapour
+                                option(value='SK')
+                                  | Slovaquie
+                                option(value='SI')
+                                  | Slov&eacute;nie
+                                option(value='SO')
+                                  | Somalie
+                                option(value='SD')
+                                  | Soudan
+                                option(value='SS')
+                                  | Soudan du sud
+                                option(value='LK')
+                                  | Sri lanka
+                                option(value='SE')
+                                  | Su&egrave;de
+                                option(value='CH')
+                                  | Suisse
+                                option(value='SR')
+                                  | Suriname
+                                option(value='SJ')
+                                  | Svalbard et &icirc;le jan mayen
+                                option(value='SZ')
+                                  | Swaziland
+                                option(value='SY')
+                                  | Syrienne, r&eacute;publique arabe
+                                option(value='TJ')
+                                  | Tadjikistan
+                                option(value='TW')
+                                  | Ta&iuml;wan, province de chine
+                                option(value='TZ')
+                                  | Tanzanie, r&eacute;publique unie de
+                                option(value='TD')
+                                  | Tchad
+                                option(value='CZ')
+                                  | Tch&egrave;que, r&eacute;publique
+                                option(value='TF')
+                                  | Terres australes fran&ccedil;aises
+                                option(value='TH')
+                                  | Tha&iuml;lande
+                                option(value='TL')
+                                  | Timor leste
+                                option(value='TG')
+                                  | Togo
+                                option(value='TK')
+                                  | Tokelau
+                                option(value='TO')
+                                  | Tonga
+                                option(value='TT')
+                                  | Trinit&eacute; et tobago
+                                option(value='TN')
+                                  | Tunisie
+                                option(value='TM')
+                                  | Turkm&eacute;nistan
+                                option(value='TC')
+                                  | Turks et ca&iuml;cos, &icirc;les
+                                option(value='TR')
+                                  | Turquie
+                                option(value='TV')
+                                  | Tuvalu
+                                option(value='UA')
+                                  | Ukraine
+                                option(value='UY')
+                                  | Uruguay
+                                option(value='VU')
+                                  | Vanuatu
+                                option(value='VE')
+                                  | Venezuela, r&eacute;publique bolivarienne du
+                                option(value='VN')
+                                  | Viet nam
+                                option(value='WF')
+                                  | Wallis et futuna
+                                option(value='YE')
+                                  | Y&eacute;men
+                                option(value='ZM')
+                                  | Zambie
+                                option(value='ZW')
+                                  | Zimbabwe&ZeroWidthSpace;&ZeroWidthSpace;&ZeroWidthSpace;&ZeroWidthSpace;&ZeroWidthSpace;
+                              br
+                        // Select
+                        .form-group
+                          label.col-md-4.control-label Profil
+                          .col-md-6.inputGroupContainer
+                            span.input-icon
+                              select#profil-fiche.form-control.control-groupe(name='profil' size='1' required='')
+                                option(value='AM')
+                                  | Adopte un ma&icirc;tre
+                                option(value='AC')
+                                  | Adopte un chat
+                                option(value='NSP' selected='')
+                                  | Ne sais pas encore
+                              br
+                        .form-group
+                          label.col-md-4.control-label Pr&eacute;f&eacute;rences
+                          .col-md-6.inputGroupContainer
+                            span.input-icon
+                              textarea#preference-fiche.form-control.control-groupe(type='text' name='preference' rows='2' cols='40' maxlength='400' placeholder="C'est le moment de parler chat" pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
+                      .form-group
+                        .center
+                          button.btn.btn-azure(type='submit') Valider
+                        p#idProfilMpAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg
 // ****************************************************************************************
 // FENETRE MODAL DE BIENVENUE ET FELICITATION
 // ****************************************************************************************

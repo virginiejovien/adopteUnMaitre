@@ -20,12 +20,13 @@
     <link href="static/css/user_detail.css" rel="stylesheet">
     <link href="static/css/index.css" rel="stylesheet"> 
     <link href="static/css/recover_password.css" rel="stylesheet"> 
-    <!-- Javascript socket.io -->
+    <!-- Javascript  js -->
     <script src="static/js/jquery.1.11.1.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>    
     <script src="/socket.io/socket.io.js"></script> 
+    <script src="/siofu/client.js"></script> 
     <script type="text/javascript" src="static/js/jquery.validate.js"></script> 
-    <script src="static/js/client.js"></script>
+    <script src="static/js/clientAdopteUnMaitre.js"></script>
     <script src="static/js/custom.js"></script>
   </head>
 
@@ -301,18 +302,21 @@
               <div class="row">
                 <div class="col-md-3">
                   <div class="user-info-left">
-                    <img id="photo-profil" src="static/images/default-avatar.png" alt="Profile Picture">
-                    <h2 id="pseudo-profil"></h2>
+                    <h2 class="titre-nav-admin" id="pseudo-profil"></h2>
                     <h3 id="email-profil"></h3>
                     <div class="contact">
                       <p>
+                        <img class="image-profil" id="capturePhotoImg" src=""  alt="photo de profil">
+                        <br/> 
                         <span class="file-input btn btn-azure btn-file">
-                          Change Avatar <input type="file" multiple="">
+                          Change Avatar <input id="capturePhotoFile" type="file" name="capturePhotoFileCover" accept="image/png, image/jpeg">
                         </span>
                       </p>
                       <p>
+                        <img class="image-profil" id="capturePhotoImgCover" src=""  alt="photo de couverture">
+                        <br/> 
                         <span class="file-input btn btn-azure btn-file">
-                          Change  Cover <input type="file" multiple="">
+                          Change photo  <input id="capturePhotoFileCover" type="file" name="capturePhotoFileCover" accept="image/png, image/jpeg">
                         </span>
                       </p>                    
                     </div>
@@ -408,7 +412,7 @@
                               <label class="col-md-4 control-label">Ville</label>
                               <div class="col-md-6  inputGroupContainer">
                                   <span class="input-icon">  
-                                    <input type="text" id="ville-profil" name="ville"  class="form-control control-groupe" maxlength='21' size='21' placeholder="Ville"  pattern="^[a-zA-Z\u00C0-\u00FF-'[a-zA-Z\u00C0-\u00FF-']{1,21}" title='Uniquement des lettres puis des espaces ou des tirets et la longueur comprise entre 2 et 21 caractères'>
+                                    <input type="text" id="ville-profil" name="ville"  class="form-control control-groupe" maxlength='21' size='21' placeholder="Ville"  pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{1,21}" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 2 et 20 caractères"> 
                                     <i class="fa fa-home darkorange"></i> <br/>   
                                   </span>
                               </div>
@@ -824,7 +828,7 @@
             <div class="cover profile">
               <div class="wrapper">
                 <div class="image">
-                  <img id="mur-photo-cover" src="static/images/chat2.jpg" class="show-in-modal" alt="people">
+                  <img id="mur-photo-cover" src="" class="show-in-modal" alt="people">
                 </div>
                 <ul class="friends">
                   <li>
@@ -872,7 +876,7 @@
               </div>
               <div class="cover-info">
                 <div class="avatar">
-                  <img id="mur-photo-profile" src="static/images/default-avatar.png" alt="people">
+                  <img id="mur-photo-profile" src="" alt="people">
                 </div>
                 <div id="mur-pseudo" class="name"><a href="#"></a></div>
                 <ul class="cover-nav">
@@ -1320,8 +1324,6 @@
         </div>
       </div>
     </div>
-
-
     <!-- Online users sidebar content-->
     <div class="chat-sidebar">
         <div class="list-group text-left">
@@ -1415,8 +1417,6 @@
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
           <!-- NAV TABS -->
-         
-          
           <!-- END NAV TABS -->
           <div class="col-md-8 col-md-offset-2">
             <div class="row">
@@ -1625,7 +1625,6 @@
         </div>
       </div>
     </div>
-
     <!-- Modal -->
     <div class="modal fade" id="modalShow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -1933,75 +1932,131 @@
 <!-- **************************************************************************************** -->
 <!--                     DASHBOARD ADMINISTRATEUR  : DETAIL MEMBRE                            -->
 <!-- **************************************************************************************** -->
- <!-- Begin page content -->
- <div id="block-detail-membre" class="container page-content">
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1">
-        <!-- NAV TABS -->
+<!-- Begin page content -->
+    <div id="block-detail-membre" class="container page-content">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <!-- NAV TABS -->
 
-        <ul class="nav nav-tabs  tabs-iconized" id="nav-profil">            
-          <li class="" id="idDasboard"><a class="a-nav-profil"  href="#" data-toggle="tab" aria-expanded="false"><i class="fa fa-user">&nbsp;</i>Tableau de bord&nbsp;<strong></strong></a></li>                 
-        </ul>
-        <h4 class="titre-nav-admin" id="pseudo-detail"></h4>
-        <div class="col-md-10 col-md-offset-1 container-contact">
+          <ul class="nav nav-tabs  tabs-iconized" id="nav-profil">            
+            <li class="" id="idDasboard"><a class="a-nav-profil"  href="#" data-toggle="tab" aria-expanded="false"><i class="fa fa-user">&nbsp;</i>Tableau de bord&nbsp;<strong></strong></a></li>                 
+          </ul>
+          <h4 class="titre-nav-admin" id="pseudo-detail"></h4>
+          <div class="col-md-10 col-md-offset-1 container-contact">
             <div class="row decor-default">
-                <div class="col-md-12">
-                  <div class="contact">
-                    <div class="controls">
-                      <span class="write" data-toggle="tooltip" data-placement="top" title="" data-original-title="New"></span>
-                      <img src="static/images/Cover/nature.jpg" alt="cover" class="cover">
-                      <div class="cont">
-                        <img src="static/images/Friends/guy-3.jpg" alt="avatar" class="avatar">
-                        <div class="name"><span class="s-text">John Breakgrow jr.</span></div>
-                      </div>
+              <div class="col-md-12">
+                <div class="contact">
+                  <div class="controls">
+                    <span id ="modif-membre" class="write" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="New"></span>
+                    <span id ="supprime-membre" class="delite fa fa-stack"  href="#"  data-toggle="tooltip" data-placement="top" title="" data-original-title="New"></span>
+                    <img id="detail-photo-cover" src="" alt="cover" class="cover">
+                    <div class="cont">
+                      <img id="detail-photo-profile" src="" alt="avatar" class="avatar">
+                      <div class="name"><span class="s-text" id="detail-pseudo"></span></div>
                     </div>
-            
-                    <div class="row">
-                      <div class="col-md-4 col-md-5 col-xs-12">
-                        <div class="row">
-                          <div class="col-xs-3">
-                            Email:
-                          </div>
-                          <div class="col-xs-9">
-                            example@yourdomain.com
-                          </div>
-                          <div class="col-xs-3">
-                            Phone:
-                          </div>
-                          <div class="col-xs-9">
-                            +1-800-600-9898
-                          </div>
-                          <div class="col-xs-3">
-                            Address:
-                          </div>
-                          <div class="col-xs-9">
-                            Sacramento, CA
-                          </div>
-                          <div class="col-xs-3">
-                            Birthday:
-                          </div>
-                          <div class="col-xs-9">
-                            1975/8/17
-                          </div>
-                          <div class="col-xs-3">
-                            URL:
-                          </div>
-                          <div class="col-xs-9">
-                            http://yourdomain.com
-                          </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">
+                      <div class="widget">
+                        <div class="widget-header">
+                          <h3 class="widget-caption">A propos</h3>
+                        </div>
+                        <div class="widget-body bordered-top bordered-sky">
+                          <ul class="list-unstyled profile-about margin-none">
+                            <li class="padding-v-5">
+                              <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">Nom:</span></div>
+                                <div class="col-sm-8" id="detail-nom"></div>
+                              </div>
+                            </li>
+                            <li class="padding-v-5">
+                                <div class="row">
+                                  <div class="col-sm-4"><span class="text-muted">Prénom:</span></div>
+                                  <div class="col-sm-8" id="detail-prenom"></div>
+                                </div>
+                            </li>
+                            <li class="padding-v-5">
+                                <div class="row">
+                                  <div class="col-sm-4"><span class="text-muted">Email</span></div>
+                                  <div class="col-sm-8" id="detail-email"></div>
+                                </div>
+                            </li>
+                            <li class="padding-v-5">
+                                <div class="row">
+                                  <div class="col-sm-4"><span class="text-muted">Téléphone</span></div>
+                                  <div class="col-sm-8" id="detail-telephone"></div>
+                                </div>
+                            </li>
+                            <li class="padding-v-5">
+                                <div class="row">
+                                  <div class="col-sm-4"><span class="text-muted">Adresse</span></div>
+                                  <div class="col-sm-8" id="detail-adresse"></div>
+                                </div>
+                            </li>
+                            <li class="padding-v-5">
+                                <div class="row">
+                                  <div class="col-sm-4"><span class="text-muted">CP:</span></div>
+                                  <div class="col-sm-8" id="detail-cp"></div>
+                                </div>
+                            </li>
+                            <li class="padding-v-5">
+                                <div class="row">
+                                  <div class="col-sm-4"><span class="text-muted">Ville:</span></div>
+                                  <div class="col-sm-8" id="detail-ville"></div>
+                                </div>
+                            </li>
+                            <li class="padding-v-5">
+                                <div class="row">
+                                  <div class="col-sm-4"><span class="text-muted">Pays</span></div>
+                                  <div class="col-sm-8" id="detail-pays"></div>
+                                </div>
+                            </li>
+                            <li class="padding-v-5">
+                                <div class="row">
+                                  <div class="col-sm-4"><span class="text-muted">Age</span></div>
+                                  <div class="col-sm-8" id="detail-age"></div>
+                                </div>
+                            </li>
+                            <li class="padding-v-5">
+                                <div class="row">
+                                  <div class="col-sm-4"><span class="text-muted">Genre:</span></div>
+                                  <div class="col-sm-8" id="detail-genre"></div>
+                                </div>
+                            </li>
+                            <li class="padding-v-5">
+                                <div class="row">
+                                  <div class="col-sm-4"><span class="text-muted">Profil:</span></div>
+                                  <div class="col-sm-8" id="detail-profil"></div>
+                                </div>
+                            </li>
+                          </ul>
                         </div>
                       </div>
-                      <div class="col-lg-8 col-md-7 col-xs-12">
-                        <p class="contact-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-                      </div>
                     </div>
+                    <div class="col-md-7">
+                        <div class="widget">
+                        <div class="widget-header">
+                          <h3 class="widget-caption">Préférences</h3>
+                        </div>
+                        <div class="widget-body bordered-top bordered-sky">
+                          <ul class="list-unstyled profile-about margin-none">
+                            <li class="padding-v-5">
+                              <div class="row">
+                                <div class="col-sm-12" id="detail-preference"></div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div> 
+                      </div> 
+                    </div><!-- end timeline posts-->
                   </div>
                 </div>
               </div>
+            </div>
           </div>
+        </div>
       </div>
     </div>
-  </div>
 
 <!-- **************************************************************************************** -->
 <!--                       FENETRE MODAL A PROPOS                                             -->
@@ -2035,6 +2090,436 @@
       </div>
     </div>
 
+ <!--*****************************************************************************************-->
+ <!--                    FENETRE MODAL MODIFICATION FORMULAIRE D'UN MEMBRE                    -->
+ <!--*****************************************************************************************--> 
+  <div class="modal fade" tabindex="-1" role="dialog" id="idFiche" aria-labelledby="idModalFicheTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="idModalContentFiche">
+          <div class="modal-header" id="idModalBodyTextFiche">
+              <h5 class="modal-title titre-nav-admin" id="idModalTitleFiche" id="pseudoFiche"></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fermer" aria-hidden="true">X</button>
+          </div>
+          <div class="modal-body">
+            <div class="tab-pane profile active" id="fiche-tab">
+              <div class="row">
+                    <div class="col-md-3">
+                      <div class="user-info-left">
+                          <h2 class="titre-nav-admin" id="pseudo-fiche"></h2>
+                          <h3 id="email-fiche"></h3>
+                          <div class="contact">
+                            <p>
+                              <img class="image-profil" id="capturePhotoImgFiche" src=""  alt="photo de profil">
+                              <br/> 
+                              <span class="file-input btn btn-azure btn-file">
+                                Change Avatar <input id="capturePhotoFileFiche" type="file" name="capturePhotoFileCoverFiche" accept="image/png, image/jpeg">
+                              </span>
+                            </p>
+                            <p>
+                              <img class="image-profil" id="capturePhotoImgCoverFiche" src=""  alt="photo de couverture">
+                              <br/> 
+                              <span class="file-input btn btn-azure btn-file">
+                                Change photo  <input id="capturePhotoFileCoverFiche" type="file" name="capturePhotoFileCoverFiche" accept="image/png, image/jpeg">
+                              </span>
+                            </p>                    
+                          </div>
+                      </div>
+                    </div>
+    <!-- ****************  DEBUT FORMULAIRE DE RENSEIGNEMENTS FICHES  ********************** -->                     
+                    <div class="col-md-9">
+                        <form id="form-fiche" class="needs-validation" >
+                            <div class="form-group">
+                              <div class="user-info-right">
+                                <div class="basic-info">                         
+                                  <h3><i class="fa fa-square"></i>Modifier le  profil de ce membre</h3> 
+                                  <fieldset>       
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Nom</label>
+                                        <div class="col-md-6  inputGroupContainer">                   
+                                          <span class="input-icon">
+                                              <input id="nom-fiche" type="text" name="nom"  class="form-control control-groupe" maxlength='21' size='21' placeholder='Nom' pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{0,21}$" title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères' autofocus>
+                                              <i class="fa fa-user darkorange"></i> <br/> 
+                                          </span>                                 
+                                        </div>                       
+                                    </div>                             
+                                    <!-- Text input-->                                
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label" >Prénom</label>
+                                      <div class="col-md-6  inputGroupContainer">                                   
+                                        <span class="input-icon">
+                                          <input id="prenom-fiche" type="text" name="prenom"  class="form-control control-groupe" maxlength='21' size='21' placeholder='Prénom' pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
+                                          <i class="fa fa-user darkorange"></i> <br/>   
+                                        </span>
+                                      </div>
+                                    </div>                               
+                                    <!-- Text input-->  
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label" >Age</label>
+                                      <div class="col-md-6  inputGroupContainer">                                   
+                                        <span class="input-icon">
+                                            <input id="age-fiche" type="number" name="age"  class="form-control control-groupe"type="number" min="12" max="120" step="1"  
+                                            pattern="\d+" title="Uniquement des nombres"> 
+                                        <br/>                                     
+                                        </span>
+                                      </div>
+                                    </div> 
+                                    <!-- Select -->  
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label" >Genre</label>
+                                      <div class="col-md-6 inputGroupContainer">
+                                        <span class="input-icon">                                   
+                                          <select class="form-control control-groupe" id="genre-fiche" name="nom" size="1" > 
+                                                <option value="F">Femme
+                                                <option value="H">Homme
+                                                <option value=""></option>  
+                                          </select>
+                                            <br/> 
+                                          </span>
+                                      </div>
+                                    </div>                               
+                                    <!-- Text input-->                                  
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label">Téléphone</label>
+                                      <div class="col-md-6  inputGroupContainer">
+                                          <span class="input-icon">   
+                                            <input id="telephone-fiche" type="text" name="telephonefiche"  class="form-control control-groupe" maxlength='10' size='10' placeholder='Ex: 0605040302'  pattern='^[0-9]{10}$' title='Les caractères doivent être numériques et la longueur doit être de 10 caractères'>
+                                            <i class="fa fa-phone darkorange"></i> <br/> 
+                                          </span>
+                                      </div>
+                                    </div>
+                                    <br/>
+                                    <!-- Text input-->                                
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label">Adresse</label>
+                                      <div class="col-md-6  inputGroupContainer">
+                                        <span class="input-icon">   
+                                          <input type="text" id="adresse-fiche" name="adresse" class="form-control control-groupe" maxlength='30' size='30'  placeholder="Numero et nom de rue "  pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères">
+                                          <i class="fa fa-home darkorange"></i> <br/>   
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <br/>                                  
+                                    <!-- Text input-->                                  
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Code Postal</label>
+                                        <div class="col-md-6  inputGroupContainer">
+                                            <span class="input-icon">   
+                                              <input type="number" id="cp-fiche" class="form-control control-groupe" name="cp" maxlength='5' size='5' placeholder="Ex: 75011"  pattern="[0-9]{5}" title="Les caractères doivent être numériques et la longueur doit être de 5 caractères">
+                                              <i class="fa fa-home darkorange"></i> <br/>   
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <!-- Text input-->                                  
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label">Ville</label>
+                                      <div class="col-md-6  inputGroupContainer">
+                                          <span class="input-icon">  
+                                            <input type="text" id="ville-fiche" name="ville"  class="form-control control-groupe" maxlength='21' size='21' placeholder="Ville"  pattern="^[a-zA-Z\u00C0-\u00FF-'[a-zA-Z\u00C0-\u00FF-']{1,21}" title='Uniquement des lettres puis des espaces ou des tirets et la longueur comprise entre 2 et 21 caractères'>
+                                            <i class="fa fa-home darkorange"></i> <br/>   
+                                          </span>
+                                      </div>
+                                    </div>                                 
+                                <!-- Select Basic -->                            
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label">Pays</label>
+                                      <div class="col-md-6 selectContainer">
+                                          <span class="input-icon">  
+                                            <select id="pays-fiche" name="pays" class="form-control control-groupe" >           
+                                              <option value="AF">Afghanistan
+                                              <option value="ZA">Afrique du sud
+                                              <option value="AX">Åland, îles
+                                              <option value="AL">Albanie
+                                              <option value="DZ">Algérie
+                                              <option value="DE">Allemagne
+                                              <option value="AD">Andorre
+                                              <option value="AO">Angola
+                                              <option value="AI">Anguilla
+                                              <option value="AQ">Antarctique
+                                              <option value="AG">Antigua et barbuda
+                                              <option value="SA">Arabie saoudite
+                                              <option value="AR">Argentine
+                                              <option value="AM">Arménie
+                                              <option value="AW">Aruba
+                                              <option value="AU">Australie
+                                              <option value="AT">Autriche
+                                              <option value="AZ">Azerbaïdjan
+                                              <option value="BS">Bahamas
+                                              <option value="BH">Bahreïn
+                                              <option value="BD">Bangladesh
+                                              <option value="BB">Barbade
+                                              <option value="BY">Bélarus
+                                              <option value="BE">Belgique
+                                              <option value="BZ">Belize
+                                              <option value="BJ">Bénin
+                                              <option value="BM">Bermudes
+                                              <option value="BT">Bhoutan
+                                              <option value="BO">Bolivie, l'état plurinational de
+                                              <option value="BQ">Bonaire, saint eustache et saba
+                                              <option value="BA">Bosnie herzégovine
+                                              <option value="BW">Botswana
+                                              <option value="BV">Bouvet, île
+                                              <option value="BR">Brésil
+                                              <option value="BN">Brunei darussalam
+                                              <option value="BG">Bulgarie
+                                              <option value="BF">Burkina faso
+                                              <option value="BI">Burundi
+                                              <option value="KY">Caïmans, îles
+                                              <option value="KH">Cambodge
+                                              <option value="CM">Cameroun
+                                              <option value="CA">Canada
+                                              <option value="CV">Cap vert
+                                              <option value="CF">Centrafricaine, république
+                                              <option value="CL">Chili
+                                              <option value="CN">Chine
+                                              <option value="CX">Christmas, île
+                                              <option value="CY">Chypre
+                                              <option value="CC">Cocos (keeling), îles
+                                              <option value="CO">Colombie
+                                              <option value="KM">Comores
+                                              <option value="CG">Congo
+                                              <option value="CD">Congo, la république démocratique du
+                                              <option value="CK">Cook, îles
+                                              <option value="KR">Corée, république de
+                                              <option value="KP">Corée, république populaire démocratique de
+                                              <option value="CR">Costa rica
+                                              <option value="CI">Côte d'ivoire
+                                              <option value="HR">Croatie
+                                              <option value="CU">Cuba
+                                              <option value="CW">Curaçao
+                                              <option value="DK">Danemark
+                                              <option value="DJ">Djibouti
+                                              <option value="DO">Dominicaine, république
+                                              <option value="DM">Dominique
+                                              <option value="EG">Égypte
+                                              <option value="SV">El salvador
+                                              <option value="AE">Émirats arabes unis
+                                              <option value="EC">Équateur
+                                              <option value="ER">Érythrée
+                                              <option value="ES">Espagne
+                                              <option value="EE">Estonie
+                                              <option value="US">États unis
+                                              <option value="ET">Éthiopie
+                                              <option value="FK">Falkland, îles (malvinas)
+                                              <option value="FO">Féroé, îles
+                                              <option value="FJ">Fidji
+                                              <option value="FI">Finlande
+                                              <option value="FR" selected>France
+                                              <option value="GA">Gabon
+                                              <option value="GM">Gambie
+                                              <option value="GE">Géorgie
+                                              <option value="GS">Géorgie du sud et les îles sandwich du sud
+                                              <option value="GH">Ghana
+                                              <option value="GI">Gibraltar
+                                              <option value="GR">Grèce
+                                              <option value="GD">Grenade
+                                              <option value="GL">Groenland
+                                              <option value="GP">Guadeloupe
+                                              <option value="GU">Guam
+                                              <option value="GT">Guatemala
+                                              <option value="GG">Guernesey
+                                              <option value="GN">Guinée
+                                              <option value="GW">Guinée bissau
+                                              <option value="GQ">Guinée équatoriale
+                                              <option value="GY">Guyana
+                                              <option value="GF">Guyane française
+                                              <option value="HT">Haïti
+                                              <option value="HM">Heard et îles macdonald, île
+                                              <option value="HN">Honduras
+                                              <option value="HK">Hong kong
+                                              <option value="HU">Hongrie
+                                              <option value="IM">Île de man
+                                              <option value="UM">Îles mineures éloignées des états unis
+                                              <option value="VG">Îles vierges britanniques
+                                              <option value="VI">Îles vierges des états unis
+                                              <option value="IN">Inde
+                                              <option value="ID">Indonésie
+                                              <option value="IR">Iran, république islamique d'
+                                              <option value="IQ">Iraq
+                                              <option value="IE">Irlande
+                                              <option value="IS">Islande
+                                              <option value="IL">Israël
+                                              <option value="IT">Italie
+                                              <option value="JM">Jamaïque
+                                              <option value="JP">Japon
+                                              <option value="JE">Jersey
+                                              <option value="JO">Jordanie
+                                              <option value="KZ">Kazakhstan
+                                              <option value="KE">Kenya
+                                              <option value="KG">Kirghizistan
+                                              <option value="KI">Kiribati
+                                              <option value="KW">Koweït
+                                              <option value="LA">Lao, république démocratique populaire
+                                              <option value="LS">Lesotho
+                                              <option value="LV">Lettonie
+                                              <option value="LB">Liban
+                                              <option value="LR">Libéria
+                                              <option value="LY">Libye
+                                              <option value="LI">Liechtenstein
+                                              <option value="LT">Lituanie
+                                              <option value="LU">Luxembourg
+                                              <option value="MO">Macao
+                                              <option value="MK">Macédoine, l'ex république yougoslave de
+                                              <option value="MG">Madagascar
+                                              <option value="MY">Malaisie
+                                              <option value="MW">Malawi
+                                              <option value="MV">Maldives
+                                              <option value="ML">Mali
+                                              <option value="MT">Malte
+                                              <option value="MP">Mariannes du nord, îles
+                                              <option value="MA">Maroc
+                                              <option value="MH">Marshall, îles
+                                              <option value="MQ">Martinique
+                                              <option value="MU">Maurice
+                                              <option value="MR">Mauritanie
+                                              <option value="YT">Mayotte
+                                              <option value="MX">Mexique
+                                              <option value="FM">Micronésie, états fédérés de
+                                              <option value="MD">Moldova, république de
+                                              <option value="MC">Monaco
+                                              <option value="MN">Mongolie
+                                              <option value="ME">Monténégro
+                                              <option value="MS">Montserrat
+                                              <option value="MZ">Mozambique
+                                              <option value="MM">Myanmar
+                                              <option value="NA">Namibie
+                                              <option value="NR">Nauru
+                                              <option value="NP">Népal
+                                              <option value="NI">Nicaragua
+                                              <option value="NE">Niger
+                                              <option value="NG">Nigéria
+                                              <option value="NU">Niué
+                                              <option value="NF">Norfolk, île
+                                              <option value="NO">Norvège
+                                              <option value="NC">Nouvelle calédonie
+                                              <option value="NZ">Nouvelle zélande
+                                              <option value="IO">Océan indien, territoire britannique de l'
+                                              <option value="OM">Oman
+                                              <option value="UG">Ouganda
+                                              <option value="UZ">Ouzbékistan
+                                              <option value="PK">Pakistan
+                                              <option value="PW">Palaos
+                                              <option value="PS">Palestinien occupé, territoire
+                                              <option value="PA">Panama
+                                              <option value="PG">Papouasie nouvelle guinée
+                                              <option value="PY">Paraguay
+                                              <option value="NL">Pays bas
+                                              <option value="PE">Pérou
+                                              <option value="PH">Philippines
+                                              <option value="PN">Pitcairn
+                                              <option value="PL">Pologne
+                                              <option value="PF">Polynésie française
+                                              <option value="PR">Porto rico
+                                              <option value="PT">Portugal
+                                              <option value="QA">Qatar
+                                              <option value="RE">Réunion
+                                              <option value="RO">Roumanie
+                                              <option value="GB">Royaume uni
+                                              <option value="RU">Russie, fédération de
+                                              <option value="RW">Rwanda
+                                              <option value="EH">Sahara occidental
+                                              <option value="BL">Saint barthélemy
+                                              <option value="SH">Sainte hélène, ascension et tristan da cunha
+                                              <option value="LC">Sainte lucie
+                                              <option value="KN">Saint kitts et nevis
+                                              <option value="SM">Saint marin
+                                              <option value="MF">Saint martin(partie française)
+                                              <option value="SX">Saint martin (partie néerlandaise)
+                                              <option value="PM">Saint pierre et miquelon
+                                              <option value="VA">Saint siège (état de la cité du vatican)
+                                              <option value="VC">Saint vincent et les grenadines
+                                              <option value="SB">Salomon, îles
+                                              <option value="WS">Samoa
+                                              <option value="AS">Samoa américaines
+                                              <option value="ST">Sao tomé et principe
+                                              <option value="SN">Sénégal
+                                              <option value="RS">Serbie
+                                              <option value="SC">Seychelles
+                                              <option value="SL">Sierra leone
+                                              <option value="SG">Singapour
+                                              <option value="SK">Slovaquie
+                                              <option value="SI">Slovénie
+                                              <option value="SO">Somalie
+                                              <option value="SD">Soudan
+                                              <option value="SS">Soudan du sud
+                                              <option value="LK">Sri lanka
+                                              <option value="SE">Suède
+                                              <option value="CH">Suisse
+                                              <option value="SR">Suriname
+                                              <option value="SJ">Svalbard et île jan mayen
+                                              <option value="SZ">Swaziland
+                                              <option value="SY">Syrienne, république arabe
+                                              <option value="TJ">Tadjikistan
+                                              <option value="TW">Taïwan, province de chine
+                                              <option value="TZ">Tanzanie, république unie de
+                                              <option value="TD">Tchad
+                                              <option value="CZ">Tchèque, république
+                                              <option value="TF">Terres australes françaises
+                                              <option value="TH">Thaïlande
+                                              <option value="TL">Timor leste
+                                              <option value="TG">Togo
+                                              <option value="TK">Tokelau
+                                              <option value="TO">Tonga
+                                              <option value="TT">Trinité et tobago
+                                              <option value="TN">Tunisie
+                                              <option value="TM">Turkménistan
+                                              <option value="TC">Turks et caïcos, îles
+                                              <option value="TR">Turquie
+                                              <option value="TV">Tuvalu
+                                              <option value="UA">Ukraine
+                                              <option value="UY">Uruguay
+                                              <option value="VU">Vanuatu
+                                              <option value="VE">Venezuela, république bolivarienne du
+                                              <option value="VN">Viet nam
+                                              <option value="WF">Wallis et futuna
+                                              <option value="YE">Yémen
+                                              <option value="ZM">Zambie
+                                              <option value="ZW">Zimbabwe​​​​​
+                                            </select>
+                                            <br/> 
+                                        </span>
+                                      </div>
+                                    </div>                                                     
+                                <!-- Select -->   
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label" >Profil</label>
+                                      <div class="col-md-6  inputGroupContainer">
+                                        <span class="input-icon">                                   
+                                          <select class="form-control control-groupe" id="profil-fiche" name="profil" size="1" required > 
+                                            <option value="AM">Adopte un maître
+                                            <option value="AC" >Adopte un chat
+                                            <option value="NSP" selected>Ne sais pas encore
+                                          </select>
+                                          <br/> 
+                                        </span>
+                                      </div>
+                                    </div>                       
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label">Préférences</label>
+                                      <div class="col-md-6  inputGroupContainer">
+                                        <span class="input-icon">  
+                                          <textarea id="preference-fiche" type="text" name="preference"  class="form-control control-groupe" rows="2" COLS="40"  maxlength = "400" placeholder="C'est le moment de parler chat"  pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères"></textarea>
+                                        </span>
+                                      </div>
+                                    </div>                           
+                                    </fieldset> 
+                                    <div class="form-group"> 
+                                      <div class="center">
+                                        <button type="submit" class="btn btn-azure">Valider</button>
+                                      </div>                               
+                                      <p id="idProfilMpAlertMsg" class="lead mt-5 display-4 text-danger text-center alertMsg"></p>
+                                    </div>                                                                                  
+                                  </div>
+                                </div>
+                              </div>                                       
+                          </form>
+                    </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div> 
+  </div>   
 <!-- **************************************************************************************** -->
 <!--        FENETRE MODAL DE BIENVENUE ET FELICITATION                                        -->
 <!-- **************************************************************************************** -->

@@ -402,7 +402,7 @@ footer.footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 88px;
+  height: 60px;
   background-color: #fff;
 }
 
@@ -597,7 +597,7 @@ footer .container .text-muted {
 #footer-activite {
     width: 100%;
     display: none;
-    height: 82%;
+    height: 98%;
     padding: 0px;
     background-color: white;
 }
@@ -695,6 +695,16 @@ a.disabled {
     display: flex;
     justify-content: center;
 }
+
+.image-profil {
+    padding: 0.25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    max-width: 100%;
+    height: auto;
+}
+
 
 /* page du mur de profil*/
 #mur-pseudo{

@@ -63,7 +63,8 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
             mpProvisoire    : '',
             statut          : 0,             // Membre 0, Admin 1 ou SuperAdmin 2                                
             dateCreation    : -1,            // Timestamp de la création du compte
-            photoProfile    : 'static/images/default-avatar.png',
+            photoProfile    : 'default-avatar.png',
+            photoCover      : 'default-cover.jpg',
             nom             : '',
             prenom          : '',
             age             : '',
@@ -168,7 +169,8 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
             mpProvisoire        : '',
             statut              : 0,             // Membre 0, Admin 1 ou SuperAdmin 2                                
             dateCreation        : -1,            // Timestamp de la création du compte
-            photoProfile        : 'static/images/default-avatar.png',
+            photoProfile        : 'default-avatar.png',
+            photoCover          : 'default-cover.jpg',
             nom                 : '',
             prenom              : '',
             age                 : '',
@@ -404,7 +406,8 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
             mpProvisoire    : '',  
             statut          : pObjetVisiteur.statut,        // Membre 0, Admin 1 ou SuperAdmin 2                
             dateCreation    : new Date(),       // Timestamp de la création du membre                    
-            photoProfile    : 'static/images/default-avatar.png',
+            photoProfile    : 'default-avatar.png',
+            photoCover      : 'default-cover.jpg',
             nom             : '',
             prenom          : '',
             age             : '',
@@ -695,34 +698,37 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                     let emailSengrid = documents[0].email; 
                     
                     // misa à jour de l'objet membre
-                    this.membre.nom         =  pObjetMembreLocal.non; 
-                    this.membre.nom         =  pObjetMembreLocal.nom; 
-                    this.membre.prenom      =  pObjetMembreLocal.prenom;
-                    this.membre.genre       =  pObjetMembreLocal.genre;
-                    this.membre.age         =  pObjetMembreLocal.age;
-                    this.membre.telephone   =  pObjetMembreLocal.telephone; 
-                    this.membre.adresse     =  pObjetMembreLocal.adresse;
-                    this.membre.cp          =  pObjetMembreLocal.cp;
-                    this.membre.ville       =  pObjetMembreLocal.ville;
-                    this.membre.pays        =  pObjetMembreLocal.pays;
-                    this.membre.profil      =  pObjetMembreLocal.profil;
-                    this.membre.preference  =  pObjetMembreLocal.preference;         
+                    this.membre.photoProfile        =  pObjetMembreLocal.photoProfile; 
+                    this.membre.photoCover          =  pObjetMembreLocal.photoCover;
+                    this.membre.nom                 =  pObjetMembreLocal.nom; 
+                    this.membre.prenom              =  pObjetMembreLocal.prenom;
+                    this.membre.genre               =  pObjetMembreLocal.genre;
+                    this.membre.age                 =  pObjetMembreLocal.age;
+                    this.membre.telephone           =  pObjetMembreLocal.telephone; 
+                    this.membre.adresse             =  pObjetMembreLocal.adresse;
+                    this.membre.cp                  =  pObjetMembreLocal.cp;
+                    this.membre.ville               =  pObjetMembreLocal.ville;
+                    this.membre.pays                =  pObjetMembreLocal.pays;
+                    this.membre.profil              =  pObjetMembreLocal.profil;
+                    this.membre.preference          =  pObjetMembreLocal.preference;         
                 
                     this.DBMgr.colMembres.updateOne(
                         {pseudo: pObjetMembreLocal.pseudo},
                         {$set:
                             {   
-                                nom         :  pObjetMembreLocal.nom, 
-                                prenom      :  pObjetMembreLocal.prenom,
-                                genre       :  pObjetMembreLocal.genre,
-                                age         :  pObjetMembreLocal.age,
-                                telephone   :  pObjetMembreLocal.telephone,  
-                                adresse     :  pObjetMembreLocal.adresse,
-                                cp          :  pObjetMembreLocal.cp,
-                                ville       :  pObjetMembreLocal.ville,
-                                pays        :  pObjetMembreLocal.pays,
-                                profil      :  pObjetMembreLocal.profil,
-                                preference  :  pObjetMembreLocal.preference
+                                photoProfile    :  pObjetMembreLocal.photoProfile,
+                                photoCover      :  pObjetMembreLocal.photoCover,
+                                nom             :  pObjetMembreLocal.nom, 
+                                prenom          :  pObjetMembreLocal.prenom,
+                                genre           :  pObjetMembreLocal.genre,
+                                age             :  pObjetMembreLocal.age,
+                                telephone       :  pObjetMembreLocal.telephone,  
+                                adresse         :  pObjetMembreLocal.adresse,
+                                cp              :  pObjetMembreLocal.cp,
+                                ville           :  pObjetMembreLocal.ville,
+                                pays            :  pObjetMembreLocal.pays,
+                                profil          :  pObjetMembreLocal.profil,
+                                preference      :  pObjetMembreLocal.preference
                             }
                         },(error, document) => {
         
@@ -748,6 +754,92 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
     };  
 
 //************************************************************************************************************  
+// Gestion et controle du formulaire de renseignements d'un membre modifié par un administrateur
+// - verification des champs saisies 
+// - Mise à jour des donnees du membre dans la collection membres de la BDD adopteunmaitre
+//************************************************************************************************************ 
+    MemberServer.prototype.miseAjourProfilMembreParAdmin= function(pObjetDunMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pObjetDunMembre  avant MAJ de la collection membres',pObjetDunMembre); 
+        if (!pObjetDunMembre.profil) {
+            console.log("pObjetDunMembre profil inscription champs vide",pObjetDunMembre);
+            let message = {};
+            message.message = 'Vous devez renseigner votre profil, les autres champs ne sont pas obligatoires';
+            return pWebSocketConnection.emit('messageErrorProfilInscription', message);
+            
+        } 
+            this.DBMgr.colMembres.find({pseudo:pObjetDunMembre.pseudo}).toArray((error, documents) => {                     
+                if (error) {
+                    console.log('Erreur de find dans collection colMembres',error);
+                    throw error;
+                }                                
+                if (!documents.length) { 
+                    console.log('erreur avant mise à jour du membre on ne le retrouve pas on observe le  documents',documents);
+                //    sendPage404(pObjetDunMembre, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+                    return false;                     
+                }  
+                    console.log('documents avant MAJ profil inscription', documents);
+                 
+                    
+                    // misa à jour de l'objet membre
+                    this.membre.photoProfile   =  pObjetDunMembre.photoProfile;
+                    this.membre.photoCover     =  pObjetDunMembre.photoCover;
+                    this.membre.nom            =  pObjetDunMembre.nom; 
+                    this.membre.prenom         =  pObjetDunMembre.prenom;
+                    this.membre.genre          =  pObjetDunMembre.genre;
+                    this.membre.age            =  pObjetDunMembre.age;
+                    this.membre.telephone      =  pObjetDunMembre.telephone; 
+                    this.membre.adresse        =  pObjetDunMembre.adresse;
+                    this.membre.cp             =  pObjetDunMembre.cp;
+                    this.membre.ville          =  pObjetDunMembre.ville;
+                    this.membre.pays           =  pObjetDunMembre.pays;
+                    this.membre.profil         =  pObjetDunMembre.profil;
+                    this.membre.preference     =  pObjetDunMembre.preference;         
+                
+                    this.DBMgr.colMembres.updateOne(
+                        {pseudo: pObjetDunMembre.pseudo},
+                        {$set:
+                            {   
+                                photoProfile:  pObjetDunMembre.photoProfile,
+                                photoCover  :  pObjetDunMembre.photoCover,
+                                nom         :  pObjetDunMembre.nom, 
+                                prenom      :  pObjetDunMembre.prenom,
+                                genre       :  pObjetDunMembre.genre,
+                                age         :  pObjetDunMembre.age,
+                                telephone   :  pObjetDunMembre.telephone,  
+                                adresse     :  pObjetDunMembre.adresse,
+                                cp          :  pObjetDunMembre.cp,
+                                ville       :  pObjetDunMembre.ville,
+                                pays        :  pObjetDunMembre.pays,
+                                profil      :  pObjetDunMembre.profil,
+                                preference  :  pObjetDunMembre.preference
+                            }
+                        },(error, document) => {
+        
+                        if (error) {
+                            console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                            throw error;
+                        }          
+                        console.log('update ok');                               
+                                            
+                        this.DBMgr.colMembres.find().toArray((error, documents) => {         // on récupere la liste de tous les membres car il y a eu des modifs
+                            if (error) {
+                                console.log('Erreur de find liste de tous les membres dans collection colMembres',error);
+                                throw error;
+                            }                                
+                            if (!documents.length) { 
+                                console.log('erreur la collection est vide',documents);
+                            //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+                                return false;                     
+                            }  
+                                console.log('documents apres suppression du membre', documents);
+                                
+                                pWebSocketConnection.emit('modifMembreParAdminOk',documents)  // On envoie au client que le membre a bien été modifié dans la BDD et la liste des membres mise à jour                      
+                            });  
+                     
+                });  
+            });
+    };     
+//************************************************************************************************************  
 // Gestion de la liste de tous les membres pour les Administrateurs
 // - récupération des données des membres dans la collection membres dans la BDD
 // - envoie de la liste
@@ -768,7 +860,7 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                 }                                
                 if (!documents.length) { 
                     console.log('erreur la collection est vide',documents);
-                //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+                //    sendPage404(pDataAdmin, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
                     return false;                     
                 }  
                     console.log('documents avant MAJ profil inscription', documents);
@@ -803,6 +895,49 @@ MemberServer.prototype.sendInfoMurDunMembre = function(pPseudoDunMembre, pWebSoc
     });       
 };  
 
+//************************************************************************************************************  
+// Gestion de l'affichage des infos d'un membre demandé par un administrateur
+// - récupération des donnees du membre dans la collection membres 
+// - envoie des données au client
+//************************************************************************************************************ 
+MemberServer.prototype.supprimerUnMembre = function(pDataDunMembre, pWebSocketConnection, pSocketIo) {   
+    console.log('pDataDunMembre  avant Find dans la collection membres partie ADMIN',pDataDunMembre); 
+  
+    this.DBMgr.colMembres.find({pseudo:pDataDunMembre.pseudo}).toArray((error, documents) => {                     
+        if (error) {
+            console.log('Erreur de find dans collection colMembres',error);
+            throw error;
+        }                                
+        if (!documents.length) { 
+            console.log('erreur avant traitement du membre on ne le retrouve pas on observe le  documents',documents);
+        //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+            return false;                     
+        }  
+        this.DBMgr.colMembres.remove ( { pseudo : pDataDunMembre.pseudo },(error, document) => {
+            if (error) {
+                console.log('Erreur de remove dans collection colMembres',error);
+                throw error;
+            }      
+            console.log("suppression du membre ok");
+            this.DBMgr.colMembres.find().toArray((error, documents) => {                     
+                if (error) {
+                    console.log('Erreur de find liste de tous les membres dans collection colMembres',error);
+                    throw error;
+                }                                
+                if (!documents.length) { 
+                    console.log('erreur la collection est vide',documents);
+                //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+                    return false;                     
+                }  
+                    console.log('documents apres suppression du membre', documents);
+                    
+                    pWebSocketConnection.emit('membreSupprimeOk',documents);  // On envoie au client que le membre a bien été supprimé dans la BDD et la liste des membres mise à jour                      
+                });  
+            
+        });
+        
+    });       
+};  
 
 //************************************************************************************************************
 // Obtention du nombre de messages publiés dans  la BDD et transmission de celles-ci à tout le monde

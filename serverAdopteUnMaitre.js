@@ -14,9 +14,13 @@
 
 const DBMgr = require('./db');
 const express =  require('express');
-var app = express();
+const SocketIOFileUpload = require('socketio-file-upload');
+const app = express();
+const path = require('path');
 const SocketIo = require('socket.io');
 const MemberServer = require('./memberMgr');
+
+
 
 let vMemberServer;  // Instanciation de l'objet "Members" qui gère toutes les fonctions liées aux membres dans l'Objet membres
 
@@ -49,6 +53,8 @@ vDBMgr.checkDBConnect()
     app.use('/static', express.static(__dirname + '/assets'));
     app.use('/static', express.static(__dirname + '/bootstrap.3.3.6'));
     app.use('/static', express.static(__dirname + '/font-awesome.4.6.1'));
+    app.use(SocketIOFileUpload.router);
+   
 
     app.get('/', function(req, res, next) {   
         res.render('index') 
@@ -62,15 +68,18 @@ vDBMgr.checkDBConnect()
         res.render('index', {})  
     });
 
+    const uploader = new SocketIOFileUpload();
+    uploader.dir = path.join(__dirname, '/assets/images/membres');
 
 // ***********************************************************************************************************
 //  Lancement du serveur NodeJS
 // ***********************************************************************************************************
-const server = app.listen(process.env.PORT || 2000, function() {
-    const portEcoute = server.address().port
-    console.log('Écoute du serveur NodeJs sur le port %s',portEcoute);
-});
+    const server = app.listen(process.env.PORT || 2000, function() {
+        const portEcoute = server.address().port
+        console.log('Écoute du serveur NodeJs sur le port %s',portEcoute);
+    });
 
+    
 
 //************************************************************************************************************
 // **********************                                                               **********************
@@ -81,10 +90,15 @@ const server = app.listen(process.env.PORT || 2000, function() {
 // **********************                                                               **********************
 // **********************                                                               **********************    
 // ***********************************************************************************************************
-
+   
     let socketIo = new SocketIo(server);
+
     socketIo.on('connection', function(webSocketConnection) {        // Une connexion au serveur vient d être faite
-            
+        console.log('Connection');        
+
+        // Création de la liaison socket.io sur la base du serveur HTTP déja déclaré précédement
+       
+        uploader.listen(webSocketConnection);  
 
         vMemberServer.initVisiteur(webSocketConnection, socketIo);  //  initialisation 
         vMemberServer.connexionVisiteur(webSocketConnection, socketIo); 
@@ -157,6 +171,17 @@ const server = app.listen(process.env.PORT || 2000, function() {
         webSocketConnection.on('demandeAffiMurDunMembre', function (pseudoDunMembre) { 
             console.log("serveur recoit demande information d'un membre"); 
             vMemberServer.sendInfoMurDunMembre(pseudoDunMembre, webSocketConnection, socketIo);
+        });  
+    
+
+    // Reception du formulaire de la fiche modifié d'un membre par un administrateur
+        webSocketConnection.on('controleFicheModifDunMembre', function (dataFiche) {  
+            vMemberServer.miseAjourProfilMembreParAdmin(dataFiche, webSocketConnection, socketIo);
+        });   
+     // Reception demande de supprimer un membre
+           webSocketConnection.on('demandeSupprimeUnMembre', function (dataDunMembre) { 
+            console.log("serveur recoit demande supprimer un membre"); 
+            vMemberServer.supprimerUnMembre(dataDunMembre, webSocketConnection, socketIo);
         });  
     
 // ***********************************************************************************************************  
