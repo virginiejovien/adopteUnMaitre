@@ -428,7 +428,7 @@ footer .container .text-muted {
 }
 
 .page-content{
-  margin-top: 90px;
+  margin-top: 100px;
   margin-bottom: 70px;
 }
 
@@ -724,6 +724,18 @@ a.disabled {
     width: 100%;
 }
 
+#amis-pseudo{
+    font-size: 15px;
+    font-weight: bold;
+    color: #1c1f20cf;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+#amis-main {
+    position: relative;
+    margin: 0 auto;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
 /* page administrateur */
 .titre-nav-admin{
     color: #0a831e;
@@ -732,3 +744,6 @@ a.disabled {
 #mur-pseudo-admin{
     color:rgb(133, 133, 133);
 }
+
+
+/* pour toutes les pages titre pseudo*/

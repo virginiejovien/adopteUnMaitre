@@ -436,6 +436,7 @@ console.log('addMembreInBDD - 000 - pWebSocketConnection.id : ',pWebSocketConnec
             let myIndex = this.searchMemberInTableOfMembers('idMember', pWebSocketConnection.id);  // On ajoute le membre nouvellement créé dans la table des memnbres actifs
 console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnection.id : ',pWebSocketConnection.id)
 
+            this.DBMgr.colMembres.createIndex( { pseudo:"text", nom: "text", prenom: "text"}); //creation d'un index pour permettre la recherche de texte dans les champs nom prenom et pseudo
 
             this.addMemberToActiveMembers(myIndex, pSocketIo)
                 let messageToSend = {
@@ -751,6 +752,32 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                         pWebSocketConnection.emit('profileConnect', this.membre); // On envoie au client les données de profil du membre                         
                 });  
             });
+    };  
+
+//************************************************************************************************************  
+// Gestion et controle du formulaire de recherche de membres
+// - verification des champs saisies 
+// - recherches par find search
+//************************************************************************************************************ 
+    MemberServer.prototype.rechercheMembres = function(pData, pWebSocketConnection, pSocketIo) {   
+        console.log('pData avant recherche de la collection membres',pData); 
+       
+        let searchTerm = pData.nom + " " +  pData.prenom + " " + pData.pseudo;
+        console.log("searchTerm",searchTerm);
+        this.DBMgr.colMembres.find( { $text: { $search: searchTerm } } ).toArray((error, documents) => {                     
+            if (error) {
+                console.log('Erreur de find dans collection colMembres',error);
+                throw error;
+            }                                
+            if (!documents.length) { 
+                console.log('on a pas trouvé de membre la recherche ne retourne rien --  documents:',documents);
+    
+                return false;                     
+            }  
+                console.log('la recherche retourne des membres on observe le documents:', documents);
+                pWebSocketConnection.emit('resultatRecherche', documents); // On envoie au client les resultats de la recherche    
+        
+        });  
     };  
 
 //************************************************************************************************************  

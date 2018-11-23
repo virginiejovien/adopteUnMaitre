@@ -156,6 +156,14 @@ vDBMgr.checkDBConnect()
         });   
 
 //************************************************************************************************************  
+// Gestion de la recherche d'amis
+//************************************************************************************************************ 
+    // Reception du formulaire de recherche d'amis
+    webSocketConnection.on('controleFormRechercheAmis', function (dataRecherche) {  
+        vMemberServer.rechercheMembres(dataRecherche, webSocketConnection, socketIo);
+    });   
+
+//************************************************************************************************************  
 // Gestion du Dasboard Administrateur
 // Reception de la demande de recuperer les donnees de tous les membres dans la collection membres de BDD
 // Envoie par la suite la liste des membres

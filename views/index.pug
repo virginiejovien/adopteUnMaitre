@@ -1499,147 +1499,44 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               .row
                 .col-md-6-offset-1.col-sm-6-offset-1.col-xs-12-offset-1
                   .form-group
-                    label.control-label(for='inputWarning2') Trouver un membre
+                    h4.titre-nav-admin Trouver un membre
               .row
                 .col-md-3.col-sm-3.col-xs-12
                   .form-group
                     span.input-icon
-                      input#nom-amis.form-control.control-groupe.input-sm(type='text' name='nom' maxlength='21' size='21' placeholder='par son nom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                      input#nom-amis.form-control.control-groupe.input-sm(type='text' name='nom' maxlength='21' size='21' placeholder='son nom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
                       i.glyphicon.glyphicon-search.darkorange
                 .col-md-3.col-sm-3.col-xs-12
                   .form-group
                     span.input-icon
-                      input#prenom-amis.form-control.control-groupe.input-sm(type='text' name='prenom' maxlength='21' size='21' placeholder='par son prénom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                      input#prenom-amis.form-control.control-groupe.input-sm(type='text' name='prenom' maxlength='21' size='21' placeholder='son prénom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
                       i.glyphicon.glyphicon-search.darkorange
                 .col-md-3.col-sm-3.col-xs-12
                   .form-group
                     span.input-icon
-                      input#pseudo-amis.form-control.control-groupe.input-sm(type='text' name='pseudo' maxlength='21' size='21' placeholder='par son pseudo' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                      input#pseudo-amis.form-control.control-groupe.input-sm(type='text' name='pseudo' maxlength='21' size='21' placeholder='son pseudo' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
                       i.glyphicon.glyphicon-search.darkorange
                 .col-md-3.col-sm-6.col-xs-12
                   button.btn.btn-azure(type='submit') Rechercher
         // fin formulaire rechercher d'amis
+        // Début tableau résultat de la recherche
         .row
-          .col-md-3
-            .contact-box.center-version
-              a(href='#')
-                img.img-circle(alt='image' src='static/images/Friends/guy-1.jpg')
-                h3.m-b-xs
-                  strong John Doe
-                .font-bold Graphics designer
-              .contact-box-footer
-                .m-t-xs.btn-group
-                  a.btn.btn-xs.btn-white(href='messages1.html')
-                    i.fa.fa-envelope
-                    | Send Messages
-                  a.btn.btn-xs.btn-white
-                    i.fa.fa-user-plus
-                    |  Follow
-          .col-md-3
-            .contact-box.center-version
-              a(href='#')
-                img.img-circle(alt='image' src='static/images/Friends/guy-2.jpg')
-                h3.m-b-xs
-                  strong John Doe
-                .font-bold Graphics designer
-              .contact-box-footer
-                .m-t-xs.btn-group
-                  a.btn.btn-xs.btn-white(href='messages1.html')
-                    i.fa.fa-envelope
-                    | Send Messages
-                  a.btn.btn-xs.btn-white
-                    i.fa.fa-user-plus
-                    |  Follow
-          .col-md-3
-            .contact-box.center-version
-              a(href='#')
-                img.img-circle(alt='image' src='static/images/Friends/guy-3.jpg')
-                h3.m-b-xs
-                  strong John Doe
-                .font-bold Graphics designer
-              .contact-box-footer
-                .m-t-xs.btn-group
-                  a.btn.btn-xs.btn-white(href='messages1.html')
-                    i.fa.fa-envelope
-                    | Send Messages
-                  a.btn.btn-xs.btn-white
-                    i.fa.fa-user-plus
-                    |  Follow
-          .col-md-3
-            .contact-box.center-version
-              a(href='#')
-                img.img-circle(alt='image' src='static/images/Friends/woman-1.jpg')
-                h3.m-b-xs
-                  strong John Doe
-                .font-bold Graphics designer
-              .contact-box-footer
-                .m-t-xs.btn-group
-                  a.btn.btn-xs.btn-white(href='messages1.html')
-                    i.fa.fa-envelope
-                    | Send Messages
-                  a.btn.btn-xs.btn-white
-                    i.fa.fa-user-plus
-                    |  Follow
-          .col-md-3
-            .contact-box.center-version
-              a(href='#')
-                img.img-circle(alt='image' src='static/images/Friends/woman-2.jpg')
-                h3.m-b-xs
-                  strong John Doe
-                .font-bold Graphics designer
-              .contact-box-footer
-                .m-t-xs.btn-group
-                  a.btn.btn-xs.btn-white(href='messages1.html')
-                    i.fa.fa-envelope
-                    | Send Messages
-                  a.btn.btn-xs.btn-white
-                    i.fa.fa-user-plus
-                    |  Follow
-          .col-md-3
-            .contact-box.center-version
-              a(href='#')
-                img.img-circle(alt='image' src='static/images/Friends/woman-3.jpg')
-                h3.m-b-xs
-                  strong John Doe
-                .font-bold Graphics designer
-              .contact-box-footer
-                .m-t-xs.btn-group
-                  a.btn.btn-xs.btn-white(href='messages1.html')
-                    i.fa.fa-envelope
-                    | Send Messages
-                  a.btn.btn-xs.btn-white
-                    i.fa.fa-user-plus
-                    |  Follow
-          .col-md-3
-            .contact-box.center-version
-              a(href='#')
-                img.img-circle(alt='image' src='static/images/Friends/guy-5.jpg')
-                h3.m-b-xs
-                  strong John Doe
-                .font-bold Graphics designer
-              .contact-box-footer
-                .m-t-xs.btn-group
-                  a.btn.btn-xs.btn-white(href='messages1.html')
-                    i.fa.fa-envelope
-                    | Send Messages
-                  a.btn.btn-xs.btn-white
-                    i.fa.fa-user-plus
-                    |  Follow
-          .col-md-3
-            .contact-box.center-version
-              a(href='#')
-                img.img-circle(alt='image' src='static/images/Friends/woman-1.jpg')
-                h3.m-b-xs
-                  strong John Doe
-                .font-bold Graphics designer
-              .contact-box-footer
-                .m-t-xs.btn-group
-                  a.btn.btn-xs.btn-white(href='messages1.html')
-                    i.fa.fa-envelope
-                    | Send Messages
-                  a.btn.btn-xs.btn-white
-                    i.fa.fa-user-plus
-                    |  Follow
+          .col-md-12
+            .widget
+              .table-responsive
+                table#table-resultat-membres.table.user-list
+                  thead
+                    tr
+                      th
+                        span Noms
+                      th
+                        span Pr&eacute;noms
+                      th.text-center
+                        span Pseudos
+                      th
+                        span Membres depuis
+                      th &nbsp;
+        // Fin tableau résultat de la recherche
 // Modal
 #modalShow.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel')
   .modal-dialog(role='document')
@@ -1860,23 +1757,6 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                     th
                       span Email
                     th &nbsp;
-            ul.pagination.pull-right
-              li
-                a(href='#')
-                  i.fa.fa-chevron-left
-              li
-                a(href='#') 1
-              li
-                a(href='#') 2
-              li
-                a(href='#') 3
-              li
-                a(href='#') 4
-              li
-                a(href='#') 5
-              li
-                a(href='#')
-                  i.fa.fa-chevron-right
 // ****************************************************************************************
 // DASHBOARD ADMINISTRATEUR  : DETAIL MEMBRE
 // ****************************************************************************************
@@ -1907,8 +1787,10 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               .row
                 .col-md-5
                   .widget
-                    .widget-header
-                      h3.widget-caption A propos
+                    .basic-info
+                      h5
+                        i.fa.fa-square
+                        | &nbsp;A propos
                     .widget-body.bordered-top.bordered-sky
                       ul.list-unstyled.profile-about.margin-none
                         li.padding-v-5
@@ -1924,17 +1806,17 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                         li.padding-v-5
                           .row
                             .col-sm-4
-                              span.text-muted Email
+                              span.text-muted Email:
                             #detail-email.col-sm-8
                         li.padding-v-5
                           .row
                             .col-sm-4
-                              span.text-muted T&eacute;l&eacute;phone
+                              span.text-muted T&eacute;l&eacute;phone:
                             #detail-telephone.col-sm-8
                         li.padding-v-5
                           .row
                             .col-sm-4
-                              span.text-muted Adresse
+                              span.text-muted Adresse:
                             #detail-adresse.col-sm-8
                         li.padding-v-5
                           .row
@@ -1949,12 +1831,12 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                         li.padding-v-5
                           .row
                             .col-sm-4
-                              span.text-muted Pays
+                              span.text-muted Pays:
                             #detail-pays.col-sm-8
                         li.padding-v-5
                           .row
                             .col-sm-4
-                              span.text-muted Age
+                              span.text-muted Age:
                             #detail-age.col-sm-8
                         li.padding-v-5
                           .row
@@ -1968,8 +1850,10 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                             #detail-profil.col-sm-8
                 .col-md-7
                   .widget
-                    .widget-header
-                      h3.widget-caption Pr&eacute;f&eacute;rences
+                    .basic-info
+                      h5
+                        i.fa.fa-square
+                        | &nbsp;Pr&eacute;f&eacute;rence
                     .widget-body.bordered-top.bordered-sky
                       ul.list-unstyled.profile-about.margin-none
                         li.padding-v-5
@@ -2004,7 +1888,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
   .modal-dialog.modal-dialog-centered(role='document')
     #idModalContentFiche.modal-content
       #idModalBodyTextFiche.modal-header
-        h5#idModalTitleFiche.modal-title.titre-nav-admin
+        h4#idModalTitleFiche.modal-title.titre-nav-admin
         button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
       .modal-body
         #fiche-tab.tab-pane.profile.active

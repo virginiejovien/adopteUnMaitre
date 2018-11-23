@@ -176,6 +176,13 @@ window.addEventListener('DOMContentLoaded', function() {
     var amisPseudo = window.document.getElementById('amis-pseudo');
     var amisPhotoProfil = window.document.getElementById('amis-photo-profil');
     var amisPhotoCover = window.document.getElementById('amis-photo-cover');
+    var formRechercheAmis =  window.document.getElementById('form-recherche-amis');
+    var nomAmis =  window.document.getElementById('nom-amis');
+    var prenomAmis =  window.document.getElementById('prenom-amis');
+    var pseudoAmis =  window.document.getElementById('pseudo-amis');
+    var tbodyResultat;    // tableau DOM resultat de la recherche des membres
+    var tbodyExisteResultat = false; // variable pour identifier sur la tableau resultat recherche liste des membres existe
+
 
 //*****************************************/
 // elements single page messagerie instantannée
@@ -421,6 +428,114 @@ window.addEventListener('DOMContentLoaded', function() {
         
     };
 
+    
+// -----------------------------------------------------------------------------
+// Cette fonction ajoute un événement onclick à une ligne du tableau 
+// tableau resultat-des-membres
+// -----------------------------------------------------------------------------
+    function addRowHandlersResultatMembres() {
+        console.log('je suis dans la fonction addRowHandlersResultatMembres');
+        var tableauResultatMembres = document.getElementById("resultat-des-membres");
+        var rows = tableauResultatMembres.getElementsByTagName("tr");
+        for (var j = 0; j < rows.length; j++) {
+            var currentRow = tableauResultatMembres.rows[j];
+            var createClickHandler = function(row) {
+                return function() {
+                    var cell = row.getElementsByTagName("td")[0];
+                    var cella = cell.getElementsByTagName("a")[0];
+                    var id = cella.innerHTML;
+                    console.log("id:" + id);                    
+                //    webSocketConnection.emit('demandeAffiMurDunMembre', id);  // Demande au serveur la liste de tous les membres   
+                };
+            };
+        
+        currentRow.onclick = createClickHandler(currentRow);
+        
+        }
+    };
+    
+//************************************************************************************************************
+// Fonction qui affichage sous forme de liste le résulat de la recherche de membres: photo nom prenom pseudo
+//************************************************************************************************************
+    var affichageResultatMembres = function(pObjetDesMembres) { 
+        if (tbodyExisteResultat) {                                   // on verifie si le tableau resultat recherche des membres existe ou pas pour ne pas le créer deux fois
+                console.log('tbodyExisteResultat :',tbodyExisteResultat);
+                document.getElementById('table-resultat-membres').removeChild(tbodyResultat) // retire le tableau du DOM
+        } 
+            tbodyResultat = document.createElement('tbody');
+            tbodyResultat.id = 'resultat-des-membres';
+            document.getElementById('table-resultat-membres').appendChild(tbodyResultat); 
+            tbodyExisteResultat = true;
+            for (var i=0; i < pObjetDesMembres.length; i++) {            
+            
+                var today = getFormatDate(pObjetDesMembres[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
+                
+        // Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
+
+                var tr = document.createElement('tr');
+                document.getElementById('resultat-des-membres').appendChild(tr);      
+            
+                var td = document.createElement('td');
+                tr.appendChild(td);
+
+                var img = document.createElement('img');
+                img.setAttribute('src','static/images/membres/'+ pObjetDesMembres[i].photoProfile,'alt', 'image');
+                img.className='img-circle';
+                td.appendChild(img);
+                
+                var a = document.createElement('a');
+                a.id = 'resultat-nom'+[i];
+                a.setAttribute ( 'href' , '#');
+                a.className = 'user-link';
+                a.innerHTML =  pObjetDesMembres[i].nom;
+                td.appendChild(a); 
+
+                var span = document.createElement('span');
+                span.className = 'user-subhead';
+                span.innerHTML = pObjetDesMembres[i].profil;
+                td.appendChild(span);
+
+                var td1 = document.createElement('td'); 
+                td1.className = 'text-center'; 
+                td1.id= 'resultat-prenom'+[i];
+                td1.innerHTML =  pObjetDesMembres[i].prenom;  
+                tr.appendChild(td1);
+
+                var td2 = document.createElement('td'); 
+                td2.className = 'text-center'; 
+                td2.id= 'resultat-pseudo'+[i];
+                td2.innerHTML =  pObjetDesMembres[i].pseudo;   
+                tr.appendChild(td2);
+
+
+                var td3 = document.createElement('td');
+                td3.className = 'text-center'; 
+                td3.id= 'resultat-date'+[i];
+                td3.innerHTML = today;   
+                tr.appendChild(td3);
+                
+                var td4 = document.createElement('td');       
+                td4.setAttribute ( 'style' , 'width: 20%;');
+                tr.appendChild(td4);
+
+                var a4 = document.createElement('a');
+                a4.id = 'suivre'+[i];
+                a4.setAttribute ( 'href' , '#');
+                a4.className = 'btn btn-azure btn-sm';  
+                a4.innerHTML = 'Suivre'      
+                td4.appendChild(a4); 
+
+                var i1 = document.createElement('i');
+                i1.className = 'fa fa-share';
+                a4.appendChild(i1);
+
+
+        }
+
+        addRowHandlersResultatMembres(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
+    };
+
+
 // -----------------------------------------------------------------------------
 // Cette fonction ajoute un événement onclick à une ligne du tableau 
 // tableau liste-des-membres
@@ -482,11 +597,17 @@ window.addEventListener('DOMContentLoaded', function() {
                 var today = getFormatDate(pObjetDesMembres[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
                 
         // Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
+
                 var tr = document.createElement('tr');
                 document.getElementById('liste-des-membres').appendChild(tr);      
             
                 var td = document.createElement('td');
                 tr.appendChild(td);
+
+                var img = document.createElement('img');
+                img.setAttribute('src','static/images/membres/'+ pObjetDesMembres[i].photoProfile,'alt', 'image');
+                img.className='img-circle';
+                td.appendChild(img);
                 
                 var a = document.createElement('a');
                 a.id = 'liste-pseudo'+[i];
@@ -1253,7 +1374,34 @@ window.addEventListener('DOMContentLoaded', function() {
         blockMessages.style.display = 'none';
     });
 
+// ***********************************************************************************************************
+// Formulaire recherche d'amis:
+// - par nom et/ou prénom et/ou pseudo
+// A l'évènement submit on envoi au serveur les données du formulaire de recherche
+// ***********************************************************************************************************
+    formRechercheAmis.addEventListener('submit', function (event) { 
+        event.preventDefault(); 
+        window.scrollTo(0,0);  
+        var objetRechercheDesMembres = {};
+    //   Mise en forme pour transmission au serveur des données saisies  
+        objetRechercheDesMembres.nom        =   nomAmis.value;
+        objetRechercheDesMembres.prenom     =   prenomAmis.value;
+        objetRechercheDesMembres.pseudo     =   pseudoAmis.value;
+    
+        console.log("objetDesMembres recherche amis  avant envoie au serveur web",objetRechercheDesMembres);
 
+        webSocketConnection.emit('controleFormRechercheAmis', objetRechercheDesMembres);  // Transmission au serveur des infos saisies
+        
+    });
+
+// ***********************************************************************************************************
+// Le client  reçoit le résultat de la recherche de membres
+// ***********************************************************************************************************
+    webSocketConnection.on('resultatRecherche', function(documents) {
+        objetDesMembres = documents;
+        console.log('Resultat de la recherche liste des membres trouvés-- objetDesMembres:',objetDesMembres);
+        affichageResultatMembres(objetDesMembres);          
+    });   
 
 // ***********************************************************************************************************
 // PARTIE ADMINISTRATEUR

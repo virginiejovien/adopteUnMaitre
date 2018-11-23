@@ -281,7 +281,6 @@
         </div>
       </div>
     </div>
-
 <!-- **************************************************************************************** -->
 <!--                  PAGE DE RENSEIGNEMENTS PROFIL APRES INSCRIPTION                         -->
 <!-- **************************************************************************************** -->
@@ -1491,7 +1490,7 @@
                   <div class="row">
                     <div class="col-md-6-offset-1 col-sm-6-offset-1 col-xs-12-offset-1"> 
                         <div class="form-group">                      
-                        <label class="control-label" for="inputWarning2">Trouver un membre</label>
+                        <h4 class="titre-nav-admin">Trouver un membre</h4>
                         </div>
                     </div>
                   </div>
@@ -1499,7 +1498,7 @@
                     <div class="col-md-3 col-sm-3 col-xs-12">
                       <div class="form-group">
                         <span class="input-icon">
-                            <input id="nom-amis" type="text" name="nom"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="par son nom" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
+                            <input id="nom-amis" type="text" name="nom"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="son nom" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
                           <i class="glyphicon glyphicon-search darkorange"></i>
                         </span>
                       </div>
@@ -1507,7 +1506,7 @@
                     <div class="col-md-3 col-sm-3 col-xs-12">
                       <div class="form-group">
                         <span class="input-icon">
-                          <input id="prenom-amis" type="text" name="prenom"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="par son prénom" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
+                          <input id="prenom-amis" type="text" name="prenom"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="son prénom" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
                           <i class="glyphicon glyphicon-search darkorange"></i>
                         </span>
                       </div>
@@ -1515,7 +1514,7 @@
                     <div class="col-md-3 col-sm-3 col-xs-12">
                       <div class="form-group">
                           <span class="input-icon">
-                            <input id="pseudo-amis" type="text" name="pseudo"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="par son pseudo" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
+                            <input id="pseudo-amis" type="text" name="pseudo"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="son pseudo" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
                             <i class="glyphicon glyphicon-search darkorange"></i>
                             </span>
                       </div>
@@ -1528,143 +1527,27 @@
               </div>  
             </div>
             <!--fin formulaire rechercher d'amis-->
+            <!-- Début tableau résultat de la recherche-->
             <div class="row">
-              <div class="col-md-3">
-                <div class="contact-box center-version">
-                  <a href="#">
-                    <img alt="image" class="img-circle" src="static/images/Friends/guy-1.jpg">
-                    <h3 class="m-b-xs"><strong>John Doe</strong></h3>
-      
-                    <div class="font-bold">Graphics designer</div>
-                  </a>
-                  <div class="contact-box-footer">
-                    <div class="m-t-xs btn-group">
-                      <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
-                      <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
-                    </div>
+              <div class="col-md-12">
+                <div class="widget">
+                  <div class="table-responsive">
+                  <table id="table-resultat-membres" class="table user-list">
+                    <thead>
+                      <tr>
+                        <th><span>Noms</span></th>
+                        <th><span>Prénoms</span></th>
+                        <th class="text-center"><span>Pseudos</span></th>
+                        <th><span>Membres depuis</span></th>
+                        <th>&nbsp;</th>
+                      </tr>
+                    </thead>
+                  </table>
                   </div>
                 </div>
-              </div>
-
-              <div class="col-md-3">
-                  <div class="contact-box center-version">
-                    <a href="#">
-                      <img alt="image" class="img-circle" src="static/images/Friends/guy-2.jpg">
-                      <h3 class="m-b-xs"><strong>John Doe</strong></h3>
-        
-                      <div class="font-bold">Graphics designer</div>
-                    </a>
-                    <div class="contact-box-footer">
-                      <div class="m-t-xs btn-group">
-                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
-                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-
-              <div class="col-md-3">
-                  <div class="contact-box center-version">
-                    <a href="#">
-                      <img alt="image" class="img-circle" src="static/images/Friends/guy-3.jpg">
-                      <h3 class="m-b-xs"><strong>John Doe</strong></h3>
-        
-                      <div class="font-bold">Graphics designer</div>
-                    </a>
-                    <div class="contact-box-footer">
-                      <div class="m-t-xs btn-group">
-                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
-                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-
-              <div class="col-md-3">
-                  <div class="contact-box center-version">
-                    <a href="#">
-                      <img alt="image" class="img-circle" src="static/images/Friends/woman-1.jpg">
-                      <h3 class="m-b-xs"><strong>John Doe</strong></h3>
-        
-                      <div class="font-bold">Graphics designer</div>
-                    </a>
-                    <div class="contact-box-footer">
-                      <div class="m-t-xs btn-group">
-                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
-                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-
-              <div class="col-md-3">
-                  <div class="contact-box center-version">
-                    <a href="#">
-                      <img alt="image" class="img-circle" src="static/images/Friends/woman-2.jpg">
-                      <h3 class="m-b-xs"><strong>John Doe</strong></h3>
-        
-                      <div class="font-bold">Graphics designer</div>
-                    </a>
-                    <div class="contact-box-footer">
-                      <div class="m-t-xs btn-group">
-                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
-                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-
-              <div class="col-md-3">
-                  <div class="contact-box center-version">
-                    <a href="#">
-                      <img alt="image" class="img-circle" src="static/images/Friends/woman-3.jpg">
-                      <h3 class="m-b-xs"><strong>John Doe</strong></h3>
-        
-                      <div class="font-bold">Graphics designer</div>
-                    </a>
-                    <div class="contact-box-footer">
-                      <div class="m-t-xs btn-group">
-                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
-                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-
-              <div class="col-md-3">
-                  <div class="contact-box center-version">
-                    <a href="#">
-                      <img alt="image" class="img-circle" src="static/images/Friends/guy-5.jpg">
-                      <h3 class="m-b-xs"><strong>John Doe</strong></h3>
-        
-                      <div class="font-bold">Graphics designer</div>
-                    </a>
-                    <div class="contact-box-footer">
-                      <div class="m-t-xs btn-group">
-                        <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
-                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-
-              <div class="col-md-3">
-              <div class="contact-box center-version">
-                <a href="#">
-                  <img alt="image" class="img-circle" src="static/images/Friends/woman-1.jpg">
-                  <h3 class="m-b-xs"><strong>John Doe</strong></h3>
-    
-                  <div class="font-bold">Graphics designer</div>
-                </a>
-                <div class="contact-box-footer">
-                  <div class="m-t-xs btn-group">
-                    <a href="messages1.html" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i>Send Messages</a>
-                    <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
-                  </div>
-                </div>
-              </div>
               </div>
             </div>
+            <!-- Fin tableau résultat de la recherche-->
           </div>
         </div>
       </div>
@@ -1957,18 +1840,9 @@
                     </thead>
                   </table>
                   </div>
-                  <ul class="pagination pull-right">
-                    <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-                  </ul>
                 </div>
               </div>
-            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2002,9 +1876,9 @@
                   <div class="row">
                     <div class="col-md-5">
                       <div class="widget">
-                        <div class="widget-header">
-                          <h3 class="widget-caption">A propos</h3>
-                        </div>
+                        <div class="basic-info">
+                          <h5><i class="fa fa-square"></i>&nbsp;A propos</h5> 
+                        </div>                                           
                         <div class="widget-body bordered-top bordered-sky">
                           <ul class="list-unstyled profile-about margin-none">
                             <li class="padding-v-5">
@@ -2021,19 +1895,19 @@
                             </li>
                             <li class="padding-v-5">
                                 <div class="row">
-                                  <div class="col-sm-4"><span class="text-muted">Email</span></div>
+                                  <div class="col-sm-4"><span class="text-muted">Email:</span></div>
                                   <div class="col-sm-8" id="detail-email"></div>
                                 </div>
                             </li>
                             <li class="padding-v-5">
                                 <div class="row">
-                                  <div class="col-sm-4"><span class="text-muted">Téléphone</span></div>
+                                  <div class="col-sm-4"><span class="text-muted">Téléphone:</span></div>
                                   <div class="col-sm-8" id="detail-telephone"></div>
                                 </div>
                             </li>
                             <li class="padding-v-5">
                                 <div class="row">
-                                  <div class="col-sm-4"><span class="text-muted">Adresse</span></div>
+                                  <div class="col-sm-4"><span class="text-muted">Adresse:</span></div>
                                   <div class="col-sm-8" id="detail-adresse"></div>
                                 </div>
                             </li>
@@ -2051,13 +1925,13 @@
                             </li>
                             <li class="padding-v-5">
                                 <div class="row">
-                                  <div class="col-sm-4"><span class="text-muted">Pays</span></div>
+                                  <div class="col-sm-4"><span class="text-muted">Pays:</span></div>
                                   <div class="col-sm-8" id="detail-pays"></div>
                                 </div>
                             </li>
                             <li class="padding-v-5">
                                 <div class="row">
-                                  <div class="col-sm-4"><span class="text-muted">Age</span></div>
+                                  <div class="col-sm-4"><span class="text-muted">Age:</span></div>
                                   <div class="col-sm-8" id="detail-age"></div>
                                 </div>
                             </li>
@@ -2079,9 +1953,9 @@
                     </div>
                     <div class="col-md-7">
                         <div class="widget">
-                        <div class="widget-header">
-                          <h3 class="widget-caption">Préférences</h3>
-                        </div>
+                          <div class="basic-info">
+                            <h5><i class="fa fa-square"></i>&nbsp;Préférence</h5> 
+                          </div>
                         <div class="widget-body bordered-top bordered-sky">
                           <ul class="list-unstyled profile-about margin-none">
                             <li class="padding-v-5">
@@ -2137,11 +2011,11 @@
  <!--*****************************************************************************************-->
  <!--                    FENETRE MODAL MODIFICATION FORMULAIRE D'UN MEMBRE                    -->
  <!--*****************************************************************************************--> 
-  <div class="modal fade" tabindex="-1" role="dialog" id="idFiche" aria-labelledby="idModalFicheTitle" aria-hidden="true">
+  <div class="modal fade " tabindex="-1" role="dialog" id="idFiche" aria-labelledby="idModalFicheTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="idModalContentFiche">
           <div class="modal-header" id="idModalBodyTextFiche">
-              <h5 class="modal-title titre-nav-admin" id="idModalTitleFiche" id="pseudoFiche"></h5>
+              <h4 class="modal-title titre-nav-admin" id="idModalTitleFiche" id="pseudoFiche"></h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Fermer" aria-hidden="true">X</button>
           </div>
           <div class="modal-body">
