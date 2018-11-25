@@ -400,7 +400,7 @@
                                 <label class="col-md-4 control-label">Code Postal</label>
                                 <div class="col-md-6  inputGroupContainer">
                                     <span class="input-icon">   
-                                      <input type="number" id="cp-profil" class="form-control control-groupe" name="cp" maxlength='5' size='5' placeholder="Ex: 75011"  pattern="[0-9]{5}" title="Les caractères doivent être numériques et la longueur doit être de 5 caractères">
+                                      <input type="text" id="cp-profil" class="form-control control-groupe" name="cp" maxlength='5' size='5' placeholder="Ex: 75011"  pattern='^[0-9]{5}$' title="Les caractères doivent être numériques et la longueur doit être de 5 caractères">
                                       <i class="fa fa-home darkorange"></i> <br/>   
                                     </span>
                                 </div>
@@ -832,42 +832,42 @@
                 <ul class="friends">
                   <li>
                     <a href="#">
-                      <img src="static/images/Friends/guy-6.jpg" alt="people" class="img-responsive">
+                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <img src="static/images/Friends/woman-3.jpg" alt="people" class="img-responsive">
+                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <img src="static/images/Friends/guy-2.jpg" alt="people" class="img-responsive">
+                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <img src="static/images/Friends/guy-9.jpg" alt="people" class="img-responsive">
+                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <img src="static/images/Friends/woman-9.jpg" alt="people" class="img-responsive">
+                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <img src="static/images/Friends/guy-4.jpg" alt="people" class="img-responsive">
+                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <img src="static/images/Friends/guy-1.jpg" alt="people" class="img-responsive">
+                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <img src="static/images/Friends/woman-4.jpg" alt="people" class="img-responsive">
+                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
                     </a>
                   </li>
                   <li><a href="#" class="group"><i class="fa fa-group"></i></a></li>
@@ -942,7 +942,8 @@
                 </ul>
               </div>
             </div>
-          
+        <!--- Début liste d'amis--> 
+      
             <div class="widget widget-friends">
               <div class="widget-header">
                 <h3 class="widget-caption">Amis</h3>
@@ -950,58 +951,25 @@
               <div class="widget-body bordered-top  bordered-sky">
                 <div class="row">
                   <div class="col-md-12">
-                    <ul class="img-grid" style="margin: 0 auto;">
-                      <li>
-                        <a href="#">
-                          <img src="static/images/favicon.png" alt="image">
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <img src="static/images/favicon.png" alt="image">
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <img src="static/images/favicon.png" alt="image">
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <img src="static/images/favicon.png" alt="image">
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <img src="static/images/favicon.png" alt="image">
-                        </a>
-                      </li>
-                      <li class="clearfix">
-                        <a href="#">
-                          <img src="static/images/favicon.png" alt="image">
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <img src="static/images/favicon.png" alt="image">
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <img src="static/images/favicon.png" alt="image">
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <img src="static/images/favicon.png" alt="image">
-                        </a>
-                      </li>
-                    </ul>
+                    <div class="widget">
+                      <div class="table-responsive">
+                        <table id="table-liste-amis" class="table user-list">
+                          <thead>
+                            <tr>
+                              <th><span>Membres</span></th>
+                              <th><span>Noms</span></th>
+                              <th class="text-center"><span>Prénoms</span></th>
+                              <th>&nbsp;</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-
+        <!--- Fin liste d'amis--> 
             <div class="widget">
               <div class="widget-header">
                 <h3 class="widget-caption">Groups</h3>
@@ -1515,7 +1483,7 @@
                     <div class="col-md-3 col-sm-3 col-xs-12">
                       <div class="form-group position">
                           <span class="input-icon">
-                            <input id="pseudo-amis" type="text" name="pseudo"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="son pseudo" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
+                            <input id="pseudo-amis" type="text" name="pseudo"  class="form-control control-groupe input-sm" maxlength='23' size='23' placeholder="son pseudo" pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères">
                             <i class="glyphicon glyphicon-search darkorange"></i>
                             </span>
                       </div>
