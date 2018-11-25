@@ -182,7 +182,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var pseudoAmis =  window.document.getElementById('pseudo-amis');
     var tbodyResultat;    // tableau DOM resultat de la recherche des membres
     var tbodyExisteResultat = false; // variable pour identifier sur la tableau resultat recherche liste des membres existe
-
+    var compteurAmis = 0;  // compteur nombre de clique sur la recherche d'amis
 
 //*****************************************/
 // elements single page messagerie instantannée
@@ -445,7 +445,11 @@ window.addEventListener('DOMContentLoaded', function() {
                     var cella = cell.getElementsByTagName("a")[0];
                     var id = cella.innerHTML;
                     console.log("id:" + id);                    
-                //    webSocketConnection.emit('demandeAffiMurDunMembre', id);  // Demande au serveur la liste de tous les membres   
+                
+                compteurAmis ++;   // on ajoute 1 au compteurAmis pour savoir si on créé le tableau resultat recherche liste des membres 
+                console.log('compteur des cliques sur le tableau recherche amis compteurAmis:',compteurAmis);  
+                console.log('objetDuMembre avant demande rajout ami',objetDuMembre);           
+                webSocketConnection.emit('demandeRajoutAmi', id, objetDuMembre);  // Demande au serveur de rajouter ce membre dans la liste d'amis
                 };
             };
         
@@ -484,10 +488,10 @@ window.addEventListener('DOMContentLoaded', function() {
                 td.appendChild(img);
                 
                 var a = document.createElement('a');
-                a.id = 'resultat-nom'+[i];
+                a.id = 'resultat-pseudo'+[i];
                 a.setAttribute ( 'href' , '#');
                 a.className = 'user-link';
-                a.innerHTML =  pObjetDesMembres[i].nom;
+                a.innerHTML =  pObjetDesMembres[i].pseudo;
                 td.appendChild(a); 
 
                 var span = document.createElement('span');
@@ -497,14 +501,14 @@ window.addEventListener('DOMContentLoaded', function() {
 
                 var td1 = document.createElement('td'); 
                 td1.className = 'text-center'; 
-                td1.id= 'resultat-prenom'+[i];
-                td1.innerHTML =  pObjetDesMembres[i].prenom;  
+                td1.id= 'resultat-nom'+[i];
+                td1.innerHTML =  pObjetDesMembres[i].nom;  
                 tr.appendChild(td1);
 
                 var td2 = document.createElement('td'); 
                 td2.className = 'text-center'; 
-                td2.id= 'resultat-pseudo'+[i];
-                td2.innerHTML =  pObjetDesMembres[i].pseudo;   
+                td2.id= 'resultat-prenom'+[i];
+                td2.innerHTML =  pObjetDesMembres[i].prenom;   
                 tr.appendChild(td2);
 
 
@@ -551,7 +555,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     var cell = row.getElementsByTagName("td")[0];
                     var cella = cell.getElementsByTagName("a")[0];
                     var id = cella.innerHTML;
-                    console.log("id:" + id);                    
+                    console.log("id:" + id);
                     webSocketConnection.emit('demandeAffiMurDunMembre', id);  // Demande au serveur la liste de tous les membres   
                 };
             };
@@ -1383,6 +1387,9 @@ window.addEventListener('DOMContentLoaded', function() {
         event.preventDefault(); 
         window.scrollTo(0,0);  
         var objetRechercheDesMembres = {};
+        if (compteurAmis > 0){
+            tbodyExisteResultat = true; // on réinitialise le tableau pour chaque nouvelle recherche d'amis on detruit le tableau et on force sa création
+        }
     //   Mise en forme pour transmission au serveur des données saisies  
         objetRechercheDesMembres.nom        =   nomAmis.value;
         objetRechercheDesMembres.prenom     =   prenomAmis.value;
@@ -1397,10 +1404,10 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // Le client  reçoit le résultat de la recherche de membres
 // ***********************************************************************************************************
-    webSocketConnection.on('resultatRecherche', function(documents) {
-        objetDesMembres = documents;
-        console.log('Resultat de la recherche liste des membres trouvés-- objetDesMembres:',objetDesMembres);
-        affichageResultatMembres(objetDesMembres);          
+    webSocketConnection.on('resultatRecherche', function(objetResultatRecherche) {
+        
+        console.log('Resultat de la recherche liste des membres trouvés-- objetResultatRecherche:',objetResultatRecherche);
+        affichageResultatMembres(objetResultatRecherche);          
     });   
 
 // ***********************************************************************************************************

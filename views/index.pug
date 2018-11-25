@@ -1495,29 +1495,30 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         // début formulaire recherche d'amis
         .row
           .col-md-12
-            form#form-recherche-amis.needs-validation
-              .row
-                .col-md-6-offset-1.col-sm-6-offset-1.col-xs-12-offset-1
-                  .form-group
-                    h4.titre-nav-admin Trouver un membre
-              .row
-                .col-md-3.col-sm-3.col-xs-12
-                  .form-group
-                    span.input-icon
-                      input#nom-amis.form-control.control-groupe.input-sm(type='text' name='nom' maxlength='21' size='21' placeholder='son nom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
-                      i.glyphicon.glyphicon-search.darkorange
-                .col-md-3.col-sm-3.col-xs-12
-                  .form-group
-                    span.input-icon
-                      input#prenom-amis.form-control.control-groupe.input-sm(type='text' name='prenom' maxlength='21' size='21' placeholder='son prénom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
-                      i.glyphicon.glyphicon-search.darkorange
-                .col-md-3.col-sm-3.col-xs-12
-                  .form-group
-                    span.input-icon
-                      input#pseudo-amis.form-control.control-groupe.input-sm(type='text' name='pseudo' maxlength='21' size='21' placeholder='son pseudo' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
-                      i.glyphicon.glyphicon-search.darkorange
-                .col-md-3.col-sm-6.col-xs-12
-                  button.btn.btn-azure(type='submit') Rechercher
+            .cover.profile
+              form#form-recherche-amis.needs-validation
+                .row
+                  .col-md-6-offset-1.col-sm-6-offset-1.col-xs-12-offset-1
+                    .form-group
+                      h4.titre-nav-admin Trouver un membre
+                .row
+                  .col-md-3.col-sm-3.col-xs-12
+                    .form-group.position
+                      span.input-icon
+                        input#nom-amis.form-control.control-groupe.input-sm(type='text' name='nom' maxlength='21' size='21' placeholder='son nom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                        i.glyphicon.glyphicon-search.darkorange
+                  .col-md-3.col-sm-3.col-xs-12
+                    .form-group.position
+                      span.input-icon
+                        input#prenom-amis.form-control.control-groupe.input-sm(type='text' name='prenom' maxlength='21' size='21' placeholder='son prénom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                        i.glyphicon.glyphicon-search.darkorange
+                  .col-md-3.col-sm-3.col-xs-12
+                    .form-group.position
+                      span.input-icon
+                        input#pseudo-amis.form-control.control-groupe.input-sm(type='text' name='pseudo' maxlength='21' size='21' placeholder='son pseudo' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                        i.glyphicon.glyphicon-search.darkorange
+                  .col-md-3.col-sm-6.col-xs-12
+                    button.btn.btn-azure(type='submit') Rechercher
         // fin formulaire rechercher d'amis
         // Début tableau résultat de la recherche
         .row
@@ -1528,13 +1529,13 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   thead
                     tr
                       th
+                        span Membres
+                      th
                         span Noms
-                      th
-                        span Pr&eacute;noms
                       th.text-center
-                        span Pseudos
+                        span Pr&eacute;noms
                       th
-                        span Membres depuis
+                        span Depuis
                       th &nbsp;
         // Fin tableau résultat de la recherche
 // Modal

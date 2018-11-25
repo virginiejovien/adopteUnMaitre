@@ -54,7 +54,7 @@ vDBMgr.checkDBConnect()
     app.use('/static', express.static(__dirname + '/bootstrap.3.3.6'));
     app.use('/static', express.static(__dirname + '/font-awesome.4.6.1'));
     app.use(SocketIOFileUpload.router);
-   
+
 
     app.get('/', function(req, res, next) {   
         res.render('index') 
@@ -90,14 +90,14 @@ vDBMgr.checkDBConnect()
 // **********************                                                               **********************
 // **********************                                                               **********************    
 // ***********************************************************************************************************
-   
+
     let socketIo = new SocketIo(server);
 
     socketIo.on('connection', function(webSocketConnection) {        // Une connexion au serveur vient d être faite
         console.log('Connection');        
 
         // Création de la liaison socket.io sur la base du serveur HTTP déja déclaré précédement
-       
+    
         uploader.listen(webSocketConnection);  
 
         vMemberServer.initVisiteur(webSocketConnection, socketIo);  //  initialisation 
@@ -163,6 +163,11 @@ vDBMgr.checkDBConnect()
         vMemberServer.rechercheMembres(dataRecherche, webSocketConnection, socketIo);
     });   
 
+    // Reception de la demande de rajouter ce membre dans la liste d'amis
+    webSocketConnection.on('demandeRajoutAmi', function (dataAmi, dataMembre) {  
+        vMemberServer.demandeRajoutListeAmi(dataAmi,dataMembre,webSocketConnection, socketIo);
+    });   
+
 //************************************************************************************************************  
 // Gestion du Dasboard Administrateur
 // Reception de la demande de recuperer les donnees de tous les membres dans la collection membres de BDD
@@ -186,8 +191,8 @@ vDBMgr.checkDBConnect()
         webSocketConnection.on('controleFicheModifDunMembre', function (dataFiche) {  
             vMemberServer.miseAjourProfilMembreParAdmin(dataFiche, webSocketConnection, socketIo);
         });   
-     // Reception demande de supprimer un membre
-           webSocketConnection.on('demandeSupprimeUnMembre', function (dataDunMembre) { 
+    // Reception demande de supprimer un membre
+        webSocketConnection.on('demandeSupprimeUnMembre', function (dataDunMembre) { 
             console.log("serveur recoit demande supprimer un membre"); 
             vMemberServer.supprimerUnMembre(dataDunMembre, webSocketConnection, socketIo);
         });  
