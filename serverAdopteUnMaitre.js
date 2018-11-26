@@ -146,7 +146,22 @@ vDBMgr.checkDBConnect()
     // Reception de la demande de recuperer les donnees du membre dans la collection membres de BDD
     // Envoie par la suite le formulaire d'inscription profile
 
+    // Reception de la demande d'aller sur le mur de profil d'un ami
+        webSocketConnection.on('afficheMurAmi', function (dataAmi) {  
+            vMemberServer.demandeMurAmi(dataAmi, webSocketConnection, socketIo);
+        }); 
 
+    // Reception demande d'afficher les infos d'un ami
+        webSocketConnection.on('demandeAffiInfosAmi', function (pseudoDunMembre) { 
+            console.log("serveur recoit demande information d'un ami"); 
+            vMemberServer.sendInfoMurAmi(pseudoDunMembre, webSocketConnection, socketIo);
+        }); 
+    // Reception accepte l'invitation
+        webSocketConnection.on('accepteInvitation', function (dataDunMembre) { 
+            console.log("serveur recoit accepte invitation"); 
+            vMemberServer.invitationAccepte(dataDunMembre, webSocketConnection, socketIo);
+        }); 
+        
 //************************************************************************************************************  
 // Gestion de la fiche de renseignement du profil du membre
 //************************************************************************************************************ 
@@ -158,15 +173,23 @@ vDBMgr.checkDBConnect()
 //************************************************************************************************************  
 // Gestion de la recherche d'amis
 //************************************************************************************************************ 
-    // Reception du formulaire de recherche d'amis
-    webSocketConnection.on('controleFormRechercheAmis', function (dataRecherche) {  
-        vMemberServer.rechercheMembres(dataRecherche, webSocketConnection, socketIo);
-    });   
 
-    // Reception de la demande de rajouter ce membre dans la liste d'amis
-    webSocketConnection.on('demandeRajoutAmi', function (dataAmi, dataMembre) {  
-        vMemberServer.demandeRajoutListeAmi(dataAmi,dataMembre,webSocketConnection, socketIo);
-    });   
+        // Reception demande d'afficher la liste de tous des membres  
+        webSocketConnection.on('demandeListeDeTousLesMembres', function () { 
+            console.log('serveur recoit demande liste de tous les membres pour la recherche amis'); 
+            vMemberServer.sendListeDeTousLesMembres(webSocketConnection, socketIo);
+        });  
+
+        // Reception du formulaire de recherche d'amis
+        webSocketConnection.on('controleFormRechercheAmis', function (dataRecherche) {  
+            vMemberServer.rechercheMembres(dataRecherche, webSocketConnection, socketIo);
+        });   
+
+        // Reception de la demande de rajouter ce membre dans la liste d'amis
+        webSocketConnection.on('demandeRajoutAmi', function (dataAmi, dataMembre) {  
+            vMemberServer.demandeRajoutListeAmi(dataAmi,dataMembre,webSocketConnection, socketIo);
+        });   
+
 
 //************************************************************************************************************  
 // Gestion du Dasboard Administrateur

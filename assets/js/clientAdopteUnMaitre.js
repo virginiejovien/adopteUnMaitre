@@ -72,6 +72,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var vModalTitle = window.document.getElementById('idModalTitle');
     var vModalBodyText = window.document.getElementById('idModalBodyText');
     var idFelicitation = window.document.getElementById('idFelicitation');
+    var vModalBodyTextFelicitation = window.document.getElementById('idModalBodyTextFelicitation');
     var fermeFelicitation = window.document.getElementById('ferme-felicitation');
     var vModalBodyTextG = window.document.getElementById('idModalBodyTextG');  
     var vModalTitleG = window.document.getElementById('idModalTitleG');
@@ -83,7 +84,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var pseudoTitreFiche  =  window.document.getElementById('pseudoTitreFiche');
     var pseudoFiche = window.document.getElementById('pseudo-fiche');
     var emailFiche = window.document.getElementById('email-fiche');
-    var idModalTitleFiche =window.document.getElementById('idModalTitleFiche');
+ //   var idModalTitleFiche =window.document.getElementById('idModalTitleFiche');
     // variables entrees du formulaires  
     var capturePhotoFileFiche = window.document.getElementById('capturePhotoFileFiche');
     var capturePhotoImgFiche = window.document.getElementById('capturePhotoImgFiche');
@@ -167,6 +168,30 @@ window.addEventListener('DOMContentLoaded', function() {
     var tbodyAmis; // tableau DOM resultat de la liste d'amis
     var tbodyExisteAmis = false; // variable pour identifier sur la tableau resultat recherche liste des membres existe
 
+//*******************************************************/
+// elements single page administrateur détail d'un membre
+//*******************************************************/  
+    var blockInfoAmi =  window.document.getElementById('block-info-ami');
+    var idRetourMur       =   window.document.getElementById('idRetourMur');
+    var pseudoInfoAmi     =   window.document.getElementById('pseudo-info-ami');
+    var infoPseudo      =   window.document.getElementById('info-pseudo');
+    var infoNom = window.document.getElementById('info-nom');
+    var infoPrenom = window.document.getElementById('info-prenom');
+    var infoTelephone = window.document.getElementById('info-telephone');
+    var infoEmail = window.document.getElementById('info-email');
+    var infoAge = window.document.getElementById('info-age');
+    var infoGenre = window.document.getElementById('info-genre');
+    var infoProfil = window.document.getElementById('info-profil');
+    var infoAdresse = window.document.getElementById('info-adresse');
+    var infoCp = window.document.getElementById('info-cp');
+    var infoVille = window.document.getElementById('info-ville');
+    var infoPays = window.document.getElementById('info-pays');
+    var infoPreference = window.document.getElementById('info-preference');
+    var infoPhotoProfil = window.document.getElementById('info-photo-profile');
+    var infoPhotoCover = window.document.getElementById('info-photo-cover');
+    var accepteInvitation = window.document.getElementById('accepte-invitation');
+    var refuseInvitation = window.document.getElementById('refuse-invitation');
+
 //*****************************************/
 // elements single page recherche d'amis
 //*****************************************/   
@@ -182,6 +207,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var nomAmis =  window.document.getElementById('nom-amis');
     var prenomAmis =  window.document.getElementById('prenom-amis');
     var pseudoAmis =  window.document.getElementById('pseudo-amis');
+    var afficheListeMembres =  window.document.getElementById('affiche-liste-membres');
     var tbodyResultat;    // tableau DOM resultat de la recherche des membres
     var tbodyExisteResultat = false; // variable pour identifier sur la tableau resultat recherche liste des membres existe
 
@@ -228,6 +254,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var detailPhotoCover = window.document.getElementById('detail-photo-cover');
     var modifMembre = window.document.getElementById('modif-membre');
     var supprimeMembre = window.document.getElementById('supprime-membre');
+      
 //*****************************************/
 // elements single page footer
 //*****************************************/  
@@ -442,6 +469,74 @@ window.addEventListener('DOMContentLoaded', function() {
     };
 
 // -----------------------------------------------------------------------------
+// Cette fonction initialise les données d'un ami pour un membre 
+// sur la page détail d'un membre
+// -----------------------------------------------------------------------------
+    function initInfoAmi(pObjetDunMembre) {
+        // affichage des donnees de la page du mur de profile du membre
+
+        infoPseudo.innerHTML    = pObjetDunMembre.pseudo;
+        pseudoInfoAmi.innerHTML = pObjetDunMembre.pseudo;
+        infoPhotoProfil.setAttribute('src','static/images/membres/'+pObjetDunMembre.photoProfile);
+        infoPhotoCover.setAttribute('src','static/images/membres/'+pObjetDunMembre.photoCover);
+
+        if (pObjetDunMembre.ville == '') {
+            infoVille.innerHTML = 'Non renseigné'; 
+        } else {
+            infoVille.innerHTML =  pObjetDunMembre.ville;
+        } 
+
+        switch(pObjetDunMembre.genre) {
+            case 'F':                                           
+            infoGenre.innerHTML = 'Femme';  
+            break;
+            case 'H':                        
+            infoGenre.innerHTML = 'Homme';  
+            break;
+            case '':      
+            infoGenre.innerHTML = 'Non renseigné';        
+            break;
+        };
+        
+        console.log(pObjetDunMembre.profil);
+        switch(pObjetDunMembre.profil) {
+            case 'AM':                                           
+            infoProfil.innerHTML = 'Adopte un maître';  
+            break;
+            case 'AC':                        
+            infoProfil.innerHTML = 'Adopte un chat';  
+            break;
+            case 'NSP':      
+            infoProfil.innerHTML = 'Ne sais pas encore'; 
+            break;
+            case '':
+            infoProfil.innerHTML = 'Non renseigné'; 
+            break;
+        };
+                
+        if (pObjetDunMembre.age == ''){
+            infoAge.innerHTML = 'Non renseigné'; 
+        } else {
+            infoAge.innerHTML = pObjetDunMembre.age + ' ans';
+        } 
+
+        infoEmail.innerHTML   = pObjetDunMembre.email;  
+        infoNom.innerHTML     = pObjetDunMembre.nom; 
+        infoPrenom.innerHTML  = pObjetDunMembre.prenom;  
+        infoCp.innerHTML      = pObjetDunMembre.cp;
+        infoAdresse           = pObjetDunMembre.adresse;
+        infoPays              = pObjetDunMembre.pays;
+        infoTelephone         = pObjetDunMembre.telephone;
+
+        if (pObjetDunMembre.preference == '') {
+            infoPreference.innerHTML = 'Non renseigné'; 
+        } else {
+            infoPreference.innerHTML = pObjetDunMembre.preference;
+        } 
+        
+    };
+
+// -----------------------------------------------------------------------------
 // Cette fonction ajoute un événement onclick à une ligne du tableau 
 // tableau amis-des-membres
 // -----------------------------------------------------------------------------
@@ -458,7 +553,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     var id = cella.innerHTML;
                     console.log("id:" + id);      
                     console.log('objetDuMembre avant detail de cet ami',objetDuMembre);           
-                //    webSocketConnection.emit('demandeRajoutAmi', id, objetDuMembre);  // Demande au serveur de rajouter ce membre dans la liste d'amis
+                    webSocketConnection.emit('demandeAffiInfosAmi', id, objetDuMembre);  // Demande au serveur d'afficher les infos d'un ami
                 };
             };
         
@@ -481,9 +576,7 @@ window.addEventListener('DOMContentLoaded', function() {
             tbodyExisteAmis = true;
             for (var i=0; i < pObjetDuMembre.amis.length; i++) {            
             
-                var today = getFormatDate(pObjetDuMembre.amis[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
-     //pierre          
-        // Création physique dynamique et ajout au DOM de la liste d'amis: on crée une ligne psysique de chaque membre
+            // Création physique dynamique et ajout au DOM de la liste d'amis: on crée une ligne psysique de chaque membre
 
                 var tr = document.createElement('tr');
                 document.getElementById('amis-des-membres').appendChild(tr);      
@@ -493,19 +586,29 @@ window.addEventListener('DOMContentLoaded', function() {
 
                 var img = document.createElement('img');
                 img.setAttribute('src','static/images/membres/'+ pObjetDuMembre.amis[i].photoProfile,'alt', 'image');
-                img.className='img-circle';
+                img.className='img-circle image-user-liste';
                 td.appendChild(img);
                 
                 var a = document.createElement('a');
                 a.id = 'amis-pseudo'+[i];
                 a.setAttribute ( 'href' , '#');
-                a.className = 'user-link';
+                a.className = 'user-liste';
                 a.innerHTML =  pObjetDuMembre.amis[i].pseudo;
                 td.appendChild(a); 
 
                 var span = document.createElement('span');
-                span.className = 'user-subhead';
-                span.innerHTML = pObjetDuMembre.amis[i].profil;
+                span.className = 'user-subhead-liste';
+                switch(pObjetDuMembre.amis[i].statut) {
+                    case 'I':                                           
+                    span.innerHTML = 'Invitation en cours'  
+                    break;
+                    case 'A':                        
+                    span.innerHTML = 'Attente de confirmation'  
+                    break;
+                    case 'C':      
+                    span.innerHTML = 'Confirmé'  
+                    break;
+                };               
                 td.appendChild(span);
 
                 var td1 = document.createElement('td'); 
@@ -519,36 +622,95 @@ window.addEventListener('DOMContentLoaded', function() {
                 td2.id= 'amis-prenom'+[i];
                 td2.innerHTML =  pObjetDuMembre.amis[i].prenom;   
                 tr.appendChild(td2);
-
-
-                var td3 = document.createElement('td');
-                td3.className = 'text-center'; 
-                td3.id= 'amis-date'+[i];
-                td3.innerHTML = today;   
-                tr.appendChild(td3);
                 
                 var td4 = document.createElement('td');       
-                td4.setAttribute ( 'style' , 'width: 20%;');
+                td4.setAttribute ( 'style' , 'width: 10%;');
                 tr.appendChild(td4);
 
                 var a4 = document.createElement('a');
-                a4.id = 'suivre'+[i];
+                a4.id = 'amis-info'+[i];
                 a4.setAttribute ( 'href' , '#');
-                a4.className = 'btn btn-azure btn-sm';  
-                a4.innerHTML = 'Suivre'      
+                a4.className = 'table-link success';        
                 td4.appendChild(a4); 
 
+                var span4 = document.createElement('span');
+                span4.className = 'fa-stack';       
+                a4.appendChild(span4);
+
                 var i1 = document.createElement('i');
-                i1.className = 'fa fa-share';
-                a4.appendChild(i1);
+                i1.className = 'fa fa-square fa-stack-2x';
+                span4.appendChild(i1);
 
-
+                var i2 = document.createElement('i');
+                i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
+                span4.appendChild(i2);
+        
         }
 
         addRowHandlersAmisMembres(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
     };
 
+//************************************************************************************************************
+// Fonction qui affichage sous forme de liste de tous les membres: photo nom prenom pseudo
+//************************************************************************************************************
+var affichageTouslesMembres = function(pObjetDesMembres) { 
+    if (tbodyExisteResultat) {                                   // on verifie si le tableau resultat recherche des membres existe ou pas pour ne pas le créer deux fois
+            console.log('tbodyExisteResultat :',tbodyExisteResultat);
+            document.getElementById('table-resultat-membres').removeChild(tbodyResultat) // retire le tableau du DOM
+    } 
+    tbodyResultat = document.createElement('tbody');
+    tbodyResultat.id = 'resultat-des-membres';
+    document.getElementById('table-resultat-membres').appendChild(tbodyResultat); 
+    tbodyExisteResultat = true;
+    for (var i=0; i < pObjetDesMembres.length; i++) {            
+    
+        var today = getFormatDate(pObjetDesMembres[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
+        
+// Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
 
+        var tr = document.createElement('tr');
+        document.getElementById('resultat-des-membres').appendChild(tr);      
+    
+        var td = document.createElement('td');
+        tr.appendChild(td);
+
+        var img = document.createElement('img');
+        img.setAttribute('src','static/images/membres/'+ pObjetDesMembres[i].photoProfile,'alt', 'image');
+        img.className='img-circle';
+        td.appendChild(img);
+        
+        var a = document.createElement('a');
+        a.id = 'resultat-pseudo'+[i];
+        a.setAttribute ( 'href' , '#');
+        a.className = 'user-link';
+        a.innerHTML =  pObjetDesMembres[i].pseudo;
+        td.appendChild(a); 
+
+        var span = document.createElement('span');
+        span.className = 'user-subhead';
+        span.innerHTML = pObjetDesMembres[i].profil;
+        td.appendChild(span);
+
+        var td1 = document.createElement('td'); 
+        td1.className = 'text-center'; 
+        td1.id= 'resultat-nom'+[i];
+        td1.innerHTML =  pObjetDesMembres[i].nom;  
+        tr.appendChild(td1);
+
+        var td2 = document.createElement('td'); 
+        td2.className = 'text-center'; 
+        td2.id= 'resultat-prenom'+[i];
+        td2.innerHTML =  pObjetDesMembres[i].prenom;   
+        tr.appendChild(td2);
+
+        var td3 = document.createElement('td');
+        td3.className = 'text-center'; 
+        td3.id= 'resultat-date'+[i];
+        td3.innerHTML = today;   
+        tr.appendChild(td3);    
+    }
+
+};
     
 // -----------------------------------------------------------------------------
 // Cette fonction ajoute un événement onclick à une ligne du tableau 
@@ -584,79 +746,76 @@ window.addEventListener('DOMContentLoaded', function() {
                 console.log('tbodyExisteResultat :',tbodyExisteResultat);
                 document.getElementById('table-resultat-membres').removeChild(tbodyResultat) // retire le tableau du DOM
         } 
-            tbodyResultat = document.createElement('tbody');
-            tbodyResultat.id = 'resultat-des-membres';
-            document.getElementById('table-resultat-membres').appendChild(tbodyResultat); 
-            tbodyExisteResultat = true;
-            for (var i=0; i < pObjetDesMembres.length; i++) {            
+        tbodyResultat = document.createElement('tbody');
+        tbodyResultat.id = 'resultat-des-membres';
+        document.getElementById('table-resultat-membres').appendChild(tbodyResultat); 
+        tbodyExisteResultat = true;
+        for (var i=0; i < pObjetDesMembres.length; i++) {            
+        
+            var today = getFormatDate(pObjetDesMembres[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
             
-                var today = getFormatDate(pObjetDesMembres[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
-                
-        // Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
+    // Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
 
-                var tr = document.createElement('tr');
-                document.getElementById('resultat-des-membres').appendChild(tr);      
+            var tr = document.createElement('tr');
+            document.getElementById('resultat-des-membres').appendChild(tr);      
+        
+            var td = document.createElement('td');
+            tr.appendChild(td);
+
+            var img = document.createElement('img');
+            img.setAttribute('src','static/images/membres/'+ pObjetDesMembres[i].photoProfile,'alt', 'image');
+            img.className='img-circle';
+            td.appendChild(img);
             
-                var td = document.createElement('td');
-                tr.appendChild(td);
+            var a = document.createElement('a');
+            a.id = 'resultat-pseudo'+[i];
+            a.setAttribute ( 'href' , '#');
+            a.className = 'user-link';
+            a.innerHTML =  pObjetDesMembres[i].pseudo;
+            td.appendChild(a); 
 
-                var img = document.createElement('img');
-                img.setAttribute('src','static/images/membres/'+ pObjetDesMembres[i].photoProfile,'alt', 'image');
-                img.className='img-circle';
-                td.appendChild(img);
-                
-                var a = document.createElement('a');
-                a.id = 'resultat-pseudo'+[i];
-                a.setAttribute ( 'href' , '#');
-                a.className = 'user-link';
-                a.innerHTML =  pObjetDesMembres[i].pseudo;
-                td.appendChild(a); 
+            var span = document.createElement('span');
+            span.className = 'user-subhead';
+            span.innerHTML = pObjetDesMembres[i].profil;
+            td.appendChild(span);
 
-                var span = document.createElement('span');
-                span.className = 'user-subhead';
-                span.innerHTML = pObjetDesMembres[i].profil;
-                td.appendChild(span);
+            var td1 = document.createElement('td'); 
+            td1.className = 'text-center'; 
+            td1.id= 'resultat-nom'+[i];
+            td1.innerHTML =  pObjetDesMembres[i].nom;  
+            tr.appendChild(td1);
 
-                var td1 = document.createElement('td'); 
-                td1.className = 'text-center'; 
-                td1.id= 'resultat-nom'+[i];
-                td1.innerHTML =  pObjetDesMembres[i].nom;  
-                tr.appendChild(td1);
+            var td2 = document.createElement('td'); 
+            td2.className = 'text-center'; 
+            td2.id= 'resultat-prenom'+[i];
+            td2.innerHTML =  pObjetDesMembres[i].prenom;   
+            tr.appendChild(td2);
 
-                var td2 = document.createElement('td'); 
-                td2.className = 'text-center'; 
-                td2.id= 'resultat-prenom'+[i];
-                td2.innerHTML =  pObjetDesMembres[i].prenom;   
-                tr.appendChild(td2);
+            var td3 = document.createElement('td');
+            td3.className = 'text-center'; 
+            td3.id= 'resultat-date'+[i];
+            td3.innerHTML = today;   
+            tr.appendChild(td3);
+            
+            var td4 = document.createElement('td');       
+            td4.setAttribute ( 'style' , 'width: 20%;');
+            tr.appendChild(td4);
 
+            var a4 = document.createElement('a');
+            a4.id = 'suivre'+[i];
+            a4.setAttribute ( 'href' , '#');
+            a4.className = 'btn btn-azure btn-sm';  
+            a4.innerHTML = 'Suivre'      
+            td4.appendChild(a4); 
 
-                var td3 = document.createElement('td');
-                td3.className = 'text-center'; 
-                td3.id= 'resultat-date'+[i];
-                td3.innerHTML = today;   
-                tr.appendChild(td3);
-                
-                var td4 = document.createElement('td');       
-                td4.setAttribute ( 'style' , 'width: 20%;');
-                tr.appendChild(td4);
-
-                var a4 = document.createElement('a');
-                a4.id = 'suivre'+[i];
-                a4.setAttribute ( 'href' , '#');
-                a4.className = 'btn btn-azure btn-sm';  
-                a4.innerHTML = 'Suivre'      
-                td4.appendChild(a4); 
-
-                var i1 = document.createElement('i');
-                i1.className = 'fa fa-share';
-                a4.appendChild(i1);
-
+            var i1 = document.createElement('i');
+            i1.className = 'fa fa-share';
+            a4.appendChild(i1);
 
         }
 
         addRowHandlersResultatMembres(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
     };
-
 
 // -----------------------------------------------------------------------------
 // Cette fonction ajoute un événement onclick à une ligne du tableau 
@@ -772,7 +931,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 tr.appendChild(td4);
 
                 var a4 = document.createElement('a');
-                a4.id = 'info'+[i];
+                a4.id = 'liste-info'+[i];
                 a4.setAttribute ( 'href' , '#');
                 a4.className = 'table-link success';        
                 td4.appendChild(a4); 
@@ -871,7 +1030,7 @@ window.addEventListener('DOMContentLoaded', function() {
         // affichage des donnees  du membre    
         capturePhotoImgFiche.setAttribute('src','static/images/membres/'+objetDunMembre.photoProfile);
         capturePhotoImgCoverFiche.setAttribute('src','static/images/membres/'+objetDunMembre.photoCover);
-        idModalTitleFiche.innerHTML = objetDunMembre.pseudo;
+    //   idModalTitleFiche.innerHTML = objetDunMembre.pseudo;
         emailFiche.innerHTML = objetDunMembre.email; 
         pseudoFiche.value =  objetDunMembre.pseudo;   
         nomFiche.value =  objetDunMembre.nom;    
@@ -1164,7 +1323,7 @@ window.addEventListener('DOMContentLoaded', function() {
     webSocketConnection.on('felicitationMembre', function(documents) {        
         objetDuMembre = documents;
         console.log('Congratulations objetDuMembre', objetDuMembre);
-        initModalWelcomeText(vModalTitle, vModalBodyText);
+        initModalWelcomeText(vModalTitle, vModalBodyTextFelicitation);
         $('#idFelicitation').modal('toggle');                                    // ouverture de la fenêtre modale de Félicitations
     });    
 
@@ -1287,7 +1446,7 @@ window.addEventListener('DOMContentLoaded', function() {
         capturePhotoImgCover.setAttribute('src',window.URL.createObjectURL(capturePhotoFileCover.files[0]));
     }, false);
 
-    // -------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 // Affiche l'image de profil apres l'avoir selectionné avec un input type="file"
 // -------------------------------------------------------------------------
     capturePhotoFileFiche.addEventListener("change", function(){
@@ -1444,17 +1603,56 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
     idRechercheAmis.addEventListener('click', function (event) { 
         console.log('demande rechercher amis');   
-        blockMurProfile.style.display = 'none';                   
-        blockRechercheAmis.style.display = 'block';
+        blockMurProfile.style.display = 'none';  
         tabProfil.className ="";   
         tabActivite.className ="";   
-        tabParametre.className ="";        
+        tabParametre.className ="";                   
+        blockRechercheAmis.style.display = 'block';
+        webSocketConnection.emit('demandeListeDeTousLesMembres');  // Demande au serveur la liste de tous les membres    
     });
 
+// ***********************************************************************************************************
+// Le client reçoit les données personnelles d'un ami
+// à lui maintenant d'afficher les infos de ce membre avec ses données
+// ***********************************************************************************************************
+    webSocketConnection.on('infoMembreAmi', function(data) {
+        objetDunMembre = data;
+        console.log('info d un membre ami -- objetDunMembre:',objetDunMembre);
+        initInfoAmi(objetDunMembre);    // affichage des donnees d'un ami sur la page info d'un ami
+        blockAdministrateur.style.display = 'none';                     
+        blockFormulaire.style.display = 'none';
+        blockMurProfile.style.display = 'none';
+        blockProfilMembre.style.display ='none';  
+        blockDetailMembre.style.display ='none';  
+        blockRechercheAmis.style.display ='none';  
+        blockInfoAmi.style.display ='block';  
+    }); 
 
-//***********************************************************************************************************
-// PARTIE RECHERCHE D'AMIS
-// ***********************************************************************************************************    
+// ***********************************************************************************************************
+// Le membre accepte l'invitation 
+// on envoie au serveur acceptation invitation
+// ***********************************************************************************************************
+    accepteInvitation.addEventListener('click', function (event) { 
+        console.log('click sur acceptation invitation');         
+        webSocketConnection.emit('accepteInvitation', objetDunMembre);  // envoie au serveur que le membre accepte l'invitation 
+    });   
+
+// ***********************************************************************************************************
+// on reçoit confirmation membre a accepté l'invitation
+// ***********************************************************************************************************
+    webSocketConnection.on('sendAmiConfirme', function(documents) {         
+        console.log("statut des membres modifiés avec succès documents:", documents);
+
+    });
+
+// ***********************************************************************************************************
+//  clique sur le lien profil on affiche le mur de profil                           
+// ***********************************************************************************************************
+    idRetourMur.addEventListener('click', function (event) { 
+        console.log('click lien vers mur de profil depuis la fiche info ami');         
+        blockMurProfile.style.display = 'block';
+        blockInfoAmi.style.display ='none';     
+    });
 
 // ***********************************************************************************************************
 // click sur lien mur de profile profile on affiche le mur de profile
@@ -1463,8 +1661,9 @@ window.addEventListener('DOMContentLoaded', function() {
         console.log('click de amis vers mur de  profile');  
         // affichage des donnees de la page du mur de profile du membre
     //   initMurProfil(objetDuMembre);
-        blockMurProfile.style.display = 'block';                     
         blockRechercheAmis.style.display = 'none';
+        affichageListeAmis(objetDuMembre); 
+        blockMurProfile.style.display = 'block';     
     });
 
 
@@ -1480,11 +1679,25 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
 
-
-
 //***********************************************************************************************************
 // PARTIE RECHERCHE D'AMIS
 // ***********************************************************************************************************    
+
+// ***********************************************************************************************************
+// click sur le bouton affiche tous les membres: on affiche la liste complète des membres du site
+// ***********************************************************************************************************
+    afficheListeMembres.addEventListener('click', function (event) { 
+        console.log('click affiche la liste de tous les membres');  
+        webSocketConnection.emit('demandeListeDeTousLesMembres');  // Demande au serveur la liste de tous les membres   
+    });
+
+// ***********************************************************************************************************
+// Le client  reçoit la liste de tous les membres
+// ***********************************************************************************************************
+    webSocketConnection.on('SendlisteDeTousLesMembres', function(dataListe) {
+        console.log('liste de tous les membres trouvés-- dataListe:',dataListe);
+        affichageTouslesMembres(dataListe);          
+    });  
 
 // ***********************************************************************************************************
 // click sur lien mur de profile profile on affiche le mur de profile
@@ -1492,7 +1705,6 @@ window.addEventListener('DOMContentLoaded', function() {
     idMessagesVersMur.addEventListener('click', function (event) { 
         console.log('click de amis vers mur de  profile');  
         // affichage des donnees de la page du mur de profile du membre
-    //   initMurProfil(objetDuMembre);
         blockMurProfile.style.display = 'block';                     
         blockMessages.style.display = 'none';
     });
@@ -1513,6 +1725,10 @@ window.addEventListener('DOMContentLoaded', function() {
     
         console.log("objetDesMembres recherche amis  avant envoie au serveur web",objetRechercheDesMembres);
 
+        nomAmis.value       = "";
+        prenomAmis.value    = "";
+        pseudoAmis.value    = "";
+    
         webSocketConnection.emit('controleFormRechercheAmis', objetRechercheDesMembres);  // Transmission au serveur des infos saisies
         
     });
@@ -1571,6 +1787,7 @@ window.addEventListener('DOMContentLoaded', function() {
         blockProfilMembre.style.display ='none';
         blockRechercheAmis.style.display = 'none';
         blockMessages.style.display = 'none';
+        blockInfoAmi.style.display  ='none'; 
         webSocketConnection.emit('demandeListeMembres', objetDuMembre);  // Demande au serveur la liste de tous les membres
     });
 
@@ -1633,6 +1850,7 @@ window.addEventListener('DOMContentLoaded', function() {
         blockMurProfile.style.display = 'none';
         blockProfilMembre.style.display ='none';  
         blockDetailMembre.style.display ='none';  
+        blockInfoAmi.style.display  ='none'; 
         blockAdministrateur.style.display = 'block';      
     });
 
@@ -1706,7 +1924,8 @@ window.addEventListener('DOMContentLoaded', function() {
         blockMurProfile.style.display = 'none';
         blockProfilMembre.style.display ='none';
         blockRechercheAmis.style.display = 'none';
-        blockMessages.style.display = 'none';   
+        blockMessages.style.display = 'none';  
+        blockInfoAmi.style.display ='none';  
         affichageListeMembres(objetDesMembres);
         initModalRecupTextModifie(vModalTitleG, vModalBodyTextG);
         $('#idGenericModal').modal('toggle');    // ouverture de la fenêtre modale membre supprimé                 

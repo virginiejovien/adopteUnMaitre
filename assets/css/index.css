@@ -442,7 +442,7 @@ footer .container .text-muted {
 .navbar-fixed-top {
     top: 0;
     border-width: 0 0 1px;
-   
+
 }
 
 
@@ -511,6 +511,10 @@ footer .container .text-muted {
 }
 
 #mur-profile {
+    display:none;
+}
+
+#block-info-ami{
     display:none;
 }
 
@@ -687,7 +691,7 @@ a.disabled {
     margin-top: -6px;
 }
 
-#nav-profil{
+.nav-profil{
     height: 45px;
 }
 
@@ -712,6 +716,63 @@ a.disabled {
     font-weight: bold;
     color: #1c1f20cf;
     text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+.image-user-liste {
+    position: relative;
+    max-width: 45px;
+    float: left;
+    margin-right: 15px;
+    margin-left: -15px;
+}
+
+.user-subhead-liste {
+    font-size: 0.850em;
+    font-style: italic;
+    color: green;
+}
+
+.user-liste {
+    display: block;
+    font-size: 1.25em;
+    padding-top: 3px;
+    margin-left: -10px;
+}
+
+#accepte-invitation{
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 55px;
+    color: green;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    position: absolute;
+    z-index: 2;
+    right: 74px;
+    bottom: -46px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 5px #d8d8d8;
+}
+
+#refuse-invitation {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 55px;
+    color: rgb(221, 20, 20);
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    position: absolute;
+    z-index: 2;
+    right: 20px;
+    bottom: -46px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 5px #d8d8d8;
 }
 
 /* page recherche amis */

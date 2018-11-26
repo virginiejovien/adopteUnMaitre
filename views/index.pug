@@ -24,7 +24,7 @@ head
   script(src='static/js/bootstrap.min.js')
   script(src='/socket.io/socket.io.js')
   script(src='/siofu/client.js')
-  script(type='text/javascript' src='static/js/jquery.validate.js')
+  script(src='static/js/jquery.validate.js')
   script(src='static/js/clientAdopteUnMaitre.js')
   script(src='static/js/custom.js')
 // Fixed navbar
@@ -49,7 +49,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             span.caret
           ul.dropdown-menu
             li
-              a(href='static/pdf/DIW JS - Atelier final.pdf') Cahier des charges
+              a(href='static/pdf/Atelier-final.pdf') Cahier des charges
             li
               a(href='profile2.html') Profile 2
             li
@@ -201,7 +201,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             | Veuiller entrer votre adresse mail
           button#ferme-mp.close.close-mp(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
         .panel-body
-          form#form-recup-mp.form-horizontal.needs-validation(role='form')
+          form#form-recup-mp.form-horizontal.needs-validation
             .profile-pic.text-center
               img.img-circle.img-responsive.img-user(src='static/images/default-avatar.png' alt='')
             .form-group
@@ -219,7 +219,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
 #change-mp.container.page-content
   .row
     .col-md-6.col-sm-8.col-xs-12.col-md-offset-3
-      #locked-screen.panel.panel-primary
+      #locked-screen-m.panel.panel-primary
         .panel-heading
           h3.panel-title
             | Changer votre mot de passe
@@ -249,7 +249,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
   .row
     .col-md-10.col-md-offset-1
       // NAV TABS
-      ul#nav-profil.nav.nav-tabs.tabs-iconized
+      ul.nav.nav-tabs.tabs-iconized.nav-profil
         li#tab-change-profil.active
           a.a-nav-profil(href='#profile-tab' data-toggle='tab' aria-expanded='true')
             i.fa.fa-fw.fa-bars
@@ -959,7 +959,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         // END ACTIVITY TAB CONTENT
         // ****  DEBUT PARAMETRE CHANGEMENT DE MOT DE PASSE  ****
         #settings-tab.tab-pane.settings
-          form#form-parametre-mp.form-horizontal(role='form')
+          form#form-parametre-mp.form-horizontal
             h3
               i.fa.fa-square
               |  Changer votre mot de passe
@@ -1046,7 +1046,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   i.fa.fa-fw.fa-image
                   |  Discussions
     .row
-      .col-md-5
+      .col-md-6
         .widget
           .widget-header
             h3.widget-caption A propos
@@ -1143,7 +1143,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                         p.btn.btn-sm.btn-azure.btn-icon
                           i.fa.fa-user
       // ============= timeline posts
-      .col-md-7
+      .col-md-6
         .row
           // left posts
           .col-md-12
@@ -1421,6 +1421,109 @@ nav#top.navbar.navbar-white.navbar-fixed-top
       .modal-footer
         button.btn.btn-default(type='button' data-dismiss='modal') Close
 // ****************************************************************************************
+// MUR DE PROFIL  : INFO D'UN AMI
+// ****************************************************************************************
+// Begin page content
+#block-info-ami.container.page-content
+  .row
+    .col-md-10.col-md-offset-1
+      // NAV TABS
+      ul.nav.nav-tabs.tabs-iconized.nav-profil
+        li#idRetourMur
+          a.a-nav-profil(href='#' data-toggle='tab' aria-expanded='false')
+            i.fa.fa-user &nbsp;
+            | Profil&nbsp;
+            strong
+      h4#pseudo-info-ami.titre-nav-admin
+      .col-md-10.col-md-offset-1.container-contact
+        .row.decor-default
+          .col-md-12
+            .contact
+              .controls
+                span#accepte-invitation.accepte.fa.fa-check-circle(href='#' data-toggle='tooltip' data-placement='top' title="Accepter l'invitation" data-original-title='New')
+                span#refuse-invitation.refuse.fa.fa-frown-o(href='#' data-toggle='tooltip' data-placement='top' title="Refuser l'invitation" data-original-title='New')
+                img#info-photo-cover.cover(src='' alt='cover')
+                .cont
+                  img#info-photo-profile.avatar(src='' alt='avatar')
+                  .name
+                    span#info-pseudo.s-text
+              .row
+                .col-md-5
+                  .widget
+                    .basic-info
+                      h5
+                        i.fa.fa-square
+                        | &nbsp;A propos
+                    .widget-body.bordered-top.bordered-sky
+                      ul.list-unstyled.profile-about.margin-none
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Nom:
+                            #info-nom.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Pr&eacute;nom:
+                            #info-prenom.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Email:
+                            #info-email.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted T&eacute;l&eacute;phone:
+                            #info-telephone.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Adresse:
+                            #info-adresse.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted CP:
+                            #info-cp.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Ville:
+                            #info-ville.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Pays:
+                            #info-pays.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Age:
+                            #info-age.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Genre:
+                            #info-genre.col-sm-8
+                        li.padding-v-5
+                          .row
+                            .col-sm-4
+                              span.text-muted Profil:
+                            #info-profil.col-sm-8
+                .col-md-7
+                  .widget
+                    .basic-info
+                      h5
+                        i.fa.fa-square
+                        | &nbsp;Pr&eacute;f&eacute;rence
+                    .widget-body.bordered-top.bordered-sky
+                      ul.list-unstyled.profile-about.margin-none
+                        li.padding-v-5
+                          .row
+                            #info-preference.col-sm-12
+                // end timeline posts
+// ****************************************************************************************
 // PAGE RECHERCHE D'AMIS
 // ******************************************************************************************
 // Begin page content
@@ -1486,8 +1589,13 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                 .row
                   .col-md-6-offset-1.col-sm-6-offset-1.col-xs-12-offset-1
                     .form-group
-                      h4.titre-nav-admin Trouver un membre
+                      h4.titre-nav-admin Trouver et inviter un membre
                 .row
+                  .col-md-3.col-sm-3.col-xs-12
+                    .form-group.position
+                      span.input-icon
+                        input#pseudo-amis.form-control.control-groupe.input-sm(type='text' name='pseudo' maxlength='23' size='23' placeholder='son pseudo' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
+                        i.glyphicon.glyphicon-search.darkorange
                   .col-md-3.col-sm-3.col-xs-12
                     .form-group.position
                       span.input-icon
@@ -1498,18 +1606,13 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                       span.input-icon
                         input#prenom-amis.form-control.control-groupe.input-sm(type='text' name='prenom' maxlength='21' size='21' placeholder='son prénom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
                         i.glyphicon.glyphicon-search.darkorange
-                  .col-md-3.col-sm-3.col-xs-12
-                    .form-group.position
-                      span.input-icon
-                        input#pseudo-amis.form-control.control-groupe.input-sm(type='text' name='pseudo' maxlength='23' size='23' placeholder='son pseudo' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
-                        i.glyphicon.glyphicon-search.darkorange
                   .col-md-3.col-sm-6.col-xs-12
                     button.btn.btn-azure(type='submit') Rechercher
         // fin formulaire rechercher d'amis
         // Début tableau résultat de la recherche
         .row
           .col-md-12
-            .widget
+            .cover.profile
               .table-responsive
                 table#table-resultat-membres.table.user-list
                   thead
@@ -1522,7 +1625,11 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                         span Pr&eacute;noms
                       th
                         span Depuis
-                      th &nbsp;
+                      th
+                        a#affiche-liste-membres.table-link.success(href='#' title='Tous les membres inscrits')
+                          span.fa-stack
+                            i.fa.fa-square.fa-stack-2x
+                            i.fa.fa-search-plus.fa-stack-1x.fa-inverse
         // Fin tableau résultat de la recherche
 // Modal
 #modalShow.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel')
@@ -1544,7 +1651,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
   .row
     .col-md-10.col-md-offset-1
       // NAV TABS
-      ul#nav-profil.nav.nav-tabs.tabs-iconized
+      ul.nav.nav-tabs.tabs-iconized.nav-profil
         li#mess-vers-mur
           a#messages-vers-mur.a-nav-profil(href='#' data-toggle='tab' aria-expanded='false')
             i.fa.fa-user
@@ -1721,7 +1828,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
   .row
     .col-md-10.col-md-offset-1
       // NAV TABS
-      ul#nav-profil.nav.nav-tabs.tabs-iconized
+      ul.nav.nav-tabs.tabs-iconized.nav-profil
         li#idProfilAdmin
           a.a-nav-profil(href='#' data-toggle='tab' aria-expanded='false')
             i.fa.fa-user &nbsp;
@@ -1752,7 +1859,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
   .row
     .col-md-10.col-md-offset-1
       // NAV TABS
-      ul#nav-profil.nav.nav-tabs.tabs-iconized
+      ul.nav.nav-tabs.tabs-iconized.nav-profil
         li#idDasboard
           a.a-nav-profil(href='#' data-toggle='tab' aria-expanded='false')
             i.fa.fa-user &nbsp;
@@ -1764,8 +1871,8 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           .col-md-12
             .contact
               .controls
-                span#modif-membre.write(href='#' data-toggle='tooltip' data-placement='top' title='' data-original-title='New')
-                span#supprime-membre.delite.fa.fa-stack(href='#' data-toggle='tooltip' data-placement='top' title='' data-original-title='New')
+                span#modif-membre.write(href='#' data-toggle='tooltip' data-placement='top' title='Modifier les données du membre' data-original-title='New')
+                span#supprime-membre.delite.fa.fa-stack(href='#' data-toggle='tooltip' data-placement='top' title='Supprimer le membre' data-original-title='New')
                 img#detail-photo-cover.cover(src='' alt='cover')
                 .cont
                   img#detail-photo-profile.avatar(src='' alt='avatar')
@@ -1875,7 +1982,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
   .modal-dialog.modal-dialog-centered(role='document')
     #idModalContentFiche.modal-content
       #idModalBodyTextFiche.modal-header
-        h4#idModalTitleFiche.modal-title.titre-nav-admin
+        h4#pseudoFiche.modal-title.titre-nav-admin
         button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
       .modal-body
         #fiche-tab.tab-pane.profile.active
@@ -2502,14 +2609,14 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                       .form-group
                         .center
                           button.btn.btn-azure(type='submit') Valider
-                        p#idProfilMpAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg
+                        p#idProfilFicheAlertMsg.lead.mt-5.display-4.text-danger.text-center.alertMsg
 // ****************************************************************************************
 // FENETRE MODAL DE BIENVENUE ET FELICITATION
 // ****************************************************************************************
 #idFelicitation.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalFelicitationTitle' aria-hidden='true')
   .modal-dialog.modal-dialog-centered(role='document')
     #idModalContent.modal-content
-      #idModalBodyText.modal-header
+      #idModalBodyTextFelicitation.modal-header
         h5#idModalTitle.modal-title Bienvenue dans Adopte un Ma&icirc;tre...
         button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
       .modal-body

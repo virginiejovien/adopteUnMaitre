@@ -680,10 +680,118 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
     });
 };
 
+
+//************************************************************************************************************  
+// Gestion de l'affichage de la fenettre des infos d'un ami
+// - récupération des donnees du membre dans la collection membres 
+// - envoie des données au client au membre 
+//************************************************************************************************************ 
+    MemberServer.prototype.sendInfoMurAmi = function(pPseudoDunMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pPseudoDunMembre  avant Find dans la collection membres partie info Amis',pPseudoDunMembre); 
+
+        this.DBMgr.colMembres.find({pseudo:pPseudoDunMembre}).toArray((error, documents) => {                     
+            if (error) {
+                console.log('Erreur de find dans collection colMembres',error);
+                throw error;
+            }                                
+            if (!documents.length) { 
+                console.log('erreur avant traitement du membre on ne le retrouve pas on observe le  documents',documents);
+            //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+                return false;                     
+            }  
+                console.log("documents avant envoie des infos d'un memmbre partie info Amis", documents);
+                let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+            pWebSocketConnection.emit('infoMembreAmi',infoMembre);   // On envoie au client les données de profil d'un ami    
+        });       
+    };  
+
+//************************************************************************************************************  
+// Gestion membre accepté sur une liste d'amis
+// - le membre receveur est ajouté à la liste d'amis : statut confirmé pour le membre demandeur
+// - le membre demandeur est ajouté à la liste d'amis : statut confirmé pour le membre receveur                    
+//************************************************************************************************************ 
+    MemberServer.prototype.invitationAccepte= function(pObjetDunMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pObjetDunMembre  avant MAJ de la collection membres',pObjetDunMembre); 
+        
+        this.DBMgr.colMembres.find(
+            {
+                pseudo:pObjetDunMembre.pseudo,
+            
+                amis: { $elemMatch :                // 2ème opérateur: on regarde si le membre demandeur est bien dans la liste des amis   
+                        {pseudo:this.membre.pseudo}
+                    }
+            }
+                                
+            ).toArray((error, documents) => {                     
+            if (error) {
+                console.log('Erreur de find dans collection colMembres',error);
+                throw error;
+            }                                
+            if (!documents.length) { 
+                console.log('erreur avant mise à jour du membre on ne retrouve pas le membre demandeur on observe le  documents',documents);
+            
+                return false;                     
+            }  
+            console.log('documents du receveur avant MAJ', documents);
+            console.log('this.membre (demandeur) avant les MAJ', this.membre);
+                
+            // mise à jour de l'objet membre receveur
+            //statut  = confirme
+
+            this.DBMgr.colMembres.updateOne (
+                {
+                    pseudo:pObjetDunMembre.pseudo,
+                
+                    amis: { $elemMatch :                // 2ème opérateur: on regarde si le membre demandeur est bien dans la liste des amis   
+                            {pseudo:this.membre.pseudo}
+                        }
+                },
+                {$set:{"amis.$.statut":"C"}
+                
+                
+                },(error, document) => {
+
+                if (error) {
+                    console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                    throw error;
+                }          
+                
+                console.log('update ok dans le document du membre receveur ');
+            
+            }); 
+
+            // mise à jour de l'objetpseudoRecup
+            //statut  = confirme
+            
+            this.DBMgr.colMembres.updateOne (
+                {
+                    pseudo:this.membre.pseudo,
+                    amis: { $elemMatch :                // 2ème opérateur: on regarde si le membre demandeur est bien dans la liste des amis   
+                        {pseudo:pObjetDunMembre.pseudo}
+                    }
+                },
+    
+                    {$set:{ "amis.$.statut":"C" }
+                
+                },(error, document) => {
+
+                if (error) {
+                    console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                    throw error;
+                }          
+                
+                console.log('update ok dans le document du membre demandeur ');
+            
+            }); 
+            
+            pWebSocketConnection.emit('sendAmiConfirme',documents);    
+        });
+    }; 
+
 //************************************************************************************************************  
 // Gestion et controle du formulaire d'inscription Profil
 // - verification des champs saisies 
-// - Mise à jour des donnees du memebre dans la collection membres de la BDD adopteunmaitre
+// - Mise à jour des donnees du membre dans la collection membres de la BDD adopteunmaitre
 //************************************************************************************************************ 
     MemberServer.prototype.miseAjourProfilMembre = function(pObjetMembreLocal, pWebSocketConnection, pSocketIo) {   
         console.log('pObjetMembreLocal  avant MAJ de la collection membres',pObjetMembreLocal); 
@@ -767,6 +875,29 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
     };  
 
 //************************************************************************************************************  
+// Gestion de la liste de tous les membres pour la recherche d'amis
+// - récupération des données des membres dans la collection membres dans la BDD
+// - envoie de la liste
+//************************************************************************************************************ 
+    MemberServer.prototype.sendListeDeTousLesMembres = function(pWebSocketConnection, pSocketIo) {   
+    
+        this.DBMgr.colMembres.find().toArray((error, documents) => {                     
+            if (error) {
+                console.log('Erreur de find liste de tous les membres dans collection colMembres',error);
+                throw error;
+            }                                
+            if (!documents.length) { 
+                console.log('erreur la collection est vide',documents);
+            //    sendPage404(pDataAdmin, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+                return false;                     
+            }  
+                console.log('documents avant MAJ profil inscription', documents);
+        
+                pWebSocketConnection.emit('SendlisteDeTousLesMembres', documents); // On envoie au client la liste de données de tous les membres pour la recherche d'amis                       
+        });  
+    };
+
+//************************************************************************************************************  
 // Gestion et controle du formulaire de recherche de membres
 // - verification des champs saisies 
 // - recherches par criteres : 
@@ -796,7 +927,7 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
             }                                
             if (!documents.length) { 
                 console.log('on a pas trouvé de membre la recherche ne retourne rien --  documents:',documents);
-    
+                pWebSocketConnection.emit('resultatRecherche', documents); // On envoie au client les resultats de la recherche de membres 
                 return false;                     
             }  
                 console.log('la recherche retourne des membres on observe le documents:', documents);
@@ -825,14 +956,15 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 
                         if (documents.length) {  // on ne veut pas de ce membre dans la liste d'amis car il est déjà dans la liste d'amis du membre demandeur
                             console.log('on a trouvé ce membre dans la recherche on ne veut pas de lui documents:',documents);
-                            return false;
-                        }   
+                            let objetVide ={}
+                            pWebSocketConnection.emit('resultatRecherche', objetVide); // On envoie au client les resultats de la recherche de membres
+                        }  else { 
                             console.log('on ne trouve pas ce membre dans notre liste on observe documents:', documents);
                             console.log(dataResultat[i]);  // l'ami n'est pas dans la liste du membre demandeur on le plasse dans la liste
                             objetResultatRecherche.push(dataResultat[i]);
                             console.log('objetResultatRecherche',objetResultatRecherche);
                             pWebSocketConnection.emit('resultatRecherche', objetResultatRecherche); // On envoie au client les resultats de la recherche de membres  
-            
+                        }
                     });
                     
                 }
@@ -844,9 +976,9 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 // rajout d'un membre selectionné dans la liste d'amis
 // - mise à jour des deux membres (demandeur et receveur) dans le collection membres 
 // - membre qui invite: 
-//      on rajoute les donnees de l'ami receveur dans l'objet amis avec statut = "A" (en attente de confirmation)
+//      on rajoute les donnees de l'ami receveur dans l'objet amis avec statut =  "I" (invitation en cours )
 // - membre qui reçoit l'invitation (receveur): 
-//      on rajoute les donnees de l'ami demandeur dans l'objet amis avec statut = "I" (invitation en cours )
+//      on rajoute les donnees de l'ami demandeur dans l'objet amis avec statut = "A" (en attente de confirmation)
 // - envoie d'un mail aux deux membres
 //************************************************************************************************************ 
     MemberServer.prototype.demandeRajoutListeAmi= function(pPseudoAmi, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
@@ -869,10 +1001,10 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 
             console.log('documents apres find ami',documents);
             let sengridEmail = documents[0].email; // adresse mail du membre receveur
-            // mise à jour du membre qui invite
-            let dataAmiReceveur = {}; //on prépare les données du membre demandeur pour les inserer dans le document du membre qui reçoit la demande (receveur)
-            dataAmiReceveur.pseudo        = documents[0].pseudo;
-            dataAmiReceveur.statut        = "A"; // statut en attente de confirmation
+            // mise à jour du membre qui invite Demandeur
+            let dataAmiReceveur = {}; //on prépare les données du membre receveur pour les inserer dans le document du membre qui demande (demandeur)
+            dataAmiReceveur.pseudo        = documents[0].pseudo; // pseudo du membre qu'on souhaite rajouter dans sa liste d'amis (receveur)
+            dataAmiReceveur.statut        = "I"; // statut invitation en cours 
             dataAmiReceveur.nom           = documents[0].nom; 
             dataAmiReceveur.prenom        = documents[0].prenom;
             dataAmiReceveur.photoProfile  = documents[0].photoProfile;
@@ -893,9 +1025,9 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 
 
             // mise à jour du membre qui reçoit l'invitation
-            let dataAmiDemande = {};  //on prépare les données du membre demandeur pour les inserer dans le document du membre qui reçoit la demande (receveur)
-            dataAmiDemande.pseudo        = this.membre.pseudo;
-            dataAmiDemande.statut        = "I"; // statut invitation en cours 
+            let dataAmiDemande = {};  //on prépare les données du membre demandeur pour les inserer dans le document du membre qui reçoit l'invitation (receveur)
+            dataAmiDemande.pseudo        = this.membre.pseudo; // pseudo du membre qui nous a envoyé l'invitation (demandeur)
+            dataAmiDemande.statut        = "A"; // statut en attente de confirmation 
             dataAmiDemande.nom           = this.membre.nom; 
             dataAmiDemande.prenom        = this.membre.prenom;
             dataAmiDemande.photoProfile  = this.membre.photoProfile;
@@ -1010,7 +1142,8 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                 });  
             });  
         });
-    };     
+    };  
+    
 //************************************************************************************************************  
 // Gestion de la liste de tous les membres pour les Administrateurs
 // - récupération des données des membres dans la collection membres dans la BDD

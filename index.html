@@ -25,7 +25,7 @@
     <script src="static/js/bootstrap.min.js"></script>    
     <script src="/socket.io/socket.io.js"></script> 
     <script src="/siofu/client.js"></script> 
-    <script type="text/javascript" src="static/js/jquery.validate.js"></script> 
+    <script src="static/js/jquery.validate.js"></script> 
     <script src="static/js/clientAdopteUnMaitre.js"></script>
     <script src="static/js/custom.js"></script>
   </head>
@@ -51,7 +51,7 @@
                 Pages <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="static/pdf/DIW JS - Atelier final.pdf">Cahier des charges</a></li>
+                <li><a href="static/pdf/Atelier-final.pdf">Cahier des charges</a></li>
                 <li><a href="profile2.html">Profile 2</a></li>
                 <li><a href="profile3.html">Profile 3</a></li>
                 <li><a href="profile4.html">Profile 4</a></li>
@@ -154,7 +154,7 @@
                   </div>
                   <div class="form-group">
                     <span class="input-icon">
-                      <input id="mail-inscription" type="email" name="mailInscrit"   maxlength='100' size='100' class="form-control" placeholder="Adresse mail" required pattern = "^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$"title="Veuillez fournir une adresse électronique valide: exemple@provider.com">
+                      <input id="mail-inscription" type="email" name="mailInscrit"   maxlength='100' size='100' class="form-control" placeholder="Adresse mail" required pattern = "^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$" title="Veuillez fournir une adresse électronique valide: exemple@provider.com">
                       <i class="fa fa-envelope-o darkorange"></i>
                     </span>
                   </div>
@@ -210,14 +210,14 @@
                 <button type="button" id = "ferme-mp" class="close close-mp" data-dismiss="modal" aria-label="Fermer" aria-hidden="true">X</button>
             </div>
             <div class="panel-body">
-              <form id= "form-recup-mp" class="form-horizontal needs-validation"  role="form">
+              <form id= "form-recup-mp" class="form-horizontal needs-validation">
                 <div class="profile-pic text-center">
                   <img src="static/images/default-avatar.png" alt="" class="img-circle img-responsive img-user">
                 </div>
                 <div class="form-group">
                   <div class="col-md-12">
                     <span class="input-icon">
-                      <input id="mail-recup-mp" type="email" name="mailRecupMp"   maxlength='100' size='100' class="form-control input-recup" placeholder="Adresse mail" required pattern = "^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$"title="Veuillez fournir une adresse électronique valide: exemple@provider.com">
+                      <input id="mail-recup-mp" type="email" name="mailRecupMp"   maxlength='100' size='100' class="form-control input-recup" placeholder="Adresse mail" required pattern = "^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})$" title="Veuillez fournir une adresse électronique valide: exemple@provider.com">
                       <i class="fa fa-envelope-o darkorange"></i>
                     </span>
                     </div>
@@ -241,7 +241,7 @@
     <div id="change-mp" class="container page-content ">
       <div class="row">
         <div class="col-md-6  col-sm-8 col-xs-12 col-md-offset-3">
-          <div class="panel panel-primary" id="locked-screen">
+          <div class="panel panel-primary" id="locked-screen-m">
             <div class="panel-heading">
                 <h3 class="panel-title">     
                   Changer votre mot de passe 
@@ -288,7 +288,7 @@
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
           <!-- NAV TABS -->
-          <ul class="nav nav-tabs  tabs-iconized" id="nav-profil">
+          <ul class="nav nav-tabs  tabs-iconized nav-profil">
             <li class="active" id="tab-change-profil"><a class="a-nav-profil" href="#profile-tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-fw fa-bars"></i>Changer son profil</a></li>
             <li class="" id="tab-profil"><a class="a-nav-profil" id="idProfileMur" href="#profile-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-user"></i> Profil</a></li>
             <li class="" id="tab-activite"><a class="a-nav-profil" href="#activity-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-rss"></i> Activités récentes</a></li>             
@@ -353,7 +353,7 @@
                               <label class="col-md-4 control-label" >Age</label>
                               <div class="col-md-6  inputGroupContainer">                                   
                                 <span class="input-icon">
-                                    <input id="age-profil" type="number" name="age"  class="form-control control-groupe"type="number" min="12" max="120" step="1"  
+                                    <input id="age-profil" type="number" name="age"  class="form-control control-groupe" min="12" max="120" step="1"  
                                     pattern="\d+" title="Uniquement des nombres"> 
                                 <br/>                                     
                                 </span>
@@ -772,7 +772,7 @@
           
       <!--****  DEBUT PARAMETRE CHANGEMENT DE MOT DE PASSE  ****-->
             <div class="tab-pane settings" id="settings-tab">
-              <form id="form-parametre-mp" class="form-horizontal" role="form" >              
+              <form id="form-parametre-mp" class="form-horizontal">              
                   <h3><i class="fa fa-square"></i> Changer votre mot de passe</h3>
                   <div class="form-group">
                     <label for="old-password" class="col-sm-3 control-label">Ancien mot de passe</label>                    
@@ -888,7 +888,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-6">
             <div class="widget">
               <div class="widget-header">
                 <h3 class="widget-caption">A propos</h3>
@@ -1035,7 +1035,7 @@
 
 
           <!--============= timeline posts-->
-          <div class="col-md-7">
+          <div class="col-md-6">
             <div class="row">
               <!-- left posts-->
               <div class="col-md-12">
@@ -1377,6 +1377,136 @@
     </div>  
 
 <!-- **************************************************************************************** -->
+<!--                    MUR DE PROFIL  : INFO D'UN AMI                                        -->
+<!-- **************************************************************************************** -->
+<!-- Begin page content -->
+<div id="block-info-ami" class="container page-content">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <!-- NAV TABS -->
+
+        <ul class="nav nav-tabs  tabs-iconized nav-profil">            
+          <li class="" id="idRetourMur"><a class="a-nav-profil"  href="#" data-toggle="tab" aria-expanded="false"><i class="fa fa-user">&nbsp;</i>Profil&nbsp;<strong></strong></a></li>                 
+        </ul>
+        <h4 class="titre-nav-admin" id="pseudo-info-ami"></h4>
+        <div class="col-md-10 col-md-offset-1 container-contact">
+          <div class="row decor-default">
+            <div class="col-md-12">
+              <div class="contact">
+                <div class="controls">
+                  <span id ="accepte-invitation" class="accepte fa fa-check-circle" href="#" data-toggle="tooltip" data-placement="top" title="Accepter l'invitation" data-original-title="New"></span>
+                  <span id ="refuse-invitation" class="refuse fa fa-frown-o"  href="#"  data-toggle="tooltip" data-placement="top" title="Refuser l'invitation" data-original-title="New"></span>
+                  <img id="info-photo-cover" src="" alt="cover" class="cover">
+                  <div class="cont">
+                    <img id="info-photo-profile" src="" alt="avatar" class="avatar">
+                    <div class="name"><span class="s-text" id="info-pseudo"></span></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="widget">
+                      <div class="basic-info">
+                        <h5><i class="fa fa-square"></i>&nbsp;A propos</h5> 
+                      </div>                                           
+                      <div class="widget-body bordered-top bordered-sky">
+                        <ul class="list-unstyled profile-about margin-none">
+                          <li class="padding-v-5">
+                            <div class="row">
+                              <div class="col-sm-4"><span class="text-muted">Nom:</span></div>
+                              <div class="col-sm-8" id="info-nom"></div>
+                            </div>
+                          </li>
+                          <li class="padding-v-5">
+                              <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">Prénom:</span></div>
+                                <div class="col-sm-8" id="info-prenom"></div>
+                              </div>
+                          </li>
+                          <li class="padding-v-5">
+                              <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">Email:</span></div>
+                                <div class="col-sm-8" id="info-email"></div>
+                              </div>
+                          </li>
+                          <li class="padding-v-5">
+                              <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">Téléphone:</span></div>
+                                <div class="col-sm-8" id="info-telephone"></div>
+                              </div>
+                          </li>
+                          <li class="padding-v-5">
+                              <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">Adresse:</span></div>
+                                <div class="col-sm-8" id="info-adresse"></div>
+                              </div>
+                          </li>
+                          <li class="padding-v-5">
+                              <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">CP:</span></div>
+                                <div class="col-sm-8" id="info-cp"></div>
+                              </div>
+                          </li>
+                          <li class="padding-v-5">
+                              <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">Ville:</span></div>
+                                <div class="col-sm-8" id="info-ville"></div>
+                              </div>
+                          </li>
+                          <li class="padding-v-5">
+                              <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">Pays:</span></div>
+                                <div class="col-sm-8" id="info-pays"></div>
+                              </div>
+                          </li>
+                          <li class="padding-v-5">
+                              <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">Age:</span></div>
+                                <div class="col-sm-8" id="info-age"></div>
+                              </div>
+                          </li>
+                          <li class="padding-v-5">
+                              <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">Genre:</span></div>
+                                <div class="col-sm-8" id="info-genre"></div>
+                              </div>
+                          </li>
+                          <li class="padding-v-5">
+                              <div class="row">
+                                <div class="col-sm-4"><span class="text-muted">Profil:</span></div>
+                                <div class="col-sm-8" id="info-profil"></div>
+                              </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-7">
+                      <div class="widget">
+                        <div class="basic-info">
+                          <h5><i class="fa fa-square"></i>&nbsp;Préférence</h5> 
+                        </div>
+                      <div class="widget-body bordered-top bordered-sky">
+                        <ul class="list-unstyled profile-about margin-none">
+                          <li class="padding-v-5">
+                            <div class="row">
+                              <div class="col-sm-12" id="info-preference"></div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div> 
+                    </div> 
+                  </div><!-- end timeline posts-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- **************************************************************************************** -->
 <!--                        PAGE RECHERCHE D'AMIS                                             -->
 <!--******************************************************************************************-->
     <!-- Begin page content -->
@@ -1454,45 +1584,46 @@
             <!--début formulaire recherche d'amis-->
             <div class="row">
               <div class="col-md-12">
-                  <div class="cover profile">
-                <form id="form-recherche-amis" class="needs-validation" >
-                  <div class="row">
-                    <div class="col-md-6-offset-1 col-sm-6-offset-1 col-xs-12-offset-1"> 
-                        <div class="form-group">                      
-                        <h4 class="titre-nav-admin">Trouver un membre</h4>
+                <div class="cover profile">
+                  <form id="form-recherche-amis" class="needs-validation" >
+                    <div class="row">
+                      <div class="col-md-6-offset-1 col-sm-6-offset-1 col-xs-12-offset-1"> 
+                          <div class="form-group">                      
+                          <h4 class="titre-nav-admin">Trouver et inviter un membre</h4>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                          <div class="form-group position">
+                              <span class="input-icon">
+                                <input id="pseudo-amis" type="text" name="pseudo"  class="form-control control-groupe input-sm" maxlength='23' size='23' placeholder="son pseudo" pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères">
+                                <i class="glyphicon glyphicon-search darkorange"></i>
+                                </span>
+                          </div>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="form-group position">
+                          <span class="input-icon">
+                              <input id="nom-amis" type="text" name="nom"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="son nom" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
+                            <i class="glyphicon glyphicon-search darkorange"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="form-group position">
+                          <span class="input-icon">
+                            <input id="prenom-amis" type="text" name="prenom"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="son prénom" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
+                            <i class="glyphicon glyphicon-search darkorange"></i>
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-3 col-sm-6 col-xs-12">                       
+                          <button type="submit" class="btn btn-azure">Rechercher</button>
                         </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-3 col-sm-3 col-xs-12">
-                      <div class="form-group position">
-                        <span class="input-icon">
-                            <input id="nom-amis" type="text" name="nom"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="son nom" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
-                          <i class="glyphicon glyphicon-search darkorange"></i>
-                        </span>
-                      </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12">
-                      <div class="form-group position">
-                        <span class="input-icon">
-                          <input id="prenom-amis" type="text" name="prenom"  class="form-control control-groupe input-sm" maxlength='21' size='21' placeholder="son prénom" pattern="^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$" title="Uniquement des lettres et la longueur comprise entre 2 et 21 caractères">
-                          <i class="glyphicon glyphicon-search darkorange"></i>
-                        </span>
-                      </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12">
-                      <div class="form-group position">
-                          <span class="input-icon">
-                            <input id="pseudo-amis" type="text" name="pseudo"  class="form-control control-groupe input-sm" maxlength='23' size='23' placeholder="son pseudo" pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères">
-                            <i class="glyphicon glyphicon-search darkorange"></i>
-                            </span>
-                      </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6 col-xs-12">                       
-                        <button type="submit" class="btn btn-azure">Rechercher</button>
-                      </div>
-                  </div>
-                </form>
+                  </form>
                 </div>
               </div>  
             </div>
@@ -1500,7 +1631,7 @@
             <!-- Début tableau résultat de la recherche-->
             <div class="row">
               <div class="col-md-12">
-                <div class="widget">
+                <div class="cover profile">
                   <div class="table-responsive">
                   <table id="table-resultat-membres" class="table user-list">
                     <thead>
@@ -1509,7 +1640,14 @@
                         <th><span>Noms</span></th>
                         <th class="text-center"><span>Prénoms</span></th>
                         <th><span>Depuis</span></th>
-                        <th>&nbsp;</th>
+                        <th> 
+                          <a id="affiche-liste-membres" href="#" class="table-link success" title="Tous les membres inscrits">
+                            <span class="fa-stack">
+                              <i class="fa fa-square fa-stack-2x"></i>
+                              <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                            </span>
+                          </a>
+                        </th>
                       </tr>
                     </thead>
                   </table>
@@ -1548,7 +1686,7 @@
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
           <!-- NAV TABS -->
-          <ul class="nav nav-tabs  tabs-iconized" id="nav-profil">            
+          <ul class="nav nav-tabs  tabs-iconized nav-profil">            
             <li class="" id="mess-vers-mur"><a class="a-nav-profil" id="messages-vers-mur" href="#" data-toggle="tab" aria-expanded="false"><i class="fa fa-user"></i> Profil</a></li>           
           </ul>
           <div class="tile tile-alt" id="messages-main">
@@ -1790,7 +1928,7 @@
         <div class="col-md-10 col-md-offset-1">
           <!-- NAV TABS -->
 
-          <ul class="nav nav-tabs  tabs-iconized" id="nav-profil">            
+          <ul class="nav nav-tabs  tabs-iconized nav-profil">            
             <li class="" id="idProfilAdmin"><a class="a-nav-profil"  href="#" data-toggle="tab" aria-expanded="false"><i class="fa fa-user">&nbsp;</i>Profil&nbsp;<strong id="mur-pseudo-admin" ></strong></a></li>                 
           </ul>
           <h4 class="titre-nav-admin">Tableau de bord administrateur</h4>
@@ -1826,7 +1964,7 @@
         <div class="col-md-10 col-md-offset-1">
           <!-- NAV TABS -->
 
-          <ul class="nav nav-tabs  tabs-iconized" id="nav-profil">            
+          <ul class="nav nav-tabs  tabs-iconized nav-profil">            
             <li class="" id="idDasboard"><a class="a-nav-profil"  href="#" data-toggle="tab" aria-expanded="false"><i class="fa fa-user">&nbsp;</i>Tableau de bord&nbsp;<strong></strong></a></li>                 
           </ul>
           <h4 class="titre-nav-admin" id="pseudo-detail"></h4>
@@ -1835,8 +1973,8 @@
               <div class="col-md-12">
                 <div class="contact">
                   <div class="controls">
-                    <span id ="modif-membre" class="write" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="New"></span>
-                    <span id ="supprime-membre" class="delite fa fa-stack"  href="#"  data-toggle="tooltip" data-placement="top" title="" data-original-title="New"></span>
+                    <span id ="modif-membre" class="write" href="#" data-toggle="tooltip" data-placement="top" title="Modifier les données du membre" data-original-title="New"></span>
+                    <span id ="supprime-membre" class="delite fa fa-stack"  href="#"  data-toggle="tooltip" data-placement="top" title="Supprimer le membre" data-original-title="New"></span>
                     <img id="detail-photo-cover" src="" alt="cover" class="cover">
                     <div class="cont">
                       <img id="detail-photo-profile" src="" alt="avatar" class="avatar">
@@ -1978,14 +2116,14 @@
       </div>
     </div>
 
- <!--*****************************************************************************************-->
- <!--                    FENETRE MODAL MODIFICATION FORMULAIRE D'UN MEMBRE                    -->
- <!--*****************************************************************************************--> 
+<!--*****************************************************************************************-->
+<!--                    FENETRE MODAL MODIFICATION FORMULAIRE D'UN MEMBRE                    -->
+<!--*****************************************************************************************--> 
   <div class="modal fade " tabindex="-1" role="dialog" id="idFiche" aria-labelledby="idModalFicheTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="idModalContentFiche">
           <div class="modal-header" id="idModalBodyTextFiche">
-              <h4 class="modal-title titre-nav-admin" id="idModalTitleFiche" id="pseudoFiche"></h4>
+              <h4 class="modal-title titre-nav-admin" id="pseudoFiche"></h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Fermer" aria-hidden="true">X</button>
           </div>
           <div class="modal-body">
@@ -2395,7 +2533,7 @@
                                       <div class="center">
                                         <button type="submit" class="btn btn-azure">Valider</button>
                                       </div>                               
-                                      <p id="idProfilMpAlertMsg" class="lead mt-5 display-4 text-danger text-center alertMsg"></p>
+                                      <p id="idProfilFicheAlertMsg" class="lead mt-5 display-4 text-danger text-center alertMsg"></p>
                                     </div>                                                                                  
                                   </div>
                                 </div>
@@ -2414,7 +2552,7 @@
     <div class="modal fade" tabindex="-1" role="dialog" id="idFelicitation" aria-labelledby="idModalFelicitationTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="idModalContent">
-          <div class="modal-header" id="idModalBodyText">
+          <div class="modal-header" id="idModalBodyTextFelicitation">
               <h5 class="modal-title" id="idModalTitle">Bienvenue dans Adopte un Maître...</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Fermer" aria-hidden="true">X</button>
           </div>
