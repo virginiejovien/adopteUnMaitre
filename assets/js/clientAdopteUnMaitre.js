@@ -718,7 +718,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     spanA.innerHTML = 'Recommandé'  
                     break;
                     case 'A':                        
-                    span.innerHTML = 'Attente de confirmation'  
+                    spanA.innerHTML = 'Attente de confirmation'  
                     break;
                 };               
                 tdA.appendChild(spanA);
@@ -759,6 +759,32 @@ window.addEventListener('DOMContentLoaded', function() {
 
             addRowHandlersAmisMembres(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau amis confirmés
             addRowHandlersAmisAttente(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau amis en attente d'etre confirmés
+    };
+
+
+// -----------------------------------------------------------------------------
+// Cette fonction ajoute un événement onclick à une ligne du tableau 
+// tableau resultat-des-membres
+// -----------------------------------------------------------------------------
+    function addRowHandlersAmisSelect() {
+        console.log('je suis dans la fonction addRowHandlersAmisSelect');
+        var tableauAmisAttente = document.getElementById("resultat-des-membres");
+        var rows = tableauAmisAttente.getElementsByTagName("tr");
+        for (var j = 0; j < rows.length; j++) {
+            var currentRow = tableauAmisAttente.rows[j];
+            var createClickHandler = function(row) {
+                return function() {
+                    var cell = row.getElementsByTagName("td")[0];
+                    var cella = cell.getElementsByTagName("a")[0];
+                    var id = cella.innerHTML;
+                    console.log("id:" + id);      
+                    pseudoAmis.value= id;
+                };
+            };
+        
+        currentRow.onclick = createClickHandler(currentRow);
+        
+        }
     };
 
 //************************************************************************************************************
@@ -820,7 +846,7 @@ var affichageTouslesMembres = function(pObjetDesMembres) {
         td3.innerHTML = today;   
         tr.appendChild(td3);    
     }
-
+    addRowHandlersAmisSelect(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
 };
     
 // -----------------------------------------------------------------------------
