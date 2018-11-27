@@ -302,7 +302,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Nom
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#nom-profil.form-control.control-groupe(type='text' name='nom' maxlength='21' size='21' placeholder='Nom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{0,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères' autofocus='')
+                              input#nom-profil.form-control.control-groupe(type='text' name='nom' maxlength='21' size='21' placeholder='Nom' pattern="^[a-zA-Z\u00C0-\u00FF- '[a-zA-Z\u00C0-\u00FF-']{1,21}$" title="Uniquement des lettres + les caractères suivants:- ' dont des espaces et la longueur comprise entre 2 et 21 caractères" autofocus='')
                               i.fa.fa-user.darkorange
                               br
                         // Text input
@@ -310,7 +310,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Pr&eacute;nom
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#prenom-profil.form-control.control-groupe(type='text' name='prenom' maxlength='21' size='21' placeholder='Prénom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                              input#prenom-profil.form-control.control-groupe(type='text' name='prenom' maxlength='21' size='21' placeholder='Prénom' pattern="^[a-zA-Z\u00C0-\u00FF- '[a-zA-Z\u00C0-\u00FF-']{1,21}$" title="Uniquement des lettres + les caractères suivants:- ' dont des espaces et la longueur comprise entre 2 et 21 caractères")
                               i.fa.fa-user.darkorange
                               br
                         // Text input
@@ -346,7 +346,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Adresse
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#adresse-profil.form-control.control-groupe(type='text' name='adresse' maxlength='30' size='30' placeholder='Numero et nom de rue ' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
+                              input#adresse-profil.form-control.control-groupe(type='text' name='adresse' maxlength='30' size='30' placeholder='Numero et nom de rue ' pattern="^[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,30}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 30 caractères')
                               i.fa.fa-home.darkorange
                               br
                         br
@@ -364,7 +364,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Ville
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#ville-profil.form-control.control-groupe(type='text' name='ville' maxlength='21' size='21' placeholder='Ville' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{1,21}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 2 et 20 caractères')
+                              input#ville-profil.form-control.control-groupe(type='text' name='ville' maxlength='21' size='21' placeholder='Ville' pattern="^[a-zA-Z\u00C0-\u00FF- '[a-zA-Z\u00C0-\u00FF-']{1,21}$" title="Uniquement des lettres + les caractères suivants:- ' dont des espaces et la longueur comprise entre 2 et 21 caractères")
                               i.fa.fa-home.darkorange
                               br
                         // Select Basic
@@ -889,7 +889,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Pr&eacute;f&eacute;rences
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              textarea#preference-profil.form-control.control-groupe(type='text' name='preference' rows='2' cols='40' maxlength='400' placeholder="C'est le moment de parler chat" pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
+                              textarea#preference-profil.form-control.control-groupe(type='text' name='preference' rows='2' cols='40' maxlength='400' placeholder="C'est le moment de parler chat" pattern="^[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
                       .form-group
                         .center
                           button.btn.btn-azure(type='submit') Valider
@@ -1088,7 +1088,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         // - Début liste d'amis
         .widget.widget-friends
           .widget-header
-            h3.widget-caption Amis
+            h3.widget-caption Amis confirm&eacute;s
           .widget-body.bordered-top.bordered-sky
             .row
               .col-md-12
@@ -1107,41 +1107,22 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         // - Fin liste d'amis
         .widget
           .widget-header
-            h3.widget-caption Groups
+            h3.widget-caption Amis recommand&eacute;s ou en attente de confirmation 
           .widget-body.bordered-top.bordered-sky
-            .card
-              .content
-                ul.list-unstyled.team-members
-                  li
-                    .row
-                      .col-xs-3
-                        .avatar
-                          img.img-circle.img-no-padding.img-responsive(src='static/images/Likes/likes-1.png' alt='Circle Image')
-                      .col-xs-6
-                        | Github
-                      .col-xs-3.text-right
-                        p.btn.btn-sm.btn-azure.btn-icon
-                          i.fa.fa-user
-                  li
-                    .row
-                      .col-xs-3
-                        .avatar
-                          img.img-circle.img-no-padding.img-responsive(src='static/images/Likes/likes-3.png' alt='Circle Image')
-                      .col-xs-6
-                        | Css snippets
-                      .col-xs-3.text-right
-                        p.btn.btn-sm.btn-azure.btn-icon
-                          i.fa.fa-user
-                  li
-                    .row
-                      .col-xs-3
-                        .avatar
-                          img.img-circle.img-no-padding.img-responsive(src='static/images/Likes/likes-2.png ' alt='Circle Image')
-                      .col-xs-6
-                        | Html Action
-                      .col-xs-3.text-right
-                        p.btn.btn-sm.btn-azure.btn-icon
-                          i.fa.fa-user
+            .row
+              .col-md-12
+                .widget
+                  .table-responsive
+                    table#table-amis-attente.table.user-list
+                      thead
+                        tr
+                          th
+                            span Membres
+                          th
+                            span Noms
+                          th.text-center
+                            span Pr&eacute;noms
+                          th &nbsp;
       // ============= timeline posts
       .col-md-6
         .row
@@ -1442,6 +1423,9 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               .controls
                 span#accepte-invitation.accepte.fa.fa-check-circle(href='#' data-toggle='tooltip' data-placement='top' title="Accepter l'invitation" data-original-title='New')
                 span#refuse-invitation.refuse.fa.fa-frown-o(href='#' data-toggle='tooltip' data-placement='top' title="Refuser l'invitation" data-original-title='New')
+                span#ignore-recommandation.ignore.fa.fa-frown-o(href='#' data-toggle='tooltip' data-placement='top' title='Ignorer cette recommandation' data-original-title='New')
+                span#recommande.accepte.fa.fa-check-circle(href='#' data-toggle='tooltip' data-placement='top' title='Recommander cet ami' data-original-title='New')
+                span#aller-sur-profil-ami.refuse.fa.fa-frown-o(href='#' data-toggle='tooltip' data-placement='top' title='Aller sur son profil' data-original-title='New')
                 img#info-photo-cover.cover(src='' alt='cover')
                 .cont
                   img#info-photo-profile.avatar(src='' alt='avatar')
@@ -1599,12 +1583,12 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   .col-md-3.col-sm-3.col-xs-12
                     .form-group.position
                       span.input-icon
-                        input#nom-amis.form-control.control-groupe.input-sm(type='text' name='nom' maxlength='21' size='21' placeholder='son nom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                        input#nom-amis.form-control.control-groupe.input-sm(type='text' name='nom' maxlength='21' size='21' placeholder='son nom' pattern="^[a-zA-Z\u00C0-\u00FF- '[a-zA-Z\u00C0-\u00FF-']{1,21}$" title="Uniquement des lettres + les caractères suivants:- ' dont des espaces et la longueur comprise entre 2 et 21 caractères")
                         i.glyphicon.glyphicon-search.darkorange
                   .col-md-3.col-sm-3.col-xs-12
                     .form-group.position
                       span.input-icon
-                        input#prenom-amis.form-control.control-groupe.input-sm(type='text' name='prenom' maxlength='21' size='21' placeholder='son prénom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                        input#prenom-amis.form-control.control-groupe.input-sm(type='text' name='prenom' maxlength='21' size='21' placeholder='son prénom' pattern="^[a-zA-Z\u00C0-\u00FF- '[a-zA-Z\u00C0-\u00FF-']{1,21}$" title="Uniquement des lettres + les caractères suivants:- ' dont des espaces et la longueur comprise entre 2 et 21 caractères")
                         i.glyphicon.glyphicon-search.darkorange
                   .col-md-3.col-sm-6.col-xs-12
                     button.btn.btn-azure(type='submit') Rechercher
@@ -2018,7 +2002,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Nom
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#nom-fiche.form-control.control-groupe(type='text' name='nom' maxlength='21' size='21' placeholder='Nom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{0,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères' autofocus='')
+                              input#nom-fiche.form-control.control-groupe(type='text' name='nom' maxlength='21' size='21' placeholder='Nom' pattern="^[a-zA-Z\u00C0-\u00FF- '[a-zA-Z\u00C0-\u00FF-']{1,21}$" title="Uniquement des lettres + les caractères suivants:- ' dont des espaces et la longueur comprise entre 2 et 21 caractères" autofocus='')
                               i.fa.fa-user.darkorange
                               br
                         // Text input
@@ -2026,7 +2010,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Pr&eacute;nom
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#prenom-fiche.form-control.control-groupe(type='text' name='prenom' maxlength='21' size='21' placeholder='Prénom' pattern='^[a-zA-Z\u00C0-\u00FF-]+?[a-zA-Z\u00C0-\u00FF-]{1,21}$' title='Uniquement des lettres et la longueur comprise entre 2 et 21 caractères')
+                              input#prenom-fiche.form-control.control-groupe(type='text' name='prenom' maxlength='21' size='21' placeholder='Prénom' pattern="^[a-zA-Z\u00C0-\u00FF- '[a-zA-Z\u00C0-\u00FF-']{1,21}$" title="Uniquement des lettres + les caractères suivants:- ' dont des espaces et la longueur comprise entre 2 et 21 caractères")
                               i.fa.fa-user.darkorange
                               br
                         // Text input
@@ -2053,7 +2037,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label T&eacute;l&eacute;phone
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#telephone-fiche.form-control.control-groupe(type='text' name='telephonefiche' maxlength='10' size='10' placeholder='Ex: 0605040302' pattern='^[0-9]{10}$' title='Les caractères doivent être numériques et la longueur doit être de 10 caractères')
+                              input#telephone-fiche.form-control.control-groupe(type='text' name='telephonefiche' maxlength='10' size='10' placeholder='Ex: 0605040302' pattern='[0-9]{10}' title='Les caractères doivent être numériques et la longueur doit être de 10 caractères')
                               i.fa.fa-phone.darkorange
                               br
                         br
@@ -2080,7 +2064,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Ville
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#ville-fiche.form-control.control-groupe(type='text' name='ville' maxlength='21' size='21' placeholder='Ville' pattern="^[a-zA-Z\u00C0-\u00FF-'[a-zA-Z\u00C0-\u00FF-']{1,21}" title='Uniquement des lettres puis des espaces ou des tirets et la longueur comprise entre 2 et 21 caractères')
+                              input#ville-fiche.form-control.control-groupe(type='text' name='ville' maxlength='21' size='21' placeholder='Ville' pattern="^[a-zA-Z\u00C0-\u00FF- '[a-zA-Z\u00C0-\u00FF-']{1,21}$" title="Uniquement des lettres + les caractères suivants:- ' dont des espaces et la longueur comprise entre 2 et 21 caractères")
                               i.fa.fa-home.darkorange
                               br
                         // Select Basic
@@ -2635,6 +2619,20 @@ nav#top.navbar.navbar-white.navbar-fixed-top
       .modal-body
         img.mb-4.mx-auto.d-block(src='static/images/favicon.png' alt='Logo du site adopte un maitre' width='auto' height='72')
         #idModalBodyText
+      .modal-footer
+        button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
+// ****************************************************************************************
+// FENETRE MODAL MODULABLE
+// ****************************************************************************************
+#idGenericModalAlerte.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idGenericModalTitleAlerte' aria-hidden='true')
+  .modal-dialog.modal-dialog-centered(role='document')
+    #idModalContentA.modal-content
+      #idModalBodyTextA.modal-header
+        h5#idModalTitleA.modal-title
+        button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+      .modal-body
+        img.mb-4.mx-auto.d-block(src='static/images/favicon.png' alt='Logo du site adopte un maitre' width='auto' height='72')
+        #idModalBodyTextA
       .modal-footer
         button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
 // ****************************************************************************************

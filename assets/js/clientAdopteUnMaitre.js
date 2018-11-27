@@ -76,6 +76,10 @@ window.addEventListener('DOMContentLoaded', function() {
     var fermeFelicitation = window.document.getElementById('ferme-felicitation');
     var vModalBodyTextG = window.document.getElementById('idModalBodyTextG');  
     var vModalTitleG = window.document.getElementById('idModalTitleG');
+    var vGenericModalAlerte = window.document.getElementById('idGenericModalAlerte');
+    var vModalTitleAlerte = window.document.getElementById('idModalTitleA');
+    var vModalBodyTextAlerte = window.document.getElementById('idModalBodyTextA');  
+ 
 
     // Eléments de fenêtres modales partie fiche membre formulaire à modifier   
     var idFiche = window.document.getElementById('idFiche');
@@ -166,8 +170,9 @@ window.addEventListener('DOMContentLoaded', function() {
     var murPhotoProfil = window.document.getElementById('mur-photo-profile');
     var murPhotoCover = window.document.getElementById('mur-photo-cover');
     var tbodyAmis; // tableau DOM resultat de la liste d'amis
-    var tbodyExisteAmis = false; // variable pour identifier sur la tableau resultat recherche liste des membres existe
-
+    var tbodyExisteAmis = false; // variable pour identifier sur la tableau resultat recherche liste des amis confirmés existe
+    var tbodyAmisA; // tableau DOM resultat de la liste d'amis
+    var tbodyExisteAmisAttente = false; // variable pour identifier sur la tableau resultat recherche liste desamis en attente existe
 //*******************************************************/
 // elements single page administrateur détail d'un membre
 //*******************************************************/  
@@ -190,7 +195,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var infoPhotoProfil = window.document.getElementById('info-photo-profile');
     var infoPhotoCover = window.document.getElementById('info-photo-cover');
     var accepteInvitation = window.document.getElementById('accepte-invitation');
-    var refuseInvitation = window.document.getElementById('refuse-invitation');
+    var refusInvitation = window.document.getElementById('refuse-invitation');
 
 //*****************************************/
 // elements single page recherche d'amis
@@ -304,6 +309,17 @@ window.addEventListener('DOMContentLoaded', function() {
     };
 
 // -------------------------------------------------------------------------------------
+// Cette fonction initialise le contenu de la fenetre modale "message alerte"
+// après l'acceptation (la confirmation )de demande d'ami
+// -------------------------------------------------------------------------------------
+    function initModaleMessageAlerte(pModalTitleA, pModalBodyTextA,pObjetDuMembre) {
+        pModalTitleA.innerText = 'Un membre a un retour sur une invitation dans Adopte un Maitre'
+        pModalBodyTextA.innerHTML = '<h2>Adopte un Maitre Team vous informe:</h2>';
+        pModalBodyTextA.innerHTML += '<br/><h4> Un membre' + ' '+'<span class="titre-nav-admin">'+pObjetDuMembre.pseudo+'</span></h4>';
+        pModalBodyTextA.innerHTML += '<br/><h4>'+pObjetDuMembre.message+'</h4>';
+        pModalBodyTextA.innerHTML += '<br/><h4>Bonne navigation !</h4>';
+    };
+// -------------------------------------------------------------------------------------
 // Cette fonction initialise le contenu de la fenetre modale "mise à jour fiche profil"
 // après la validation réussie du formulaire d'inscription fiche profil
 // -------------------------------------------------------------------------------------
@@ -363,39 +379,6 @@ window.addEventListener('DOMContentLoaded', function() {
         pModalBodyTextG.innerHTML += '<br /><p>Bienvenue dans la Team Adopte un Maître!</p>';
     };
 
-// *******************************************************************************
-// Cette fonction vérifie que le MDP et sa confirmation sont bien identiques
-// *******************************************************************************
-    function validatePassword(pSignInPassword, pSignInConfirmPassword) {
-        if (pSignInPassword.value != pSignInConfirmPassword.value) {
-            pSignInConfirmPassword.setCustomValidity("Les mots de passe ne correspondent pas");
-        } else {
-            pSignInConfirmPassword.setCustomValidity('');
-        }
-    }; 
-
-// *******************************************************************************
-// Cette fonction en cas d'erreur modifie la couleur des input
-// ******************************************************************************* 
-    function colorInput() {
-        var invalidClassName = 'invalid'
-        var inputs = document.querySelectorAll('input, select, textarea')
-        inputs.forEach(function (input) {
-            // Add a css class on submit when the input is invalid.
-            input.addEventListener('invalid', function () {
-            input.classList.add(invalidClassName)
-            });
-
-            // Remove the class when the input becomes valid.
-            // 'input' will fire each time the user types
-            input.addEventListener('input', function () {
-                if (input.validity.valid) {
-                    input.classList.remove(invalidClassName)
-                }
-            });
-        });  
-    };
-
 // -----------------------------------------------------------------------------
 // Cette fonction initialise le contenu de la fenetre modale "Félicitations et Bienvenue"
 // apr-s la création réussi du nouveau membre
@@ -407,6 +390,17 @@ window.addEventListener('DOMContentLoaded', function() {
         pModalBodyText.innerHTML += '<br /><p>Nous venons de vous envoyer un email de confirmation avec un rappel de vos identifiants de connexion, consulter votre boite spam si vous ne le voyez pas !</p>';
         pModalBodyText.innerHTML += '<br /><p>Nous vous invitons à compléter votre profil.</p>';
     };
+
+// *******************************************************************************
+// Cette fonction vérifie que le MDP et sa confirmation sont bien identiques
+// *******************************************************************************
+    function validatePassword(pSignInPassword, pSignInConfirmPassword) {
+        if (pSignInPassword.value != pSignInConfirmPassword.value) {
+            pSignInConfirmPassword.setCustomValidity("Les mots de passe ne correspondent pas");
+        } else {
+            pSignInConfirmPassword.setCustomValidity('');
+        }
+    }; 
 
 // -----------------------------------------------------------------------------
 // Cette fonction initialise les données du mur de profile
@@ -467,6 +461,27 @@ window.addEventListener('DOMContentLoaded', function() {
         } 
         
     };
+// -----------------------------------------------------------------------------
+// Cette fonction regarde dans le document si on doit afficher des messages de type:
+// - invitation acceptée 
+// - invitation refusée
+// -----------------------------------------------------------------------------
+    function verificationAlerte(pObjetDuMembre) {
+        // affichage des donnees de la page du mur de profile du membre
+        console.log('je suis dans verificationAlerte on observe pObjetDumembre:',pObjetDuMembre);
+        for (var i=0; i < pObjetDuMembre.alerte.length; i++) { 
+            console.log('pObjetDuMembre.alerte.length',pObjetDuMembre.alerte.length);
+            if (pObjetDuMembre.alerte[i].indicateur) {
+                console.log('pObjetDuMembre.alerte[i].indicateur dans la boucle qui est normalement que pour true',pObjetDuMembre.alerte[i].indicateur);
+                initModaleMessageAlerte(vModalTitleAlerte, vModalBodyTextAlerte,pObjetDuMembre.alerte[i]);
+                $('#idGenericModalAlerte').modal('toggle');    // ouverture de la fenêtre modale bravo la recuperation de mot de passe ok
+                webSocketConnection.emit('miseAjourIndicateurAlerte', pObjetDuMembre.alerte[i],pObjetDuMembre);  // Transmission au serveur qu'on a affiché l'alerte 
+                                                                                // il faut mettre à jour l'indicateur d'alerte :  alerte[i].indicateur =false;
+            } else {
+                console.log("rien à afficher");
+            } 
+        }  
+    };
 
 // -----------------------------------------------------------------------------
 // Cette fonction initialise les données d'un ami pour un membre 
@@ -514,7 +529,7 @@ window.addEventListener('DOMContentLoaded', function() {
             break;
         };
                 
-        if (pObjetDunMembre.age == ''){
+        if (pObjetDunMembre.age == '') {
             infoAge.innerHTML = 'Non renseigné'; 
         } else {
             infoAge.innerHTML = pObjetDunMembre.age + ' ans';
@@ -562,10 +577,38 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+// -----------------------------------------------------------------------------
+// Cette fonction ajoute un événement onclick à une ligne du tableau 
+// tableau amis-en-attente
+// -----------------------------------------------------------------------------
+    function addRowHandlersAmisAttente() {
+        console.log('je suis dans la fonction addRowHandlersAmisAttente');
+        var tableauAmisAttente = document.getElementById("amis-en-attente");
+        var rows = tableauAmisAttente.getElementsByTagName("tr");
+        for (var j = 0; j < rows.length; j++) {
+            var currentRow = tableauAmisAttente.rows[j];
+            var createClickHandler = function(row) {
+                return function() {
+                    var cell = row.getElementsByTagName("td")[0];
+                    var cella = cell.getElementsByTagName("a")[0];
+                    var id = cella.innerHTML;
+                    console.log("id:" + id);      
+                    console.log('objetDuMembre avant detail de cet ami dans tableau amis en attente',objetDuMembre);           
+                    webSocketConnection.emit('demandeAffiInfosAmi', id, objetDuMembre);  // Demande au serveur d'afficher les infos d'un ami
+                };
+            };
+        
+        currentRow.onclick = createClickHandler(currentRow);
+        
+        }
+    };
+
 //************************************************************************************************************
 // Fonction qui affichage la liste d'amis: photo pseudo nom prenom 
 //************************************************************************************************************
     var affichageListeAmis = function(pObjetDuMembre) { 
+
+        // initialisation liste amis confirmés
         if (tbodyExisteAmis) {                                   // on verifie si le tableau liste amis existe ou pas pour ne pas le créer deux fois
                 console.log('tbodyExisteAmis :',tbodyExisteAmis);
                 document.getElementById('table-liste-amis').removeChild(tbodyAmis) // retire le tableau du DOM
@@ -574,9 +617,24 @@ window.addEventListener('DOMContentLoaded', function() {
             tbodyAmis.id = 'amis-des-membres';
             document.getElementById('table-liste-amis').appendChild(tbodyAmis); 
             tbodyExisteAmis = true;
+
+        // initialisation liste amis en attente d'être confirmé 
+        if (tbodyExisteAmisAttente) {         // on verifie si le tableau liste amis en attente de confirmation existe ou pas pour ne pas le créer deux fois
+                console.log('tbodyExisteAmisAttente :',tbodyExisteAmisAttente);
+                document.getElementById('table-amis-attente').removeChild(tbodyAmisA) // retire le tableau du DOM
+        } 
+            tbodyAmisA = document.createElement('tbody');
+            tbodyAmisA.id = 'amis-en-attente';
+            document.getElementById('table-amis-attente').appendChild(tbodyAmisA);
+            tbodyExisteAmisAttente = true;
+
+
+        // on parcoure le tableau pour les dispatcher     
             for (var i=0; i < pObjetDuMembre.amis.length; i++) {            
             
-            // Création physique dynamique et ajout au DOM de la liste d'amis: on crée une ligne psysique de chaque membre
+            // Création physique dynamique et ajout au DOM de la liste d'amis confirmés : on crée une ligne psysique de chaque membre
+
+                if (pObjetDuMembre.amis[i].statut == "C") {  // C = confirmés
 
                 var tr = document.createElement('tr');
                 document.getElementById('amis-des-membres').appendChild(tr);      
@@ -598,27 +656,15 @@ window.addEventListener('DOMContentLoaded', function() {
 
                 var span = document.createElement('span');
                 span.className = 'user-subhead-liste';
-                switch(pObjetDuMembre.amis[i].statut) {
-                    case 'I':                                           
-                    span.innerHTML = 'Invitation en cours'  
-                    break;
-                    case 'A':                        
-                    span.innerHTML = 'Attente de confirmation'  
-                    break;
-                    case 'C':      
-                    span.innerHTML = 'Confirmé'  
-                    break;
-                };               
+                span.innerHTML = 'Confirmé'  
                 td.appendChild(span);
 
                 var td1 = document.createElement('td'); 
-                td1.className = 'text-center'; 
                 td1.id= 'amis-nom'+[i];
                 td1.innerHTML =  pObjetDuMembre.amis[i].nom;  
                 tr.appendChild(td1);
 
                 var td2 = document.createElement('td'); 
-                td2.className = 'text-center'; 
                 td2.id= 'amis-prenom'+[i];
                 td2.innerHTML =  pObjetDuMembre.amis[i].prenom;   
                 tr.appendChild(td2);
@@ -644,10 +690,75 @@ window.addEventListener('DOMContentLoaded', function() {
                 var i2 = document.createElement('i');
                 i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
                 span4.appendChild(i2);
-        
+            }
+
+            if ((pObjetDuMembre.amis[i].statut == "A") || (pObjetDuMembre.amis[i].statut == "R")) {  // A= en attente de confirmation // R=Recommandés
+                var trA= document.createElement('tr');
+                document.getElementById('amis-en-attente').appendChild(trA);      
+            
+                var tdA = document.createElement('td');
+                trA.appendChild(tdA);
+
+                var imgA = document.createElement('img');
+                imgA.setAttribute('src','static/images/membres/'+ pObjetDuMembre.amis[i].photoProfile,'alt', 'image');
+                imgA.className='img-circle image-user-liste';
+                tdA.appendChild(imgA);
+                
+                var aA = document.createElement('a');
+                aA.id = 'amisA-pseudo'+[i];
+                aA.setAttribute ( 'href' , '#');
+                aA.className = 'user-liste';
+                aA.innerHTML =  pObjetDuMembre.amis[i].pseudo;
+                tdA.appendChild(aA); 
+
+                var spanA = document.createElement('span');
+                spanA.className = 'user-subhead-liste';
+                switch(pObjetDuMembre.amis[i].statut) {
+                    case 'R':                                           
+                    spanA.innerHTML = 'Recommandé'  
+                    break;
+                    case 'A':                        
+                    span.innerHTML = 'Attente de confirmation'  
+                    break;
+                };               
+                tdA.appendChild(spanA);
+
+                var tdA1 = document.createElement('td'); 
+                tdA1.id= 'amisA-nom'+[i];
+                tdA1.innerHTML =  pObjetDuMembre.amis[i].nom;  
+                trA.appendChild(tdA1);
+
+                var tdA2 = document.createElement('td'); 
+                tdA2.id= 'amisA-prenom'+[i];
+                tdA2.innerHTML =  pObjetDuMembre.amis[i].prenom;   
+                trA.appendChild(tdA2);
+                
+                var tdA4 = document.createElement('td');       
+                tdA4.setAttribute ( 'style' , 'width: 10%;');
+                trA.appendChild(tdA4);
+
+                var aA4 = document.createElement('a');
+                aA4.id = 'amisA-info'+[i];
+                aA4.setAttribute ( 'href' , '#');
+                aA4.className = 'table-link success';        
+                tdA4.appendChild(aA4); 
+
+                var spanA4 = document.createElement('span');
+                spanA4.className = 'fa-stack';       
+                aA4.appendChild(spanA4);
+
+                var iA1 = document.createElement('i');
+                iA1.className = 'fa fa-square fa-stack-2x';
+                spanA4.appendChild(iA1);
+
+                var iA2 = document.createElement('i');
+                iA2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
+                spanA4.appendChild(iA2);
+            }
         }
 
-        addRowHandlersAmisMembres(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
+            addRowHandlersAmisMembres(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau amis confirmés
+            addRowHandlersAmisAttente(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau amis en attente d'etre confirmés
     };
 
 //************************************************************************************************************
@@ -1375,7 +1486,7 @@ var affichageTouslesMembres = function(pObjetDesMembres) {
         blockProfilMembre.style.display = 'block'; 
         console.log('blockProfilMembre.style.display',blockProfilMembre.style.display);
         console.log(' inscription documents',documents);
-       
+    
         capturePhotoImg.setAttribute('src','static/images/membres/'+documents.photoProfile);
         console.log('documents.photoProfile',documents.photoProfile);
         console.log('capturePhotoImg',capturePhotoImg);
@@ -1467,6 +1578,7 @@ var affichageTouslesMembres = function(pObjetDesMembres) {
         console.log('click mur de  profile');  
         // affichage des donnees de la page du mur de profile du membre
         initMurProfil(objetDuMembre);
+        affichageListeAmis(objetDuMembre);
         blockMurProfile.style.display = 'block';                     
         blockProfilMembre.style.display = 'none';
     });
@@ -1545,8 +1657,12 @@ var affichageTouslesMembres = function(pObjetDesMembres) {
         blockProfilMembre.style.display = 'none'; 
         console.log('blockFormulaire.style.display', blockFormulaire.style.display);
         blockMurProfile.style.display = 'block';
-        
-        initMurProfil(objetDuMembre);    // affichage des donnees de la page du mur de profile du membre
+        console.log('objetDuMembre.alerte.length',objetDuMembre.alerte.length); 
+        if (objetDuMembre.alerte.length) {
+            verificationAlerte(objetDuMembre);   // on verifie si on doit afficher une fenetre de messages d'alerte
+        };
+    
+        initMurProfil(objetDuMembre);       // affichage des donnees de la page du mur de profile du membre
 
         // affichage des donnees de la page d'inscription du profile du membre    
         capturePhotoImg.setAttribute('src','static/images/membres/'+documents.photoProfile);
@@ -1634,15 +1750,38 @@ var affichageTouslesMembres = function(pObjetDesMembres) {
 // ***********************************************************************************************************
     accepteInvitation.addEventListener('click', function (event) { 
         console.log('click sur acceptation invitation');         
-        webSocketConnection.emit('accepteInvitation', objetDunMembre);  // envoie au serveur que le membre accepte l'invitation 
+        webSocketConnection.emit('accepteInvitation', objetDunMembre,objetDuMembre);  // envoie au serveur que le membre accepte l'invitation 
     });   
+
+// ***********************************************************************************************************
+// Le membre refuse l'invitation 
+// on envoie au serveur refus invitation
+// ***********************************************************************************************************
+    refusInvitation.addEventListener('click', function (event) { 
+        console.log('click sur refus invitation');         
+        webSocketConnection.emit('refuseInvitation', objetDunMembre,objetDuMembre);  // envoie au serveur que le membre refuse l'invitation 
+    });    
 
 // ***********************************************************************************************************
 // on reçoit confirmation membre a accepté l'invitation
 // ***********************************************************************************************************
-    webSocketConnection.on('sendAmiConfirme', function(documents) {         
-        console.log("statut des membres modifiés avec succès documents:", documents);
+    webSocketConnection.on('sendAmiConfirme', function(pInfoMembre) {         
+        console.log("statut des membres modifiés avec succès pInfoMembre:",pInfoMembre);
+        objetDuMembre = pInfoMembre;
+        affichageListeAmis(objetDuMembre); 
+        blockMurProfile.style.display = 'block';                     
+        blockInfoAmi.style.display = 'none';
+    });
 
+// ***********************************************************************************************************
+// on reçoit membre supprimé de la liste
+// ***********************************************************************************************************
+    webSocketConnection.on('sendAmiRefuse', function(pInfoMembre) {         
+        console.log("membre supprimé avec succès pInfoMembre:",pInfoMembre);
+        objetDuMembre = pInfoMembre;
+        affichageListeAmis(objetDuMembre); 
+        blockMurProfile.style.display = 'block';                     
+        blockInfoAmi.style.display = 'none';
     });
 
 // ***********************************************************************************************************
@@ -1724,12 +1863,13 @@ var affichageTouslesMembres = function(pObjetDesMembres) {
         objetRechercheDesMembres.pseudo     =   pseudoAmis.value;
     
         console.log("objetDesMembres recherche amis  avant envoie au serveur web",objetRechercheDesMembres);
+        console.log("objetDuMembre recherche amis  avant envoie au serveur web",objetDuMembre);
 
         nomAmis.value       = "";
         prenomAmis.value    = "";
         pseudoAmis.value    = "";
     
-        webSocketConnection.emit('controleFormRechercheAmis', objetRechercheDesMembres);  // Transmission au serveur des infos saisies
+        webSocketConnection.emit('controleFormRechercheAmis', objetRechercheDesMembres,objetDuMembre);  // Transmission au serveur des infos saisies
         
     });
 

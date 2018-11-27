@@ -11,7 +11,7 @@
 //                                                                                                    ************
 //     memberMgr.js :  module qui est un Objet représentant les visiteurs et membres                  ************
 //                                                                                                    ************       
-//     Objet : MemberServer                                                                           ************                                      //                                                                                                    ************                                      //     Cet objet sert à gérer :                                                                       ************
+//     Objet : MemberServer                                                                           ************                                                                                                                                       ************                                      //     Cet objet sert à gérer :                                                                       ************
 //       - Le filtrage des candidats qui aspirent à jouer                                             ************
 //      - La structure principale des données d'échange avec les clients                              ************
 //                                                                                                    ************
@@ -76,9 +76,8 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
             pays            : '',           // pays
             profil          : '',           // est proprietaire ou souhaite adopté ou neutre           
             preference      : '',           // preferences adopte un maitre(AM) adopte un chat (AC) ne sais pas (NSP)            
-            amis            :[              // liste d'amis
-                            
-                            ]             
+            amis            :[],            // liste d'amis
+            alerte          :[]             // tableau des messages d'alerte                              
     }
 
 
@@ -183,14 +182,14 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
             ville               : '',           // ville 
             pays                : '',           // pays
             profil              : '',           // est proprietaire ou souhaite adopté ou neutre           
-            preference          : '',  // preferences            
-            amis                :[              // liste d'amis
-                                
-                                ]             
+            preference          : '',           // preferences            
+            amis                :[],            // liste d'amis                             
+            alerte              :[]             // tableau des messages d'alerte                         
         }
 
 
         this.objetPopulation.membres.push(objetMembreLocal);
+        console.log('this.objetPopulation',this.objetPopulation);
         this.objetPopulation.nbrConnections++;             // Nombre de visiteurs incluant les [membres + Admins]
         this.UpdateDisplayPopulation(pSocketIo);
 //      this.getNbMessages(pSocketIo);
@@ -276,7 +275,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
                     this.objetPopulation.membres[myIndex].oldMp        = this.membre.oldMp;
                     this.objetPopulation.membres[myIndex].statut       = this.membre.statut;        // Membre= 0, Admin= 1 ou SuperAdmin= 2
                     this.objetPopulation.membres[myIndex].dateCreation = this.membre.dateCreation;  // Timestamp à la création du membre ds la BDD
-
+                    console.log('this.objetPopulation apres rajout this.membre',this.objetPopulation);
                     this.addMemberToActiveMembers(myIndex, pSocketIo);           // Le visiteur est bien un membre, on l'ajoute à la liste des membres
                     console.log("pSocketIo",pSocketIo);   
                     pWebSocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
@@ -422,15 +421,9 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
             ville           : '',           // ville 
             pays            : '',           // pays
             profil          : '',           // est proprietaire ou souhaite adopté ou neutre           
-            preference      : '',  // preferences            
-            amis            :[              // liste d'amis
-                                {   pseudo:'',
-                                    nom:'',
-                                    prenom:'', 
-                                    photoProfile:'',
-                                    statut:''
-                                }
-                            ]             
+            preference      : '',           // preferences            
+            amis            :[],            // liste d'amis
+            alerte          :[]             // tableau des messages d'alerte    
         }
         
         
@@ -465,8 +458,8 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                 console.log("this.membre.statut",this.membre.statut);
                 pWebSocketConnection.emit('disableAdministrateurBtn'); // on envoie au client activation bouton administrateur car le membre est un administrateur
             }
-            pWebSocketConnection.emit('profileInscription', this.membre); // On envoie au client ses données de profil 
-            pWebSocketConnection.emit('felicitationMembre',this.membre);  // on envoie une demande de félicitation
+            pWebSocketConnection.emit('profileInscription', objetMembreLocal); // On envoie au client ses données de profil 
+            pWebSocketConnection.emit('felicitationMembre',objetMembreLocal);  // on envoie une demande de félicitation
                 
         });
     }
@@ -572,10 +565,35 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                 this.membre.email          = emailSengrid;
                 this.membre.mp             = mpNew;                   
                 this.membre.mpConfirme     = mpNew;
-                this.membre.mpProvisoire   = mpNew;               
+                this.membre.mpProvisoire   = mpNew;    
+                
+                let objetMembreLocal = {
+                    pseudo          : documents[0].pseudo,
+                    email           : documents[0].email,                                    
+                    mp              : mpNew,
+                    mpConfirme      : mpNew,          
+                    mpProvisoire    : mpNew, 
+                    statut          : documents[0].statut,        // Membre 0, Admin 1 ou SuperAdmin 2                
+                    dateCreation    : documents[0].dateCreation,       // Timestamp de la création du membre                    
+                    photoProfile    : documents[0].photoProfile,
+                    photoCover      : documents[0].photoCover,
+                    nom             : documents[0].nom,
+                    prenom          : documents[0].prenom,
+                    age             : documents[0].age,
+                    genre           : documents[0].genre,            // femme (F)  ou homme(H)
+                    telephone       : documents[0].telephone,      
+                    adresse         : documents[0].adresse, 
+                    cp              : documents[0].cp,           // code postal
+                    ville           : documents[0].ville,           // ville 
+                    pays            : documents[0].pays,           // pays
+                    profil          : documents[0].profil,           // est proprietaire ou souhaite adopté ou neutre           
+                    preference      : documents[0].preference,           // preferences            
+                    amis            : documents[0].amis,            // liste d'amis
+                    alerte          : documents[0].alerte            // tableau des messages d'alerte    
+                }
                 console.log("pObjetMembreLocalMotDePasse.mpProvisoire et pDocumentsmpProvisoire true",pObjetMembreLocalMotDePasse.mpProvisoire);       
                 this.DBMgr.colMembres.updateOne(
-                    {pseudo:    this.membre.pseudo},
+                    {pseudo:    pObjetMembreLocalMotDePasse.pseudo},
                     {$set:
                             {
                             mp             :mpNew,
@@ -598,9 +616,9 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                                 '</p><br /><br /><br /><i>Adopte un Maitre Team</i>',
                         }
                     sgMail.send(messageToSend);  // envoie du mail de prise en compte du nouveau mot de passe
-                    pWebSocketConnection.emit('mailSendInfoChangeMp',this.membre);               
+                    pWebSocketConnection.emit('mailSendInfoChangeMp',objetMembreLocal);               
                 
-                    pWebSocketConnection.emit('sendFormulaireConnexion', this.membre); // On envoie au client les données de profil du membre                         
+                    pWebSocketConnection.emit('sendFormulaireConnexion',objetMembreLocal); // On envoie au client les données de profil du membre                         
             });  
         });
     };
@@ -648,10 +666,35 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
             this.membre.email          = emailSengrid;
             this.membre.mp             = mpNew;                   
             this.membre.mpConfirme     = mpNew;
-            this.membre.mpProvisoire   = mpNew;               
+            this.membre.mpProvisoire   = mpNew;  
+            
+            let objetMembreLocal = {
+                pseudo          : documents[0].pseudo,
+                email           : documents[0].email,                                    
+                mp              : mpNew,
+                mpConfirme      : mpNew,          
+                mpProvisoire    : mpNew, 
+                statut          : documents[0].statut,        // Membre 0, Admin 1 ou SuperAdmin 2                
+                dateCreation    : documents[0].dateCreation,       // Timestamp de la création du membre                    
+                photoProfile    : documents[0].photoProfile,
+                photoCover      : documents[0].photoCover,
+                nom             : documents[0].nom,
+                prenom          : documents[0].prenom,
+                age             : documents[0].age,
+                genre           : documents[0].genre,            // femme (F)  ou homme(H)
+                telephone       : documents[0].telephone,      
+                adresse         : documents[0].adresse, 
+                cp              : documents[0].cp,           // code postal
+                ville           : documents[0].ville,           // ville 
+                pays            : documents[0].pays,           // pays
+                profil          : documents[0].profil,           // est proprietaire ou souhaite adopté ou neutre           
+                preference      : documents[0].preference,           // preferences            
+                amis            : documents[0].amis,            // liste d'amis
+                alerte          : documents[0].alerte            // tableau des messages d'alerte    
+            }
             console.log("pObjetMembreLocalMotDePasse.mpProvisoire et pDocumentsmpProvisoire true",pObjetMembreLocalMotDePasse.mp);       
             this.DBMgr.colMembres.updateOne(        // misa à jour du nouveau mots de passe
-                {pseudo:    this.membre.pseudo},
+                {pseudo:    documents[0].pseudo},
                 {$set:
                         {
                         mp             :mpNew,
@@ -674,7 +717,8 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                             '</p><br /><br /><br /><i>Adopte un Maitre Team</i>',
                     }
                 sgMail.send(messageToSend);  // envoie du mail de prise en compte du nouveau mot de passe
-                pWebSocketConnection.emit('mailSendInfoParametreMp',this.membre);               
+                pWebSocketConnection.emit('mailSendInfoParametreMp',objetMembreLocal);    
+                pWebSocketConnection.emit('profileConnect', objetMembreLocal); // On envoie au client les données de profil du membre  pour parer à toutes invitations d'amis            
                                 
         });  
     });
@@ -682,11 +726,11 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 
 
 //************************************************************************************************************  
-// Gestion de l'affichage de la fenettre des infos d'un ami
+// Gestion de l'affichage de la fenetre des infos d'un ami
 // - récupération des donnees du membre dans la collection membres 
 // - envoie des données au client au membre 
 //************************************************************************************************************ 
-    MemberServer.prototype.sendInfoMurAmi = function(pPseudoDunMembre, pWebSocketConnection, pSocketIo) {   
+    MemberServer.prototype.sendInfoMurAmi = function(pPseudoDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
         console.log('pPseudoDunMembre  avant Find dans la collection membres partie info Amis',pPseudoDunMembre); 
 
         this.DBMgr.colMembres.find({pseudo:pPseudoDunMembre}).toArray((error, documents) => {                     
@@ -710,82 +754,218 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 // - le membre receveur est ajouté à la liste d'amis : statut confirmé pour le membre demandeur
 // - le membre demandeur est ajouté à la liste d'amis : statut confirmé pour le membre receveur                    
 //************************************************************************************************************ 
-    MemberServer.prototype.invitationAccepte= function(pObjetDunMembre, pWebSocketConnection, pSocketIo) {   
+    MemberServer.prototype.invitationAccepte= function(pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
         console.log('pObjetDunMembre  avant MAJ de la collection membres',pObjetDunMembre); 
-        
-        this.DBMgr.colMembres.find(
+        console.log('pObjetDuMembre  avant MAJ de la collection membres',pObjetDuMembre); 
+
+        // mise à jour de l'objet membre demandeur
+        //statut  = confirme
+
+        this.DBMgr.colMembres.updateOne (
             {
-                pseudo:pObjetDunMembre.pseudo,
+                pseudo:pObjetDunMembre.pseudo,      // membre demandeur
             
-                amis: { $elemMatch :                // 2ème opérateur: on regarde si le membre demandeur est bien dans la liste des amis   
-                        {pseudo:this.membre.pseudo}
+                amis:   { $elemMatch :               // 2ème opérateur: on sélectionne le membre receveur dans la liste des amis  
+                        {pseudo:pObjetDuMembre.pseudo}
                     }
-            }
-                                
-            ).toArray((error, documents) => {                     
+            },
+            {   $set:   {   "amis.$.statut":"C"
+                    }
+            },(error, document) => {
+
             if (error) {
-                console.log('Erreur de find dans collection colMembres',error);
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
                 throw error;
-            }                                
-            if (!documents.length) { 
-                console.log('erreur avant mise à jour du membre on ne retrouve pas le membre demandeur on observe le  documents',documents);
+            }          
             
-                return false;                     
-            }  
-            console.log('documents du receveur avant MAJ', documents);
-            console.log('this.membre (demandeur) avant les MAJ', this.membre);
-                
-            // mise à jour de l'objet membre receveur
-            //statut  = confirme
+            console.log('update ok dans le document du membre demandeur ');
+        
+        }); 
 
-            this.DBMgr.colMembres.updateOne (
+        let dataAlerte =    {};
+        dataAlerte.indicateur   = true; // indicateur d'alerte pour affichager le  message qui indique que le membre a accepté l'invitation
+        dataAlerte.pseudo       =  pObjetDuMembre.pseudo;   
+        dataAlerte.message      = "a accepté votre invitation !";  // on ne veut afficher ce message qu'une seule fois
+
+        this.DBMgr.colMembres.updateOne (
+            {pseudo: pObjetDunMembre.pseudo},
+            {$push:{alerte: dataAlerte }},(error, document) => {
+
+            if (error) {
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            
+            console.log("update ok du message d'alerte dans le document du membre demandeur ");
+        
+        }); 
+
+        
+        // mise à jour du membre receveur
+        //statut  = confirme
+        
+        this.DBMgr.colMembres.updateOne (
+            {
+                pseudo:pObjetDuMembre.pseudo,        // membre receveur
+                amis: { $elemMatch :                // 2ème opérateur: on sélectionne le membre demandeur dans la liste des amis  
+                    {pseudo:pObjetDunMembre.pseudo}
+                }
+            },
+
+                {$set:{ "amis.$.statut":"C" }
+            
+            },(error, document) => {
+
+            if (error) {
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            
+            console.log('update ok dans le document du membre demandeur ');
+
+            this.DBMgr.colMembres.find(  // on récupérère le document du membre receveur mis à jour 
                 {
-                    pseudo:pObjetDunMembre.pseudo,
+                    pseudo:pObjetDuMembre.pseudo,
                 
-                    amis: { $elemMatch :                // 2ème opérateur: on regarde si le membre demandeur est bien dans la liste des amis   
-                            {pseudo:this.membre.pseudo}
+                    amis: { $elemMatch :                // 2ème opérateur: on sélectionne le membre demandeur dans la liste des amis  
+                            {pseudo:pObjetDunMembre.pseudo}
                         }
-                },
-                {$set:{"amis.$.statut":"C"}
-                
-                
-                },(error, document) => {
-
+                }
+                                    
+                ).toArray((error, documents) => {                     
                 if (error) {
-                    console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                    console.log('Erreur de find dans collection colMembres',error);
                     throw error;
-                }          
+                }                                
+                if (!documents.length) { 
+                    console.log('erreur find du membre on ne retrouve pas le membre demandeur on observe le  documents',documents);
                 
-                console.log('update ok dans le document du membre receveur ');
-            
+                    return false;                     
+                }  
+                let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+                pWebSocketConnection.emit('sendAmiConfirme',infoMembre);    // on renvoie au client la confirmation et les donnees du membre mise à jour
             }); 
+        }); 
+    }; 
+//************************************************************************************************************  
+// Gestion membre refuse une invitation une liste d'amis
+// - le membre receveur est retiré de la liste d'amis du membre demandeur
+// - le membre demandeur est retiré de la liste d'amis du membre receveur                 
+//************************************************************************************************************ 
+    MemberServer.prototype.invitationRefuse= function(pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pObjetDunMembre  avant MAJ de la collection membres',pObjetDunMembre); 
+        console.log('pObjetDuMembre  avant MAJ de la collection membres',pObjetDuMembre); 
 
-            // mise à jour de l'objetpseudoRecup
-            //statut  = confirme
+        // mise à jour de l'objet membre demandeur
+        //on supprime le membre receveur de la liste d'amis
+
+        this.DBMgr.colMembres.updateOne (
+            {
+                pseudo:pObjetDunMembre.pseudo,  // membre demande
+            },
+            {   
+                $pull:{amis:{pseudo:pObjetDuMembre.pseudo}}  // on supprime le membre receveur dans la liste des amis 
+
+            },(error, document) => {
+
+            if (error) {
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
             
-            this.DBMgr.colMembres.updateOne (
+            console.log('pull ok dans le document du membre demandeur ');
+        
+        }); 
+
+        let dataAlerte =    {};
+        dataAlerte.indicateur   = true; // indicateur d'alerte pour affichager le  message qui indique que le membre a refusé l'invitation
+        dataAlerte.pseudo       =  pObjetDuMembre.pseudo;   
+        dataAlerte.message      = "a refusé votre invitation !";  // on ne veut afficher ce message qu'une seule fois
+
+        this.DBMgr.colMembres.updateOne (
+            {pseudo: pObjetDunMembre.pseudo},
+            {$push:{alerte: dataAlerte }},(error, document) => {
+
+            if (error) {
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            
+            console.log("update ok du message d'alerte refus dans le document du membre demandeur ");
+        
+        }); 
+
+        
+        // mise à jour de l'objet membre receveur
+        //on supprime le membre demandeur de la liste d'amis
+        
+        this.DBMgr.colMembres.updateOne (
+            {
+                pseudo:pObjetDuMembre.pseudo,       // membre receveur
+            },
+            {   
+                $pull:{amis:{pseudo:pObjetDunMembre.pseudo}}  // on supprime le membre demandeur dans la liste des amis
+
+            },(error, document) => {  
+
+            if (error) {
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            
+            console.log('pull ok dans le document du membre receveur');
+
+            this.DBMgr.colMembres.find(  // on récupérère le document du membre receveur mis à jour 
                 {
-                    pseudo:this.membre.pseudo,
-                    amis: { $elemMatch :                // 2ème opérateur: on regarde si le membre demandeur est bien dans la liste des amis   
-                        {pseudo:pObjetDunMembre.pseudo}
-                    }
-                },
-    
-                    {$set:{ "amis.$.statut":"C" }
-                
-                },(error, document) => {
-
+                    pseudo:pObjetDuMembre.pseudo,           
+                }
+                                    
+                ).toArray((error, documents) => {                     
                 if (error) {
-                    console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                    console.log('Erreur de find dans collection colMembres',error);
                     throw error;
-                }          
+                }                                
+                if (!documents.length) { 
+                    console.log('erreur find du membre on ne retrouve pas le membre demandeur on observe le  documents',documents);
                 
-                console.log('update ok dans le document du membre demandeur ');
-            
+                    return false;                     
+                }  
+                let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+                pWebSocketConnection.emit('sendAmiRefuse',infoMembre);   // on renvoie au client qu'on apris en compte son refus et les donnees du membre mise à jour
             }); 
-            
-            pWebSocketConnection.emit('sendAmiConfirme',documents);    
-        });
+        }); 
+    }; 
+
+//************************************************************************************************************  
+// Gestion message d'alerte affiché
+// - le membre a reçut la fenetre de message d'alerte lui indiquant qu'un membre a accepté son invitation
+// - mettre l'indicateur de message d'alerte à false                 
+//************************************************************************************************************ 
+    MemberServer.prototype.modifIndicateurAlerte = function(pAlerte, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pObjetDunMembre  avant MAJ de la collection membres pour indicateur alerte message',pAlerte); 
+        console.log('pObjetDuMembre  avant MAJ de la collection membres pour indicateur alerte message',pObjetDuMembre); 
+        
+            // mise à jour de l'objet membre 
+            //alerte.indicateur = false
+
+        this.DBMgr.colMembres.updateOne (
+            {
+                pseudo:pObjetDuMembre.pseudo,
+                alerte: { $elemMatch :             // 2ème opérateur: on se place dans l'alerte correspondant au pseudo qui a accepté l'invitation  
+                        {pseudo:pAlerte.pseudo}
+                    }
+            },
+            {   $set:{ 
+                "alerte.$.indicateur":false  // on met l'indicateur à false l'alerte vient d'être affichée
+                    }
+            },(error, document) => {
+
+            if (error) {
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            console.log('update ok dans le document du membre indicateur alerte a été mis à false ');
+        }); 
     }; 
 
 //************************************************************************************************************  
@@ -817,21 +997,6 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                 
                     let pseudoSengrid = documents[0].pseudo;  
                     let emailSengrid = documents[0].email; 
-                    
-                    // misa à jour de l'objet membre
-                    this.membre.photoProfile        =  pObjetMembreLocal.photoProfile; 
-                    this.membre.photoCover          =  pObjetMembreLocal.photoCover;
-                    this.membre.nom                 =  pObjetMembreLocal.nom; 
-                    this.membre.prenom              =  pObjetMembreLocal.prenom;
-                    this.membre.genre               =  pObjetMembreLocal.genre;
-                    this.membre.age                 =  pObjetMembreLocal.age;
-                    this.membre.telephone           =  pObjetMembreLocal.telephone; 
-                    this.membre.adresse             =  pObjetMembreLocal.adresse;
-                    this.membre.cp                  =  pObjetMembreLocal.cp;
-                    this.membre.ville               =  pObjetMembreLocal.ville;
-                    this.membre.pays                =  pObjetMembreLocal.pays;
-                    this.membre.profil              =  pObjetMembreLocal.profil;
-                    this.membre.preference          =  pObjetMembreLocal.preference;         
                 
                     this.DBMgr.colMembres.updateOne(
                         {pseudo: pObjetMembreLocal.pseudo},
@@ -867,9 +1032,9 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                                 '<br /><i>Adopte un Maitre Team</i>',
                             }
                         sgMail.send(messageToSend);  // envoie du mail d'information maj profil
-                        pWebSocketConnection.emit('mailSendInfoChangeProfil',this.membre);             
+                        pWebSocketConnection.emit('mailSendInfoChangeProfil',pObjetMembreLocal);             
                     
-                        pWebSocketConnection.emit('profileConnect', this.membre); // On envoie au client les données de profil du membre                         
+                        pWebSocketConnection.emit('profileConnect', pObjetMembreLocal); // On envoie au client les données de profil du membre pour prendre en compte les modifs et demande d'amis eventuelles                        
                 });  
             });
     };  
@@ -905,9 +1070,9 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 //          - la liste ne doit afficher que les membres qui n'appartienne pas à la liste d'amis
 //          - et qui n'ont pas récu d'invitation
 //************************************************************************************************************ 
-    MemberServer.prototype.rechercheMembres = function(pData, pWebSocketConnection, pSocketIo) {   
+    MemberServer.prototype.rechercheMembres = function(pData, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
         console.log('pData avant recherche de la collection membres',pData); 
-        console.log('this.membre.pseudo avant recherche',this.membre.pseudo);
+        console.log('pObjetDuMembre.pseudo avant recherche',pObjetDuMembre.pseudo);
         let objetResultatRecherche = [];
         let searchTerm = pData.nom + " " +  pData.prenom + " " + pData.pseudo;
         console.log("searchTerm",searchTerm);
@@ -915,7 +1080,7 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
         this.DBMgr.colMembres.aggregate(
             [
                 { $match: { $text: { $search: searchTerm  } } },     // opérateur de recherche de texte : searchTerm (pseudo et ou nom et ou prénom) 
-                { $match: { pseudo:{ $ne:this.membre.pseudo}}}       // opérateur pour ne pas que le membre demandeur apparaisse dans la liste d'ami
+                { $match: { pseudo:{ $ne:pObjetDuMembre.pseudo}}}       // opérateur pour ne pas que le membre demandeur apparaisse dans la liste d'ami
             ]
         
     
@@ -939,7 +1104,7 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                     console.log('dataResultat[i].pseudo',dataResultat[i].pseudo);
                     this.DBMgr.colMembres.find({
                         
-                        pseudo :this.membre.pseudo ,        // 1er opérateur: on veut se plasser dans le document du membre demandeur 
+                        pseudo :pObjetDuMembre.pseudo ,        // 1er opérateur: on veut se plasser dans le document du membre demandeur 
                         amis: { $elemMatch :                // 2ème opérateur: on regarde si l'ami est déja dans la liste des amis du membre demandeur    
 
                         {pseudo:dataResultat[i].pseudo}
@@ -964,6 +1129,7 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                             objetResultatRecherche.push(dataResultat[i]);
                             console.log('objetResultatRecherche',objetResultatRecherche);
                             pWebSocketConnection.emit('resultatRecherche', objetResultatRecherche); // On envoie au client les resultats de la recherche de membres  
+                            
                         }
                     });
                     
@@ -1011,7 +1177,7 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
             console.log('dataAmiReceveur',dataAmiReceveur);
         
             this.DBMgr.colMembres.updateOne (
-                {pseudo: this.membre.pseudo},
+                {pseudo: pObjetDuMembre.pseudo},
                 {$push:{amis: dataAmiReceveur }},(error, document) => {
 
                 if (error) {
@@ -1026,11 +1192,11 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 
             // mise à jour du membre qui reçoit l'invitation
             let dataAmiDemande = {};  //on prépare les données du membre demandeur pour les inserer dans le document du membre qui reçoit l'invitation (receveur)
-            dataAmiDemande.pseudo        = this.membre.pseudo; // pseudo du membre qui nous a envoyé l'invitation (demandeur)
+            dataAmiDemande.pseudo        = pObjetDuMembre.pseudo; // pseudo du membre qui nous a envoyé l'invitation (demandeur)
             dataAmiDemande.statut        = "A"; // statut en attente de confirmation 
-            dataAmiDemande.nom           = this.membre.nom; 
-            dataAmiDemande.prenom        = this.membre.prenom;
-            dataAmiDemande.photoProfile  = this.membre.photoProfile;
+            dataAmiDemande.nom           = pObjetDuMembre.nom; 
+            dataAmiDemande.prenom        = pObjetDuMembre.prenom;
+            dataAmiDemande.photoProfile  = pObjetDuMembre.photoProfile;
             console.log('dataAmiAmiDemande',dataAmiDemande);
 
             this.DBMgr.colMembres.updateOne (
@@ -1048,12 +1214,13 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                     to       : sengridEmail,
                     from     : constMailFrom,
                     subject  : "Demande d'invitation",
-                    html     : '<h1 style="color: black;">Bonjour '+pseudoSengrid+"</h1><p><h2> <b>" +this.membre.pseudo+ "</b></h2><h3> souhaite vous inviter à rejoindre sa liste d'amis sur :<b>Adopte un Maître</b> </h3><br />" +
+                    html     : '<h1 style="color: black;">Bonjour '+pseudoSengrid+"</h1><p><h2> <b>" +pObjetDuMembre.pseudo+ "</b></h2><h3> souhaite vous inviter à rejoindre sa liste d'amis sur :<b>Adopte un Maître</b> </h3><br />" +
                         '<br /><i>Adopte un Maitre Team</i>',
                     }
                     
                 sgMail.send(messageToSend);     // envoie du mail d'information demande d'invitation
-                pWebSocketConnection.emit('invitationDemandeAmiOk',this.membre);  // envoie au membre que l'invitation à bien été envoyé            
+                pWebSocketConnection.emit('profileConnect', pObjetDuMembre); // On envoie au client les données de profil du membre  pour parer à toutes invitations d'amis en temps réel   
+                pWebSocketConnection.emit('invitationDemandeAmiOk',pObjetDuMembre);  // envoie au membre que l'invitation à bien été envoyé            
             
             }); 
         }); 
@@ -1085,21 +1252,7 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
             }  
             console.log('documents avant MAJ profil inscription', documents);
                 
-            // misa à jour de l'objet membre
-            this.membre.photoProfile   =  pObjetDunMembre.photoProfile;
-            this.membre.photoCover     =  pObjetDunMembre.photoCover;
-            this.membre.nom            =  pObjetDunMembre.nom; 
-            this.membre.prenom         =  pObjetDunMembre.prenom;
-            this.membre.genre          =  pObjetDunMembre.genre;
-            this.membre.age            =  pObjetDunMembre.age;
-            this.membre.telephone      =  pObjetDunMembre.telephone; 
-            this.membre.adresse        =  pObjetDunMembre.adresse;
-            this.membre.cp             =  pObjetDunMembre.cp;
-            this.membre.ville          =  pObjetDunMembre.ville;
-            this.membre.pays           =  pObjetDunMembre.pays;
-            this.membre.profil         =  pObjetDunMembre.profil;
-            this.membre.preference     =  pObjetDunMembre.preference;         
-        
+         
             this.DBMgr.colMembres.updateOne(
                 {pseudo: pObjetDunMembre.pseudo},
                 {$set:

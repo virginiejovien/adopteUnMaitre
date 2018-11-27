@@ -152,14 +152,27 @@ vDBMgr.checkDBConnect()
         }); 
 
     // Reception demande d'afficher les infos d'un ami
-        webSocketConnection.on('demandeAffiInfosAmi', function (pseudoDunMembre) { 
+        webSocketConnection.on('demandeAffiInfosAmi', function (pseudoDunMembre, objetDuMembre) { 
             console.log("serveur recoit demande information d'un ami"); 
-            vMemberServer.sendInfoMurAmi(pseudoDunMembre, webSocketConnection, socketIo);
+            vMemberServer.sendInfoMurAmi(pseudoDunMembre, objetDuMembre, webSocketConnection, socketIo);
         }); 
+
     // Reception accepte l'invitation
-        webSocketConnection.on('accepteInvitation', function (dataDunMembre) { 
+        webSocketConnection.on('accepteInvitation', function (dataDunMembre, objetDuMembre) { 
             console.log("serveur recoit accepte invitation"); 
-            vMemberServer.invitationAccepte(dataDunMembre, webSocketConnection, socketIo);
+            vMemberServer.invitationAccepte(dataDunMembre, objetDuMembre, webSocketConnection, socketIo);
+        }); 
+        
+    // Reception refuse l'invitation
+        webSocketConnection.on('refuseInvitation', function (dataDunMembre, objetDuMembre) { 
+            console.log("serveur recoit refuse invitation"); 
+            vMemberServer.invitationRefuse(dataDunMembre, objetDuMembre, webSocketConnection, socketIo);
+        }); 
+    
+    // Reception message d'alerte vient d'être affiché pour informer qu'un membre avait accepté une invitation
+        webSocketConnection.on('miseAjourIndicateurAlerte', function (alerte, objetDuMembre) { 
+            console.log("serveur recoit alerte a été affiché"); 
+            vMemberServer.modifIndicateurAlerte(alerte, objetDuMembre, webSocketConnection, socketIo);
         }); 
         
 //************************************************************************************************************  
@@ -167,6 +180,7 @@ vDBMgr.checkDBConnect()
 //************************************************************************************************************ 
     // Reception du formulaire du profile d'inscription  
         webSocketConnection.on('controleProfileInscription', function (dataProfilInscription) {  
+            console.log('dataProfilInscription ce que reçoit le serveur avant partir memberServer',dataProfilInscription);
             vMemberServer.miseAjourProfilMembre(dataProfilInscription, webSocketConnection, socketIo);
         });   
 
@@ -181,8 +195,9 @@ vDBMgr.checkDBConnect()
         });  
 
         // Reception du formulaire de recherche d'amis
-        webSocketConnection.on('controleFormRechercheAmis', function (dataRecherche) {  
-            vMemberServer.rechercheMembres(dataRecherche, webSocketConnection, socketIo);
+        webSocketConnection.on('controleFormRechercheAmis', function (dataRecherche,objetDuMembre) {  
+            console.log('objetDuMembre 888888888888888888888888888888',objetDuMembre);
+            vMemberServer.rechercheMembres(dataRecherche, objetDuMembre, webSocketConnection, socketIo);
         });   
 
         // Reception de la demande de rajouter ce membre dans la liste d'amis
