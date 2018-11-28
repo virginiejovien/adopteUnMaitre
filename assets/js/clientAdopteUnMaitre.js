@@ -176,6 +176,11 @@ window.addEventListener('DOMContentLoaded', function() {
     var tbodyRecommande;    // tableau DOM liste amis pour recommandation
     var tbodyExisteRecommande = false; // variable pour identifier si la tableau recommande  existe
 
+    // Eléments de la page mur de profile d'un ami
+    var profilDuMembre = window.document.getElementById('profilDuMembre');
+    var profilDunAmi = window.document.getElementById('profilDunAmi');
+    var idRevenirSurMonProfil = window.document.getElementById('idRevenirSurMonProfil');
+
 //*******************************************************/
 // elements single page membre détail d'un ami
 //*******************************************************/  
@@ -200,7 +205,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var accepteInvitation = window.document.getElementById('accepte-invitation');
     var refusInvitation = window.document.getElementById('refuse-invitation');   
     var supprimeAmi = window.document.getElementById('supprime-ami');
-    var vaSurProfilAmi = window.document.getElementById('aller-sur-profil-ami');
+    var versProfilAmi = window.document.getElementById('aller-sur-profil-ami');
     var blockRecommandation =  window.document.getElementById('block-recommandation');
 
 //*****************************************/
@@ -265,6 +270,8 @@ window.addEventListener('DOMContentLoaded', function() {
     var detailPhotoCover = window.document.getElementById('detail-photo-cover');
     var modifMembre = window.document.getElementById('modif-membre');
     var supprimeMembre = window.document.getElementById('supprime-membre');
+    var tbodyDetail;    // tableau DOM liste des membres
+    var tbodyExisteDetail = false; // variable pour identifier si le tableau liste d'amis detail d'un membre existe
     
 //*****************************************/
 // elements single page footer
@@ -577,7 +584,7 @@ window.addEventListener('DOMContentLoaded', function() {
         //affichage des boutons pour les amis confirmés
         blockRecommandation.style.display = 'block';
         supprimeAmi.style.display = 'block';
-        vaSurProfilAmi.style.display = 'block';
+        versProfilAmi.style.display = 'block';
         accepteInvitation.style.display = 'none';
         refusInvitation.style.display = 'none';
 
@@ -593,7 +600,7 @@ window.addEventListener('DOMContentLoaded', function() {
         //affichage des boutons pour les amis en attente de confirmation ou recommandés
         blockRecommandation.style.display = 'none';
         supprimeAmi.style.display = 'none';
-        vaSurProfilAmi.style.display = 'none';
+        versProfilAmi.style.display = 'none';
         accepteInvitation.style.display = 'block';
         refusInvitation.style.display = 'block';
     };
@@ -806,6 +813,118 @@ window.addEventListener('DOMContentLoaded', function() {
 
             addRowHandlersAmisMembres(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau amis confirmés
             addRowHandlersAmisAttente(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau amis en attente d'etre confirmés
+    };
+
+//************************************************************************************************************
+// Fonction qui affichage la liste d'amis d'un ami : photo pseudo nom prenom 
+//************************************************************************************************************
+    var affichageListeAmisDunAmi = function(pObjetDuMembre) { 
+
+        // initialisation liste amis d'un ami
+        if (tbodyExisteAmis) {                                   // on verifie si le tableau liste amis d'un ami existe ou pas pour ne pas le créer deux fois
+                console.log('tbodyExisteAmis :',tbodyExisteAmis);
+                document.getElementById('table-liste-amis').removeChild(tbodyAmis) // retire le tableau du DOM
+        } 
+            tbodyAmis = document.createElement('tbody');
+            tbodyAmis.id = 'amis-des-membres';
+            document.getElementById('table-liste-amis').appendChild(tbodyAmis); 
+            tbodyExisteAmis = true;
+
+        // initialisation liste amis en attente d'être confirmé 
+        if (tbodyExisteAmisAttente) {         // on verifie si le tableau liste amis en attente de confirmation existe ou pas pour ne pas le créer deux fois
+                console.log('tbodyExisteAmisAttente :',tbodyExisteAmisAttente);
+                document.getElementById('table-amis-attente').removeChild(tbodyAmisA) // retire le tableau du DOM
+        } 
+            tbodyAmisA = document.createElement('tbody');
+            tbodyAmisA.id = 'amis-en-attente';
+            document.getElementById('table-amis-attente').appendChild(tbodyAmisA);
+            tbodyExisteAmisAttente = true;
+
+
+        // on parcoure le tableau pour les dispatcher     
+            for (var i=0; i < pObjetDuMembre.amis.length; i++) {            
+            
+            // Création physique dynamique et ajout au DOM de la liste d'amis confirmés : on crée une ligne psysique de chaque membre
+
+                if (pObjetDuMembre.amis[i].statut == "C") {  // C = confirmés
+
+                var tr = document.createElement('tr');
+                document.getElementById('amis-des-membres').appendChild(tr);      
+            
+                var td = document.createElement('td');
+                tr.appendChild(td);
+
+                var img = document.createElement('img');
+                img.setAttribute('src','static/images/membres/'+ pObjetDuMembre.amis[i].photoProfile,'alt', 'image');
+                img.className='img-circle image-user-liste';
+                td.appendChild(img);
+                
+                var a = document.createElement('a');
+                a.id = 'amis-pseudo'+[i];               
+                a.className = 'user-liste';
+                a.innerHTML =  pObjetDuMembre.amis[i].pseudo;
+                td.appendChild(a); 
+
+                var span = document.createElement('span');
+                span.className = 'user-subhead-liste';
+                span.innerHTML = 'Confirmé'  
+                td.appendChild(span);
+
+                var td1 = document.createElement('td'); 
+                td1.id= 'amis-nom'+[i];
+                td1.innerHTML =  pObjetDuMembre.amis[i].nom;  
+                tr.appendChild(td1);
+
+                var td2 = document.createElement('td'); 
+                td2.id= 'amis-prenom'+[i];
+                td2.innerHTML =  pObjetDuMembre.amis[i].prenom;   
+                tr.appendChild(td2);
+                
+            }
+
+            if ((pObjetDuMembre.amis[i].statut == "A") || (pObjetDuMembre.amis[i].statut == "R")) {  // A= en attente de confirmation // R=Recommandés
+                var trA= document.createElement('tr');
+                document.getElementById('amis-en-attente').appendChild(trA);      
+            
+                var tdA = document.createElement('td');
+                trA.appendChild(tdA);
+
+                var imgA = document.createElement('img');
+                imgA.setAttribute('src','static/images/membres/'+ pObjetDuMembre.amis[i].photoProfile,'alt', 'image');
+                imgA.className='img-circle image-user-liste';
+                tdA.appendChild(imgA);
+                
+                var aA = document.createElement('a');
+                aA.id = 'amisA-pseudo'+[i];
+                aA.className = 'user-liste';
+                aA.innerHTML =  pObjetDuMembre.amis[i].pseudo;
+                tdA.appendChild(aA); 
+
+                var spanA = document.createElement('span');
+                spanA.className = 'user-subhead-liste';
+                switch(pObjetDuMembre.amis[i].statut) {
+                    case 'R':                                           
+                    spanA.innerHTML = 'Recommandé'  
+                    break;
+                    case 'A':                        
+                    spanA.innerHTML = 'Attente de confirmation'  
+                    break;
+                };               
+                tdA.appendChild(spanA);
+
+                var tdA1 = document.createElement('td'); 
+                tdA1.id= 'amisA-nom'+[i];
+                tdA1.innerHTML =  pObjetDuMembre.amis[i].nom;  
+                trA.appendChild(tdA1);
+
+                var tdA2 = document.createElement('td'); 
+                tdA2.id= 'amisA-prenom'+[i];
+                tdA2.innerHTML =  pObjetDuMembre.amis[i].prenom;   
+                trA.appendChild(tdA2);
+                
+            }
+        }
+
     };
 
 
@@ -1225,6 +1344,94 @@ var affichageAmisPourRecommandation = function(pObjetDunMembre, pObjetDuMembre) 
 
         addRowHandlersListeMembres(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
     };
+
+// -----------------------------------------------------------------------------
+// Cette fonction ajoute un événement onclick à une ligne du tableau 
+// tableau amis-amis coté administrateur 
+// -----------------------------------------------------------------------------
+function addRowHandlersAmis() {
+    console.log('je suis dans la fonction addRowHandlersAmis');
+    var tableauAmis = document.getElementById("amis-amis");
+    var rows = tableauAmis.getElementsByTagName("tr");
+    for (var j = 0; j < rows.length; j++) {
+        var currentRow = tableauAmis.rows[j];
+        var createClickHandler = function(row) {
+            return function() {
+                var cell = row.getElementsByTagName("td")[0];
+                var cella = cell.getElementsByTagName("a")[0];
+                var id = cella.innerHTML;
+                console.log("id:" + id);      
+                console.log('objetDuMembre avant demande suppression ami par admin objetDuMembre',objetDuMembre);                 
+                webSocketConnection.emit('sendSuppressionAmiParAdmin', id, objetDunMembre, objetDuMembre);  // Demande au serveur de supprimer ce membre dans la liste d'amis pour admin
+            };
+        };
+    
+    currentRow.onclick = createClickHandler(currentRow);
+    
+    }
+};
+
+//************************************************************************************************************
+// Fonction qui affichage sous forme de liste la liste d'amis d'un membre dans la fenetre détail d'un membre
+// pour l'administrateur
+//************************************************************************************************************
+var affichageAmisPourAdministrateur = function(pObjetDunMembre, pObjetDuMembre) { 
+    console.log(' liste amis détail membre pour administrateur pObjetDunMembre',pObjetDunMembre);
+    if (tbodyExisteDetail) {                                   // on verifie si le tableau Amis des membres existe ou pas pour ne pas le créer deux fois
+            console.log('tbodyExisteDetail :',tbodyExisteDetail);
+            document.getElementById('table-detail-amis').removeChild(tbodyDetail) // retire le tableau du DOM
+    } 
+    tbodyDetail = document.createElement('tbody');
+    tbodyDetail.id = 'amis-amis';
+    document.getElementById('table-detail-amis').appendChild(tbodyDetail); 
+    tbodyExisteDetail = true;
+
+    for (var i=0; i < pObjetDunMembre.amis.length; i++) {            
+    
+// Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
+            console.log('je suis dans la boucle liste amis coté admin');
+            var tr = document.createElement('tr');
+            document.getElementById('amis-amis').appendChild(tr);      
+
+            var td = document.createElement('td');
+            tr.appendChild(td);
+
+            var img = document.createElement('img');
+            img.setAttribute('src','static/images/membres/'+ pObjetDunMembre.amis[i].photoProfile,'alt', 'image');
+            img.className='img-circle';
+            td.appendChild(img);
+            
+            var a = document.createElement('a');
+            a.id = 'amis-pseudo'+[i];
+            a.setAttribute ( 'href' , '#');
+            a.className = 'user-link';
+            a.innerHTML =  pObjetDunMembre.amis[i].pseudo;
+            td.appendChild(a); 
+
+            var span = document.createElement('span');
+            span.className = 'user-subhead-liste';
+            span.innerHTML = 'Confirmé'  
+            td.appendChild(span);
+
+            var td4 = document.createElement('td');       
+            td4.setAttribute ( 'style' , 'width: 20%;');
+            tr.appendChild(td4);
+
+            var a4 = document.createElement('a');
+            a4.id = 'amis'+[i];
+            a4.setAttribute ( 'href' , '#');
+            a4.className = 'btn btn-azure btn-sm';  
+            a4.innerHTML = 'Supprimer'      
+            td4.appendChild(a4); 
+
+            var i1 = document.createElement('i');
+            i1.className = 'fa fa-share';
+            a4.appendChild(i1);
+        
+    }
+
+    addRowHandlersAmis(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
+};
 
 // -----------------------------------------------------------------------------
 // Cette fonction initialise les données d'un membre pour un administrateur
@@ -1966,6 +2173,27 @@ var affichageAmisPourRecommandation = function(pObjetDunMembre, pObjetDuMembre) 
         blockInfoAmi.style.display = 'none';
     });
 
+    
+// ***********************************************************************************************************
+// on reçoit membre supprimé de la liste
+// ***********************************************************************************************************
+    webSocketConnection.on('sendAmiSupprime', function(pInfoMembre) {         
+        console.log("membre supprimé avec succès pInfoMembre:",pInfoMembre);
+        objetDuMembre = pInfoMembre;
+        affichageListeAmis(objetDuMembre); 
+        blockMurProfile.style.display = 'block';                     
+        blockInfoAmi.style.display = 'none';
+    });
+
+// ***********************************************************************************************************
+// Le membre un ami de sa liste d'amis
+// on envoie au serveur supprimer un ami
+// ***********************************************************************************************************
+    supprimeAmi.addEventListener('click', function (event) { 
+        console.log('click sur supprime un ami');         
+        webSocketConnection.emit('supprimeAmi', objetDunMembre,objetDuMembre);  // envoie au serveur que le membre supprime un ami
+    });  
+
 // ***********************************************************************************************************
 //  clique sur le lien profil on affiche le mur de profil                           
 // ***********************************************************************************************************
@@ -2008,6 +2236,35 @@ var affichageAmisPourRecommandation = function(pObjetDunMembre, pObjetDuMembre) 
         initModalRecupTextRecommande(vModalTitleG, vModalBodyTextG);
         $('#idGenericModal').modal('toggle');    // ouverture de la fenêtre modale membre recommandé           
     }); 
+
+// ***********************************************************************************************************
+// click sur lien vers le mur de profile d'un ami
+// ***********************************************************************************************************
+    versProfilAmi.addEventListener('click', function (event) { 
+        console.log('click vers mur de profile ami');  
+        // affichage des donnees de la page du mur de profile d'un ami du membre
+        initMurProfil(objetDunMembre);
+        affichageListeAmisDunAmi(objetDunMembre);
+        profilDuMembre.style.display ='none';
+        profilDunAmi.style.display = 'block';
+        blockMurProfile.style.display = 'block';                     
+        blockInfoAmi.style.display ='none'; 
+    });
+
+// ***********************************************************************************************************
+// click sur lien vers revenir sur son profil
+// ***********************************************************************************************************
+    idRevenirSurMonProfil.addEventListener('click', function (event) { 
+        console.log('click vers mur de profile ami');  
+        // affichage des donnees de la page du mur de profile du membre
+        initMurProfil(objetDuMembre);
+        affichageListeAmis(objetDuMembre);
+        profilDuMembre.style.display ='block';
+        profilDunAmi.style.display = 'none';
+        blockMurProfile.style.display = 'block';                     
+        blockInfoAmi.style.display ='none'; 
+    });
+
 //***********************************************************************************************************
 // PARTIE RECHERCHE D'AMIS
 // ***********************************************************************************************************    
@@ -2158,6 +2415,7 @@ var affichageAmisPourRecommandation = function(pObjetDunMembre, pObjetDuMembre) 
         objetDunMembre = data;
         console.log('info d un membre  -- objetDunMembre:',objetDunMembre);
         initDetailMembre(objetDunMembre);    // affichage des donnees d'un membre sur la page détail d'un membre
+        affichageAmisPourAdministrateur(objetDunMembre,objetDuMembre);  // affichage de la liste des amis sur la page détail d'un membre
         blockAdministrateur.style.display = 'none';                     
         blockFormulaire.style.display = 'none';
         blockMurProfile.style.display = 'none';

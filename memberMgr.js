@@ -964,6 +964,77 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
         }); 
     }; 
 
+    
+//************************************************************************************************************  
+// Gestion membre supprime un ami de sa liste d'amis
+// - le membre supprimeur est retiré de la liste d'amis du membre supprimé
+// - le membre supprimé est retiré de la liste d'amis du membre à l'origine de la suppression                
+//************************************************************************************************************ 
+MemberServer.prototype.amiSupprime= function(pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    console.log('pObjetDunMembre avant MAJ suppression ami de la collection membres',pObjetDunMembre); 
+    console.log('pObjetDuMembre  avant MAJ suppression ami de la collection membres',pObjetDuMembre); 
+
+    // mise à jour de l'objet membre supprimé
+    //on supprime le membre supprimeur de la liste d'amis du supprimé
+
+    this.DBMgr.colMembres.updateOne (
+        {
+            pseudo:pObjetDunMembre.pseudo,  // membre supprimé
+        },
+        {   
+            $pull:{amis:{pseudo:pObjetDuMembre.pseudo}}  // on supprime le membre à l'origine de la suppression dans la liste des amis 
+
+        },(error, document) => {
+
+        if (error) {
+            console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+            throw error;
+        }          
+        
+        console.log('pull ok dans le document du membre supprimé ');
+    
+    }); 
+
+    // mise à jour de l'objet membre supprimeur (à l'origine de la suppression)
+    //on supprime le membre supprimé de la liste d'amis
+    
+    this.DBMgr.colMembres.updateOne (
+        {
+            pseudo:pObjetDuMembre.pseudo,       // membre supprimeur
+        },
+        {   
+            $pull:{amis:{pseudo:pObjetDunMembre.pseudo}}  // on supprime le membre supprimé dans la liste des amis
+
+        },(error, document) => {  
+
+        if (error) {
+            console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+            throw error;
+        }          
+        
+        console.log('pull ok dans le document du membre supprimeur');
+
+        this.DBMgr.colMembres.find(  // on récupérère le document du membre supprimeur 
+            {
+                pseudo:pObjetDuMembre.pseudo,           
+            }
+                                
+            ).toArray((error, documents) => {                     
+            if (error) {
+                console.log('Erreur de find dans collection colMembres',error);
+                throw error;
+            }                                
+            if (!documents.length) { 
+                console.log('erreur find du membre on ne retrouve pas le membre supprimeur on observe le  documents',documents);
+            
+                return false;                     
+            }  
+            let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+            pWebSocketConnection.emit('sendAmiSupprime',infoMembre);   // on renvoie au client qu'on apris en compte la suppression d'un ami et les donnees du membre mise à jour
+        }); 
+    }); 
+}; 
+
 //************************************************************************************************************  
 // Gestion message d'alerte affiché
 // - le membre a reçut la fenetre de message d'alerte lui indiquant qu'un membre a accepté son invitation
@@ -1479,44 +1550,114 @@ MemberServer.prototype.sendInfoMurDunMembre = function(pPseudoDunMembre, pWebSoc
 // - récupération des donnees du membre dans la collection membres 
 // - envoie des données au client
 //************************************************************************************************************ 
-MemberServer.prototype.supprimerUnMembre = function(pDataDunMembre, pWebSocketConnection, pSocketIo) {   
-    console.log('pDataDunMembre  avant Find dans la collection membres partie ADMIN',pDataDunMembre); 
+    MemberServer.prototype.supprimerUnMembre = function(pDataDunMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pDataDunMembre  avant Find dans la collection membres partie ADMIN',pDataDunMembre); 
 
-    this.DBMgr.colMembres.find({pseudo:pDataDunMembre.pseudo}).toArray((error, documents) => {                     
-        if (error) {
-            console.log('Erreur de find dans collection colMembres',error);
-            throw error;
-        }                                
-        if (!documents.length) { 
-            console.log('erreur avant traitement du membre on ne le retrouve pas on observe le  documents',documents);
-        //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
-            return false;                     
-        }  
-        this.DBMgr.colMembres.remove ( { pseudo : pDataDunMembre.pseudo },(error, document) => {
+        this.DBMgr.colMembres.find({pseudo:pDataDunMembre.pseudo}).toArray((error, documents) => {                     
             if (error) {
-                console.log('Erreur de remove dans collection colMembres',error);
+                console.log('Erreur de find dans collection colMembres',error);
                 throw error;
-            }      
-            console.log("suppression du membre ok");
-            this.DBMgr.colMembres.find().toArray((error, documents) => {                     
+            }                                
+            if (!documents.length) { 
+                console.log('erreur avant traitement du membre on ne le retrouve pas on observe le  documents',documents);
+            //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+                return false;                     
+            }  
+            this.DBMgr.colMembres.remove ( { pseudo : pDataDunMembre.pseudo },(error, document) => {
                 if (error) {
-                    console.log('Erreur de find liste de tous les membres dans collection colMembres',error);
+                    console.log('Erreur de remove dans collection colMembres',error);
+                    throw error;
+                }      
+                console.log("suppression du membre ok");
+                this.DBMgr.colMembres.find().toArray((error, documents) => {                     
+                    if (error) {
+                        console.log('Erreur de find liste de tous les membres dans collection colMembres',error);
+                        throw error;
+                    }                                
+                    if (!documents.length) { 
+                        console.log('erreur la collection est vide',documents);
+                    //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+                        return false;                     
+                    }  
+                        console.log('documents apres suppression du membre', documents);
+                        
+                        pWebSocketConnection.emit('membreSupprimeOk',documents);  // On envoie au client que le membre a bien été supprimé dans la BDD et la liste des membres mise à jour                      
+                    });  
+                
+            });
+            
+        });       
+    };  
+
+//************************************************************************************************************  
+// Gestion suppression d'un ami d'un membre par un administrateur
+// - le membre supprimeur est retiré de la liste d'amis du membre supprimé
+// - le membre supprimé est retiré de la liste d'amis du membre à l'origine de la suppression                
+//************************************************************************************************************ 
+    MemberServer.prototype.supprimerUnAmiParAdmin= function(pPseudoAmi, pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pObjetDunMembre avant MAJ suppression ami de la collection membres par Admin',pObjetDunMembre); 
+        console.log('pObjetDuMembre  avant MAJ suppression ami de la collection membres par Admin',pObjetDuMembre); 
+
+        // mise à jour de l'objet membre supprimé
+        //on supprime le membre supprimeur de la liste d'amis du supprimé
+
+        this.DBMgr.colMembres.updateOne (
+            {
+                pseudo:pObjetDunMembre.pseudo,  // membre supprimé
+            },
+            {   
+                $pull:{amis:{pseudo:pObjetDuMembre.pseudo}}  // on supprime le membre à l'origine de la suppression dans la liste des amis 
+
+            },(error, document) => {
+
+            if (error) {
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            
+            console.log('pull ok dans le document du membre supprimé ');
+        
+        }); 
+
+        // mise à jour de l'objet membre supprimeur (à l'origine de la suppression)
+        //on supprime le membre supprimé de la liste d'amis
+        
+        this.DBMgr.colMembres.updateOne (
+            {
+                pseudo:pObjetDuMembre.pseudo,       // membre supprimeur
+            },
+            {   
+                $pull:{amis:{pseudo:pObjetDunMembre.pseudo}}  // on supprime le membre supprimé dans la liste des amis
+
+            },(error, document) => {  
+
+            if (error) {
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            
+            console.log('pull ok dans le document du membre supprimeur');
+
+            this.DBMgr.colMembres.find(  // on récupérère le document du membre supprimeur 
+                {
+                    pseudo:pObjetDuMembre.pseudo,           
+                }
+                                    
+                ).toArray((error, documents) => {                     
+                if (error) {
+                    console.log('Erreur de find dans collection colMembres',error);
                     throw error;
                 }                                
                 if (!documents.length) { 
-                    console.log('erreur la collection est vide',documents);
-                //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+                    console.log('erreur find du membre on ne retrouve pas le membre supprimeur on observe le  documents',documents);
+                
                     return false;                     
                 }  
-                    console.log('documents apres suppression du membre', documents);
-                    
-                    pWebSocketConnection.emit('membreSupprimeOk',documents);  // On envoie au client que le membre a bien été supprimé dans la BDD et la liste des membres mise à jour                      
-                });  
-            
-        });
-        
-    });       
-};  
+                let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+                pWebSocketConnection.emit('sendAmiSupprime',infoMembre);   // on renvoie au client qu'on apris en compte la suppression d'un ami et les donnees du membre mise à jour
+            }); 
+        }); 
+    }; 
 
 //************************************************************************************************************
 // Obtention du nombre de messages publiés dans  la BDD et transmission de celles-ci à tout le monde

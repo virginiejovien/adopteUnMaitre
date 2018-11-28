@@ -878,10 +878,13 @@
                   <img id="mur-photo-profile" src="" alt="people">
                 </div>
                 <div id="mur-pseudo" class="name"><a href="#"></a></div>
-                <ul class="cover-nav">
+                <ul id = "profilDuMembre" class="cover-nav">
                   <li> <a id="idProfileChange" href="#"><i class="fa fa-fw fa-bars"></i>Changer son profil</a></li>               
                   <li><a id="idRechercheAmis" href="#"><i class="fa fa-fw fa-users"></i> Recherche d'amis</a></li>
                   <li><a id="idDiscussions" href="#"><i class="fa fa-fw fa-image"></i> Discussions</a></li>
+                </ul>
+                <ul id = "profilDunAmi" class="cover-nav">
+                  <li> <a id="idRevenirSurMonProfil" href="#"><i class="fa fa-fw fa-bars"></i>Revenir sur son profil</a></li>               
                 </ul>
               </div>
             </div>
@@ -2040,7 +2043,7 @@
                       </div>
                     </div>
                     <div class="col-md-7">
-                        <div class="widget">
+                      <div class="widget">
                           <div class="basic-info">
                             <h5><i class="fa fa-square"></i>&nbsp;Préférence</h5> 
                           </div>
@@ -2053,7 +2056,22 @@
                             </li>
                           </ul>
                         </div> 
-                      </div> 
+                      </div>
+                      <div class="widget" id="block-detail-amis">
+                        <div class="basic-info">
+                          <h5><i class="fa fa-square"></i>&nbsp;Liste d'amis</h5> 
+                        </div>
+                        <div class="widget-body bordered-top bordered-sky">
+                          <table id="table-detail-amis" class="table user-list">
+                            <thead>
+                              <tr>
+                                <th><span>Membres</span></th>
+                                <th>&nbsp;</th>
+                              </tr>
+                            </thead>
+                          </table>
+                        </div>
+                      </div><!-- end timeline posts--> 
                     </div><!-- end timeline posts-->
                   </div>
                 </div>
@@ -2210,7 +2228,7 @@
                                         <label class="col-md-4 control-label">Code Postal</label>
                                         <div class="col-md-6  inputGroupContainer">
                                             <span class="input-icon">   
-                                              <input type="number" id="cp-fiche" class="form-control control-groupe" name="cp" maxlength='5' size='5' placeholder="Ex: 75011"  pattern="[0-9]{5}" title="Les caractères doivent être numériques et la longueur doit être de 5 caractères">
+                                              <input type="text" id="cp-fiche" class="form-control control-groupe" name="cp" maxlength='5' size='5' placeholder="Ex: 75011"  pattern="[0-9]{5}" title="Les caractères doivent être numériques et la longueur doit être de 5 caractères">
                                               <i class="fa fa-home darkorange"></i> <br/>   
                                             </span>
                                         </div>

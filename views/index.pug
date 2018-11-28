@@ -1032,7 +1032,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               img#mur-photo-profile(src='' alt='people')
             #mur-pseudo.name
               a(href='#')
-            ul.cover-nav
+            ul#profilDuMembre.cover-nav
               li
                 a#idProfileChange(href='#')
                   i.fa.fa-fw.fa-bars
@@ -1045,6 +1045,11 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                 a#idDiscussions(href='#')
                   i.fa.fa-fw.fa-image
                   |  Discussions
+            ul#profilDunAmi.cover-nav
+              li
+                a#idRevenirSurMonProfil(href='#')
+                  i.fa.fa-fw.fa-bars
+                  | Revenir sur son profil
     .row
       .col-md-6
         .widget
@@ -1948,6 +1953,19 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                         li.padding-v-5
                           .row
                             #detail-preference.col-sm-12
+                  #block-detail-amis.widget
+                    .basic-info
+                      h5
+                        i.fa.fa-square
+                        | &nbsp;Liste d&apos;amis
+                    .widget-body.bordered-top.bordered-sky
+                      table#table-detail-amis.table.user-list
+                        thead
+                          tr
+                            th
+                              span Membres
+                            th &nbsp;
+                  // end timeline posts
                 // end timeline posts
 // ****************************************************************************************
 // FENETRE MODAL A PROPOS
@@ -2066,7 +2084,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Code Postal
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#cp-fiche.form-control.control-groupe(type='number' name='cp' maxlength='5' size='5' placeholder='Ex: 75011' pattern='[0-9]{5}' title='Les caractères doivent être numériques et la longueur doit être de 5 caractères')
+                              input#cp-fiche.form-control.control-groupe(type='text' name='cp' maxlength='5' size='5' placeholder='Ex: 75011' pattern='[0-9]{5}' title='Les caractères doivent être numériques et la longueur doit être de 5 caractères')
                               i.fa.fa-home.darkorange
                               br
                         br
