@@ -30,30 +30,6 @@
   background: #39bee8 url("../../static/images/supprimer.png") no-repeat 50% 50%;
 }
 
-.contact .controls .refuse {
-  position: absolute;
-  z-index: 2;
-  right: 20px;
-  bottom: -22px;
-  width: 48px;
-  height: 48px;
-  border-radius: 24px;
-  cursor: pointer;
-  box-shadow: 0 4px 5px #d8d8d8;
- 
-}
-.contact .controls .accepte {
-  position: absolute;
-  z-index: 2;
-  right: 74px;
-  bottom: -22px;
-  width: 48px;
-  height: 48px;
-  border-radius: 24px;
-  cursor: pointer;
-  box-shadow: 0 4px 5px #d8d8d8;
-  
-  }
 
 
 
@@ -75,7 +51,7 @@
 .contact .cover {
     position: relative;
     overflow: hidden;
-    height: 500px;
+    height: 400px;
 }
 .contact .controls .cont {
     position: absolute;

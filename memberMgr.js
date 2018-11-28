@@ -726,7 +726,7 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 
 
 //************************************************************************************************************  
-// Gestion de l'affichage de la fenetre des infos d'un ami
+// Gestion de l'affichage de la fenetre des infos d'un ami confirmé
 // - récupération des donnees du membre dans la collection membres 
 // - envoie des données au client au membre 
 //************************************************************************************************************ 
@@ -746,9 +746,36 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                 console.log("documents avant envoie des infos d'un memmbre partie info Amis", documents);
                 let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
             pWebSocketConnection.emit('infoMembreAmi',infoMembre);   // On envoie au client les données de profil d'un ami    
+            pWebSocketConnection.emit('infoMembreAmiConfirme',infoMembre);   // On envoie au client les données de profil d'un ami    
         });       
     };  
 
+    
+//************************************************************************************************************  
+// Gestion de l'affichage de la fenetre des infos d'un ami en attente de confirmation
+// - récupération des donnees du membre dans la collection membres 
+// - envoie des données au client au membre 
+//************************************************************************************************************ 
+    MemberServer.prototype.sendInfoMurAmiAttente = function(pPseudoDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pPseudoDunMembre  avant Find dans la collection membres partie info Amis',pPseudoDunMembre); 
+
+        this.DBMgr.colMembres.find({pseudo:pPseudoDunMembre}).toArray((error, documents) => {                     
+            if (error) {
+                console.log('Erreur de find dans collection colMembres',error);
+                throw error;
+            }                                
+            if (!documents.length) { 
+                console.log('erreur avant traitement du membre on ne le retrouve pas on observe le  documents',documents);
+            //    sendPage404(pObjetMembreLocal, pWebSocketConnection); // on envoie au membre  qu'on rencontre un pb technique
+                return false;                     
+            }  
+                console.log("documents avant envoie des infos d'un memmbre partie info Amis", documents);
+                let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+            pWebSocketConnection.emit('infoMembreAmi',infoMembre);   // On envoie au client les données de profil d'un ami    
+            pWebSocketConnection.emit('infoMembreAmiAttente',infoMembre);   // On envoie au client les données de profil d'un ami    
+        });       
+    };  
+    
 //************************************************************************************************************  
 // Gestion membre accepté sur une liste d'amis
 // - le membre receveur est ajouté à la liste d'amis : statut confirmé pour le membre demandeur
@@ -847,6 +874,7 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
             }); 
         }); 
     }; 
+
 //************************************************************************************************************  
 // Gestion membre refuse une invitation une liste d'amis
 // - le membre receveur est retiré de la liste d'amis du membre demandeur
@@ -967,6 +995,99 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
             console.log('update ok dans le document du membre indicateur alerte a été mis à false ');
         }); 
     }; 
+
+//************************************************************************************************************  
+// recommandation d'un ami à un ami selectionné dans la liste d'amis confirmés
+// - mise à jour des du membre (receveur de la recommandation) dans le collection membres :
+//      on rajoute les donnees de l'ami recommandé et le pseudo de celui qui est à l'origine de la recommandation 
+//          dans l'objet amis avec statut =  "R" (Recommandé) et le pseudo à l'origine de la recommandation 
+//      - envoie d'un mail au membre qui reçoit la recommandation
+// - envoie d'un message au membre à l'origine de la recommandation
+//************************************************************************************************************ 
+
+    MemberServer.prototype.gestionRecommandation= function(pPseudoAmi, pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pObjetDuMembre  avant MAJ de la collection membres',pObjetDuMembre); 
+        console.log('pObjetDunMembre  avant MAJ de la collection membres',pObjetDunMembre); 
+        console.log('pPseudoAmi  avant MAJ de la collection membres',pPseudoAmi); 
+
+      
+
+        this.DBMgr.colMembres.find(                         // on récupère les données du membre à qui souhaite recommander et ajouter un membre à sa liste d'amis
+            {  pseudo: pPseudoAmi
+                } 
+                                
+            ).toArray((error, documents) => {    
+            if (error) {
+                console.log('Erreur de find dans collection colMembres',error);
+                throw error;
+            }                                
+            if (!documents.length) { 
+                console.log("on n'a trouvé le membre --  documents:",documents);
+
+                return false;                     
+            }  
+
+            // mise à jour du membre qu'on recommande
+            let dataAmiReceveur = {};          //on prépare les données du membre qui a reçu la recommandation  pour les inserer dans le document du membre qu'on recommande
+            dataAmiReceveur.pseudo        = documents[0].pseudo; // pseudo du membre qu'on souhaite rajouter dans sa liste d'amis (receveur)
+            dataAmiReceveur.statut        = "I"; // statut invitation en cours 
+            dataAmiReceveur.nom           = documents[0].nom; 
+            dataAmiReceveur.prenom        = documents[0].prenom;
+            dataAmiReceveur.photoProfile  = documents[0].photoProfile;
+            console.log('dataAmiReceveur',dataAmiReceveur);
+
+            this.DBMgr.colMembres.updateOne (
+                {pseudo: pObjetDunMembre.pseudo},
+                {$push:{amis: dataAmiReceveur }},(error, document) => {
+
+                if (error) {
+                    console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                    throw error;
+                }          
+                
+                console.log('update ok dans le document du membre qui a été recommandé on observe le documents:', documents);
+            
+            }); 
+
+            console.log('documents apres find ami à qui on souhaite ajouter et recommander un ami',documents);
+            let sengridEmail = documents[0].email; // adresse mail du membre receveur de la recommandation
+
+            // mise à jour du membre qui reçoit la recommandation
+            let dataAmiRecommande = {};  //on prépare les données du membre qu'on recommande pour les inserer dans le document du membre qui reçoit la recommandation
+            dataAmiRecommande.pseudo        = pObjetDunMembre.pseudo; // pseudo du membre qu'on recommande
+            dataAmiRecommande.statut        = "R"; // statut Recommandé
+            dataAmiRecommande.origine       = pObjetDuMembre.pseudo; // pseudo du membre à l'origine de la recommandation
+            dataAmiRecommande.nom           = pObjetDunMembre.nom; 
+            dataAmiRecommande.prenom        = pObjetDunMembre.prenom;
+            dataAmiRecommande.photoProfile  = pObjetDunMembre.photoProfile;
+            console.log('dataAmiRecommande',dataAmiRecommande);
+
+            this.DBMgr.colMembres.updateOne (
+                {pseudo: pPseudoAmi},
+                {$push:{amis: dataAmiRecommande }},(error, document) => {
+
+                if (error) {
+                    console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                    throw error;
+                }          
+                console.log('update ok dans rajout recommandation ami');            
+                console.log('update ok dans le document du membre receveur de la recommandation on observe le documents:', documents);
+                let pseudoSengrid = pPseudoAmi;
+                let messageToSend = {  // on envoie un mail au membre receveur pour lui signaler l'invitation 
+                    to       : sengridEmail,
+                    from     : constMailFrom,
+                    subject  : "Recommandation d'amis",
+                    html     : '<h1 style="color: black;">Bonjour '+pseudoSengrid+"</h1><p><h2> <b>" +pObjetDuMembre.pseudo+ "</b></h2><h3> vous recommande un ami, consultez vite votre profil pour connaitre ce nouvel ami<b>Adopte un Maître</b> </h3><br />" +
+                        '<br /><i>Adopte un Maitre Team</i>',
+                    }
+                    
+                sgMail.send(messageToSend);     // envoie du mail d'information demande d'invitation
+                pWebSocketConnection.emit('profileConnect', pObjetDuMembre); // On envoie au client les données de profil du membre  pour parer à toutes invitations d'amis en temps réel   
+                pWebSocketConnection.emit('recommandationAmiOk',pObjetDuMembre);  // envoie au membre que la recommandation à bien été envoyé            
+            
+            }); 
+        }); 
+    };  
 
 //************************************************************************************************************  
 // Gestion et controle du formulaire d'inscription Profil

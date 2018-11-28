@@ -1421,11 +1421,10 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           .col-md-12
             .contact
               .controls
-                span#accepte-invitation.accepte.fa.fa-check-circle(href='#' data-toggle='tooltip' data-placement='top' title="Accepter l'invitation" data-original-title='New')
-                span#refuse-invitation.refuse.fa.fa-frown-o(href='#' data-toggle='tooltip' data-placement='top' title="Refuser l'invitation" data-original-title='New')
-                span#ignore-recommandation.ignore.fa.fa-frown-o(href='#' data-toggle='tooltip' data-placement='top' title='Ignorer cette recommandation' data-original-title='New')
-                span#recommande.accepte.fa.fa-check-circle(href='#' data-toggle='tooltip' data-placement='top' title='Recommander cet ami' data-original-title='New')
-                span#aller-sur-profil-ami.refuse.fa.fa-frown-o(href='#' data-toggle='tooltip' data-placement='top' title='Aller sur son profil' data-original-title='New')
+                span#accepte-invitation.fa.fa-thumbs-o-up(href='#' data-toggle='tooltip' data-placement='top' title="Accepter l'invitation" data-original-title='New')
+                span#refuse-invitation.fa.fa-thumbs-o-down(href='#' data-toggle='tooltip' data-placement='top' title="Refuser l'invitation" data-original-title='New')
+                span#supprime-ami.fa.fa-trash-o(href='#' data-toggle='tooltip' data-placement='top' title='Supprimer cet ami' data-original-title='New')
+                span#aller-sur-profil-ami.fa.fa-eye(href='#' data-toggle='tooltip' data-placement='top' title='Aller sur son profil' data-original-title='New')
                 img#info-photo-cover.cover(src='' alt='cover')
                 .cont
                   img#info-photo-profile.avatar(src='' alt='avatar')
@@ -1506,7 +1505,19 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                         li.padding-v-5
                           .row
                             #info-preference.col-sm-12
-                // end timeline posts
+                  #block-recommandation.widget
+                    .basic-info
+                      h5
+                        i.fa.fa-square
+                        | &nbsp;Recommander cet ami &agrave; mes amis
+                    .widget-body.bordered-top.bordered-sky
+                      table#table-recommandation-amis.table.user-list
+                        thead
+                          tr
+                            th
+                              span Membres
+                            th &nbsp;
+                  // end timeline posts
 // ****************************************************************************************
 // PAGE RECHERCHE D'AMIS
 // ******************************************************************************************

@@ -1358,11 +1358,10 @@
             <div class="col-md-12">
               <div class="contact">
                 <div class="controls">
-                  <span id ="accepte-invitation" class="accepte fa fa-check-circle" href="#" data-toggle="tooltip" data-placement="top" title="Accepter l'invitation" data-original-title="New"></span>
-                  <span id ="refuse-invitation" class="refuse fa fa-frown-o"  href="#"  data-toggle="tooltip" data-placement="top" title="Refuser l'invitation" data-original-title="New"></span>
-                  <span id ="ignore-recommandation" class="ignore fa fa-frown-o"  href="#"  data-toggle="tooltip" data-placement="top" title="Ignorer cette recommandation" data-original-title="New"></span>
-                  <span id ="recommande" class="accepte fa fa-check-circle" href="#" data-toggle="tooltip" data-placement="top" title="Recommander cet ami" data-original-title="New"></span>
-                  <span id ="aller-sur-profil-ami" class="refuse fa fa-frown-o"  href="#"  data-toggle="tooltip" data-placement="top" title="Aller sur son profil" data-original-title="New"></span>
+                  <span id ="accepte-invitation" class="fa fa-thumbs-o-up" href="#" data-toggle="tooltip" data-placement="top" title="Accepter l'invitation" data-original-title="New"></span>
+                  <span id ="refuse-invitation" class="fa fa-thumbs-o-down"  href="#"  data-toggle="tooltip" data-placement="top" title="Refuser l'invitation" data-original-title="New"></span>                 
+                  <span id ="supprime-ami" class="fa fa-trash-o" href="#" data-toggle="tooltip" data-placement="top" title="Supprimer cet ami" data-original-title="New"></span>
+                  <span id ="aller-sur-profil-ami" class="fa fa-eye"  href="#"  data-toggle="tooltip" data-placement="top" title="Aller sur son profil" data-original-title="New"></span>
                   <img id="info-photo-cover" src="" alt="cover" class="cover">
                   <div class="cont">
                     <img id="info-photo-profile" src="" alt="avatar" class="avatar">
@@ -1448,10 +1447,10 @@
                     </div>
                   </div>
                   <div class="col-md-7">
-                      <div class="widget">
-                        <div class="basic-info">
-                          <h5><i class="fa fa-square"></i>&nbsp;Préférence</h5> 
-                        </div>
+                    <div class="widget">
+                      <div class="basic-info">
+                        <h5><i class="fa fa-square"></i>&nbsp;Préférence</h5> 
+                      </div>
                       <div class="widget-body bordered-top bordered-sky">
                         <ul class="list-unstyled profile-about margin-none">
                           <li class="padding-v-5">
@@ -1462,7 +1461,22 @@
                         </ul>
                       </div> 
                     </div> 
-                  </div><!-- end timeline posts-->
+                    <div class="widget" id="block-recommandation">
+                      <div class="basic-info">
+                        <h5><i class="fa fa-square"></i>&nbsp;Recommander cet ami à mes amis</h5> 
+                      </div>
+                      <div class="widget-body bordered-top bordered-sky">
+                        <table id="table-recommandation-amis" class="table user-list">
+                          <thead>
+                            <tr>
+                              <th><span>Membres</span></th>
+                              <th>&nbsp;</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div><!-- end timeline posts-->
+                  </div>
                 </div>
               </div>
             </div>
@@ -1471,7 +1485,6 @@
       </div>
     </div>
   </div>
-
 
 <!-- **************************************************************************************** -->
 <!--                        PAGE RECHERCHE D'AMIS                                             -->
@@ -2597,16 +2610,15 @@
             </div>
       </div>
     </footer>
-
-<!-- **************************************************************************************** -->
+ 
+  </body>
+  <!-- **************************************************************************************** -->
 <!--      PARTIE JAVASCRIPT                                                                   -->
 <!-- **************************************************************************************** -->
 
-  <noscript><p>Veuillez activer JavaScript</p></noscript> 
-  <script>  
-    'use strict';
-  
-  </script> 
-  
-  </body>
+<noscript><p>Veuillez activer JavaScript</p></noscript> 
+<script>  
+  'use strict';
+
+</script>
 </html>

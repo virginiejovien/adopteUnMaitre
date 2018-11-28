@@ -748,13 +748,13 @@ a.disabled {
     -webkit-font-smoothing: antialiased;
     position: absolute;
     z-index: 2;
-    right: 74px;
+    right: 94px;
     bottom: -46px;
     width: 48px;
     height: 48px;
     border-radius: 24px;
     cursor: pointer;
-    box-shadow: 0 4px 5px #d8d8d8;
+    
 }
 
 #refuse-invitation {
@@ -772,9 +772,44 @@ a.disabled {
     height: 48px;
     border-radius: 24px;
     cursor: pointer;
-    box-shadow: 0 4px 5px #d8d8d8;
+   
 }
 
+#supprime-ami {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 55px;
+    color: rgb(221, 20, 20);
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    position: absolute;
+    z-index: 2;
+    right: 20px;
+    bottom: -46px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    cursor: pointer;
+    
+}
+
+#aller-sur-profil-ami {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 55px;
+    color: green;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    position: absolute;
+    z-index: 2;
+    right: 94px;
+    bottom: -46px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    cursor: pointer;
+    
+}
 /* page recherche amis */
 #nav-amis{
     height: 45px;

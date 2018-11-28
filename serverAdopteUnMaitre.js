@@ -151,10 +151,16 @@ vDBMgr.checkDBConnect()
             vMemberServer.demandeMurAmi(dataAmi, webSocketConnection, socketIo);
         }); 
 
-    // Reception demande d'afficher les infos d'un ami
+    // Reception demande d'afficher les infos d'un ami confirmé
         webSocketConnection.on('demandeAffiInfosAmi', function (pseudoDunMembre, objetDuMembre) { 
-            console.log("serveur recoit demande information d'un ami"); 
+            console.log("serveur recoit demande information d'un ami confirmé"); 
             vMemberServer.sendInfoMurAmi(pseudoDunMembre, objetDuMembre, webSocketConnection, socketIo);
+        }); 
+
+        // Reception demande d'afficher les infos d'un ami en attente de confirmation
+        webSocketConnection.on('demandeAffiInfosAmiAttente', function (pseudoDunMembre, objetDuMembre) { 
+            console.log("serveur recoit demande information d'un ami en attente de confirmation"); 
+            vMemberServer.sendInfoMurAmiAttente(pseudoDunMembre, objetDuMembre, webSocketConnection, socketIo);
         }); 
 
     // Reception accepte l'invitation
@@ -175,6 +181,11 @@ vDBMgr.checkDBConnect()
             vMemberServer.modifIndicateurAlerte(alerte, objetDuMembre, webSocketConnection, socketIo);
         }); 
         
+    // Reception recommandation d'amis
+        webSocketConnection.on('sendRecommande', function (pseudoAmi, objetDunMembre, objetDuMembre) { 
+            console.log("serveur recoit recommandation"); 
+            vMemberServer.gestionRecommandation(pseudoAmi, objetDunMembre, objetDuMembre, webSocketConnection, socketIo);
+        }); 
 //************************************************************************************************************  
 // Gestion de la fiche de renseignement du profil du membre
 //************************************************************************************************************ 
@@ -196,7 +207,6 @@ vDBMgr.checkDBConnect()
 
         // Reception du formulaire de recherche d'amis
         webSocketConnection.on('controleFormRechercheAmis', function (dataRecherche,objetDuMembre) {  
-            console.log('objetDuMembre 888888888888888888888888888888',objetDuMembre);
             vMemberServer.rechercheMembres(dataRecherche, objetDuMembre, webSocketConnection, socketIo);
         });   
 
