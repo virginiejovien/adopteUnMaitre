@@ -1021,7 +1021,7 @@
           </div>
 
 
-          <!--============= timeline posts-->
+          <!--Début publication sur le profil-->
           <div class="col-md-6">
             <div class="row">
               <!-- left posts-->
@@ -1030,22 +1030,27 @@
                   <div class="col-md-12">
                   <!-- post state form -->
                     <div class="box profile-info n-border-top">
-                      <form>
-                          <textarea class="form-control input-lg p-text-area" rows="2" placeholder="Whats in your mind today?"></textarea>
-                      </form>
-                      <div class="box-footer box-form">
-                          <button type="button" class="btn btn-azure pull-right">Post</button>
+                      <form id="form-publication">
+                        <textarea id="publication"  type="text" name="preference" class="form-control input-lg p-text-area" rows="2" maxlength = "400" placeholder="Exprimez vous"  pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères"></textarea>
+  
+                        <div class="box-footer box-form">
+                          <button type="submit" class="btn btn-azure pull-right">Poster</button>
                           <ul class="nav nav-pills">
-                              <li><a href="#"><i class="fa fa-map-marker"></i></a></li>
-                              <li><a href="#"><i class="fa fa-camera"></i></a></li>
-                              <li><a href="#"><i class=" fa fa-film"></i></a></li>
-                              <li><a href="#"><i class="fa fa-microphone"></i></a></li>
+                            <li><a href="#"><i class="fa fa-camera"></i></a></li>
                           </ul>
-                      </div>
+                        </div>
+                      </form>
                     </div><!-- end post state form -->
 
                     <!--   posts -->
                     <div class="box box-widget">
+                        <table id="table-publications" class="table user-list">
+                            <thead>
+                              
+                            </thead>
+                        </table>
+                      
+
                       <div class="box-header with-border">
                         <div class="user-block">
                           <img class="img-circle" src="static/images/Friends/guy-3.jpg" alt="User Image">

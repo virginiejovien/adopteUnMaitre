@@ -32,7 +32,7 @@ const cstMembre = 0;        // Membre standard qui ne peut qu'utiliser la partie
 const constMailFrom = 'adopteUnMaitre@amt.com';    // Adresse "From" du mail
 const constFirstCharString = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'    // Caractères autorisés pour le 1er caractère du PWD
 const constNextCharString = constFirstCharString+'&#$*_-'                                        // Caractères autorisés pour les 11 autres caractères du PWD
-
+const compteurPublication = -1;
 
 //************************************************************************************************
 // Déclaration des variables globales
@@ -77,7 +77,8 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
             profil          : '',           // est proprietaire ou souhaite adopté ou neutre           
             preference      : '',           // preferences adopte un maitre(AM) adopte un chat (AC) ne sais pas (NSP)            
             amis            :[],            // liste d'amis
-            alerte          :[]             // tableau des messages d'alerte                              
+            alerte          :[],            // tableau des messages d'alerte 
+            publication     :[]             // tableau des messages des publications                                 
     }
 
 
@@ -184,7 +185,8 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
             profil              : '',           // est proprietaire ou souhaite adopté ou neutre           
             preference          : '',           // preferences            
             amis                :[],            // liste d'amis                             
-            alerte              :[]             // tableau des messages d'alerte                         
+            alerte              :[],            // tableau des messages d'alerte 
+            publication         :[]             // tableau des messages des publications                        
         }
 
 
@@ -423,7 +425,8 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
             profil          : '',           // est proprietaire ou souhaite adopté ou neutre           
             preference      : '',           // preferences            
             amis            :[],            // liste d'amis
-            alerte          :[]             // tableau des messages d'alerte    
+            alerte          :[],             // tableau des messages d'alerte 
+            publication     :[]             // tableau des messages des publications   
         }
         
         
@@ -589,7 +592,8 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                     profil          : documents[0].profil,           // est proprietaire ou souhaite adopté ou neutre           
                     preference      : documents[0].preference,           // preferences            
                     amis            : documents[0].amis,            // liste d'amis
-                    alerte          : documents[0].alerte            // tableau des messages d'alerte    
+                    alerte          : documents[0].alerte,           // tableau des messages d'alerte   
+                    publication     : documents[0].publication       // tableau des publications   
                 }
                 console.log("pObjetMembreLocalMotDePasse.mpProvisoire et pDocumentsmpProvisoire true",pObjetMembreLocalMotDePasse.mpProvisoire);       
                 this.DBMgr.colMembres.updateOne(
@@ -690,7 +694,8 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                 profil          : documents[0].profil,           // est proprietaire ou souhaite adopté ou neutre           
                 preference      : documents[0].preference,           // preferences            
                 amis            : documents[0].amis,            // liste d'amis
-                alerte          : documents[0].alerte            // tableau des messages d'alerte    
+                alerte          : documents[0].alerte,            // tableau des messages d'alerte    
+                publication     : documents[0].publication       // tableau des publications 
             }
             console.log("pObjetMembreLocalMotDePasse.mpProvisoire et pDocumentsmpProvisoire true",pObjetMembreLocalMotDePasse.mp);       
             this.DBMgr.colMembres.updateOne(        // misa à jour du nouveau mots de passe
@@ -724,6 +729,109 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
     });
 };
 
+//************************************************************************************************************  
+// Gestion publication sur le mur de profil
+// - on insère la publication dans le tableau des publications du membre                   
+//************************************************************************************************************ 
+    MemberServer.prototype.miseAjourPublication= function(dataPublication, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('dataPublication avant MAJ publication de la collection membres',dataPublication); 
+        console.log('pObjetDuMembre  avant MAJ publication de la collection membres',pObjetDuMembre); 
+
+        // mise à jour de l'objet membre 
+        //
+        let dataPost =    {};
+        dataPost.message            = dataPublication.message;       // message posté
+        dataPost.pseudo             = dataPublication.pseudo;       // pseudo du membre qui l'a posté 
+        dataPost.photoProfile       = dataPublication.photoProfile;  // photo de profil du membre qui l'a posté 
+        dataPost.dateCreation       = new Date();       // Timestamp de la création du message
+        dataPost.id                 = compteurPublication ++;       // Timestamp de la création du message
+
+        this.DBMgr.colMembres.updateOne (
+            {pseudo: pObjetDuMembre.pseudo},  // pseudo membre à qui appartient le mur de profil 
+            {$push:{publication: dataPost }},(error, document) => {
+        
+            },(error, document) => {
+
+            if (error) {
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            
+                console.log('update ok publication dans le document du membre');
+            }); 
+
+        this.DBMgr.colMembres.find(  // on récupérère le document du membre avec la publication mise à jour 
+            {
+                pseudo:pObjetDuMembre.pseudo
+            }
+                                
+            ).toArray((error, documents) => {                     
+            if (error) {
+                console.log('Erreur de find dans collection colMembres',error);
+                throw error;
+            }                                
+            if (!documents.length) { 
+                console.log('erreur find du membre on ne retrouve pas le membre demandeur on observe le  documents',documents);
+            
+                return false;                     
+            }  
+            let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+            console.log('infoMembre find apres publications et avant envoie',infoMembre)
+            pWebSocketConnection.emit('sendPublication',infoMembre);    // on renvoie au client les donnees du membre mise à jour suite à une publication
+        }); 
+        
+    }; 
+
+//************************************************************************************************************  
+// Gestion suppression publication sur un mur de profil
+// - le membre supprime une publication : la publication  est retirée de la liste des publications              
+//************************************************************************************************************ 
+    MemberServer.prototype.suppressionPublication = function(pDataPseudo, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pDataPseudo avant MAJ suppression publication dans la collection membres',pDataPseudo); 
+        console.log('pObjetDuMembre avant MAJ suppression publication dans la collection membres',pObjetDuMembre); 
+
+        // mise à jour de l'objet publication du membre
+
+        //on supprime la publication de la liste des publications
+
+        this.DBMgr.colMembres.updateOne (
+            {
+                pseudo:pObjetDuMembre.pseudo,  
+            },
+            {   
+                $pull:{publication:{pseudo:pDataPseudo}}  // on supprime la publication avec le pseudo à l'origine de la publication 
+
+            },(error, document) => {
+
+            if (error) {
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            
+            console.log('pull ok la publication a été supprimé');
+        
+        }); 
+
+        this.DBMgr.colMembres.find(  // on récupérère le document du membre  mise à jour 
+            {
+                pseudo:pObjetDuMembre.pseudo,
+            
+            }
+                                
+            ).toArray((error, documents) => {                     
+            if (error) {
+                console.log('Erreur de find dans collection colMembres',error);
+                throw error;
+            }                                
+            if (!documents.length) { 
+                console.log('erreur find du membre on ne retrouve pas le membre  on observe le  documents',documents);
+            
+                return false;                     
+            }  
+            let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+            pWebSocketConnection.emit('sendSuppressionPublication',infoMembre);    // on renvoie au client les donnees du membre mise à jour suite à la suppression d'une publication
+        }); 
+    }; 
 
 //************************************************************************************************************  
 // Gestion de l'affichage de la fenetre des infos d'un ami confirmé

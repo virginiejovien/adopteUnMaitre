@@ -1138,7 +1138,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           th.text-center
                             span Pr&eacute;noms
                           th &nbsp;
-      // ============= timeline posts
+      // Début publication sur le profil
       .col-md-6
         .row
           // left posts
@@ -1147,26 +1147,19 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               .col-md-12
                 // post state form
                 .box.profile-info.n-border-top
-                  form
-                    textarea.form-control.input-lg.p-text-area(rows='2' placeholder='Whats in your mind today?')
-                  .box-footer.box-form
-                    button.btn.btn-azure.pull-right(type='button') Post
-                    ul.nav.nav-pills
-                      li
-                        a(href='#')
-                          i.fa.fa-map-marker
-                      li
-                        a(href='#')
-                          i.fa.fa-camera
-                      li
-                        a(href='#')
-                          i.fa.fa-film
-                      li
-                        a(href='#')
-                          i.fa.fa-microphone
+                  form#form-publication
+                    textarea#publication.form-control.input-lg.p-text-area(type='text' name='preference' rows='2' maxlength='400' placeholder='Exprimez vous' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
+                    .box-footer.box-form
+                      button.btn.btn-azure.pull-right(type='submit') Poster
+                      ul.nav.nav-pills
+                        li
+                          a(href='#')
+                            i.fa.fa-camera
                 // end post state form
                 // posts
                 .box.box-widget
+                  table#table-publications.table.user-list
+                    thead
                   .box-header.with-border
                     .user-block
                       img.img-circle(src='static/images/Friends/guy-3.jpg' alt='User Image')

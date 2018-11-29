@@ -175,7 +175,13 @@ window.addEventListener('DOMContentLoaded', function() {
     var tbodyExisteAmisAttente = false; // variable pour identifier sur la tableau resultat recherche liste desamis en attente existe
     var tbodyRecommande;    // tableau DOM liste amis pour recommandation
     var tbodyExisteRecommande = false; // variable pour identifier si la tableau recommande  existe
-    
+
+    // Eléments de la page mur publication
+    var formPublication = window.document.getElementById('form-publication');
+    var publication = window.document.getElementById('publication');
+    var tbodyPublication;    // tableau DOM liste des publications
+    var tbodyExistePublication = false; // variable pour identifier si le tableau publications d'un membre existe
+
     // Eléments de la page mur de profile d'un ami
     var profilDuMembre = window.document.getElementById('profilDuMembre');
     var profilDunAmi = window.document.getElementById('profilDunAmi');
@@ -591,7 +597,7 @@ window.addEventListener('DOMContentLoaded', function() {
         affichageAmisPourRecommandation(pObjetDunMembre,pObjetDuMembre); //affichage liste des amis confirmés pour recommandé ce membre 
     };
 
-    // -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Cette fonction initialise les boutons des membres en attente de confirmation
 // sur la page détail d'un membre statut = A ou R
 // -----------------------------------------------------------------------------
@@ -603,6 +609,161 @@ window.addEventListener('DOMContentLoaded', function() {
         versProfilAmi.style.display = 'none';
         accepteInvitation.style.display = 'block';
         refusInvitation.style.display = 'block';
+    };
+
+// -----------------------------------------------------------------------------
+// PUBLICATIONS
+// Cette fonction ajoute un événement onclick à une ligne du tableau 
+// tableau publications sur le mur de profil
+// -----------------------------------------------------------------------------
+    function addRowHandlersPublications() {
+        console.log('je suis dans la fonction addRowHandlersPublications');
+        var tableauPublications = document.getElementById("publications");
+        var rows = tableauPublications.getElementsByTagName("tr");
+        for (var j = 0; j < rows.length; j++) {
+            var currentRow = tableauPublications.rows[j];
+            var createClickHandler = function(row) {
+                return function() {
+                    var cell = row.getElementsByTagName("div")[1];
+                    console.log('cell',cell);
+                    var cella = cell.getElementsByTagName("a")[0];
+                    var id = cella.innerHTML;
+                    console.log("id:" + id);      
+                    console.log('objetDuMembre avant demande suppression publication par objetDuMembre',objetDuMembre);                 
+                    webSocketConnection.emit('sendSuppressionAmiPublication', id, objetDuMembre);  // Demande au serveur de supprimer la publication
+                };
+            };
+        
+        currentRow.onclick = createClickHandler(currentRow);
+        
+        }
+    };
+
+//************************************************************************************************************
+// PUBLICATIONS
+// Fonction qui affichage les publications
+// pour l'administrateur
+//************************************************************************************************************
+    var afficherPublications = function(pObjetDuMembre) { 
+        console.log(' publications pObjetDuMembre',pObjetDuMembre);
+        if (tbodyExistePublication) {                                   // on verifie si le tableau publications du membre existe ou pas pour ne pas le créer deux fois
+                console.log('tbodyExistePublication :',tbodyExistePublication);
+                document.getElementById('table-publications').removeChild(tbodyPublication) // retire le tableau du DOM
+        } 
+        tbodyPublication = document.createElement('tbody');
+        tbodyPublication.id = 'publications';
+        document.getElementById('table-publications').appendChild(tbodyPublication); 
+        tbodyExistePublication = true;
+
+        pObjetDuMembre.publication.sort(function(a, b){
+            var dateA=new Date(a.dateCreation), dateB=new Date(b.dateCreation)
+            return dateB-dateA //trié par date la plus rescente
+        })
+    
+        for (var i=0; i < pObjetDuMembre.publication.length; i++) {            
+        
+            var today = getFormatDate(pObjetDuMembre.publication[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
+
+    // Création physique dynamique et ajout au DOM de la liste des publications: on crée une ligne psysique pour chaque publication
+            console.log('je suis dans la boucle liste des publications');
+        
+            var tr = document.createElement('tr');
+            document.getElementById('publications').appendChild(tr);      
+
+            var div = document.createElement('div');
+            div.className = 'box-header with-border';
+            tr.appendChild(div);
+
+            var div1 = document.createElement('div');
+            div1.className = 'user-block';
+            div.appendChild(div1);
+
+            var img = document.createElement('img');
+            img.setAttribute('src','static/images/membres/'+ pObjetDuMembre.publication[i].photoProfile,'alt', 'User image');
+            img.className='img-circle';
+            div1.appendChild(img);
+            
+            var span = document.createElement('span');
+            span.className = 'username';
+            div1.appendChild(span);
+
+            var a = document.createElement('a');
+            a.id = 'publication-pseudo'+[i];
+            a.setAttribute ( 'href' , '#');
+            a.innerHTML =  pObjetDuMembre.publication[i].pseudo;
+            span.appendChild(a); 
+
+            var span2 = document.createElement('span');
+            span2.className = 'description';
+            span2.innerHTML = 'Publié le' + ' ' + today; 
+            div1.appendChild(span2);
+
+            
+            var div2 = document.createElement('div');
+            div2.className = 'box-body';
+            tr.appendChild(div2);
+            
+            var p = document.createElement('p');
+            p.id = 'publication-message'+[i];               
+            p.innerHTML =  pObjetDuMembre.publication[i].message;
+            div2.appendChild(p); 
+        
+
+            var td4 = document.createElement('span4');       
+            td4.setAttribute ( 'style' , 'width: 10%;');
+            div2.appendChild(td4);
+
+            var a4 = document.createElement('a');
+            a4.id = 'amis-info'+[i];
+            a4.setAttribute ( 'href' , '#');
+            a4.className = 'table-link success';        
+            td4.appendChild(a4); 
+
+            var span4 = document.createElement('span');
+            span4.className = 'fa-stack fa-aligne-droite';       
+            a4.appendChild(span4);
+
+            var i1 = document.createElement('i');
+            i1.className = 'fa fa-square fa-stack-2x';
+            span4.appendChild(i1);
+
+            var i2 = document.createElement('i');
+            i2.className = 'fa fa-trash-o fa-stack-1x fa-inverse';
+            span4.appendChild(i2);
+
+      /*      var div3 = document.createElement('div');
+            div3.className = 'box-footer';
+            div3.setAttribute ( 'style' , "display: block;");
+            tr.appendChild(div3);
+
+            var form = document.createElement('form');
+            form.className = 'box-footer';
+            form.id = 'form-repond-publication';
+            form.setAttribute ( 'style' , "display: block;");
+            div3.appendChild(form);
+
+            
+            var img1 = document.createElement('img');
+            if(pseudo){
+            img1.setAttribute('src','static/images/membres/'+ pObjetDuMembre.publication[i].photoProfile,'alt', 'Alt Text');
+            }
+            img1.setAttribute('src','static/images/membres/default-avatar.png','alt', 'Alt Text');
+            img1.className='img-responsive img-circle img-sm';
+            form.appendChild(img1);
+            
+            var div4 = document.createElement('div');
+            div4.className = 'img-push';
+            form.appendChild(div4);
+            
+            var input = document.createElement('input');
+            input.className = 'form-control input-sm';
+            input.id = 'form-repond-publication';
+            input.setAttribute ( 'type' , 'text', 'placeholder', 'Entrer un commentaire' );
+            div4.appendChild(input);*/
+
+        }
+
+        addRowHandlersPublications(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau des publication
     };
 
 // -----------------------------------------------------------------------------
@@ -846,7 +1007,7 @@ window.addEventListener('DOMContentLoaded', function() {
             for (var i=0; i < pObjetDuMembre.amis.length; i++) {            
             
             // Création physique dynamique et ajout au DOM de la liste d'amis confirmés : on crée une ligne psysique de chaque membre
-               
+        
                 if (pObjetDuMembre.amis[i].statut == "C") {  // C = confirmés
 
                 var tr = document.createElement('tr');
@@ -1913,6 +2074,7 @@ var affichageAmisPourAdministrateur = function(pObjetDunMembre, pObjetDuMembre) 
         webSocketConnection.emit('controleProfileInscription', objetDuMembre);  // Transmission au serveur des infos saisies
         
     });
+
 // -------------------------------------------------------------------------
 // Affiche l'image de profil apres l'avoir selectionné avec un input type="file"
 // -------------------------------------------------------------------------
@@ -1949,6 +2111,7 @@ var affichageAmisPourAdministrateur = function(pObjetDunMembre, pObjetDuMembre) 
         // affichage des donnees de la page du mur de profile du membre
         initMurProfil(objetDuMembre);
         affichageListeAmis(objetDuMembre);
+        afficherPublications(objetDuMembre);
         blockMurProfile.style.display = 'block';                     
         blockProfilMembre.style.display = 'none';
     });
@@ -2057,6 +2220,7 @@ var affichageAmisPourAdministrateur = function(pObjetDunMembre, pObjetDuMembre) 
         amisPseudo.innerHTML = objetDuMembre.pseudo; 
         
         affichageListeAmis(objetDuMembre); 
+        afficherPublications(objetDuMembre); 
     });   
 
 // ***********************************************************************************************************
@@ -2260,10 +2424,63 @@ var affichageAmisPourAdministrateur = function(pObjetDunMembre, pObjetDuMembre) 
         // affichage des donnees de la page du mur de profile du membre
         initMurProfil(objetDuMembre);
         affichageListeAmis(objetDuMembre);
+        afficherPublications(objetDuMembre);
         profilDuMembre.style.display ='block';
         profilDunAmi.style.display = 'none';
         blockMurProfile.style.display = 'block';                     
         blockInfoAmi.style.display ='none'; 
+    });
+
+//***********************************************************************************************************
+// PARTIE PUBLICATIONS SUR LE PROFIL
+// *********************************************************************************************************** 
+
+// ***********************************************************************************************************
+// Formulaire publication sur profil d'un memmbre 
+// A l'évènement submit on envoi au serveur les données du formulaire de publication 
+// ***********************************************************************************************************
+    formPublication.addEventListener('submit', function (event) { 
+        event.preventDefault(); 
+        window.scrollTo(0,0);  
+
+    // Récupération d'une photo publiée
+  /*      if (capturePhotoFile.value.length){                                                                 // Si une image a été choisie 
+            objetDuMembre.photoProfile = capturePhotoFile.value.split('C:\\fakepath\\')[1];                // On ne garde que le nom de l'image pour la BDD
+            siofu.submitFiles(capturePhotoFile.files);                                                    // Alors on la transfère vers le serveur
+        } else {
+            objetDuMembre.photoProfile = capturePhotoImg.getAttribute('src').split('static/images/membres/')[1]; 
+        }*/
+
+    //   Mise en forme pour transmission au serveur des données saisies 
+        let objetPublication = {};
+        objetPublication.message    = publication.value;
+        objetPublication.pseudo     = objetDuMembre.pseudo;
+        objetPublication.photoProfile = objetDuMembre.photoProfile;
+        
+        console.log("objetDuMembre avant envoie au serveur web publication",objetPublication);
+
+        webSocketConnection.emit('controlePublication',objetPublication, objetDuMembre);  // Transmission au serveur de la publication saisie et de l'objetDuMembre
+        
+    });
+
+// ***********************************************************************************************************
+// Le client reçoit la publication suite à son ajout
+// à lui maintenant d'afficher les publications actualisées
+// ***********************************************************************************************************
+    webSocketConnection.on('sendPublication', function(data) {
+        objetDuMembre = data;
+        console.log('info du membre suite à nouvelle publication-- objetDuMembre:',objetDuMembre);
+        afficherPublications(objetDuMembre);    // affichage des publications
+    });
+
+        
+// ***********************************************************************************************************
+// on reçoit publication supprimée de la liste
+// ***********************************************************************************************************
+    webSocketConnection.on('sendSuppressionPublication', function(pInfoMembre) {         
+        console.log("publication supprimé avec succès pInfoMembre:",pInfoMembre);
+        objetDuMembre = pInfoMembre;
+        afficherPublications(objetDuMembre);    // affichage des publications
     });
 
 //***********************************************************************************************************

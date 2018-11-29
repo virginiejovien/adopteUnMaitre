@@ -868,5 +868,10 @@ a.disabled {
     color:rgb(133, 133, 133);
 }
 
+.fa-aligne-droite{
+    color: rgb(211, 79, 79);
+    margin-right: 100px;
+
+}
 
 /* pour toutes les pages titre pseudo*/

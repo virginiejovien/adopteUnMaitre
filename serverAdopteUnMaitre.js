@@ -202,6 +202,20 @@ vDBMgr.checkDBConnect()
         });   
 
 //************************************************************************************************************  
+// Gestion des publications
+//************************************************************************************************************ 
+    // Reception du formulaire publication
+        webSocketConnection.on('controlePublication', function (dataPublication, objetDuMembre) {  
+            console.log('dataPublication ce que reçoit le serveur avant partir memberServer',dataPublication);
+            vMemberServer.miseAjourPublication(dataPublication, objetDuMembre, webSocketConnection, socketIo);
+        });  
+        
+         // Reception d'un suppression publication
+         webSocketConnection.on('sendSuppressionAmiPublication', function (dataPseudo, objetDuMembre) {  
+            console.log('dataPseudo avant suppression publication ce que reçoit le serveur avant partir memberServer',dataPseudo);
+            vMemberServer.suppressionPublication(dataPseudo, objetDuMembre, webSocketConnection, socketIo);
+        });  
+//************************************************************************************************************  
 // Gestion de la recherche d'amis
 //************************************************************************************************************ 
 
