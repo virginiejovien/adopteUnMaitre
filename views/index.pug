@@ -1093,13 +1093,23 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         // - Début liste d'amis
         .widget.widget-friends
           .widget-header
-            h3.widget-caption Amis confirm&eacute;s
+            .row
+              .col-md-5.col-sm-5.col-xs-5
+                .widget-header
+                  h3.widget-caption Amis confirm&eacute;s
+              form#form-filtre-amis.needs-validation
+                .col-md-6.col-sm-6.col-xs-6.collapse.in
+                  .form-group
+                    span.input-icon
+                      input#caractere-filtre.light-table-filter.form-control.input-xs.position-search-ami-mur(type='search' name='caractere' data-table='order-table' maxlength='21' size='21' placeholder='Rechercher un ami' pattern="^[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{0,21}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 1 et 21 caractères')
+                      i.glyphicon.glyphicon-search.darkorange
+                .col-md-1.col-sm-1.col-xs-1
           .widget-body.bordered-top.bordered-sky
             .row
               .col-md-12
                 .widget
                   .table-responsive
-                    table#table-liste-amis.table.user-list
+                    table#table-liste-amis.order-table.table.table.user-list
                       thead
                         tr
                           th
@@ -2691,3 +2701,35 @@ noscript
   p Veuillez activer JavaScript
 script.
   'use strict';
+  (function(document) {
+  'use strict';
+  var LightTableFilter = (function(Arr) {
+  var _input;
+  function _onInputEvent(e) {
+  _input = e.target;
+  var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
+  Arr.forEach.call(tables, function(table) {
+  Arr.forEach.call(table.tBodies, function(tbody) {
+  Arr.forEach.call(tbody.rows, _filter);
+  });
+  });
+  }
+  function _filter(row) {
+  var text = row.textContent.toLowerCase(), val = _input.value.toLowerCase();
+  row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+  }
+  return {
+  init: function() {
+  var inputs = document.getElementsByClassName('light-table-filter');
+  Arr.forEach.call(inputs, function(input) {
+  input.oninput = _onInputEvent;
+  });
+  }
+  };
+  })(Array.prototype);
+  document.addEventListener('readystatechange', function() {
+  if (document.readyState === 'complete') {
+  LightTableFilter.init();
+  }
+  });
+  })(document);

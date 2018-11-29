@@ -949,14 +949,34 @@
       
             <div class="widget widget-friends">
               <div class="widget-header">
-                <h3 class="widget-caption">Amis confirmés</h3>
+                <div class="row">
+                  <div class="col-md-5 col-sm-5 col-xs-5">
+                    <div class="widget-header">
+                        <h3 class="widget-caption">Amis confirmés</h3>
+                    </div>
+                  </div>
+                  <form id="form-filtre-amis" class="needs-validation" >
+                    <div class="col-md-6 col-sm-6 col-xs-6 collapse in">
+                      <div class="form-group">
+                        <span class="input-icon">
+                            
+                          <input id="caractere-filtre" type="search" name="caractere"  class="light-table-filter form-control input-xs position-search-ami-mur" data-table="order-table"  maxlength='21' size='21' placeholder="Rechercher un ami" pattern="^[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{0,21}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 1 et 21 caractères">
+                            <i class="glyphicon glyphicon-search darkorange"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-xs-1">
+                      
+                    </div>
+                  </form>
+                </div>
               </div>
               <div class="widget-body bordered-top  bordered-sky">
                 <div class="row">
                   <div class="col-md-12">
                     <div class="widget">
                       <div class="table-responsive">
-                        <table id="table-liste-amis" class="table user-list">
+                        <table id="table-liste-amis" class="order-table table table user-list">
                           <thead>
                             <tr>
                               <th><span>Membres</span></th>
@@ -975,7 +995,7 @@
         <!--- Fin liste d'amis--> 
             <div class="widget">
               <div class="widget-header">
-                <h3 class="widget-caption">Amis recommandés ou en attente de confirmation </h3>
+                  <h3 class="widget-caption">Amis recommandés ou en attente de confirmation </h3>
               </div>
               <div class="widget-body bordered-top  bordered-sky">
                 <div class="row">
@@ -2637,6 +2657,44 @@
 <noscript><p>Veuillez activer JavaScript</p></noscript> 
 <script>  
   'use strict';
+  (function(document) {
+	'use strict';
 
+	var LightTableFilter = (function(Arr) {
+
+		var _input;
+
+		function _onInputEvent(e) {
+			_input = e.target;
+			var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
+			Arr.forEach.call(tables, function(table) {
+				Arr.forEach.call(table.tBodies, function(tbody) {
+					Arr.forEach.call(tbody.rows, _filter);
+				});
+			});
+		}
+
+		function _filter(row) {
+			var text = row.textContent.toLowerCase(), val = _input.value.toLowerCase();
+			row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+		}
+
+		return {
+			init: function() {
+				var inputs = document.getElementsByClassName('light-table-filter');
+				Arr.forEach.call(inputs, function(input) {
+					input.oninput = _onInputEvent;
+				});
+			}
+		};
+	})(Array.prototype);
+
+	document.addEventListener('readystatechange', function() {
+		if (document.readyState === 'complete') {
+			LightTableFilter.init();
+		}
+	});
+
+})(document);
 </script>
 </html>

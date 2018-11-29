@@ -190,7 +190,8 @@ vDBMgr.checkDBConnect()
         webSocketConnection.on('sendRecommande', function (pseudoAmi, objetDunMembre, objetDuMembre) { 
             console.log("serveur recoit recommandation"); 
             vMemberServer.gestionRecommandation(pseudoAmi, objetDunMembre, objetDuMembre, webSocketConnection, socketIo);
-        }); 
+        });  
+        
 //************************************************************************************************************  
 // Gestion de la fiche de renseignement du profil du membre
 //************************************************************************************************************ 

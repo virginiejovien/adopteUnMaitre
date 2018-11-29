@@ -750,7 +750,6 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
         });       
     };  
 
-    
 //************************************************************************************************************  
 // Gestion de l'affichage de la fenetre des infos d'un ami en attente de confirmation
 // - récupération des donnees du membre dans la collection membres 
@@ -1081,7 +1080,6 @@ MemberServer.prototype.amiSupprime= function(pObjetDunMembre, pObjetDuMembre, pW
         console.log('pObjetDunMembre  avant MAJ de la collection membres',pObjetDunMembre); 
         console.log('pPseudoAmi  avant MAJ de la collection membres',pPseudoAmi); 
 
-      
 
         this.DBMgr.colMembres.find(                         // on récupère les données du membre à qui souhaite recommander et ajouter un membre à sa liste d'amis
             {  pseudo: pPseudoAmi
@@ -1444,7 +1442,6 @@ MemberServer.prototype.amiSupprime= function(pObjetDunMembre, pObjetDuMembre, pW
             }  
             console.log('documents avant MAJ profil inscription', documents);
                 
-         
             this.DBMgr.colMembres.updateOne(
                 {pseudo: pObjetDunMembre.pseudo},
                 {$set:
@@ -1515,8 +1512,6 @@ MemberServer.prototype.amiSupprime= function(pObjetDunMembre, pObjetDuMembre, pW
                 }  
                     console.log('documents avant MAJ profil inscription', documents);
                 
-                
-                    
                     pWebSocketConnection.emit('SendlisteDesMembres', documents); // On envoie au client qui est un administrateur la liste de données de tous les membres                         
                 });  
     };
@@ -1598,63 +1593,55 @@ MemberServer.prototype.sendInfoMurDunMembre = function(pPseudoDunMembre, pWebSoc
         console.log('pObjetDunMembre avant MAJ suppression ami de la collection membres par Admin',pObjetDunMembre); 
         console.log('pObjetDuMembre  avant MAJ suppression ami de la collection membres par Admin',pObjetDuMembre); 
 
-        // mise à jour de l'objet membre supprimé
-        //on supprime le membre supprimeur de la liste d'amis du supprimé
+        this.DBMgr.colMembres.find(                         // on récupère les données du membre qu'on souhaite supprimer de la liste d'amis
+        {  pseudo: pPseudoAmi
+            } 
+                            
+        ).toArray((error, documents) => {    
+            if (error) {
+                console.log('Erreur de find dans collection colMembres',error);
+                throw error;
+            }                                
+            if (!documents.length) { 
+                console.log("on n'a trouvé pas le membre --  documents:",documents);
+                return false;                     
+            }  
+        });    
 
+        // mise à jour de l'objet ObjetDunMmembre on supprime pPseusoAmi de sa liste d'ami
+    
         this.DBMgr.colMembres.updateOne (
             {
-                pseudo:pObjetDunMembre.pseudo,  // membre supprimé
+                pseudo:pObjetDunMembre.pseudo,  // membre a qui on supprime un ami
             },
             {   
-                $pull:{amis:{pseudo:pObjetDuMembre.pseudo}}  // on supprime le membre à l'origine de la suppression dans la liste des amis 
+                $pull:{amis:{pseudo:pPseudoAmi}}  // on supprime le membre pPseudoAmi de la liste d'amis 
 
             },(error, document) => {
 
             if (error) {
                 console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
                 throw error;
-            }          
-            
-            console.log('pull ok dans le document du membre supprimé ');
-        
-        }); 
+            }   
 
-        // mise à jour de l'objet membre supprimeur (à l'origine de la suppression)
-        //on supprime le membre supprimé de la liste d'amis
-        
-        this.DBMgr.colMembres.updateOne (
-            {
-                pseudo:pObjetDuMembre.pseudo,       // membre supprimeur
-            },
-            {   
-                $pull:{amis:{pseudo:pObjetDunMembre.pseudo}}  // on supprime le membre supprimé dans la liste des amis
+            console.log('pull ok dans le document d un membre à qui on supprime un ami par Admin ');
 
-            },(error, document) => {  
-
-            if (error) {
-                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
-                throw error;
-            }          
-            
-            console.log('pull ok dans le document du membre supprimeur');
-
-            this.DBMgr.colMembres.find(  // on récupérère le document du membre supprimeur 
-                {
-                    pseudo:pObjetDuMembre.pseudo,           
-                }
-                                    
+            this.DBMgr.colMembres.find(  // on récupérère le document du membre à qui on a supprimé un ami
+                {                           
+                    pseudo:pObjetDunMembre.pseudo,           
+                }                    
                 ).toArray((error, documents) => {                     
                 if (error) {
                     console.log('Erreur de find dans collection colMembres',error);
                     throw error;
                 }                                
                 if (!documents.length) { 
-                    console.log('erreur find du membre on ne retrouve pas le membre supprimeur on observe le  documents',documents);
-                
+                    console.log('erreur find du membre on ne retrouve pas le membre à qui on vien de supprimer un ami on observe le  documents',documents);                
                     return false;                     
                 }  
-                let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
-                pWebSocketConnection.emit('sendAmiSupprime',infoMembre);   // on renvoie au client qu'on apris en compte la suppression d'un ami et les donnees du membre mise à jour
+
+                let infoMembre = documents[0];   // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+                pWebSocketConnection.emit('sendAmiSupprimeParAdmin',infoMembre);  // on renvoie au client les donnees du membre mise à jour apres suppression d'un ami par Admin
             }); 
         }); 
     }; 

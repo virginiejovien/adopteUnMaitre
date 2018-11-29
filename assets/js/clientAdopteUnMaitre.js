@@ -175,7 +175,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var tbodyExisteAmisAttente = false; // variable pour identifier sur la tableau resultat recherche liste desamis en attente existe
     var tbodyRecommande;    // tableau DOM liste amis pour recommandation
     var tbodyExisteRecommande = false; // variable pour identifier si la tableau recommande  existe
-
+    
     // Eléments de la page mur de profile d'un ami
     var profilDuMembre = window.document.getElementById('profilDuMembre');
     var profilDunAmi = window.document.getElementById('profilDunAmi');
@@ -661,7 +661,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // Fonction qui affichage la liste d'amis: photo pseudo nom prenom 
 //************************************************************************************************************
     var affichageListeAmis = function(pObjetDuMembre) { 
-
+        
         // initialisation liste amis confirmés
         if (tbodyExisteAmis) {                                   // on verifie si le tableau liste amis existe ou pas pour ne pas le créer deux fois
                 console.log('tbodyExisteAmis :',tbodyExisteAmis);
@@ -689,61 +689,61 @@ window.addEventListener('DOMContentLoaded', function() {
             // Création physique dynamique et ajout au DOM de la liste d'amis confirmés : on crée une ligne psysique de chaque membre
 
                 if (pObjetDuMembre.amis[i].statut == "C") {  // C = confirmés
-
-                var tr = document.createElement('tr');
-                document.getElementById('amis-des-membres').appendChild(tr);      
-            
-                var td = document.createElement('td');
-                tr.appendChild(td);
-
-                var img = document.createElement('img');
-                img.setAttribute('src','static/images/membres/'+ pObjetDuMembre.amis[i].photoProfile,'alt', 'image');
-                img.className='img-circle image-user-liste';
-                td.appendChild(img);
+                    
+                    var tr = document.createElement('tr');
+                    document.getElementById('amis-des-membres').appendChild(tr);      
                 
-                var a = document.createElement('a');
-                a.id = 'amis-pseudo'+[i];
-                a.setAttribute ( 'href' , '#');
-                a.className = 'user-liste';
-                a.innerHTML =  pObjetDuMembre.amis[i].pseudo;
-                td.appendChild(a); 
+                    var td = document.createElement('td');
+                    tr.appendChild(td);
 
-                var span = document.createElement('span');
-                span.className = 'user-subhead-liste';
-                span.innerHTML = 'Confirmé'  
-                td.appendChild(span);
+                    var img = document.createElement('img');
+                    img.setAttribute('src','static/images/membres/'+ pObjetDuMembre.amis[i].photoProfile,'alt', 'image');
+                    img.className='img-circle image-user-liste';
+                    td.appendChild(img);
+                    
+                    var a = document.createElement('a');
+                    a.id = 'amis-pseudo'+[i];
+                    a.setAttribute ( 'href' , '#');
+                    a.className = 'user-liste';
+                    a.innerHTML =  pObjetDuMembre.amis[i].pseudo;
+                    td.appendChild(a); 
 
-                var td1 = document.createElement('td'); 
-                td1.id= 'amis-nom'+[i];
-                td1.innerHTML =  pObjetDuMembre.amis[i].nom;  
-                tr.appendChild(td1);
+                    var span = document.createElement('span');
+                    span.className = 'user-subhead-liste';
+                    span.innerHTML = 'Confirmé'  
+                    td.appendChild(span);
 
-                var td2 = document.createElement('td'); 
-                td2.id= 'amis-prenom'+[i];
-                td2.innerHTML =  pObjetDuMembre.amis[i].prenom;   
-                tr.appendChild(td2);
-                
-                var td4 = document.createElement('td');       
-                td4.setAttribute ( 'style' , 'width: 10%;');
-                tr.appendChild(td4);
+                    var td1 = document.createElement('td'); 
+                    td1.id= 'amis-nom'+[i];
+                    td1.innerHTML =  pObjetDuMembre.amis[i].nom;  
+                    tr.appendChild(td1);
 
-                var a4 = document.createElement('a');
-                a4.id = 'amis-info'+[i];
-                a4.setAttribute ( 'href' , '#');
-                a4.className = 'table-link success';        
-                td4.appendChild(a4); 
+                    var td2 = document.createElement('td'); 
+                    td2.id= 'amis-prenom'+[i];
+                    td2.innerHTML =  pObjetDuMembre.amis[i].prenom;   
+                    tr.appendChild(td2);
+                    
+                    var td4 = document.createElement('td');       
+                    td4.setAttribute ( 'style' , 'width: 10%;');
+                    tr.appendChild(td4);
 
-                var span4 = document.createElement('span');
-                span4.className = 'fa-stack';       
-                a4.appendChild(span4);
+                    var a4 = document.createElement('a');
+                    a4.id = 'amis-info'+[i];
+                    a4.setAttribute ( 'href' , '#');
+                    a4.className = 'table-link success';        
+                    td4.appendChild(a4); 
 
-                var i1 = document.createElement('i');
-                i1.className = 'fa fa-square fa-stack-2x';
-                span4.appendChild(i1);
+                    var span4 = document.createElement('span');
+                    span4.className = 'fa-stack';       
+                    a4.appendChild(span4);
 
-                var i2 = document.createElement('i');
-                i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
-                span4.appendChild(i2);
+                    var i1 = document.createElement('i');
+                    i1.className = 'fa fa-square fa-stack-2x';
+                    span4.appendChild(i1);
+
+                    var i2 = document.createElement('i');
+                    i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
+                    span4.appendChild(i2);
             }
 
             if ((pObjetDuMembre.amis[i].statut == "A") || (pObjetDuMembre.amis[i].statut == "R")) {  // A= en attente de confirmation // R=Recommandés
@@ -768,8 +768,8 @@ window.addEventListener('DOMContentLoaded', function() {
                 var spanA = document.createElement('span');
                 spanA.className = 'user-subhead-liste';
                 switch(pObjetDuMembre.amis[i].statut) {
-                    case 'R':                                           
-                    spanA.innerHTML = 'Recommandé'  
+                    case 'R':                                         
+                    spanA.innerHTML = 'Recommandé par' + '' +  pObjetDuMembre.amis[i].origine;    
                     break;
                     case 'A':                        
                     spanA.innerHTML = 'Attente de confirmation'  
@@ -815,11 +815,12 @@ window.addEventListener('DOMContentLoaded', function() {
             addRowHandlersAmisAttente(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau amis en attente d'etre confirmés
     };
 
+
 //************************************************************************************************************
 // Fonction qui affichage la liste d'amis d'un ami : photo pseudo nom prenom 
 //************************************************************************************************************
     var affichageListeAmisDunAmi = function(pObjetDuMembre) { 
-
+    
         // initialisation liste amis d'un ami
         if (tbodyExisteAmis) {                                   // on verifie si le tableau liste amis d'un ami existe ou pas pour ne pas le créer deux fois
                 console.log('tbodyExisteAmis :',tbodyExisteAmis);
@@ -845,7 +846,7 @@ window.addEventListener('DOMContentLoaded', function() {
             for (var i=0; i < pObjetDuMembre.amis.length; i++) {            
             
             // Création physique dynamique et ajout au DOM de la liste d'amis confirmés : on crée une ligne psysique de chaque membre
-
+               
                 if (pObjetDuMembre.amis[i].statut == "C") {  // C = confirmés
 
                 var tr = document.createElement('tr');
@@ -904,7 +905,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 spanA.className = 'user-subhead-liste';
                 switch(pObjetDuMembre.amis[i].statut) {
                     case 'R':                                           
-                    spanA.innerHTML = 'Recommandé'  
+                    spanA.innerHTML = 'Recommandé par' + '' +  pObjetDuMembre.amis[i].origine; 
                     break;
                     case 'A':                        
                     spanA.innerHTML = 'Attente de confirmation'  
@@ -2547,6 +2548,21 @@ var affichageAmisPourAdministrateur = function(pObjetDunMembre, pObjetDuMembre) 
         initModalRecupTextSupprime(vModalTitleG, vModalBodyTextG);
         $('#idGenericModal').modal('toggle');    // ouverture de la fenêtre modale membre supprimé                 
     });
-
+    
+// ***********************************************************************************************************
+// on reçoit un ami a bien été supprimé de la liste du membre
+// on prend en compte la suppression dans l'affichage
+// ***********************************************************************************************************
+    webSocketConnection.on('sendAmiSupprimeParAdmin', function(pInfoMembre) {         
+        console.log("membre supprimé avec succès pInfoMembre par Admin:",pInfoMembre);
+        objetDunMembre = pInfoMembre;
+        initDetailMembre(objetDunMembre);    // affichage des donnees d'un membre sur la page détail d'un membre
+        affichageAmisPourAdministrateur(objetDunMembre,objetDuMembre);  // affichage de la liste des amis sur la page détail d'un membre
+        blockAdministrateur.style.display = 'none';                     
+        blockFormulaire.style.display = 'none';
+        blockMurProfile.style.display = 'none';
+        blockProfilMembre.style.display ='none';  
+        blockDetailMembre.style.display ='block';    
+    });
     
 });     
