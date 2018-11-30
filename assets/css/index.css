@@ -538,6 +538,10 @@ footer .container .text-muted {
     display:none;
 }
 
+#block-detail-publication {
+    display:none;
+}
+
 /* titre prinsipal page d'accueil du site*/
 .welcome-title {
     text-align: center;
@@ -834,6 +838,31 @@ a.disabled {
 .position-search-ami-mur{
     margin-top: 9px; 
 }
+
+/* partie publication sur le mur de profil */
+.fa-aligne-droite{
+    color: #5cb85c;
+    margin-right: 100px;
+}
+
+.cache{
+    color: transparent;
+    font-size: 1px;
+}
+
+/* partie post d'une publication */
+#post-photo-profil{
+    width: 40px;
+    height: 40px;
+    float: left;
+}
+#post-pseudo{
+    display: block;
+    margin-left: 50px;
+    text-decoration: none;
+    color: gray;
+}
+
 /* page recherche amis */
 #nav-amis{
     height: 45px;
@@ -868,10 +897,6 @@ a.disabled {
     color:rgb(133, 133, 133);
 }
 
-.fa-aligne-droite{
-    color: rgb(211, 79, 79);
-    margin-right: 100px;
 
-}
 
 /* pour toutes les pages titre pseudo*/

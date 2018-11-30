@@ -233,6 +233,32 @@ window.addEventListener('DOMContentLoaded', function() {
     var tbodyResultat;    // tableau DOM resultat de la recherche des membres
     var tbodyExisteResultat = false; // variable pour identifier si le tableau resultat recherche liste des membres existe
 
+
+//*****************************************/
+// elements single page détail d'un post
+//*****************************************/   
+    
+    // Eléments de la page post
+
+    var blockPost =  window.document.getElementById('block-detail-publication');
+    var idMurPost =  window.document.getElementById('idMurPost');
+    var pseudoPost =  window.document.getElementById('pseudo-post');
+    var postDate = window.document.getElementById('post-date');
+    var modifPost =  window.document.getElementById('modif-post');
+    var supprimePost =  window.document.getElementById('supprime-post');
+   // var photoPost= window.document.getElementById('photo-post')
+    var postPhotoProfil = window.document.getElementById('post-photo-profil');
+    var postPseudo = window.document.getElementById('post-pseudo');
+    var postMessage = window.document.getElementById('post-message');
+    var capturePhotoFilePost = window.document.getElementById('capturePhotoFilePost');
+    var capturePhotoImgPost = window.document.getElementById('capturePhotoImgPost');
+    var commentairePhotoProfil = window.document.getElementById('commentaire-photo-profil');
+    var formPost = window.document.getElementById('form-post');
+    var commentaire = window.document.getElementById('commentaire');
+    var tbodyCommentaire;    // tableau DOM liste des commentaires
+    var tbodyExisteCommentaire = false; // variable pour identifier si le tableau commentaires d'un membre existe
+
+
 //*****************************************/
 // elements single page messagerie instantannée
 //*****************************************/   
@@ -292,6 +318,8 @@ window.addEventListener('DOMContentLoaded', function() {
     var objetDuVisiteur = {};
     var objetDesMembres = {};
     var objetDunMembre = {};
+    var idPublication;
+    var indicateurMurAmi = false;
 
 //************************************************************************************************
 // Déclaration des fonctions globales
@@ -626,13 +654,14 @@ window.addEventListener('DOMContentLoaded', function() {
                 return function() {
                     var cell = row.getElementsByTagName("div")[1];
                     console.log('cell',cell);
-                    var cella = cell.getElementsByTagName("a")[0];
+                    var cella = cell.getElementsByTagName("span")[2];
                     var id = cella.innerHTML;
-                    console.log("id:" + id);      
-                    console.log('objetDuMembre avant demande suppression publication par objetDuMembre',objetDuMembre);                 
-                    webSocketConnection.emit('sendSuppressionAmiPublication', id, objetDuMembre);  // Demande au serveur de supprimer la publication
+                    console.log("id:" + id);      // idPublication de la publication
+                    console.log('objetDuMembre avant demande demande afficher publication par objetDuMembre',objetDuMembre);                 
+                    webSocketConnection.emit('sendAfficherPost', id, objetDuMembre);  // Demande au serveur de supprimer la publication
                 };
             };
+            
         
         currentRow.onclick = createClickHandler(currentRow);
         
@@ -642,7 +671,7 @@ window.addEventListener('DOMContentLoaded', function() {
 //************************************************************************************************************
 // PUBLICATIONS
 // Fonction qui affichage les publications
-// pour l'administrateur
+// pour le membre
 //************************************************************************************************************
     var afficherPublications = function(pObjetDuMembre) { 
         console.log(' publications pObjetDuMembre',pObjetDuMembre);
@@ -655,9 +684,9 @@ window.addEventListener('DOMContentLoaded', function() {
         document.getElementById('table-publications').appendChild(tbodyPublication); 
         tbodyExistePublication = true;
 
-        pObjetDuMembre.publication.sort(function(a, b){
+        pObjetDuMembre.publication.sort(function(a, b){       // trier la liste des publications par date la plus récente
             var dateA=new Date(a.dateCreation), dateB=new Date(b.dateCreation)
-            return dateB-dateA //trié par date la plus rescente
+            return dateB-dateA //trié par date la plus recente
         })
     
         for (var i=0; i < pObjetDuMembre.publication.length; i++) {            
@@ -698,7 +727,11 @@ window.addEventListener('DOMContentLoaded', function() {
             span2.innerHTML = 'Publié le' + ' ' + today; 
             div1.appendChild(span2);
 
-            
+            var span3 = document.createElement('span');
+            span3.className = 'username cache';
+            span3.innerHTML =  pObjetDuMembre.publication[i].idPublication;
+            div1.appendChild(span3);
+
             var div2 = document.createElement('div');
             div2.className = 'box-body';
             tr.appendChild(div2);
@@ -728,42 +761,143 @@ window.addEventListener('DOMContentLoaded', function() {
             span4.appendChild(i1);
 
             var i2 = document.createElement('i');
-            i2.className = 'fa fa-trash-o fa-stack-1x fa-inverse';
+            i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
             span4.appendChild(i2);
-
-      /*      var div3 = document.createElement('div');
-            div3.className = 'box-footer';
-            div3.setAttribute ( 'style' , "display: block;");
-            tr.appendChild(div3);
-
-            var form = document.createElement('form');
-            form.className = 'box-footer';
-            form.id = 'form-repond-publication';
-            form.setAttribute ( 'style' , "display: block;");
-            div3.appendChild(form);
-
-            
-            var img1 = document.createElement('img');
-            if(pseudo){
-            img1.setAttribute('src','static/images/membres/'+ pObjetDuMembre.publication[i].photoProfile,'alt', 'Alt Text');
-            }
-            img1.setAttribute('src','static/images/membres/default-avatar.png','alt', 'Alt Text');
-            img1.className='img-responsive img-circle img-sm';
-            form.appendChild(img1);
-            
-            var div4 = document.createElement('div');
-            div4.className = 'img-push';
-            form.appendChild(div4);
-            
-            var input = document.createElement('input');
-            input.className = 'form-control input-sm';
-            input.id = 'form-repond-publication';
-            input.setAttribute ( 'type' , 'text', 'placeholder', 'Entrer un commentaire' );
-            div4.appendChild(input);*/
-
         }
 
         addRowHandlersPublications(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau des publication
+    };
+
+//************************************************************************************************************
+// COMMENTAIRES
+// Fonction qui affichage les commentaires d'une publication
+// pour le membre
+//************************************************************************************************************
+    var afficherCommentaires = function(pObjetDuMembre,idPublication) { 
+        console.log(' Commentaires pObjetDuMembre',pObjetDuMembre);
+        if (tbodyExisteCommentaire) {                                   // on verifie si le tableau Commentaires du membre existe ou pas pour ne pas le créer deux fois
+                console.log('tbodyExisteCommentaire :',tbodyExisteCommentaire);
+                document.getElementById('table-commentaires').removeChild(tbodyCommentaire) // retire le tableau du DOM
+        } 
+        tbodyCommentaire = document.createElement('tbody');
+        tbodyCommentaire.id = 'commentaires';
+        document.getElementById('table-commentaires').appendChild(tbodyCommentaire); 
+        tbodyExisteCommentaire = true;
+
+        for (var i=0; i < pObjetDuMembre.publication.length; i++) {         
+            
+            console.log('je suis dans la boucle liste des publications');
+            console.log('idPublication',idPublication);
+            if (pObjetDuMembre.publication[i].idPublication == idPublication) {
+
+                pObjetDuMembre.publication[i].commentaire.sort(function(a, b) {       // trier la liste des Commentaires par date la plus récente
+                    var dateA=new Date(a.dateCreation), dateB=new Date(b.dateCreation)
+                    return dateB-dateA //trié par date la plus recente
+                })
+
+            
+                console.log('pObjetDuMembre.publication[i].idPublication',pObjetDuMembre.publication[i].idPublication);
+                console.log('pObjetDuMembre.publication[i].commentaire.length',pObjetDuMembre.publication[i].commentaire.length);
+                for (var j = 0; j < pObjetDuMembre.publication[i].commentaire.length; j++) {
+
+
+                    var today = getFormatDate(pObjetDuMembre.publication[i].commentaire[j].dateCreation);     // on met la date au bon format JJ/MM/AAAA
+
+    // Création physique dynamique et ajout au DOM de la liste des commentaires: on crée une ligne psysique pour chaque publication
+                    console.log('je suis dans la boucle liste des commentaires');
+
+                    var tr = document.createElement('tr');
+                    document.getElementById('commentaires').appendChild(tr);      
+
+                    var div = document.createElement('div');
+                    div.className = 'box-comment';
+                    tr.appendChild(div);
+
+                    var img = document.createElement('img');
+                    img.setAttribute('src','static/images/membres/'+ pObjetDuMembre.publication[i].commentaire[j].photoProfile,'alt', 'User image');
+                    img.className='img-circle img-sm';
+                    div.appendChild(img);
+                    
+                    var div1 = document.createElement('div');
+                    div1.className = 'comment-text';
+            
+                    div.appendChild(div1);
+
+                    var span = document.createElement('span');
+                    span.className = 'text-muted';
+                    span.setAttribute ( 'padding','6px');
+                    span.innerHTML =  pObjetDuMembre.publication[i].commentaire[j].message;
+                    div1.appendChild(span);
+                }
+            }
+        }
+
+    };
+
+//************************************************************************************************************
+// COMMENTAIRES
+// Fonction qui affichage les commentaires d'une publication d'un ami
+// pour le membre
+//************************************************************************************************************
+    var afficherCommentairesDunAmi = function(pObjetDunMembre,idPublication) { 
+        console.log(' Commentaires pObjetDunMembre',pObjetDunMembre);
+        if (tbodyExisteCommentaire) {                                   // on verifie si le tableau Commentaires du membre existe ou pas pour ne pas le créer deux fois
+                console.log('tbodyExisteCommentaire :',tbodyExisteCommentaire);
+                document.getElementById('table-commentaires').removeChild(tbodyCommentaire) // retire le tableau du DOM
+        } 
+        tbodyCommentaire = document.createElement('tbody');
+        tbodyCommentaire.id = 'commentaires';
+        document.getElementById('table-commentaires').appendChild(tbodyCommentaire); 
+        tbodyExisteCommentaire = true;
+
+        for (var i=0; i < pObjetDunMembre.publication.length; i++) {         
+            
+            console.log('je suis dans la boucle liste des publications');
+            console.log('idPublication',idPublication);
+            if (pObjetDunMembre.publication[i].idPublication == idPublication) {
+
+            pObjetDunMembre.publication[i].commentaire.sort(function(a, b) {       // trier la liste des Commentaires par date la plus récente
+                    var dateA=new Date(a.dateCreation), dateB=new Date(b.dateCreation)
+                    return dateB-dateA //trié par date la plus recente
+            })
+
+            
+                console.log('pObjetDunMembre.publication[i].idPublication',pObjetDunMembre.publication[i].idPublication);
+                console.log('pObjetDunMembre.publication[i].commentaire.length',pObjetDunMembre.publication[i].commentaire.length);
+                for (var j = 0; j < pObjetDunMembre.publication[i].commentaire.length; j++) {
+
+
+                    var today = getFormatDate(pObjetDunMembre.publication[i].commentaire[j].dateCreation);     // on met la date au bon format JJ/MM/AAAA
+
+    // Création physique dynamique et ajout au DOM de la liste des commentaires: on crée une ligne psysique pour chaque publication
+                    console.log('je suis dans la boucle liste des commentaires');
+
+                    var tr = document.createElement('tr');
+                    document.getElementById('commentaires').appendChild(tr);      
+
+                    var div = document.createElement('div');
+                    div.className = 'box-comment';
+                    tr.appendChild(div);
+
+                    var img = document.createElement('img');
+                    img.setAttribute('src','static/images/membres/'+ pObjetDunMembre.publication[i].commentaire[j].photoProfile,'alt', 'User image');
+                    img.className='img-circle img-sm';
+                    div.appendChild(img);
+                    
+                    var div1 = document.createElement('div');
+                    div1.className = 'comment-text';
+            
+                    div.appendChild(div1);
+
+                    var span = document.createElement('span');
+                    span.className = 'text-muted';
+                    span.setAttribute ( 'padding','6px');
+                    span.innerHTML =  pObjetDunMembre.publication[i].commentaire[j].message;
+                    div1.appendChild(span);
+                }
+            }
+        }
+
     };
 
 // -----------------------------------------------------------------------------
@@ -1089,6 +1223,166 @@ window.addEventListener('DOMContentLoaded', function() {
 
     };
 
+// -----------------------------------------------------------------------------
+// PUBLICATIONS
+// Cette fonction ajoute un événement onclick à une ligne du tableau 
+// tableau publicationsAmi sur le mur de profil d'un ami
+// -----------------------------------------------------------------------------
+    function addRowHandlersPublicationsAmi() {
+        console.log('je suis dans la fonction addRowHandlersPublications');
+        var tableauPublicationsAmi = document.getElementById("publications");
+        var rows = tableauPublicationsAmi.getElementsByTagName("tr");
+        for (var j = 0; j < rows.length; j++) {
+            var currentRow = tableauPublicationsAmi.rows[j];
+            var createClickHandler = function(row) {
+                return function() {
+                    var cell = row.getElementsByTagName("div")[1];
+                    console.log('cell',cell);
+                    var cella = cell.getElementsByTagName("span")[2];
+                    var id = cella.innerHTML;
+                    console.log("id:" + id);      // idPublication de la publication
+                    console.log('objetDunMembre avant afficher publication coté ami par objetDunMembre 999',objetDuMembre);                 
+                    webSocketConnection.emit('sendAfficherPostAmi', id, objetDunMembre,objetDuMembre);  // Demande au serveur d'afficher la publication'
+                };
+            };
+            
+        
+        currentRow.onclick = createClickHandler(currentRow);
+        
+        }
+    };
+
+//************************************************************************************************************
+// PUBLICATIONS
+// Fonction qui affichage les publications d'un ami
+//************************************************************************************************************
+    var afficherPublicationsDunAmi = function(pObjetDunMembre) { 
+        console.log(' publications pObjetDunMembre',pObjetDunMembre);
+        if (tbodyExistePublication) {                                   // on verifie si le tableau publications du membre existe ou pas pour ne pas le créer deux fois
+                console.log('tbodyExistePublication :',tbodyExistePublication);
+                document.getElementById('table-publications').removeChild(tbodyPublication) // retire le tableau du DOM
+        } 
+        tbodyPublication = document.createElement('tbody');
+        tbodyPublication.id = 'publications';
+        document.getElementById('table-publications').appendChild(tbodyPublication); 
+        tbodyExistePublication = true;
+
+        pObjetDunMembre.publication.sort(function(a, b){       // trier la liste des publications par date la plus récente
+            var dateA=new Date(a.dateCreation), dateB=new Date(b.dateCreation)
+            return dateB-dateA //trié par date la plus recente
+        })
+
+        for (var i=0; i < pObjetDunMembre.publication.length; i++) {            
+        
+            var today = getFormatDate(pObjetDunMembre.publication[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
+
+    // Création physique dynamique et ajout au DOM de la liste des publications: on crée une ligne psysique pour chaque publication
+            console.log('je suis dans la boucle liste des publications');
+        
+            var tr = document.createElement('tr');
+            document.getElementById('publications').appendChild(tr);      
+
+            var div = document.createElement('div');
+            div.className = 'box-header with-border';
+            tr.appendChild(div);
+
+            var div1 = document.createElement('div');
+            div1.className = 'user-block';
+            div.appendChild(div1);
+
+            var img = document.createElement('img');
+            img.setAttribute('src','static/images/membres/'+ pObjetDunMembre.publication[i].photoProfile,'alt', 'User image');
+            img.className='img-circle';
+            div1.appendChild(img);
+            
+            var span = document.createElement('span');
+            span.className = 'username';
+            div1.appendChild(span);
+
+            var a = document.createElement('a');
+            a.id = 'publication-pseudo'+[i];
+            a.setAttribute ( 'href' , '#');
+            a.innerHTML =  pObjetDunMembre.publication[i].pseudo;
+            span.appendChild(a); 
+
+            var span2 = document.createElement('span');
+            span2.className = 'description';
+            span2.innerHTML = 'Publié le' + ' ' + today; 
+            div1.appendChild(span2);
+
+            var span3 = document.createElement('span');
+            span3.className = 'username cache';
+            span3.innerHTML =  pObjetDunMembre.publication[i].idPublication;
+            div1.appendChild(span3);
+
+            var div2 = document.createElement('div');
+            div2.className = 'box-body';
+            tr.appendChild(div2);
+            
+            var p = document.createElement('p');
+            p.id = 'publication-message'+[i];               
+            p.innerHTML =  pObjetDunMembre.publication[i].message;
+            div2.appendChild(p); 
+        
+
+            var td4 = document.createElement('span4');       
+            td4.setAttribute ( 'style' , 'width: 10%;');
+            div2.appendChild(td4);
+
+            var a4 = document.createElement('a');
+            a4.id = 'amis-info'+[i];
+            a4.setAttribute ( 'href' , '#');
+            a4.className = 'table-link success';        
+            td4.appendChild(a4); 
+
+            var span4 = document.createElement('span');
+            span4.className = 'fa-stack fa-aligne-droite';       
+            a4.appendChild(span4);
+
+            var i1 = document.createElement('i');
+            i1.className = 'fa fa-square fa-stack-2x';
+            span4.appendChild(i1);
+
+            var i2 = document.createElement('i');
+            i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
+            span4.appendChild(i2);
+
+    /*      var div3 = document.createElement('div');
+            div3.className = 'box-footer';
+            div3.setAttribute ( 'style' , "display: block;");
+            tr.appendChild(div3);
+
+            var form = document.createElement('form');
+            form.className = 'box-footer';
+            form.id = 'form-repond-publication';
+            form.setAttribute ( 'style' , "display: block;");
+            div3.appendChild(form);
+
+            
+            var img1 = document.createElement('img');
+            if(pseudo){
+            img1.setAttribute('src','static/images/membres/'+ pObjetDuMembre.publication[i].photoProfile,'alt', 'Alt Text');
+            }
+            img1.setAttribute('src','static/images/membres/default-avatar.png','alt', 'Alt Text');
+            img1.className='img-responsive img-circle img-sm';
+            form.appendChild(img1);
+            
+            var div4 = document.createElement('div');
+            div4.className = 'img-push';
+            form.appendChild(div4);
+            
+            var input = document.createElement('input');
+            input.className = 'form-control input-sm';
+            input.id = 'form-repond-publication';
+            input.setAttribute ( 'type' , 'text', 'placeholder', 'Entrer un commentaire' );
+            div4.appendChild(input);*/
+
+        }
+
+        addRowHandlersPublicationsAmi(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau des publication
+    };
+
+
 
 // -----------------------------------------------------------------------------
 // Cette fonction ajoute un événement onclick à une ligne du tableau 
@@ -1115,67 +1409,129 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+// -----------------------------------------------------------------------------
+// Cette fonction initialise les données d'une publication 
+// sur la page détail d'un post
+// -----------------------------------------------------------------------------
+    function initDetailPost(pObjetDuMembre,pIdPublication) {
+        // affichage des donnees de la publication
+
+        idPublication= pIdPublication;
+        
+    //    var capturePhotoFilePost = window.document.getElementById('capturePhotoFilePost');
+    //    var capturePhotoImgPost = window.document.getElementById('capturePhotoImgPost');
+        console.log('info du membre initDetailPost -- pObjetDuMembre:',pObjetDuMembre);
+        
+        for (var i = 0; i < pObjetDuMembre.publication.length; i++) {
+
+            if (pObjetDuMembre.publication[i].idPublication == idPublication) {
+            //    pseudoPost.innerHTML = pObjetDuMembre.publication[i].pseudo;
+                postPseudo.innerHTML = pObjetDuMembre.publication[i].pseudo;
+                var today = getFormatDate(pObjetDuMembre.publication[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
+                postDate.innerHTML = today;
+                postPhotoProfil.setAttribute('src','static/images/membres/'+pObjetDuMembre.photoProfile);
+                commentairePhotoProfil.setAttribute('src','static/images/membres/'+pObjetDuMembre.photoProfile);
+        //     photoPost.setAttribute('src','static/images/membres/'+pObjetDuMembre.photoCover);
+        
+                postMessage.innerHTML   = pObjetDuMembre.publication[i].message; 
+    
+            }
+            afficherCommentaires(pObjetDuMembre,idPublication);
+        }
+        
+        
+    };
+
+// -----------------------------------------------------------------------------
+// Cette fonction initialise les données d'une publication d'un ami
+// sur la page détail d'un post
+// -----------------------------------------------------------------------------
+    function initDetailPostAmi(pObjetDunMembre,pObjetDuMembre, idPublication) {
+        
+    //    var capturePhotoFilePost = window.document.getElementById('capturePhotoFilePost');
+    //    var capturePhotoImgPost = window.document.getElementById('capturePhotoImgPost');
+        console.log('info du membre initDetailPostAmi -- pObjetDuMembre:',pObjetDuMembre);
+           //     pseudoPost.innerHTML = pObjetDunMembre.pseudo;
+        for (var i = 0; i < pObjetDunMembre.publication.length; i++) {
+
+            if (pObjetDunMembre.publication[i].idPublication == idPublication) {
+            
+                postPseudo.innerHTML = pObjetDunMembre.publication[i].pseudo;
+                var today = getFormatDate(pObjetDunMembre.publication[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
+                postDate.innerHTML = today;
+                postPhotoProfil.setAttribute('src','static/images/membres/'+pObjetDunMembre.publication[i].photoProfile);
+                commentairePhotoProfil.setAttribute('src','static/images/membres/'+pObjetDuMembre.photoProfile); // on met la photo de profil du membre pas de l'ami
+        
+                postMessage.innerHTML   = pObjetDunMembre.publication[i].message; 
+            
+            }
+            afficherCommentairesDunAmi(pObjetDunMembre,idPublication);
+        }
+        
+        
+    };
+
 //************************************************************************************************************
 // Fonction qui affichage sous forme de liste de tous les membres: photo nom prenom pseudo
 //************************************************************************************************************
-var affichageTouslesMembres = function(pObjetDesMembres) { 
-    if (tbodyExisteResultat) {                                   // on verifie si le tableau resultat recherche des membres existe ou pas pour ne pas le créer deux fois
-            console.log('tbodyExisteResultat :',tbodyExisteResultat);
-            document.getElementById('table-resultat-membres').removeChild(tbodyResultat) // retire le tableau du DOM
-    } 
-    tbodyResultat = document.createElement('tbody');
-    tbodyResultat.id = 'resultat-des-membres';
-    document.getElementById('table-resultat-membres').appendChild(tbodyResultat); 
-    tbodyExisteResultat = true;
-    for (var i=0; i < pObjetDesMembres.length; i++) {            
-    
-        var today = getFormatDate(pObjetDesMembres[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
+    var affichageTouslesMembres = function(pObjetDesMembres) { 
+        if (tbodyExisteResultat) {                                   // on verifie si le tableau resultat recherche des membres existe ou pas pour ne pas le créer deux fois
+                console.log('tbodyExisteResultat :',tbodyExisteResultat);
+                document.getElementById('table-resultat-membres').removeChild(tbodyResultat) // retire le tableau du DOM
+        } 
+        tbodyResultat = document.createElement('tbody');
+        tbodyResultat.id = 'resultat-des-membres';
+        document.getElementById('table-resultat-membres').appendChild(tbodyResultat); 
+        tbodyExisteResultat = true;
+        for (var i=0; i < pObjetDesMembres.length; i++) {            
         
-// Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
+            var today = getFormatDate(pObjetDesMembres[i].dateCreation);     // on met la date au bon format JJ/MM/AAAA
+            
+    // Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
 
-        var tr = document.createElement('tr');
-        document.getElementById('resultat-des-membres').appendChild(tr);      
-    
-        var td = document.createElement('td');
-        tr.appendChild(td);
-
-        var img = document.createElement('img');
-        img.setAttribute('src','static/images/membres/'+ pObjetDesMembres[i].photoProfile,'alt', 'image');
-        img.className='img-circle';
-        td.appendChild(img);
+            var tr = document.createElement('tr');
+            document.getElementById('resultat-des-membres').appendChild(tr);      
         
-        var a = document.createElement('a');
-        a.id = 'resultat-pseudo'+[i];
-        a.setAttribute ( 'href' , '#');
-        a.className = 'user-link';
-        a.innerHTML =  pObjetDesMembres[i].pseudo;
-        td.appendChild(a); 
+            var td = document.createElement('td');
+            tr.appendChild(td);
 
-        var span = document.createElement('span');
-        span.className = 'user-subhead';
-        span.innerHTML = pObjetDesMembres[i].profil;
-        td.appendChild(span);
+            var img = document.createElement('img');
+            img.setAttribute('src','static/images/membres/'+ pObjetDesMembres[i].photoProfile,'alt', 'image');
+            img.className='img-circle';
+            td.appendChild(img);
+            
+            var a = document.createElement('a');
+            a.id = 'resultat-pseudo'+[i];
+            a.setAttribute ( 'href' , '#');
+            a.className = 'user-link';
+            a.innerHTML =  pObjetDesMembres[i].pseudo;
+            td.appendChild(a); 
 
-        var td1 = document.createElement('td'); 
-        td1.className = 'text-center'; 
-        td1.id= 'resultat-nom'+[i];
-        td1.innerHTML =  pObjetDesMembres[i].nom;  
-        tr.appendChild(td1);
+            var span = document.createElement('span');
+            span.className = 'user-subhead';
+            span.innerHTML = pObjetDesMembres[i].profil;
+            td.appendChild(span);
 
-        var td2 = document.createElement('td'); 
-        td2.className = 'text-center'; 
-        td2.id= 'resultat-prenom'+[i];
-        td2.innerHTML =  pObjetDesMembres[i].prenom;   
-        tr.appendChild(td2);
+            var td1 = document.createElement('td'); 
+            td1.className = 'text-center'; 
+            td1.id= 'resultat-nom'+[i];
+            td1.innerHTML =  pObjetDesMembres[i].nom;  
+            tr.appendChild(td1);
 
-        var td3 = document.createElement('td');
-        td3.className = 'text-center'; 
-        td3.id= 'resultat-date'+[i];
-        td3.innerHTML = today;   
-        tr.appendChild(td3);    
-    }
-    addRowHandlersAmisSelect(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
-};
+            var td2 = document.createElement('td'); 
+            td2.className = 'text-center'; 
+            td2.id= 'resultat-prenom'+[i];
+            td2.innerHTML =  pObjetDesMembres[i].prenom;   
+            tr.appendChild(td2);
+
+            var td3 = document.createElement('td');
+            td3.className = 'text-center'; 
+            td3.id= 'resultat-date'+[i];
+            td3.innerHTML = today;   
+            tr.appendChild(td3);    
+        }
+        addRowHandlersAmisSelect(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
+    };
     
 // -----------------------------------------------------------------------------
 // Cette fonction ajoute un événement onclick à une ligne du tableau 
@@ -2408,8 +2764,10 @@ var affichageAmisPourAdministrateur = function(pObjetDunMembre, pObjetDuMembre) 
     versProfilAmi.addEventListener('click', function (event) { 
         console.log('click vers mur de profile ami');  
         // affichage des donnees de la page du mur de profile d'un ami du membre
+        indicateurMurAmi = true;
         initMurProfil(objetDunMembre);
         affichageListeAmisDunAmi(objetDunMembre);
+        afficherPublicationsDunAmi(objetDunMembre);
         profilDuMembre.style.display ='none';
         profilDunAmi.style.display = 'block';
         blockMurProfile.style.display = 'block';                     
@@ -2422,6 +2780,7 @@ var affichageAmisPourAdministrateur = function(pObjetDunMembre, pObjetDuMembre) 
     idRevenirSurMonProfil.addEventListener('click', function (event) { 
         console.log('click vers mur de profile ami');  
         // affichage des donnees de la page du mur de profile du membre
+        indicateurMurAmi = false;
         initMurProfil(objetDuMembre);
         affichageListeAmis(objetDuMembre);
         afficherPublications(objetDuMembre);
@@ -2441,25 +2800,28 @@ var affichageAmisPourAdministrateur = function(pObjetDunMembre, pObjetDuMembre) 
 // ***********************************************************************************************************
     formPublication.addEventListener('submit', function (event) { 
         event.preventDefault(); 
-        window.scrollTo(0,0);  
-
-    // Récupération d'une photo publiée
-  /*      if (capturePhotoFile.value.length){                                                                 // Si une image a été choisie 
-            objetDuMembre.photoProfile = capturePhotoFile.value.split('C:\\fakepath\\')[1];                // On ne garde que le nom de l'image pour la BDD
-            siofu.submitFiles(capturePhotoFile.files);                                                    // Alors on la transfère vers le serveur
-        } else {
-            objetDuMembre.photoProfile = capturePhotoImg.getAttribute('src').split('static/images/membres/')[1]; 
-        }*/
-
-    //   Mise en forme pour transmission au serveur des données saisies 
+        window.scrollTo(0,0); 
         let objetPublication = {};
-        objetPublication.message    = publication.value;
-        objetPublication.pseudo     = objetDuMembre.pseudo;
-        objetPublication.photoProfile = objetDuMembre.photoProfile;
-        
-        console.log("objetDuMembre avant envoie au serveur web publication",objetPublication);
+        let objetMembre = {}; 
+        if(indicateurMurAmi == true) {
+    
+            objetMembre = objetDunMembre;
+        }
+        else {
+    
+            objetMembre = objetDuMembre
+        }
 
-        webSocketConnection.emit('controlePublication',objetPublication, objetDuMembre);  // Transmission au serveur de la publication saisie et de l'objetDuMembre
+        objetPublication.pseudo     = objetDuMembre.pseudo;
+        objetPublication.photoProfile = objetDuMembre.photoProfile; 
+        objetPublication.message    = publication.value;
+    
+        publication.value ='';
+        
+        console.log("objetPublication avant envoie au serveur web publication",objetPublication);
+        console.log("objetDuMembre avant envoie au serveur web publication",objetMembre);
+
+        webSocketConnection.emit('controlePublication', objetPublication,  objetMembre, objetDuMembre);  // Transmission au serveur de la publication saisie et de l'objetMembre
         
     });
 
@@ -2467,20 +2829,169 @@ var affichageAmisPourAdministrateur = function(pObjetDunMembre, pObjetDuMembre) 
 // Le client reçoit la publication suite à son ajout
 // à lui maintenant d'afficher les publications actualisées
 // ***********************************************************************************************************
-    webSocketConnection.on('sendPublication', function(data) {
-        objetDuMembre = data;
-        console.log('info du membre suite à nouvelle publication-- objetDuMembre:',objetDuMembre);
-        afficherPublications(objetDuMembre);    // affichage des publications
+    webSocketConnection.on('sendPublication', function(infoMembre) {
+        if (indicateurMurAmi == true) {
+            objetDunMembre = infoMembre;
+            console.log('info du membre suite à nouvelle publication-- objetDunMembre:',objetDunMembre);
+            afficherPublicationsDunAmi(objetDunMembre);
+            
+        } else {
+            objetDuMembre = infoMembre;
+            console.log('info du membre suite à nouvelle publication-- objetDuMembre:',objetDuMembre);
+            afficherPublications(objetDuMembre);    // affichage des publication
+        }    
     });
 
+// ***********************************************************************************************************
+// Le client reçoit les données pour afficher un post:
+// ***********************************************************************************************************
+    webSocketConnection.on('sendAfficherUnPost', function(data,pIdPublication) {
+        objetDuMembre = data;
+        console.log('info d un membre  -- objetDuMembre:',objetDuMembre);
+        initDetailPost(objetDuMembre, pIdPublication);    // affichage des donnees du post sur la page détail d'un post
+        idPublication = pIdPublication;
+        blockAdministrateur.style.display = 'none';                     
+        blockFormulaire.style.display   = 'none';
+        blockMurProfile.style.display   = 'none';
+        blockProfilMembre.style.display = 'none';  
+        blockDetailMembre.style.display = 'none';   
+        blockPost.style.display         = 'block';
+    }); 
+
+// ***********************************************************************************************************
+// Le client reçoit les données pour afficher un post à partir du mur d'un ami:
+// ***********************************************************************************************************
+    webSocketConnection.on('sendAfficherUnPostAmi', function(infoMembre,pIdPublication) {
         
+        console.log('99999999999999999999999999999', pIdPublication);
+        objetDunMembre = infoMembre;
+        idPublication = pIdPublication;
+        console.log('idPublication  -- idPublication:', idPublication);
+        console.log('info d un membre  -- objetDunMembre:',objetDunMembre);
+        console.log('info du membre  -- objetDuMembre:',objetDuMembre);
+        console.log('inf membre retourné par le serveur -- infoMembre:',infoMembre);
+
+        initDetailPostAmi(objetDunMembre, objetDuMembre, idPublication);    // affichage des donnees du post sur la page détail d'un post
+        afficherCommentairesDunAmi(infoMembre,idPublication);
+        blockAdministrateur.style.display = 'none';                     
+        blockFormulaire.style.display   = 'none';
+        blockMurProfile.style.display   = 'none';
+        blockProfilMembre.style.display = 'none';  
+        blockDetailMembre.style.display = 'none';   
+        blockPost.style.display         = 'block';
+    }); 
+
+
+
+
+
+//***********************************************************************************************************
+// PARTIE POST
+// *********************************************************************************************************** 
+
+// ***********************************************************************************************************
+// click sur lien mon profil on affiche le mur de profil
+// ***********************************************************************************************************
+    idMurPost.addEventListener('click', function (event) { 
+        console.log('click lien vers page mur de profil');         
+        // affichage des donnees de la page administrateur
+        blockAdministrateur.style.display = 'none';                     
+        blockFormulaire.style.display = 'none';
+        blockMurProfile.style.display = 'block';
+        blockProfilMembre.style.display ='none';  
+        blockPost.style.display ='none';     
+    });  
+
+    
+// ***********************************************************************************************************
+// click sur bouton supprimer un post
+// ***********************************************************************************************************
+    supprimePost.addEventListener('click', function (event) { 
+        console.log('click sur supprime poste');     
+        console.log('objetDuMembre:',objetDuMembre);    
+        console.log('idPublication:',idPublication);   
+        if (indicateurMurAmi == true) {
+            webSocketConnection.emit('sendSuppressionPublication', idPublication, objetDunMembre);  // Demande au serveur la liste de tous les membres 
+        } else {
+            webSocketConnection.emit('sendSuppressionPublication', idPublication, objetDuMembre);  // Demande au serveur la liste de tous les membres  
+        }    
+    });
+    
 // ***********************************************************************************************************
 // on reçoit publication supprimée de la liste
 // ***********************************************************************************************************
     webSocketConnection.on('sendSuppressionPublication', function(pInfoMembre) {         
         console.log("publication supprimé avec succès pInfoMembre:",pInfoMembre);
-        objetDuMembre = pInfoMembre;
-        afficherPublications(objetDuMembre);    // affichage des publications
+        if (indicateurMurAmi == true) {
+            objetDunMembre = pInfoMembre;
+            affichageListeAmisDunAmi(objetDunMembre);
+            afficherPublicationsDunAmi(objetDunMembre);    // affichage des publications
+            blockAdministrateur.style.display = 'none';                     
+            blockFormulaire.style.display = 'none';
+            blockMurProfile.style.display = 'block';
+            blockProfilMembre.style.display ='none';  
+            blockPost.style.display ='none'; 
+        } else {
+            objetDuMembre = pInfoMembre;
+            affichageListeAmis(objetDuMembre);
+            afficherPublications(objetDuMembre);    // affichage des publications
+            blockAdministrateur.style.display = 'none';                     
+            blockFormulaire.style.display = 'none';
+            blockMurProfile.style.display = 'block';
+            blockProfilMembre.style.display ='none';  
+            blockPost.style.display ='none';   
+        }    
+        
+    });
+
+// ***********************************************************************************************************
+// Formulaire commenter une publication sur profil d'un memmbre 
+// A l'évènement submit on envoi au serveur les données du formulaire avec le commentaire 
+// ***********************************************************************************************************
+    formPost.addEventListener('submit', function (event) { 
+        event.preventDefault(); 
+        window.scrollTo(0,0); 
+        let objetCommentaire = {};
+        let objetMembre = {}; 
+
+        if(indicateurMurAmi == true) {
+
+            objetMembre = objetDunMembre;
+        }
+        else {
+
+            objetMembre = objetDuMembre
+        }
+
+        objetCommentaire.pseudo         = objetDuMembre.pseudo;
+        objetCommentaire.photoProfile   = objetDuMembre.photoProfile; 
+        objetCommentaire.message        = commentaire.value;
+
+
+        commentaire.value ='';
+        
+        console.log("objetcommentaire avant envoie au serveur web publication",objetCommentaire);
+        console.log("objetMembre avant envoie au serveur web publication",objetMembre);
+
+        webSocketConnection.emit('controleCommentaire', idPublication, objetCommentaire,  objetMembre, objetDuMembre);  // Transmission au serveur du commentaire saisie et de l'objetMembre
+        
+    });
+
+// ***********************************************************************************************************
+// Le client reçoit le commentaire suite à son ajout
+// à lui maintenant d'afficher les commentaires actualisés
+// ***********************************************************************************************************
+    webSocketConnection.on('sendCommentaire', function(infoMembre) {
+        if (indicateurMurAmi == true) {
+            objetDunMembre = infoMembre;
+            console.log('info d un membre suite à nouveau commentaire dans  publication-- objetDunMembre:',objetDunMembre);
+            afficherCommentairesDunAmi(objetDunMembre,idPublication);
+            
+        } else {
+            objetDuMembre = infoMembre;
+            console.log('info du membre suite à nouveau commentaire dans publication-- objetDuMembre:',objetDuMembre);
+            afficherCommentaires(objetDuMembre,idPublication);    // affichage des commentaires
+        }    
     });
 
 //***********************************************************************************************************

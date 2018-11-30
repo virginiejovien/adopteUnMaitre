@@ -32,7 +32,6 @@ const cstMembre = 0;        // Membre standard qui ne peut qu'utiliser la partie
 const constMailFrom = 'adopteUnMaitre@amt.com';    // Adresse "From" du mail
 const constFirstCharString = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'    // Caractères autorisés pour le 1er caractère du PWD
 const constNextCharString = constFirstCharString+'&#$*_-'                                        // Caractères autorisés pour les 11 autres caractères du PWD
-const compteurPublication = -1;
 
 //************************************************************************************************
 // Déclaration des variables globales
@@ -733,21 +732,29 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 // Gestion publication sur le mur de profil
 // - on insère la publication dans le tableau des publications du membre                   
 //************************************************************************************************************ 
-    MemberServer.prototype.miseAjourPublication= function(dataPublication, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    MemberServer.prototype.miseAjourPublication= function(dataPublication, pInfoMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {  
+
         console.log('dataPublication avant MAJ publication de la collection membres',dataPublication); 
+        console.log('pInfoMembre avant MAJ publication de la collection membres',pInfoMembre); 
         console.log('pObjetDuMembre  avant MAJ publication de la collection membres',pObjetDuMembre); 
 
         // mise à jour de l'objet membre 
         //
+        var numberPublication = function getRandom() {  // on veur un nombre aléatoire pour notre IdPublication
+            return Math.random();
+        }
+        
         let dataPost =    {};
         dataPost.message            = dataPublication.message;       // message posté
         dataPost.pseudo             = dataPublication.pseudo;       // pseudo du membre qui l'a posté 
         dataPost.photoProfile       = dataPublication.photoProfile;  // photo de profil du membre qui l'a posté 
-        dataPost.dateCreation       = new Date();       // Timestamp de la création du message
-        dataPost.id                 = compteurPublication ++;       // Timestamp de la création du message
+        dataPost.dateCreation       = new Date();                   // Timestamp de la création du message
+        dataPost.idPublication      = dataPublication.pseudo + numberPublication();       // identifiant de la publication 
+        dataPost.commentaire        = [];
+        console.log('dataPost',dataPost);
 
         this.DBMgr.colMembres.updateOne (
-            {pseudo: pObjetDuMembre.pseudo},  // pseudo membre à qui appartient le mur de profil 
+            {pseudo: pInfoMembre.pseudo},  // pseudo membre à qui appartient le mur de profil 
             {$push:{publication: dataPost }},(error, document) => {
         
             },(error, document) => {
@@ -762,7 +769,7 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
 
         this.DBMgr.colMembres.find(  // on récupérère le document du membre avec la publication mise à jour 
             {
-                pseudo:pObjetDuMembre.pseudo
+                pseudo:pInfoMembre.pseudo
             }
                                 
             ).toArray((error, documents) => {                     
@@ -775,31 +782,187 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
             
                 return false;                     
             }  
-            let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
-            console.log('infoMembre find apres publications et avant envoie',infoMembre)
-            pWebSocketConnection.emit('sendPublication',infoMembre);    // on renvoie au client les donnees du membre mise à jour suite à une publication
+            let pInfoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+
+
+            console.log('infoMembre find apres publications et avant envoie',pInfoMembre)
+            pWebSocketConnection.emit('sendPublication',pInfoMembre);    // on renvoie au client les donnees du membre mise à jour suite à une publication
         }); 
         
+    }; 
+
+//************************************************************************************************************  
+// Gestion commentaire sur un post
+// - on insère le commentaire dans le tableau des commentaires des publications du membre                   
+//************************************************************************************************************ 
+MemberServer.prototype.miseAjourCommentaire= function(idPublication, dataCommentaire, pInfoMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {  
+    console.log('idPublication avant MAJ publication de la collection membres',idPublication); 
+    console.log('dataCommentaire avant MAJ publication de la collection membres',dataCommentaire); 
+    console.log('pInfoMembre avant MAJ publication de la collection membres',pInfoMembre); 
+    console.log('pObjetDuMembre  avant MAJ publication de la collection membres',pObjetDuMembre); 
+
+    // mise à jour de l'objet membre 
+    //
+    var numberCommentaire = function getRandom() {  // on veur un nombre aléatoire pour notre IdCommentaire
+        return Math.random();
+    }
+    
+    let dataPost =    {};
+    dataPost.message            = dataCommentaire.message;       // message posté
+    dataPost.pseudo             = dataCommentaire.pseudo;       // pseudo du membre qui l'a posté 
+    dataPost.photoProfile       = dataCommentaire.photoProfile;  // photo de profil du membre qui l'a posté 
+    dataPost.dateCreation       = new Date();                   // Timestamp de la création du message
+    dataPost.idCommentaire      = dataCommentaire.pseudo + numberCommentaire();       // identifiant de la publication 
+    console.log('dataPost',dataPost);
+
+    this.DBMgr.colMembres.updateOne (
+        {pseudo: pInfoMembre.pseudo,  // pseudo membre à qui appartient le mur de profil 
+        publication: { $elemMatch :             // 2ème opérateur: on se place dans la publication correspondant au pseudo qui a publié le poste
+                        {idPublication:idPublication}
+                    }
+            },
+            {   $push:{ 
+                "publication.$.commentaire":dataPost  // on met l'objet commentaire dans la publication concernée
+                    }
+        },(error, document) => {
+
+        if (error) {
+            console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+            throw error;
+        }          
+        
+            console.log('update ok commentaires dans une publication dans le document du membre');
+        }); 
+
+    this.DBMgr.colMembres.find(  // on récupérère le document du membre avec la publication mise à jour 
+        {
+            pseudo:pInfoMembre.pseudo
+        }
+                            
+        ).toArray((error, documents) => {                     
+        if (error) {
+            console.log('Erreur de find dans collection colMembres',error);
+            throw error;
+        }                                
+        if (!documents.length) { 
+            console.log('erreur find du membre on ne retrouve pas le membre demandeur on observe le  documents',documents);
+        
+            return false;                     
+        }  
+        let pInfoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+
+
+        console.log('infoMembre find apres commentaires dans une publication et avant envoie',pInfoMembre)
+        pWebSocketConnection.emit('sendCommentaire',pInfoMembre);    // on renvoie au client les donnees du membre mise à jour suite à un commentaire dans une  publication
+    }); 
+    
+}; 
+
+//************************************************************************************************************  
+// Gestion afficher le post
+// - on récupère l'id de la publication             
+//************************************************************************************************************ 
+    MemberServer.prototype.afficherPost = function(pDataIdPublication, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pDataIdPublication avant find publication dans la collection membres',pDataIdPublication); 
+        console.log('pObjetDuMembre avant find publication dans la collection membres',pObjetDuMembre); 
+
+        // Affichage du message dans l'objet publication du membre
+
+        console.log('pDataIdPublication',pDataIdPublication);
+        this.DBMgr.colMembres.find(  // on récupérère le document du membre receveur mis à jour 
+            {
+                pseudo:pObjetDuMembre.pseudo,
+            
+                publication: { $elemMatch :                // 2ème opérateur: on sélectionne le membre demandeur dans la liste des amis  
+                        {idPublication:pDataIdPublication}
+                    }
+            },
+            {
+                
+            }
+            
+            ).toArray((error, documents) => {     
+
+            if (error) {
+                console.log('Erreur de find dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            
+            console.log('find ok la publication a été trouvée');
+        
+            if (!documents.length) { 
+                console.log('erreur find du membre dans recuperation d un post on ne retrouve pas le membre  on observe le  documents',documents);
+            
+                return false;                     
+            }  
+            let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+            console.log('infoMembre apres récupération publication dans la collection membres',infoMembre); 
+            pWebSocketConnection.emit('sendAfficherUnPost',infoMembre,pDataIdPublication);    // on renvoie au client les données de la publication
+        }); 
+    }; 
+
+//************************************************************************************************************  
+// Gestion afficher le post à partir du mur d'un ami
+// - on récupère l'id de la publication             
+//************************************************************************************************************ 
+    MemberServer.prototype.afficherPostAmi= function(pDataIdPublication, pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pDataIdPublication avant find publication dans la collection membres',pDataIdPublication); 
+        console.log('pObjetDuMembre avant find publication dans la collection membres',pObjetDunMembre); 
+
+        // Affichage du message dans l'objet publication du membre
+
+        console.log('pDataIdPublication',pDataIdPublication);
+        this.DBMgr.colMembres.find(  // on récupérère le document du membre receveur mis à jour 
+            {
+                pseudo:pObjetDunMembre.pseudo,
+            
+                publication: { $elemMatch :                // 2ème opérateur: on sélectionne le membre demandeur dans la liste des amis  
+                        {idPublication:pDataIdPublication}
+                    }
+            },
+            {
+                
+            }
+            
+            ).toArray((error, documents) => {     
+
+            if (error) {
+                console.log('Erreur de find dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            
+            console.log('find ok la publication a été trouvée');
+        
+            if (!documents.length) { 
+                console.log('erreur find du membre dans recuperation d un post on ne retrouve pas le membre  on observe le  documents',documents);
+            
+                return false;                     
+            }  
+            let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+            console.log('infoMembre apres récupération publication dans la collection membres post ami',infoMembre); 
+            pWebSocketConnection.emit('sendAfficherUnPostAmi',infoMembre,pDataIdPublication);    // on renvoie au client les données de la publication
+        }); 
     }; 
 
 //************************************************************************************************************  
 // Gestion suppression publication sur un mur de profil
 // - le membre supprime une publication : la publication  est retirée de la liste des publications              
 //************************************************************************************************************ 
-    MemberServer.prototype.suppressionPublication = function(pDataPseudo, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
-        console.log('pDataPseudo avant MAJ suppression publication dans la collection membres',pDataPseudo); 
+    MemberServer.prototype.suppressionPublication = function(pDataIdPublication, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+        console.log('pDataIdPublication avant MAJ suppression publication dans la collection membres',pDataIdPublication); 
         console.log('pObjetDuMembre avant MAJ suppression publication dans la collection membres',pObjetDuMembre); 
 
         // mise à jour de l'objet publication du membre
 
         //on supprime la publication de la liste des publications
-
+        
+        console.log('pDataIdPublication',pDataIdPublication);
         this.DBMgr.colMembres.updateOne (
             {
                 pseudo:pObjetDuMembre.pseudo,  
             },
             {   
-                $pull:{publication:{pseudo:pDataPseudo}}  // on supprime la publication avec le pseudo à l'origine de la publication 
+                $pull:{publication:{idPublication: pDataIdPublication}} // on supprime la publication qui à valeur de la pDataIdPublication
 
             },(error, document) => {
 
@@ -829,6 +992,7 @@ MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse,
                 return false;                     
             }  
             let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+            console.log('infoMembre apres suppression publication dans la collection membres',infoMembre); 
             pWebSocketConnection.emit('sendSuppressionPublication',infoMembre);    // on renvoie au client les donnees du membre mise à jour suite à la suppression d'une publication
         }); 
     }; 

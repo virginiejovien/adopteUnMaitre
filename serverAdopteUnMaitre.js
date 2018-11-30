@@ -205,16 +205,34 @@ vDBMgr.checkDBConnect()
 // Gestion des publications
 //************************************************************************************************************ 
     // Reception du formulaire publication
-        webSocketConnection.on('controlePublication', function (dataPublication, objetDuMembre) {  
+        webSocketConnection.on('controlePublication', function (dataPublication, objetMembre, objetDuMembre) {  
             console.log('dataPublication ce que reçoit le serveur avant partir memberServer',dataPublication);
-            vMemberServer.miseAjourPublication(dataPublication, objetDuMembre, webSocketConnection, socketIo);
+            vMemberServer.miseAjourPublication(dataPublication, objetMembre, objetDuMembre, webSocketConnection, socketIo);
         });  
         
-         // Reception d'un suppression publication
-         webSocketConnection.on('sendSuppressionAmiPublication', function (dataPseudo, objetDuMembre) {  
-            console.log('dataPseudo avant suppression publication ce que reçoit le serveur avant partir memberServer',dataPseudo);
-            vMemberServer.suppressionPublication(dataPseudo, objetDuMembre, webSocketConnection, socketIo);
+        // Reception d'afficher un post
+        webSocketConnection.on('sendAfficherPost', function (dataIdPublication, objetDuMembre) {  
+            console.log('dataIdPublication avant afficher le post ce que reçoit le serveur avant partir memberServer',dataIdPublication);
+            vMemberServer.afficherPost(dataIdPublication, objetDuMembre, webSocketConnection, socketIo);
+        }); 
+
+        // Reception d'afficher un post
+        webSocketConnection.on('sendAfficherPostAmi', function (dataIdPublication, objetDunMembre, objetDuMembre) {  
+            console.log('dataIdPublication avant afficher le post ce que reçoit le serveur avant partir memberServer',dataIdPublication);
+            vMemberServer.afficherPostAmi(dataIdPublication, objetDunMembre, objetDuMembre, webSocketConnection, socketIo);
+        }); 
+
+        // Reception d'un suppression publication
+        webSocketConnection.on('sendSuppressionPublication', function (dataIdPublication, objetDuMembre) {  
+            console.log('dataIdPublication avant suppression publication ce que reçoit le serveur avant partir memberServer',dataIdPublication);
+            vMemberServer.suppressionPublication(dataIdPublication, objetDuMembre, webSocketConnection, socketIo);
         });  
+
+        webSocketConnection.on('controleCommentaire', function (idPublication, dataCommentaire, objetMembre, objetDuMembre) {  
+            console.log('dataCommentaire ce que reçoit le serveur avant partir memberServer',dataCommentaire);
+            vMemberServer.miseAjourCommentaire(idPublication, dataCommentaire, objetMembre, objetDuMembre, webSocketConnection, socketIo);
+        });  
+
 //************************************************************************************************************  
 // Gestion de la recherche d'amis
 //************************************************************************************************************ 
