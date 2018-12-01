@@ -145,6 +145,10 @@ vDBMgr.checkDBConnect()
     // Reception de la demande de recuperer les donnees du membre dans la collection membres de BDD
     // Envoie par la suite le formulaire d'inscription profile
 
+    // On receptionne les donnees d'un membre pour verifier si le membre et bien un ami
+        webSocketConnection.on('verifierSiAmi', function (objetDuMembre,amisConnectes) {  
+            vMemberServer.verifierSiAmiDansBdd(objetDuMembre,amisConnectes, webSocketConnection, socketIo);
+        }); 
     // Reception de la demande d'aller sur le mur de profil d'un ami
         webSocketConnection.on('afficheMurAmi', function (dataAmi) {  
             vMemberServer.demandeMurAmi(dataAmi, webSocketConnection, socketIo);

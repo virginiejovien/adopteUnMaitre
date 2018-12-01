@@ -2134,9 +2134,9 @@ window.addEventListener('DOMContentLoaded', function() {
     <span class="chat-user-name">Jeferh Smith</span>
     </a>*/
 
-                console.log('je suis dans la boucle connectes mesagerie');
+                console.log('je suis dans la boucle connectes messagerie');
                 var tr = document.createElement('tr');
-                document.getElementById('table-connect-messagrie').appendChild(tr);      
+                document.getElementById('table-connect-messagerie').appendChild(tr);      
 
                 var td = document.createElement('td');
                 tr.appendChild(td);
@@ -2674,28 +2674,78 @@ window.addEventListener('DOMContentLoaded', function() {
 // Le client reçoit les amis connectes
 // à lui maintenant d'afficher les infos de ce membre avec ses données
 // ***********************************************************************************************************
-    webSocketConnection.on('sendAmisConnectes', function(amisConnectes,pCompteurAmisConnectes) {
+    webSocketConnection.on('sendAmisConnectes', function(amisConnectes) {
+        console.log("11111111111111111111111111111111111 je recoit ami connecte" ,amisConnectes);
         console.log('amisConnectes',amisConnectes);
-        objetAmisConnectes.push(amisConnectes[0]);
-        compteurAmisConnectes = pCompteurAmisConnectes;
-        console.log('objetAmisConnectes',objetAmisConnectes);
-        console.log('compteurAmisConnectes',compteurAmisConnectes);
-        affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes);  
-        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes);  
+        console.log('objetAmisConnectes.length',objetAmisConnectes.length);
+        if(objetAmisConnectes.length){
+        for (var i=0; i < objetAmisConnectes.length; i++) { 
+            for (var j=0; j< amisConnectes.length; j++) { 
+                if (amisConnectes[j].pseudo == objetAmisConnectes[i].pseudo) {
+                    return false
+                }
+                objetAmisConnectes.push(amisConnectes[0]);
+                compteurAmisConnectes ++;
+                console.log('objetAmisConnectes',objetAmisConnectes);
+                console.log('compteurAmisConnectes',compteurAmisConnectes);
+                affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes);  
+                affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes);  
+            }
+        }
+        } else {
+            objetAmisConnectes.push(amisConnectes[0]);
+            compteurAmisConnectes ++;
+            console.log('objetAmisConnectes',objetAmisConnectes);
+            console.log('compteurAmisConnectes',compteurAmisConnectes);
+            affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes);  
+            affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes); 
+
+        }
     }); 
+
+// ***********************************************************************************************************
+// Le client reçoit les amis connectes dès qu'ils se connecte
+// à lui maintenant d'afficher les infos de ce membre avec ses données
+// ***********************************************************************************************************
+    webSocketConnection.on('SendMajAmisConnectes', function(amisConnectes) {
+        console.log("222222222222");
+        webSocketConnection.emit('verifierSiAmi',objetDuMembre,amisConnectes);  
+    });
 
 // ***********************************************************************************************************
 // Le client reçoit les amis connectes dès qu'ils se connectent
 // à lui maintenant d'afficher les infos de ce membre avec ses données
 // ***********************************************************************************************************
-    webSocketConnection.on('SendMajAmisConnectes', function(amisConnectes) {
+    webSocketConnection.on('rajoutListeAmi', function(amisConnectes) {
+        console.log('amisConnectes',amisConnectes);
         objetAmisConnectes.push(amisConnectes);
         compteurAmisConnectes ++;
-        console.log('objetAmisConnectes 44444444444444444444444',objetAmisConnectes);
+        console.log('objetAmisConnectes',objetAmisConnectes);
         console.log('compteurAmisConnectes',compteurAmisConnectes);
-       affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes);  
-       affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes);  
-    }); 
+        affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes);  
+        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes);  
+    });
+// ***********************************************************************************************************
+// Le client reçoit les amis decconnectes 
+// mise à jour des données des connectes
+// ***********************************************************************************************************
+    webSocketConnection.on('SendDeconnexionAmi', function(amisDeConnectes) {
+        console.log('amisDeConnectes',amisDeConnectes);
+        for (var i=0; i < objetAmisConnectes.length; i++) { 
+            for (var j=0; j< amisDeConnectes.length; j++) { 
+                if (amisDeConnectes[j].pseudo == objetAmisConnectes[i].pseudo) {
+
+                    objetAmisConnectes[i].statut ="D" // one ne veut plus l'afficher le statut == D comme deconnecte
+                }
+            }
+        }
+        compteurAmisConnectes --;
+        console.log('objetAmisConnectes 1111',objetAmisConnectes);
+        console.log('compteurAmisConnectes',compteurAmisConnectes);
+        affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes);  
+        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes);  
+    });
+
 // ***********************************************************************************************************
 // click sur lien changer son profile on affiche le profile d'inscription
 // ***********************************************************************************************************

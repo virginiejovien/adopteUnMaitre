@@ -271,20 +271,52 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
                     }
 
                     myIndex = this.searchMemberInTableOfMembers('idMember', pWebSocketConnection.id);  // Recherche du visiteur dans le tableau des membres
-                    this.objetPopulation.membres[myIndex].email        = this.membre.email;
-                    this.objetPopulation.membres[myIndex].pseudo       = this.membre.pseudo;
-                    this.objetPopulation.membres[myIndex].mp           = this.membre.mp;
-                    this.objetPopulation.membres[myIndex].oldMp        = this.membre.oldMp;
-                    this.objetPopulation.membres[myIndex].statut       = this.membre.statut;        // Membre= 0, Admin= 1 ou SuperAdmin= 2
-                    this.objetPopulation.membres[myIndex].dateCreation = this.membre.dateCreation;  // Timestamp à la création du membre ds la BDD
-                    console.log('this.objetPopulation apres rajout this.membre',this.objetPopulation);
+            
+                    this.objetPopulation.membres[myIndex].pseudo        = this.membre.pseudo;
+                    this.objetPopulation.membres[myIndex].email         = this.membre.email;
+                    this.objetPopulation.membres[myIndex].mp            = this.membre.mp;
+                    this.objetPopulation.membres[myIndex].mpConfirme    = this.membre.mpConfirme;
+                    this.objetPopulation.membres[myIndex].mpProvisoire  = this.membre.mpProvisoire
+                    this.objetPopulation.membres[myIndex].statut        = this.membre.statut;        // Membre= 0, Admin= 1 ou SuperAdmin= 2
+                    this.objetPopulation.membres[myIndex].dateCreation  = this.membre.dateCreation;  // Timestamp à la création du membre ds la BDD
+                    this.objetPopulation.membres[myIndex].photoProfile  = this.membre.photoProfile;  
+                    this.objetPopulation.membres[myIndex].photoCover    = this.membre. photoCover;  
+                    this.objetPopulation.membres[myIndex].nom           = this.membre.nom;  
+                    this.objetPopulation.membres[myIndex].prenom        = this.membre.prenom;  
+                    this.objetPopulation.membres[myIndex].age           = this.membre.age;  
+                    this.objetPopulation.membres[myIndex].genre         = this.membre.genre;  
+                    this.objetPopulation.membres[myIndex].telephone     = this.membre.telephone;  
+                    this.objetPopulation.membres[myIndex].adresse       = this.membre.adresse;  
+                    this.objetPopulation.membres[myIndex].cp            = this.membre.changePassWord;  
+                    this.objetPopulation.membres[myIndex].ville         = this.membre.ville;  
+                    this.objetPopulation.membres[myIndex].pays          = this.membre.pays;  
+                    this.objetPopulation.membres[myIndex].profil        = this.membre.profil;
+                    this.objetPopulation.membres[myIndex].preference    = this.membre.preference;
+
+                    for (var i=0; i < this.membre.amis.length; i++) { 
+                        
+                        this.objetPopulation.membres[myIndex].amis.push(this.membre.amis[i]);
+                       
+                    }    
+
+                    for (var i=0; i < this.membre.alerte.length; i++) { 
+                        
+                        this.objetPopulation.membres[myIndex].alerte.push(this.membre.alerte[i]);
+                    }    
+                    
+                    for (var i=0; i < this.membre.publication.length; i++) { 
+                        
+                        this.objetPopulation.membres[myIndex].publication.push(this.membre.publication[i]);
+                    }   
+                
+                    console.log('this.objetPopulation apres rajout this.membre 1111',this.objetPopulation);
                     this.addMemberToActiveMembers(myIndex, pSocketIo);           // Le visiteur est bien un membre, on l'ajoute à la liste des membres
-                    console.log("pSocketIo",pSocketIo);   
+                 //   console.log("pSocketIo",pSocketIo);   
                     this.checkAmisConnectes(this.membre, pWebSocketConnection,pSocketIo);
                     pWebSocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
                     pWebSocketConnection.emit('profileConnect', this.membre); // On envoie au client les données de profil du membre  
                     if (this.membre.statut != '0')  {
-                        console.log("this.membre.statut",this.membre.statut);
+                //        console.log("this.membre.statut",this.membre.statut);
                         pWebSocketConnection.emit('disableAdministrateurBtn'); // on envoie au client activation bouton administrateur car le membre est un administrateur
                     }
 
@@ -315,10 +347,11 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
     }
 
 //************************************************************************************************************
-// Vérification que le formulaire de connection du membre est valide:
-// Vérification de l'existence du pseudo et du Mot de passe du  membre dans la BDD adopteunmaitre
-// - Si le mot de passe et le pseudo n'existe pas : on envoie au client "messageNoConnection"
-// - Sinon on a bien un membre:  on demande au client activation bouton deconnexion et affichage profil
+// Vérification si un ami est connecté dès qu'un membre se connecte :
+// on recherche dans le tableau des membres du server
+// - Si on trouve un ami connecté
+//      - on récupère les donnees de l'ami
+//      - on envoie à l'ami les donnees du membre nouvellement connecté pour qu'il sache qu'il est connecté
 //************************************************************************************************************
     MemberServer.prototype.checkAmisConnectes = (pObjetDuMembre, pWebSocketConnection, pSocketIo) => {
         console.log('je suis dans recherche amis connectes');
@@ -333,36 +366,49 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
         objetDuMembrePourAmi.pseudo         = pObjetDuMembre.pseudo;
         objetDuMembrePourAmi.statut         = "C";
 
-        
         for (var i=0; i < pObjetDuMembre.amis.length; i++) { 
             
             let myIndex = this.searchMemberInTableOfMembers('pseudo', pObjetDuMembre.amis[i].pseudo);
+
             console.log('*** myIndex boucle récupération amis connectes myIndex ***', myIndex);
-            if (myIndex !== -1){                // Si membre trouvé dans la table des membres connectés, on le rejette, sinon, on le connecte
+            if (myIndex !== -1) {                // Si membre trouvé dans la table des membres connectés, on le garde 
                 console.log('amis connectés',pObjetDuMembre.amis[i].pseudo );
                     amiConnectes.push(pObjetDuMembre.amis[i]);
                     compteurAmisConnectés ++;   
                 console.log('compteurAmis Connectés amis connectés',compteurAmisConnectés);   
-                pWebSocketConnection.emit('sendAmisConnectes', amiConnectes,compteurAmisConnectés); // On envoie au client les données de profil du membre  *
-                socketAmi =this.objetPopulation.membres[myIndex].idMember;
-                pSocketIo.to(socketAmi).emit('SendMajAmisConnectes',objetDuMembrePourAmi);  
+                pWebSocketConnection.emit('sendAmisConnectes', amiConnectes,compteurAmisConnectés); // On envoie au client les données des amis connectés
+                socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
+                pSocketIo.to(socketAmi).emit('SendMajAmisConnectes',objetDuMembrePourAmi);  // On envoie au client les données du membre aux amis déjà connectés
             }  
-
         }
-   /*     myIndex = this.searchMemberInTableOfMembers('idMember', pWebSocketConnection.id);  // Recherche du visiteur dans le tableau des membres
-        this.objetPopulation.membres[myIndex].email        = this.membre.email;
-        this.objetPopulation.membres[myIndex].pseudo       = this.membre.pseudo;
-        this.objetPopulation.membres[myIndex].mp           = this.membre.mp;
-        this.objetPopulation.membres[myIndex].oldMp        = this.membre.oldMp;
-        this.objetPopulation.membres[myIndex].statut       = this.membre.statut;        // Membre= 0, Admin= 1 ou SuperAdmin= 2
-        this.objetPopulation.membres[myIndex].dateCreation = this.membre.dateCreation;  // Timestamp à la création du membre ds la BDD
-        console.log('this.objetPopulation apres rajout this.membre',this.objetPopulation);
-        this.addMemberToActiveMembers(myIndex, pSocketIo);           // Le visiteur est bien un membre, on l'ajoute à la liste des membres
-        console.log("pSocketIo",pSocketIo);   
-        pWebSocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
-        pWebSocketConnection.emit('profileConnect', this.membre); // On envoie au client les données de profil du membre  */
-
     };
+
+//************************************************************************************************************  
+// A chaque déconnection d'un membre on envoie à ses amis qu'il vient de se déconnecter:  
+//************************************************************************************************************ 
+    MemberServer.prototype.UpdateDisplayAmisConnect = function(membre,pWebSocketConnection, pSocketIo) {
+    
+        let amiDeConnectes = [];
+        let socketAmi;
+        
+    // Le visiteur qui se deconnecte était un membre on va récupérer sa liste d'amis 
+                console.log("this.objetPopulation.membres[myIndex].isMember dans le UpdateDisplayAmisConnec ---membre", membre);
+        for (var i=0; i < membre.amis.length; i++) { 
+            console.log("apres for (var i=0; i < membre.amis.length; i++)");
+            membre.amis[i].pseudo;
+            let myIndex = this.searchMemberInTableOfMembers('pseudo',membre.amis[i].pseudo);
+            console.log('*** myIndex boucle récupération amis connectes myIndex pour un membre deconnecte et membre.amis[i].pseudo***', myIndex, membre.amis[i].pseudo);
+
+            if (myIndex !== -1) {                // Si membre trouvé dans la table des membres connectés, on le garde 
+                console.log('amis connectés this.objetPopulation.membres[myIndex].pseudo dans deconnection membre', this.objetPopulation.membres[myIndex].pseudo);
+                amiDeConnectes.push(membre);
+                socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
+                pSocketIo.to(socketAmi).emit('SendDeconnexionAmi',amiDeConnectes);  // On envoie au client les données du membre deconnectés aux amis connectés
+    
+            }
+        }
+
+    }
 
 //************************************************************************************************************
 // Vérification que le formulaire d'inscription du futur membre est valide:
@@ -820,6 +866,38 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 
             pWebSocketConnection.emit('sendPublication',pInfoMembre);    // on renvoie au client les donnees du membre mise à jour suite à une publication
         }); 
+        
+    }; 
+
+//************************************************************************************************************  
+// Verifier si le membre connecté est un ami et qu'il a bien le statut confirmé = "C"                  
+//************************************************************************************************************ 
+    MemberServer.prototype.verifierSiAmiDansBdd= function(pObjetDuMembre, pAmisConnectes, pWebSocketConnection, pSocketIo) {   
+        // retrouver le membre connecté dans les amis du membre
+        //statut  = confirme
+
+            this.DBMgr.colMembres.find(  // on récupérère le document du membre 
+                {
+                    pseudo:pObjetDuMembre.pseudo,
+                
+                    amis: { $elemMatch :                // 2ème opérateur: on sélectionne le membre demandeur dans la liste des amis  
+                            {pseudo:pAmisConnectes.pseudo}
+                        }
+                }
+                                    
+                ).toArray((error, documents) => {                     
+                if (error) {
+                    console.log('Erreur de find dans collection colMembres',error);
+                    throw error;
+                }                                
+                if (!documents.length) { 
+
+                    return false;                     
+                }  
+                let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+                console.log('c est bien un ami amiconnecte est un ami',pAmisConnectes);
+                pWebSocketConnection.emit('rajoutListeAmi',pAmisConnectes);    // on renvoie au client la confirmation que c'est bien un ami
+            }); 
         
     }; 
 
@@ -1828,9 +1906,13 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // Deconnexion d'un visiteur et eventuellement d'un membre  :
 // ***********************************************************************************************************
     MemberServer.prototype.disconnectMember = function(pWebSocketConnection, pSocketIo){
+        
+       
         let myIndex = this.searchMemberInTableOfMembers('idMember' ,pWebSocketConnection.id);
 
         if (this.objetPopulation.membres[myIndex].isMember){                    // Le visiteur qui se deconnecte était un membre
+            this.UpdateDisplayAmisConnect(this.objetPopulation.membres[myIndex], pWebSocketConnection, pSocketIo);     // verification si membre et ses amis connectés
+            console.log(' apres UpdateDisplayAmisConnect');
             this.objetPopulation.nbrMembersInSession--;                         // Nombre de visiteurs incluant les [membres + Admins]
             
             if (this.objetPopulation.membres[myIndex].role < cstMembre){    // Il s'agit obligatoiremennt d'un Admin ou Super-Admin
