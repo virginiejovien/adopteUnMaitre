@@ -992,231 +992,186 @@ nav#top.navbar.navbar-white.navbar-fixed-top
 // ****************************************************************************************
 // Begin page content
 #mur-profile.row.page-content
-  .col-md-8.col-md-offset-2
-    .row
-      .col-md-12
-        .cover.profile
-          .wrapper
-            .image
-              img#mur-photo-cover.show-in-modal(src='' alt='people')
-            ul.friends
-              li
+  .row
+    .col-md-8.col-md-offset-2
+      .row
+        .col-md-12
+          .cover.profile
+            .wrapper
+              .image
+                img#mur-photo-cover.show-in-modal(src='' alt='people')
+              ul.friends
+                li
+                  a(href='#')
+                    img.img-responsive(src='static/images/favicon.png' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='static/images/favicon.png' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='static/images/favicon.png' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='static/images/favicon.png' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='static/images/favicon.png' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='static/images/favicon.png' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='static/images/favicon.png' alt='people')
+                li
+                  a(href='#')
+                    img.img-responsive(src='static/images/favicon.png' alt='people')
+                li
+                  a.group(href='#')
+                    i.fa.fa-group
+            .cover-info
+              .avatar
+                img#mur-photo-profile(src='' alt='people')
+              #mur-pseudo.name
                 a(href='#')
-                  img.img-responsive(src='static/images/favicon.png' alt='people')
-              li
-                a(href='#')
-                  img.img-responsive(src='static/images/favicon.png' alt='people')
-              li
-                a(href='#')
-                  img.img-responsive(src='static/images/favicon.png' alt='people')
-              li
-                a(href='#')
-                  img.img-responsive(src='static/images/favicon.png' alt='people')
-              li
-                a(href='#')
-                  img.img-responsive(src='static/images/favicon.png' alt='people')
-              li
-                a(href='#')
-                  img.img-responsive(src='static/images/favicon.png' alt='people')
-              li
-                a(href='#')
-                  img.img-responsive(src='static/images/favicon.png' alt='people')
-              li
-                a(href='#')
-                  img.img-responsive(src='static/images/favicon.png' alt='people')
-              li
-                a.group(href='#')
-                  i.fa.fa-group
-          .cover-info
-            .avatar
-              img#mur-photo-profile(src='' alt='people')
-            #mur-pseudo.name
-              a(href='#')
-            ul#profilDuMembre.cover-nav
-              li
-                a#idProfileChange(href='#')
-                  i.fa.fa-fw.fa-bars
-                  | Changer son profil
-              li
-                a#idRechercheAmis(href='#')
-                  i.fa.fa-fw.fa-users
-                  |  Recherche d&apos;amis
-              li
-                a#idDiscussions(href='#')
-                  i.fa.fa-fw.fa-image
-                  |  Discussions
-            ul#profilDunAmi.cover-nav
-              li
-                a#idRevenirSurMonProfil(href='#')
-                  i.fa.fa-fw.fa-bars
-                  | Revenir sur son profil
-    .row
-      .col-md-6
-        .widget
-          .widget-header
-            h3.widget-caption A propos
-          .widget-body.bordered-top.bordered-sky
-            ul.list-unstyled.profile-about.margin-none
-              li.padding-v-5
-                .row
-                  .col-sm-4
-                    span.text-muted Age
-                  #mur-age.col-sm-8
-              li.padding-v-5
-                .row
-                  .col-sm-4
-                    span.text-muted Profil
-                  #mur-profil.col-sm-8
-              li.padding-v-5
-                .row
-                  .col-sm-4
-                    span.text-muted Genre
-                  #mur-genre.col-sm-8
-              li.padding-v-5
-                .row
-                  .col-sm-4
-                    span.text-muted Habite
-                  #mur-ville.col-sm-8
-              li.padding-v-5
-                .row
-                  .col-sm-4
-                    span.text-muted Email
-                  #mur-email.col-sm-8 249
-        .widget.widget-friends
-          .widget-header
-            h3.widget-caption Pr&eacute;f&eacute;rences
-          .widget-body.bordered-top.bordered-sky
-            ul.list-unstyled.profile-about.margin-none
-              li.padding-v-5
-                .row
-                  #mur-preference.col-sm-12
-        // - Début liste d'amis
-        .widget.widget-friends
-          .widget-header
-            .row
-              .col-md-5.col-sm-5.col-xs-5
-                .widget-header
-                  h3.widget-caption Amis confirm&eacute;s
-              form#form-filtre-amis.needs-validation
-                .col-md-6.col-sm-6.col-xs-6.collapse.in
-                  .form-group
-                    span.input-icon
-                      input#caractere-filtre.light-table-filter.form-control.input-xs.position-search-ami-mur(type='search' name='caractere' data-table='order-table' maxlength='21' size='21' placeholder='Rechercher un ami' pattern="^[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{0,21}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 1 et 21 caractères')
-                      i.glyphicon.glyphicon-search.darkorange
-                .col-md-1.col-sm-1.col-xs-1
-          .widget-body.bordered-top.bordered-sky
-            .row
-              .col-md-12
-                .widget
-                  .table-responsive
-                    table#table-liste-amis.order-table.table.table.user-list
+              ul#profilDuMembre.cover-nav
+                li
+                  a#idProfileChange(href='#')
+                    i.fa.fa-fw.fa-bars
+                    | Changer son profil
+                li
+                  a#idRechercheAmis(href='#')
+                    i.fa.fa-fw.fa-users
+                    |  Recherche d&apos;amis
+                li
+                  a#idDiscussions(href='#')
+                    i.fa.fa-fw.fa-image
+                    |  Discussions
+              ul#profilDunAmi.cover-nav
+                li
+                  a#idRevenirSurMonProfil(href='#')
+                    i.fa.fa-fw.fa-bars
+                    | Revenir sur son profil
+      .row
+        .col-md-6
+          .widget
+            .widget-header
+              h3.widget-caption A propos
+            .widget-body.bordered-top.bordered-sky
+              ul.list-unstyled.profile-about.margin-none
+                li.padding-v-5
+                  .row
+                    .col-sm-4
+                      span.text-muted Age
+                    #mur-age.col-sm-8
+                li.padding-v-5
+                  .row
+                    .col-sm-4
+                      span.text-muted Profil
+                    #mur-profil.col-sm-8
+                li.padding-v-5
+                  .row
+                    .col-sm-4
+                      span.text-muted Genre
+                    #mur-genre.col-sm-8
+                li.padding-v-5
+                  .row
+                    .col-sm-4
+                      span.text-muted Habite
+                    #mur-ville.col-sm-8
+                li.padding-v-5
+                  .row
+                    .col-sm-4
+                      span.text-muted Email
+                    #mur-email.col-sm-8 249
+          .widget.widget-friends
+            .widget-header
+              h3.widget-caption Pr&eacute;f&eacute;rences
+            .widget-body.bordered-top.bordered-sky
+              ul.list-unstyled.profile-about.margin-none
+                li.padding-v-5
+                  .row
+                    #mur-preference.col-sm-12
+          // - Début liste d'amis
+          .widget.widget-friends
+            .widget-header
+              .row
+                .col-md-5.col-sm-5.col-xs-5
+                  .widget-header
+                    h3.widget-caption Amis confirm&eacute;s
+                form#form-filtre-amis.needs-validation
+                  .col-md-6.col-sm-6.col-xs-6.collapse.in
+                    .form-group
+                      span.input-icon
+                        input#caractere-filtre.light-table-filter.form-control.input-xs.position-search-ami-mur(type='search' name='caractere' data-table='order-table' maxlength='21' size='21' placeholder='Rechercher un ami' pattern="^[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{0,21}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 1 et 21 caractères')
+                        i.glyphicon.glyphicon-search.darkorange
+                  .col-md-1.col-sm-1.col-xs-1
+            .widget-body.bordered-top.bordered-sky
+              .row
+                .col-md-12
+                  .widget
+                    .table-responsive
+                      table#table-liste-amis.order-table.table.table.user-list
+                        thead
+                          tr
+                            th
+                              span Membres
+                            th
+                              span Noms
+                            th.text-center
+                              span Pr&eacute;noms
+                            th &nbsp;
+          // - Fin liste d'amis
+          .widget
+            .widget-header
+              h3.widget-caption Amis recommand&eacute;s ou en attente de confirmation 
+            .widget-body.bordered-top.bordered-sky
+              .row
+                .col-md-12
+                  .widget
+                    .table-responsive
+                      table#table-amis-attente.table.user-list
+                        thead
+                          tr
+                            th
+                              span Membres
+                            th
+                              span Noms
+                            th.text-center
+                              span Pr&eacute;noms
+                            th &nbsp;
+        // Début publication sur le profil
+        .col-md-6
+          .row
+            // left posts
+            .col-md-12
+              .row
+                .col-md-12
+                  // post state form
+                  .box.profile-info.n-border-top
+                    form#form-publication
+                      textarea#publication.form-control.input-lg.p-text-area(type='text' name='publication' rows='2' maxlength='400' placeholder='Exprimez vous' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
+                      .box-footer.box-form
+                        button.btn.btn-azure.pull-right(type='submit') Poster
+                        ul.nav.nav-pills
+                          li
+                            a(href='#')
+                              i.fa.fa-camera
+                  // end post state form
+                  // posts
+                  .box.box-widget
+                    table#table-publications.table.user-list
                       thead
-                        tr
-                          th
-                            span Membres
-                          th
-                            span Noms
-                          th.text-center
-                            span Pr&eacute;noms
-                          th &nbsp;
-        // - Fin liste d'amis
-        .widget
-          .widget-header
-            h3.widget-caption Amis recommand&eacute;s ou en attente de confirmation 
-          .widget-body.bordered-top.bordered-sky
-            .row
-              .col-md-12
-                .widget
-                  .table-responsive
-                    table#table-amis-attente.table.user-list
-                      thead
-                        tr
-                          th
-                            span Membres
-                          th
-                            span Noms
-                          th.text-center
-                            span Pr&eacute;noms
-                          th &nbsp;
-      // Début publication sur le profil
-      .col-md-6
-        .row
-          // left posts
-          .col-md-12
-            .row
-              .col-md-12
-                // post state form
-                .box.profile-info.n-border-top
-                  form#form-publication
-                    textarea#publication.form-control.input-lg.p-text-area(type='text' name='publication' rows='2' maxlength='400' placeholder='Exprimez vous' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
-                    .box-footer.box-form
-                      button.btn.btn-azure.pull-right(type='submit') Poster
-                      ul.nav.nav-pills
-                        li
-                          a(href='#')
-                            i.fa.fa-camera
-                // end post state form
-                // posts
-                .box.box-widget
-                  table#table-publications.table.user-list
-                    thead
-            // end left posts
-        // end timeline posts
-  // Online users sidebar content
-  .chat-sidebar
-    .list-group.text-left
-      p.text-center.visible-xs
-        a.hide-chat.btn.btn-success(href='#') Hide
-      p.text-center.chat-title Online users
-      a.list-group-item(href='messages1.html')
-        i.fa.fa-check-circle.connected-status
-        img.img-chat.img-thumbnail(src='static/images/Friends/guy-2.jpg')
-        span.chat-user-name Jeferh Smith
-      a.list-group-item(href='messages1.html')
-        i.fa.fa-times-circle.absent-status
-        img.img-chat.img-thumbnail(src='static/images/Friends/woman-1.jpg')
-        span.chat-user-name Dapibus acatar
-      a.list-group-item(href='messages1.html')
-        i.fa.fa-check-circle.connected-status
-        img.img-chat.img-thumbnail(src='static/images/Friends/guy-3.jpg')
-        span.chat-user-name Antony andrew lobghi
-      a.list-group-item(href='messages1.html')
-        i.fa.fa-check-circle.connected-status
-        img.img-chat.img-thumbnail(src='static/images/Friends/woman-2.jpg')
-        span.chat-user-name Maria fernanda coronel
-      a.list-group-item(href='messages1.html')
-        i.fa.fa-check-circle.connected-status
-        img.img-chat.img-thumbnail(src='static/images/Friends/guy-4.jpg')
-        span.chat-user-name Markton contz
-      a.list-group-item(href='messages1.html')
-        i.fa.fa-times-circle.absent-status
-        img.img-chat.img-thumbnail(src='static/images/Friends/woman-3.jpg')
-        span.chat-user-name Martha creaw
-      a.list-group-item(href='messages1.html')
-        i.fa.fa-times-circle.absent-status
-        img.img-chat.img-thumbnail(src='static/images/Friends/woman-8.jpg')
-        span.chat-user-name Yira Cartmen
-      a.list-group-item(href='messages1.html')
-        i.fa.fa-check-circle.connected-status
-        img.img-chat.img-thumbnail(src='static/images/Friends/woman-4.jpg')
-        span.chat-user-name Jhoanath matew
-      a.list-group-item(href='messages1.html')
-        i.fa.fa-check-circle.connected-status
-        img.img-chat.img-thumbnail(src='static/images/Friends/woman-5.jpg')
-        span.chat-user-name Ryanah Haywofd
-      a.list-group-item(href='messages1.html')
-        i.fa.fa-check-circle.connected-status
-        img.img-chat.img-thumbnail(src='static/images/Friends/woman-9.jpg')
-        span.chat-user-name Linda palma
-      a.list-group-item(href='messages1.html')
-        i.fa.fa-check-circle.connected-status
-        img.img-chat.img-thumbnail(src='static/images/Friends/woman-10.jpg')
-        span.chat-user-name Andrea ramos
-      a.list-group-item(href='messages1.html')
-        i.fa.fa-check-circle.connected-status
-        img.img-chat.img-thumbnail(src='static/images/Friends/child-1.jpg')
-        span.chat-user-name Dora ty bluekl
-  // Online users sidebar content
+              // end left posts
+          // end timeline posts
+    // DEBUT  MEMBRES EN LIGNE content
+    .col-md-2
+      .list-group.text-left
+        p.text-center.chat-title
+          | Amis connect&eacute;s: &nbsp;
+          strong#nb-amis-connectes
+        table#table-amis-connectes.order-table.table.table.user-list
+          thead
+    // FIN MEMBRES EN LIGNE content
   // Modal
   #modalShow.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel')
     .modal-dialog(role='document')
@@ -1506,18 +1461,15 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                     i.fa.fa-format-list-bulleted  
                     | Todo Lists
           .list-group.lg-alt
-            a.list-group-item.media(href='')
-              .pull-left
-                img.img-avatar(src='static/images/Friends/guy-2.jpg' alt='')
-              .media-body
-                small.list-group-item-heading Davil Parnell
-                small.list-group-item-text.c-gray Fierent fastidii recteque ad pro
-            a.list-group-item.media(href='')
-              .pull-left
-                img.img-avatar(src='static/images/Friends/guy-3.jpg' alt='')
-              .media-body
-                .list-group-item-heading Ann Watkinson
-                small.list-group-item-text.c-gray Cum sociis natoque penatibus 
+            // DEBUT  MEMBRES EN LIGNE content
+            .col-md-2
+              .list-group.text-left
+                p.text-center.chat-title
+                  | Amis connect&eacute;s: &nbsp;
+                  strong#nb-amis-connectes-messagerie
+                table#table-amis-connectes-messagerie.order-table.table.table.user-list
+                  thead
+            // FIN MEMBRES EN LIGNE content
             a.list-group-item.media(href='')
               .pull-left
                 img.img-avatar(src='static/images/Friends/guy-4.jpg' alt='')

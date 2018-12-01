@@ -821,309 +821,255 @@
 <!-- **************************************************************************************** -->
   <!-- Begin page content -->
     <div id="mur-profile" class="row page-content">
-      <div class="col-md-8 col-md-offset-2">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="cover profile">
-              <div class="wrapper">
-                <div class="image">
-                  <img id="mur-photo-cover" src="" class="show-in-modal" alt="people">
-                </div>
-                <ul class="friends">
-                  <li>
-                    <a href="#">
-                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img src="static/images/favicon.png" alt="people" class="img-responsive">
-                    </a>
-                  </li>
-                  <li><a href="#" class="group"><i class="fa fa-group"></i></a></li>
-                </ul>
-              </div>
-              <div class="cover-info">
-                <div class="avatar">
-                  <img id="mur-photo-profile" src="" alt="people">
-                </div>
-                <div id="mur-pseudo" class="name"><a href="#"></a></div>
-                <ul id = "profilDuMembre" class="cover-nav">
-                  <li> <a id="idProfileChange" href="#"><i class="fa fa-fw fa-bars"></i>Changer son profil</a></li>               
-                  <li><a id="idRechercheAmis" href="#"><i class="fa fa-fw fa-users"></i> Recherche d'amis</a></li>
-                  <li><a id="idDiscussions" href="#"><i class="fa fa-fw fa-image"></i> Discussions</a></li>
-                </ul>
-                <ul id = "profilDunAmi" class="cover-nav">
-                  <li> <a id="idRevenirSurMonProfil" href="#"><i class="fa fa-fw fa-bars"></i>Revenir sur son profil</a></li>               
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="widget">
-              <div class="widget-header">
-                <h3 class="widget-caption">A propos</h3>
-              </div>
-              <div class="widget-body bordered-top bordered-sky">
-                <ul class="list-unstyled profile-about margin-none">
-                  <li class="padding-v-5">
-                    <div class="row">
-                      <div class="col-sm-4"><span class="text-muted">Age</span></div>
-                      <div class="col-sm-8" id="mur-age"></div>
-                    </div>
-                  </li>
-                  <li class="padding-v-5">
-                    <div class="row">
-                      <div class="col-sm-4"><span class="text-muted">Profil</span></div>
-                      <div class="col-sm-8" id="mur-profil"></div>
-                    </div>
-                  </li>
-                  <li class="padding-v-5">
-                    <div class="row">
-                      <div class="col-sm-4"><span class="text-muted">Genre</span></div>
-                      <div class="col-sm-8" id="mur-genre"></div>
-                    </div>
-                  </li>
-                  <li class="padding-v-5">
-                    <div class="row">
-                      <div class="col-sm-4"><span class="text-muted">Habite</span></div>
-                      <div class="col-sm-8" id="mur-ville"></div>
-                    </div>
-                  </li>
-                  <li class="padding-v-5">
-                    <div class="row">
-                      <div class="col-sm-4"><span class="text-muted">Email</span></div>
-                      <div id="mur-email" class="col-sm-8">249</div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="widget widget-friends">
-              <div class="widget-header">
-                <h3 class="widget-caption">Préférences</h3>
-              </div>
-              <div class="widget-body bordered-top bordered-sky">
-                <ul class="list-unstyled profile-about margin-none">
-                  <li class="padding-v-5">
-                    <div class="row">
-                      <div class="col-sm-12" id="mur-preference"></div>                    
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-        <!--- Début liste d'amis--> 
-      
-            <div class="widget widget-friends">
-              <div class="widget-header">
-                <div class="row">
-                  <div class="col-md-5 col-sm-5 col-xs-5">
-                    <div class="widget-header">
-                        <h3 class="widget-caption">Amis confirmés</h3>
-                    </div>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="cover profile">
+                <div class="wrapper">
+                  <div class="image">
+                    <img id="mur-photo-cover" src="" class="show-in-modal" alt="people">
                   </div>
-                  <form id="form-filtre-amis" class="needs-validation" >
-                    <div class="col-md-6 col-sm-6 col-xs-6 collapse in">
-                      <div class="form-group">
-                        <span class="input-icon">
-                            
-                          <input id="caractere-filtre" type="search" name="caractere"  class="light-table-filter form-control input-xs position-search-ami-mur" data-table="order-table"  maxlength='21' size='21' placeholder="Rechercher un ami" pattern="^[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{0,21}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 1 et 21 caractères">
-                            <i class="glyphicon glyphicon-search darkorange"></i>
-                        </span>
-                      </div>
-                    </div>
-                    <div class="col-md-1 col-sm-1 col-xs-1">
-                      
-                    </div>
-                  </form>
+                  <ul class="friends">
+                    <li>
+                      <a href="#">
+                        <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <img src="static/images/favicon.png" alt="people" class="img-responsive">
+                      </a>
+                    </li>
+                    <li><a href="#" class="group"><i class="fa fa-group"></i></a></li>
+                  </ul>
                 </div>
-              </div>
-              <div class="widget-body bordered-top  bordered-sky">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="widget">
-                      <div class="table-responsive">
-                        <table id="table-liste-amis" class="order-table table table user-list">
-                          <thead>
-                            <tr>
-                              <th><span>Membres</span></th>
-                              <th><span>Noms</span></th>
-                              <th class="text-center"><span>Prénoms</span></th>
-                              <th>&nbsp;</th>
-                            </tr>
-                          </thead>
-                        </table>
-                      </div>
-                    </div>
+                <div class="cover-info">
+                  <div class="avatar">
+                    <img id="mur-photo-profile" src="" alt="people">
                   </div>
-                </div>
-              </div>
-            </div>
-        <!--- Fin liste d'amis--> 
-            <div class="widget">
-              <div class="widget-header">
-                  <h3 class="widget-caption">Amis recommandés ou en attente de confirmation </h3>
-              </div>
-              <div class="widget-body bordered-top  bordered-sky">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="widget">
-                      <div class="table-responsive">
-                        <table id="table-amis-attente" class="table user-list">
-                          <thead>
-                            <tr>
-                              <th><span>Membres</span></th>
-                              <th><span>Noms</span></th>
-                              <th class="text-center"><span>Prénoms</span></th>
-                              <th>&nbsp;</th>
-                            </tr>
-                          </thead>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
+                  <div id="mur-pseudo" class="name"><a href="#"></a></div>
+                  <ul id = "profilDuMembre" class="cover-nav">
+                    <li> <a id="idProfileChange" href="#"><i class="fa fa-fw fa-bars"></i>Changer son profil</a></li>               
+                    <li><a id="idRechercheAmis" href="#"><i class="fa fa-fw fa-users"></i> Recherche d'amis</a></li>
+                    <li><a id="idDiscussions" href="#"><i class="fa fa-fw fa-image"></i> Discussions</a></li>
+                  </ul>
+                  <ul id = "profilDunAmi" class="cover-nav">
+                    <li> <a id="idRevenirSurMonProfil" href="#"><i class="fa fa-fw fa-bars"></i>Revenir sur son profil</a></li>               
+                  </ul>
                 </div>
               </div>
             </div>
           </div>
-
-
-          <!--Début publication sur le profil-->
-          <div class="col-md-6">
-            <div class="row">
-              <!-- left posts-->
-              <div class="col-md-12">
-                <div class="row">
-                  <div class="col-md-12">
-                  <!-- post state form -->
-                    <div class="box profile-info n-border-top">
-                      <form id="form-publication">
-                        <textarea id="publication"  type="text" name="publication" class="form-control input-lg p-text-area" rows="2" maxlength = "400" placeholder="Exprimez vous"  pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères"></textarea>
-  
-                        <div class="box-footer box-form">
-                          <button type="submit" class="btn btn-azure pull-right">Poster</button>
-                          <ul class="nav nav-pills">
-                            <li><a href="#"><i class="fa fa-camera"></i></a>
-                              </li>
-                          </ul>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="widget">
+                <div class="widget-header">
+                  <h3 class="widget-caption">A propos</h3>
+                </div>
+                <div class="widget-body bordered-top bordered-sky">
+                  <ul class="list-unstyled profile-about margin-none">
+                    <li class="padding-v-5">
+                      <div class="row">
+                        <div class="col-sm-4"><span class="text-muted">Age</span></div>
+                        <div class="col-sm-8" id="mur-age"></div>
+                      </div>
+                    </li>
+                    <li class="padding-v-5">
+                      <div class="row">
+                        <div class="col-sm-4"><span class="text-muted">Profil</span></div>
+                        <div class="col-sm-8" id="mur-profil"></div>
+                      </div>
+                    </li>
+                    <li class="padding-v-5">
+                      <div class="row">
+                        <div class="col-sm-4"><span class="text-muted">Genre</span></div>
+                        <div class="col-sm-8" id="mur-genre"></div>
+                      </div>
+                    </li>
+                    <li class="padding-v-5">
+                      <div class="row">
+                        <div class="col-sm-4"><span class="text-muted">Habite</span></div>
+                        <div class="col-sm-8" id="mur-ville"></div>
+                      </div>
+                    </li>
+                    <li class="padding-v-5">
+                      <div class="row">
+                        <div class="col-sm-4"><span class="text-muted">Email</span></div>
+                        <div id="mur-email" class="col-sm-8">249</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="widget widget-friends">
+                <div class="widget-header">
+                  <h3 class="widget-caption">Préférences</h3>
+                </div>
+                <div class="widget-body bordered-top bordered-sky">
+                  <ul class="list-unstyled profile-about margin-none">
+                    <li class="padding-v-5">
+                      <div class="row">
+                        <div class="col-sm-12" id="mur-preference"></div>                    
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+          <!--- Début liste d'amis--> 
+        
+              <div class="widget widget-friends">
+                <div class="widget-header">
+                  <div class="row">
+                    <div class="col-md-5 col-sm-5 col-xs-5">
+                      <div class="widget-header">
+                          <h3 class="widget-caption">Amis confirmés</h3>
+                      </div>
+                    </div>
+                    <form id="form-filtre-amis" class="needs-validation" >
+                      <div class="col-md-6 col-sm-6 col-xs-6 collapse in">
+                        <div class="form-group">
+                          <span class="input-icon">
+                              
+                            <input id="caractere-filtre" type="search" name="caractere"  class="light-table-filter form-control input-xs position-search-ami-mur" data-table="order-table"  maxlength='21' size='21' placeholder="Rechercher un ami" pattern="^[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{0,21}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 1 et 21 caractères">
+                              <i class="glyphicon glyphicon-search darkorange"></i>
+                          </span>
                         </div>
-                      </form>
-                    </div><!-- end post state form -->
-
-                    <!--   posts -->
-                    <div class="box box-widget">
-                        <table id="table-publications" class="table user-list">
+                      </div>
+                      <div class="col-md-1 col-sm-1 col-xs-1">
+                        
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="widget-body bordered-top  bordered-sky">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="widget">
+                        <div class="table-responsive">
+                          <table id="table-liste-amis" class="order-table table table user-list">
                             <thead>
+                              <tr>
+                                <th><span>Membres</span></th>
+                                <th><span>Noms</span></th>
+                                <th class="text-center"><span>Prénoms</span></th>
+                                <th>&nbsp;</th>
+                              </tr>
                             </thead>
-                        </table>
+                          </table>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div><!-- end left posts-->
+                </div>
               </div>
-            </div><!-- end timeline posts-->
+          <!--- Fin liste d'amis--> 
+              <div class="widget">
+                <div class="widget-header">
+                    <h3 class="widget-caption">Amis recommandés ou en attente de confirmation </h3>
+                </div>
+                <div class="widget-body bordered-top  bordered-sky">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="widget">
+                        <div class="table-responsive">
+                          <table id="table-amis-attente" class="table user-list">
+                            <thead>
+                              <tr>
+                                <th><span>Membres</span></th>
+                                <th><span>Noms</span></th>
+                                <th class="text-center"><span>Prénoms</span></th>
+                                <th>&nbsp;</th>
+                              </tr>
+                            </thead>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!--Début publication sur le profil-->
+            <div class="col-md-6">
+              <div class="row">
+                <!-- left posts-->
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                    <!-- post state form -->
+                      <div class="box profile-info n-border-top">
+                        <form id="form-publication">
+                          <textarea id="publication"  type="text" name="publication" class="form-control input-lg p-text-area" rows="2" maxlength = "400" placeholder="Exprimez vous"  pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères"></textarea>
+    
+                          <div class="box-footer box-form">
+                            <button type="submit" class="btn btn-azure pull-right">Poster</button>
+                            <ul class="nav nav-pills">
+                              <li><a href="#"><i class="fa fa-camera"></i></a>
+                                </li>
+                            </ul>
+                          </div>
+                        </form>
+                      </div><!-- end post state form -->
+
+                      <!--   posts -->
+                      <div class="box box-widget">
+                          <table id="table-publications" class="table user-list">
+                              <thead>
+                              </thead>
+                          </table>
+                      </div>
+                    </div>
+                  </div><!-- end left posts-->
+                </div>
+              </div><!-- end timeline posts-->
+            </div>
           </div>
         </div>
+    <!--DEBUT  MEMBRES EN LIGNE content-->
+        <div class="col-md-2">
+            <div class="list-group text-left">
+              <p class="text-center chat-title">Amis connectés: &nbsp;<strong id="nb-amis-connectes"></strong></p> 
+              <table id="table-amis-connectes" class="order-table table table user-list">
+                  <thead>
+                  </thead>
+              </table>              
+            </div>
+        </div>
+    <!-- FIN MEMBRES EN LIGNE content-->
       </div>
-    <!-- Online users sidebar content-->
-      <div class="chat-sidebar">
-          <div class="list-group text-left">
-            <p class="text-center visible-xs"><a href="#" class="hide-chat btn btn-success">Hide</a></p> 
-            <p class="text-center chat-title">Online users</p>  
-            <a href="messages1.html" class="list-group-item">
-              <i class="fa fa-check-circle connected-status"></i>
-              <img src="static/images/Friends/guy-2.jpg" class="img-chat img-thumbnail">
-              <span class="chat-user-name">Jeferh Smith</span>
-            </a>
-            <a href="messages1.html" class="list-group-item">
-              <i class="fa fa-times-circle absent-status"></i>
-              <img src="static/images/Friends/woman-1.jpg" class="img-chat img-thumbnail">
-              <span class="chat-user-name">Dapibus acatar</span>
-            </a>
-            <a href="messages1.html" class="list-group-item">
-              <i class="fa fa-check-circle connected-status"></i>
-              <img src="static/images/Friends/guy-3.jpg" class="img-chat img-thumbnail">
-              <span class="chat-user-name">Antony andrew lobghi</span>
-            </a>
-            <a href="messages1.html" class="list-group-item">
-              <i class="fa fa-check-circle connected-status"></i>
-              <img src="static/images/Friends/woman-2.jpg" class="img-chat img-thumbnail">
-              <span class="chat-user-name">Maria fernanda coronel</span>
-            </a>
-            <a href="messages1.html" class="list-group-item">
-              <i class="fa fa-check-circle connected-status"></i>
-              <img src="static/images/Friends/guy-4.jpg" class="img-chat img-thumbnail">
-              <span class="chat-user-name">Markton contz</span>
-            </a>
-            <a href="messages1.html" class="list-group-item">
-              <i class="fa fa-times-circle absent-status"></i>
-              <img src="static/images/Friends/woman-3.jpg" class="img-chat img-thumbnail">
-              <span class="chat-user-name">Martha creaw</span>
-            </a>
-            <a href="messages1.html" class="list-group-item">
-              <i class="fa fa-times-circle absent-status"></i>
-              <img src="static/images/Friends/woman-8.jpg" class="img-chat img-thumbnail">
-              <span class="chat-user-name">Yira Cartmen</span>
-            </a>
-            <a href="messages1.html" class="list-group-item">
-              <i class="fa fa-check-circle connected-status"></i>
-              <img src="static/images/Friends/woman-4.jpg" class="img-chat img-thumbnail">
-              <span class="chat-user-name">Jhoanath matew</span>
-            </a>
-            <a href="messages1.html" class="list-group-item">
-              <i class="fa fa-check-circle connected-status"></i>
-              <img src="static/images/Friends/woman-5.jpg" class="img-chat img-thumbnail">
-              <span class="chat-user-name">Ryanah Haywofd</span>
-            </a>
-            <a href="messages1.html" class="list-group-item">
-              <i class="fa fa-check-circle connected-status"></i>
-              <img src="static/images/Friends/woman-9.jpg" class="img-chat img-thumbnail">
-              <span class="chat-user-name">Linda palma</span>
-            </a>
-            <a href="messages1.html" class="list-group-item">
-              <i class="fa fa-check-circle connected-status"></i>
-              <img src="static/images/Friends/woman-10.jpg" class="img-chat img-thumbnail">
-              <span class="chat-user-name">Andrea ramos</span>
-            </a>
-            <a href="messages1.html" class="list-group-item">
-              <i class="fa fa-check-circle connected-status"></i>
-              <img src="static/images/Friends/child-1.jpg" class="img-chat img-thumbnail">
-              <span class="chat-user-name">Dora ty bluekl</span>
-            </a>        
-          </div>
-      </div><!-- Online users sidebar content-->
     <!-- Modal -->
       <div class="modal fade" id="modalShow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -1488,24 +1434,17 @@
                 </div>
               </div>
               <div class="list-group lg-alt">
-                <a class="list-group-item media" href="">
-                  <div class="pull-left">
-                    <img src="static/images/Friends/guy-2.jpg" alt="" class="img-avatar">
+                 <!--DEBUT  MEMBRES EN LIGNE content-->
+              <div class="col-md-2">
+                  <div class="list-group text-left">
+                    <p class="text-center chat-title">Amis connectés: &nbsp;<strong id="nb-amis-connectes-messagerie"></strong></p> 
+                    <table id="table-amis-connectes-messagerie" class="order-table table table user-list">
+                        <thead>
+                        </thead>
+                    </table>              
                   </div>
-                  <div class="media-body">
-                    <small class="list-group-item-heading">Davil Parnell</small>
-                    <small class="list-group-item-text c-gray">Fierent fastidii recteque ad pro</small>
-                  </div>
-                </a>
-                <a class="list-group-item media" href="">
-                  <div class="pull-left">
-                    <img src="static/images/Friends/guy-3.jpg" alt="" class="img-avatar">
-                  </div>
-                  <div class="media-body">
-                    <div class="list-group-item-heading">Ann Watkinson</div>
-                    <small class="list-group-item-text c-gray">Cum sociis natoque penatibus </small>
-                  </div>
-                </a>
+              </div>
+    <!-- FIN MEMBRES EN LIGNE content-->
                 <a class="list-group-item media" href="">
                   <div class="pull-left">
                     <img src="static/images/Friends/guy-4.jpg" alt="" class="img-avatar">
