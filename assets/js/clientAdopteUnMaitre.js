@@ -2143,7 +2143,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
                 var img = document.createElement('img');
                 img.setAttribute('src','static/images/membres/'+ pObjetAmisConnectes[i].photoProfile,'alt', 'image');
-                img.className='img-circle';
+                img.className='img-avatar pull-left';
                 td.appendChild(img);
                 
                 var a = document.createElement('a');
@@ -2675,7 +2675,6 @@ window.addEventListener('DOMContentLoaded', function() {
 // à lui maintenant d'afficher les infos de ce membre avec ses données
 // ***********************************************************************************************************
     webSocketConnection.on('sendAmisConnectes', function(amisConnectes) {
-        console.log("11111111111111111111111111111111111 je recoit ami connecte" ,amisConnectes);
         console.log('amisConnectes',amisConnectes);
         console.log('objetAmisConnectes.length',objetAmisConnectes.length);
         if(objetAmisConnectes.length){
