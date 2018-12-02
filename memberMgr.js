@@ -1600,8 +1600,8 @@ console.log('------------------- 333----  c est bien un ami amiconnecte est un a
         
         dataDiscussionDemandeur.statut          = "En attente";      
         dataDiscussionDemandeur.dateCreation    = dataDiscussion.dateCreation; // même date que le membre receveur
-        dataDiscussion.idDiscussion             = dataDiscussion.idDiscussion;     // m^me identifiant de discussion que le mebre receveur
-        dataDiscussion.messages                 = [];
+        dataDiscussionDemandeur.idDiscussion             = dataDiscussion.idDiscussion;     // m^me identifiant de discussion que le mebre receveur
+        dataDiscussionDemandeur.messages                 = [];
         
         this.DBMgr.colMembres.updateOne (
             {pseudo: pObjetDuMembre.pseudo},  // pseudo membre qui invite à discuter

@@ -2168,8 +2168,7 @@ window.addEventListener('DOMContentLoaded', function() {
     
         pseudoMessagerie.innerHTML = "Patience" + " " +infoAmi.pseudo + " " +"va bientôt vous rejoindre!!";
         photoProfilUn.setAttribute('src','static/images/membres/'+objetDuMembre.photoProfile); 
-        photoProfilDeux.setAttribute('src','static/images/membres/'+infoAmi.amisPhotoProfil); 
-        photoProfilDeux.innerHTML = infoAmi.amisPhotoProfil;
+        photoProfilDeux.setAttribute('src','static/images/membres/'+infoAmi.photoProfile); 
         pseudoUn.innerHTML = objetDuMembre.pseudo;
         pseudoDeux.innerHTML = infoAmi.pseudo;  
         photoUserMessage.setAttribute('src','static/images/membres/'+objetDuMembre.photoProfile);      
@@ -3318,6 +3317,7 @@ window.addEventListener('DOMContentLoaded', function() {
         objetAmiRejoindre = infoAmiRejoindre; 
         objetDuMembre = pObjetDuMembre;
         console.log('objetDuMembre',objetDuMembre);
+        console.log('objetAmiRejoindre',objetAmiRejoindre);
         initMessagerie(objetDuMembre, objetAmiRejoindre);
         $('#idMessagerie').modal('toggle');                
 
