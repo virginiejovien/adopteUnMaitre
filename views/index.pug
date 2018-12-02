@@ -155,7 +155,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             form#form-inscription.needs-validation
               .form-group
                 span.input-icon
-                  input#pseudo-inscription.form-control.control-groupe(type='text' name='pseudoInscrit' maxlength='23' size='23' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
+                  input#pseudo-inscription.form-control.control-groupe(type='text' name='pseudoInscrit' maxlength='10' size='10' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,10}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
                   i.fa.fa-user.darkorange
               .form-group
                 span.input-icon
@@ -1164,10 +1164,10 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               // end left posts
           // end timeline posts
     // DEBUT  MEMBRES EN LIGNE content
-    .col-md-2
-      .list-group.text-left
+    .col-md-2.bandeau
+      .box.profile-info.n-border-top.text-left
         p.text-center.chat-title
-          | Amis connect&eacute;s: &nbsp;
+          | Messagerie priv&eacute;e &nbsp;
           strong#nb-amis-connectes
         table#table-amis-connectes.order-table.table.table.user-list
           thead
@@ -1793,6 +1793,64 @@ nav#top.navbar.navbar-white.navbar-fixed-top
       .modal-footer
         button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
 // *****************************************************************************************
+// FENETRE MODAL MESSAGERIE PRIVEE
+// *****************************************************************************************
+#idMessagerie.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalMessagerieTitle' aria-hidden='true')
+  .modal-dialog.modal-dialog-centered(role='document')
+    #idModalContentMessagerie.modal-content
+      #idModalBodyTextMessagerie.modal-header
+        h4#pseudoMessagerie.modal-title.titre-nav-admin
+        button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+      .modal-body
+        #messagerie-tab.tab-pane.profile.active
+          .row
+            .col-md-3
+              .user-info-left
+                .contact
+                  p
+                    .user-block
+                      img#messagerie-photo-profil-un.img-circle(src='' alt='photo de profil')
+                      .username
+                        span#messagerie-pseudo-un.s-text
+                    .user-block
+                      img#messagerie-photo-profil-deux.img-circle(src='' alt='photo de profil')
+                      .username
+                        span#messagerie-pseudo-deux.s-text
+            // ****************  DEBUT MESSAGE  **********************
+            .col-md-9
+              .row
+                .col-md-12
+                  .widget
+                    .basic-info
+                      h5
+                        i.fa.fa-square
+                        | &nbsp;Messages
+                    .widget-body.bordered-top.bordered-sky
+                      ul.list-unstyled.profile-about.margin-none
+                        li.padding-v-5
+                          .row
+                            #messages.col-sm-12
+                              table#table-messages.table.user-list
+                                thead
+              .row
+                .col-md-12
+                  .row
+                    .col-md-12
+                      .widget
+                        .basic-info
+                          h5
+                            i.fa.fa-square
+                            | &nbsp;Commenter
+                        .widget-body.bordered-top.bordered-sky
+                          ul.list-unstyled.profile-about.margin-none
+                            li.padding-v-5
+                              .row
+                                form#form-message
+                                  img#messagerie-message-photo-profil.img-responsive.img-circle.img-sm(src='' alt='Alt Text')
+                                  .img-push
+                                    input#message-publie.form-control.input-sm(type='text' placeholder='' rows='2' maxlength='400' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
+                                    button.btn.btn-azure.pull-right(type='submit') Poster
+// *****************************************************************************************
 // FENETRE MODAL MODIFICATION FORMULAIRE D'UN MEMBRE
 // *****************************************************************************************
 #idFiche.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalFicheTitle' aria-hidden='true')
@@ -1807,7 +1865,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             .col-md-3
               .user-info-left
                 h2#pseudo-fiche.titre-nav-admin
-                h3#email-fiche
+                span#email-fiche
                 .contact
                   p
                     img#capturePhotoImgFiche.image-profil(src='' alt='photo de profil')

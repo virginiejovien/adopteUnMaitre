@@ -223,6 +223,16 @@ vDBMgr.checkDBConnect()
             vMemberServer.miseAjourCommentaire(idPublication, dataCommentaire, objetMembre, objetDuMembre, webSocketConnection, socketIo);
         });  
 
+
+//************************************************************************************************************  
+// Gestion des discussions instantannées Messagerie
+//************************************************************************************************************ 
+
+        // Reception demande de discussion
+        webSocketConnection.on('sendDiscussion', function (idPseudoAmi, objetDuMembre) { 
+            vMemberServer.sendInvitationDiscussionPrivee(idPseudoAmi, objetDuMembre, webSocketConnection, socketIo);
+        });  
+
 //************************************************************************************************************  
 // Gestion de la recherche d'amis
 //************************************************************************************************************ 

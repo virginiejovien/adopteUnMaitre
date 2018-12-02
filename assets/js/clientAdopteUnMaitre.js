@@ -58,7 +58,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var messageConnection = window.document.getElementById('idLoginAlertMsg');  
     var blockOublie =  window.document.getElementById('mot-de-passe-oublie');
     var oublie =  window.document.getElementById('oublie');
- 
+
     // elements formulaire d'inscription'
     var formInscription = window.document.getElementById('form-inscription');
     var pseudoInscription = window.document.getElementById('pseudo-inscription');
@@ -66,7 +66,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var mp1Inscription = window.document.getElementById('mp-inscription');
     var mp2Inscription = window.document.getElementById('mp2-inscription'); 
     var messageInscription = window.document.getElementById('idInscritAlertMsg');  
-   
+
     // Eléments de fenêtres modales partie connexion inscription
     var vGenericModal = window.document.getElementById('idGenericModal');
     var vModalTitle = window.document.getElementById('idModalTitle');
@@ -79,15 +79,27 @@ window.addEventListener('DOMContentLoaded', function() {
     var vGenericModalAlerte = window.document.getElementById('idGenericModalAlerte');
     var vModalTitleAlerte = window.document.getElementById('idModalTitleA');
     var vModalBodyTextAlerte = window.document.getElementById('idModalBodyTextA');  
- 
+
+    // Eléments de fenêtres modales partie Discussion instantanée
+    var idMessagerie = window.document.getElementById('idMessagerie');
+    var formMessage = window.document.getElementById('form-message');
+    var pseudoTitreFiche  =  window.document.getElementById('pseudoTitreFiche');
+    var pseudoMessagerie = window.document.getElementById('pseudoMessagerie');
+    var photoProfilUn = window.document.getElementById('messagerie-photo-profil-un');
+    var photoProfilDeux = window.document.getElementById('messagerie-photo-profil-deux');
+    var pseudoUn = window.document.getElementById('messagerie-pseudo-un');
+    var pseudoDeux = window.document.getElementById('messagerie-pseudo-deux');
+    var photoUserMessage = window.document.getElementById('messagerie-message-photo-profil');
+    var messagePublie = window.document.getElementById('message-publie');
 
     // Eléments de fenêtres modales partie fiche membre formulaire à modifier   
     var idFiche = window.document.getElementById('idFiche');
     var fermeFiche = window.document.getElementById('ferme-fiche');
     var formFiche = window.document.getElementById('form-fiche');
     var pseudoTitreFiche  =  window.document.getElementById('pseudoTitreFiche');
-    var pseudoFiche = window.document.getElementById('pseudo-fiche');
+    var pseudoFiche = window.document.getElementById('pseudoFiche');
     var emailFiche = window.document.getElementById('email-fiche');
+
  //   var idModalTitleFiche =window.document.getElementById('idModalTitleFiche');
     // variables entrees du formulaires  
     var capturePhotoFileFiche = window.document.getElementById('capturePhotoFileFiche');
@@ -329,6 +341,8 @@ window.addEventListener('DOMContentLoaded', function() {
     var objetDuVisiteur = {};
     var objetDesMembres = {};
     var objetDunMembre = {};
+    var objetAmiDemandeDiscussion = {};
+    var objetAmiRejoindre = {};
     var objetAmisConnectes = [];
     var compteurAmisConnectes =0;
     var idPublication;
@@ -1040,7 +1054,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 spanA.className = 'user-subhead-liste';
                 switch(pObjetDuMembre.amis[i].statut) {
                     case 'R':                                         
-                    spanA.innerHTML = 'Recommandé par' + '' +  pObjetDuMembre.amis[i].origine;    
+                    spanA.innerHTML = 'Recommandé par' + ' ' +  pObjetDuMembre.amis[i].origine;    
                     break;
                     case 'A':                        
                     spanA.innerHTML = 'Attente de confirmation'  
@@ -1174,7 +1188,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 spanA.className = 'user-subhead-liste';
                 switch(pObjetDuMembre.amis[i].statut) {
                     case 'R':                                           
-                    spanA.innerHTML = 'Recommandé par' + '' +  pObjetDuMembre.amis[i].origine; 
+                    spanA.innerHTML = 'Recommandé par' + ' ' +  pObjetDuMembre.amis[i].origine; 
                     break;
                     case 'A':                        
                     spanA.innerHTML = 'Attente de confirmation'  
@@ -1960,7 +1974,7 @@ window.addEventListener('DOMContentLoaded', function() {
         capturePhotoImgCoverFiche.setAttribute('src','static/images/membres/'+objetDunMembre.photoCover);
     //   idModalTitleFiche.innerHTML = objetDunMembre.pseudo;
         emailFiche.innerHTML = objetDunMembre.email; 
-        pseudoFiche.value =  objetDunMembre.pseudo;   
+        pseudoFiche.innerHTML =  objetDunMembre.pseudo; 
         nomFiche.value =  objetDunMembre.nom;     
         prenomFiche.value =   objetDunMembre.prenom;
         genreFiche.value= objetDunMembre.genre;
@@ -1974,6 +1988,7 @@ window.addEventListener('DOMContentLoaded', function() {
         preferenceFiche.value= objetDunMembre.preference;
         
     };
+
 
 //************************************************************************************************************
 // **********************        PARTIE DISCUSSIONS INSTANTANNEES                       ********************** 
@@ -1996,9 +2011,8 @@ window.addEventListener('DOMContentLoaded', function() {
                     var cella = cell.getElementsByTagName("a")[0];
                     var id = cella.innerHTML;
                     console.log("id:" + id);      
-                    console.log('objetDunMembre avant demande discussion ami objetDunMembre',objetDunMembre);
-                    console.log('objetDuMembre avant demande discussion ami objetDuMembre',objetDuMembre);                 
-                    webSocketConnection.emit('sendDiscussion', id, objetDunMembre, objetDuMembre);  // Demande au serveur de creer un espace de discussion                
+                    console.log('objetDuMembre avant demande discussion ami objetDuMembre',objetDuMembre);   
+                    webSocketConnection.emit('sendDiscussion', id, objetDuMembre);  // Demande au serveur de creer un espace de discussion                
                 };
             };
         
@@ -2011,10 +2025,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // Fonction qui affichage sous forme de liste la liste d'amis connectés d'un membre dans le mur de profil
 // afin de pouvoir démarrer ou rejoindre une discussion instantannée
 //************************************************************************************************************
-    var affichageAmisConnectes = function(pObjetAmisConnectes, pCompteurAmisConnectes) { 
-        nbAmisConnectes.innerHTML = pCompteurAmisConnectes;
-        
-        console.log(' dans connectes pObjetAmisConnectes',pObjetAmisConnectes);
+    var affichageAmisConnectes = function(pObjetAmisConnectes, pCompteurAmisConnectes,objetDuMembre) { 
 
         if (tbodyExisteConnect) {     // on verifie si le tableau connect des membres existe ou pas pour ne pas le créer deux fois
                 console.log('tbodyExisteConnect :',tbodyExisteConnect);
@@ -2024,58 +2035,101 @@ window.addEventListener('DOMContentLoaded', function() {
         tbodyConnect.id = 'table-connect';
         document.getElementById('table-amis-connectes').appendChild(tbodyConnect); 
         tbodyExisteConnect = true;
-
-        for (var i=0; i < pObjetAmisConnectes.length; i++) {            
-            if (pObjetAmisConnectes[i].statut == "C") {  // C = confirmés
-    // Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
-/*
-    <a href="messages1.html" class="list-group-item">
-    <i class="fa fa-check-circle connected-status"></i>
-    <img src="static/images/Friends/guy-2.jpg" class="img-chat img-thumbnail">
-    <span class="chat-user-name">Jeferh Smith</span>
-  </a>*/
-
-                console.log('je suis dans la boucle connectes');
-                var tr = document.createElement('tr');
-                document.getElementById('table-connect').appendChild(tr);      
-
-                var td = document.createElement('td');
-                tr.appendChild(td);
-
-                var img = document.createElement('img');
-                img.setAttribute('src','static/images/membres/'+ pObjetAmisConnectes[i].photoProfile,'alt', 'image');
-                img.className='img-circle';
-                td.appendChild(img);
+        
+        for (var i=0; i < pObjetAmisConnectes.length; i++) {  
+            if (objetAmisConnectes[i].pseudo != "D") {
+        
+                for (var j=0; j < pObjetAmisConnectes[i].amis.length; j++) {  
                 
-                var a = document.createElement('a');
-                a.id = 'connectes-pseudo'+[i];
-                a.setAttribute ( 'href' , '#');
-                a.className = 'user-link';
-                a.innerHTML =   pObjetAmisConnectes[i].pseudo;
-                td.appendChild(a); 
+                    if (pObjetAmisConnectes[i].amis[j].pseudo == objetDuMembre.pseudo) { 
+                    
+                        if (pObjetAmisConnectes[i].amis[j].statut == "C") {  // C = confirmés
+                        
+                            var tr = document.createElement('tr');
+                            document.getElementById('table-connect').appendChild(tr);      
 
-                var span = document.createElement('span');
-                span.className = 'user-subhead-liste';
-                span.innerHTML = 'Confirmé'  
-                td.appendChild(span);
+                            var td = document.createElement('td');
+                            tr.appendChild(td);
 
-                var td4 = document.createElement('td');       
-                td4.setAttribute ( 'style' , 'width: 20%;');
-                tr.appendChild(td4);
+                            var img = document.createElement('img');
+                            img.setAttribute('src','static/images/membres/'+ pObjetAmisConnectes[i].photoProfile,'alt', 'image');
+                            img.className='img-avatar pull-left';
+                            td.appendChild(img);
+                            
+                            var a = document.createElement('a');
+                            a.id = 'connectes-pseudo'+[i];
+                            a.setAttribute ( 'href' , '#');
+                            a.className = 'user-link';
+                            a.innerHTML =   pObjetAmisConnectes[i].pseudo;
+                            td.appendChild(a); 
 
-                var a4 = document.createElement('a');
-                a4.id = 'connectes'+[i];
-                a4.setAttribute ( 'href' , '#');
-                a4.className = 'btn btn-azure btn-sm';  
-                a4.innerHTML = 'Discuter'      
-                td4.appendChild(a4); 
+                        // début statut pour discussion instantanée
+                            var span = document.createElement('span');
+                            span.className = 'user-subhead-liste';
 
-                var i1 = document.createElement('i');
-                i1.className = 'fa fa-share';
-                a4.appendChild(i1);
+                            if (pObjetAmisConnectes[i].discussion.length) {
+                                span.innerHTML = pObjetAmisConnectes[i].discussion[0].statut + " " +pObjetAmisConnectes[i].discussion[0].idDiscussion;  
+                            } else {
+                                span.innerHTML = "connecté" 
+                            }
+
+                            td.appendChild(span);
+
+                        // fin statut pour discussion instanatanée
+
+                            var td4 = document.createElement('td');       
+                            td4.setAttribute ( 'style' , 'width: 20%;');
+                            tr.appendChild(td4);
+
+                            var a4 = document.createElement('a');
+                            a4.id = 'liste-info'+[i];
+                            a4.setAttribute ( 'href' , '#', 'title','Discuter ensemble');
+                            a4.className = 'table-link success';        
+                            td4.appendChild(a4); 
+
+                            var span4 = document.createElement('span');
+                            span4.className = 'fa-stack';       
+                            a4.appendChild(span4);
+
+                            var i1 = document.createElement('i');
+                            i1.className = 'fa fa-square fa-stack-2x';
+                            span4.appendChild(i1);
+
+                    // début bouton pour discussion instantanée
+                            var i2 = document.createElement('i');
+
+                            if (pObjetAmisConnectes[i].discussion.length) {
+                                switch(pObjetAmisConnectes[i].discussion[0].statut) {
+                                    case 'en attente':                                           
+                                        i2.className = 'fa fa-comment-o fa-stack-1x fa-inverse';
+                                    break;
+                                    case 'rejoindre':   
+                                        i2.className = 'fa fa-check-square-o fa-stack-1x fa-inverse';                          
+                                    break;
+                                    case 'en cours':      
+                                        i2.className = 'fa fa-comment-o fa-stack-1x fa-inverse';  
+                                    break;
+                                };                    
+                            } else {
+                                i2.className = 'fa fa-comment-o fa-stack-1x fa-inverse';
+                            }
+
+                            span4.appendChild(i2);
+
+                // fin bouton pour discussion instanatanée
+                            pCompteurAmisConnectes ++;
+                        }
+
+                    }
+                }
             }
         }
+        if (pCompteurAmisConnectes > 1) {
+            nbAmisConnectes.innerHTML = pCompteurAmisConnectes + ' ' + 'amis connectés';
+        } else {
 
+            nbAmisConnectes.innerHTML = pCompteurAmisConnectes + ' ' + 'ami connecté';
+        }
         addRowHandlersConnectes(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
     };
 
@@ -2106,12 +2160,28 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+// -----------------------------------------------------------------------------
+// Cette fonction initialise les données des membres pour la discussion instantanée 
+// sur la fenetre modale messagerie
+// -----------------------------------------------------------------------------
+    var initMessagerie = function (objetDuMembre,infoAmi) {
+    
+        pseudoMessagerie.innerHTML = "Patience" + " " +infoAmi.pseudo + " " +"va bientôt vous rejoindre!!";
+        photoProfilUn.setAttribute('src','static/images/membres/'+objetDuMembre.photoProfile); 
+        photoProfilDeux.setAttribute('src','static/images/membres/'+infoAmi.amisPhotoProfil); 
+        photoProfilDeux.innerHTML = infoAmi.amisPhotoProfil;
+        pseudoUn.innerHTML = objetDuMembre.pseudo;
+        pseudoDeux.innerHTML = infoAmi.pseudo;  
+        photoUserMessage.setAttribute('src','static/images/membres/'+objetDuMembre.photoProfile);      
+
+    };    
+
 //************************************************************************************************************
 // Fonction qui affichage sous forme de liste la liste d'amis connectés d'un membre dans le mur de profil
 // afin de pouvoir démarrer ou rejoindre une discussion instantannée dans la messagerie
 //************************************************************************************************************
-    var affichageAmisConnectesMessagerie = function(pObjetAmisConnectes, pCompteurAmisConnectes) { 
-        nbAmisConnectesMessagerie.innerHTML = pCompteurAmisConnectes;
+    var affichageAmisConnectesMessagerie = function(pObjetAmisConnectes, pCompteurAmisConnectes, objetDuMembre) { 
+        
         
         console.log('dans connectes pObjetAmisConnectes messagerie',pObjetAmisConnectes);
 
@@ -2124,57 +2194,80 @@ window.addEventListener('DOMContentLoaded', function() {
         document.getElementById('table-amis-connectes-messagerie').appendChild(tbodyConnectMessagerie); 
         tbodyExisteConnectMessagerie = true;
 
-        for (var i=0; i < pObjetAmisConnectes.length; i++) {            
-            if (pObjetAmisConnectes[i].statut == "C") {  // C = confirmés
-    // Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
-    /*
+        // Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
+        for (var i=0; i < pObjetAmisConnectes.length; i++) {  
+            for (var j=0; j < pObjetAmisConnectes[i].amis.length; j++) {  
+            
+                if (pObjetAmisConnectes[i].amis[j].pseudo == objetDuMembre.pseudo) { 
+                    if (pObjetAmisConnectes[i].amis[j].statut == "C") {  // C = confirmés
+                
+                    console.log('je suis dans la boucle connectes messagerie');
+                    var tr = document.createElement('tr');
+                    document.getElementById('table-connect-messagerie').appendChild(tr);      
+
+                    var td = document.createElement('td');
+                    tr.appendChild(td);
+
+                    var img = document.createElement('img');
+                    img.setAttribute('src','static/images/membres/'+ pObjetAmisConnectes[i].photoProfile,'alt', 'image');
+                    img.className='img-avatar pull-left';
+                    td.appendChild(img);
+                    
+                    var a = document.createElement('a');
+                    a.id = 'connectes-messagerie-pseudo'+[i];
+                    a.setAttribute ( 'href' , '#');
+                    a.className = 'user-link';
+                    a.innerHTML =   pObjetAmisConnectes[i].pseudo;
+                    td.appendChild(a); 
+
+                // début statut pour discussion instantanée
+                    var span = document.createElement('span');
+                    span.className = 'user-subhead-liste';
+
+                    if (pObjetAmisConnectes[i].discussion.length) {
+                        span.innerHTML = pObjetAmisConnectes[i].discussion[0].statut + " " +pObjetAmisConnectes[i].discussion[0].idDiscussions;  
+                    } else {
+                        span.innerHTML = "connecté" 
+                    }
+
+                    td.appendChild(span);
+
+                // fin statut pour discussion instanatanée
+
+                    var td4 = document.createElement('td');       
+                    td4.setAttribute ( 'style' , 'width: 20%;');
+                    tr.appendChild(td4);
+
+                    var a4 = document.createElement('a');
+                    a4.id = 'connectes'+[i];
+                    a4.setAttribute ( 'href' , '#', 'title', 'selectionner cet ami');
+                    a4.className = 'btn btn-azure btn-sm';  
+                    a4.innerHTML = 'Discuter'      
+                    td4.appendChild(a4); 
+                    
+
+                    
+                    var i1 = document.createElement('i');
+                    i1.className = 'fa fa-share';
+                    a4.appendChild(i1);
+
+                 /*
     <a href="messages1.html" class="list-group-item">
     <i class="fa fa-check-circle connected-status"></i>
     <img src="static/images/Friends/guy-2.jpg" class="img-chat img-thumbnail">
     <span class="chat-user-name">Jeferh Smith</span>
     </a>*/
-
-                console.log('je suis dans la boucle connectes messagerie');
-                var tr = document.createElement('tr');
-                document.getElementById('table-connect-messagerie').appendChild(tr);      
-
-                var td = document.createElement('td');
-                tr.appendChild(td);
-
-                var img = document.createElement('img');
-                img.setAttribute('src','static/images/membres/'+ pObjetAmisConnectes[i].photoProfile,'alt', 'image');
-                img.className='img-avatar pull-left';
-                td.appendChild(img);
-                
-                var a = document.createElement('a');
-                a.id = 'connectes-messagerie-pseudo'+[i];
-                a.setAttribute ( 'href' , '#');
-                a.className = 'user-link';
-                a.innerHTML =   pObjetAmisConnectes[i].pseudo;
-                td.appendChild(a); 
-
-                var span = document.createElement('span');
-                span.className = 'user-subhead-liste';
-                span.innerHTML = 'Confirmé'  
-                td.appendChild(span);
-
-                var td4 = document.createElement('td');       
-                td4.setAttribute ( 'style' , 'width: 20%;');
-                tr.appendChild(td4);
-
-                var a4 = document.createElement('a');
-                a4.id = 'connectes'+[i];
-                a4.setAttribute ( 'href' , '#');
-                a4.className = 'btn btn-azure btn-sm';  
-                a4.innerHTML = 'Discuter'      
-                td4.appendChild(a4); 
-
-                var i1 = document.createElement('i');
-                i1.className = 'fa fa-share';
-                a4.appendChild(i1);
+                    }
+                }
             }
         }
+        if(pCompteurAmisConnectes > 1) {
+            nbAmisConnectesMessagerie.innerHTML = pCompteurAmisConnectes + ' ' + 'amis connectés';
+        } else {
 
+            nbAmisConnectesMessagerie.innerHTML = pCompteurAmisConnectes + ' ' + 'ami connecté';
+        }
+        
         addRowHandlersConnectesMessagerie(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
     };
 //************************************************************************************************************
@@ -2573,6 +2666,8 @@ window.addEventListener('DOMContentLoaded', function() {
         initMurProfil(objetDuMembre);
         affichageListeAmis(objetDuMembre);
         afficherPublications(objetDuMembre);
+        affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
+        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
         blockMurProfile.style.display = 'block';                     
         blockProfilMembre.style.display = 'none';
     });
@@ -2665,39 +2760,38 @@ window.addEventListener('DOMContentLoaded', function() {
         amisPhotoProfil.setAttribute('src','static/images/membres/'+objetDuMembre.photoProfile);  
         amisPhotoCover.setAttribute('src','static/images/membres/'+objetDuMembre.photoCover); 
         amisPseudo.innerHTML = objetDuMembre.pseudo; 
-        
         affichageListeAmis(objetDuMembre); 
         afficherPublications(objetDuMembre); 
+        affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
+        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
     });   
 
 // ***********************************************************************************************************
 // Le client reçoit les amis connectes
 // à lui maintenant d'afficher les infos de ce membre avec ses données
 // ***********************************************************************************************************
-    webSocketConnection.on('sendAmisConnectes', function(amisConnectes) {
-        console.log('amisConnectes',amisConnectes);
-        console.log('objetAmisConnectes.length',objetAmisConnectes.length);
+    webSocketConnection.on('sendAmisConnectes', function(amiConnecte) {
+        console.log('amiConnecte dans SendAmisConnectes',amiConnecte);
+        console.log('000------objetAmisConnectes.length',objetAmisConnectes.length);
         if(objetAmisConnectes.length){
-        for (var i=0; i < objetAmisConnectes.length; i++) { 
-            for (var j=0; j< amisConnectes.length; j++) { 
-                if (amisConnectes[j].pseudo == objetAmisConnectes[i].pseudo) {
+            for (var i=0; i < objetAmisConnectes.length; i++) { 
+               
+                if (amiConnecte.pseudo == objetAmisConnectes[i].pseudo) {
                     return false
+                } else {
+                    objetAmisConnectes.push(amiConnecte);
+                   
+                    affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
+                    affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
                 }
-                objetAmisConnectes.push(amisConnectes[0]);
-                compteurAmisConnectes ++;
-                console.log('objetAmisConnectes',objetAmisConnectes);
-                console.log('compteurAmisConnectes',compteurAmisConnectes);
-                affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes);  
-                affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes);  
             }
-        }
+        
         } else {
-            objetAmisConnectes.push(amisConnectes[0]);
-            compteurAmisConnectes ++;
-            console.log('objetAmisConnectes',objetAmisConnectes);
-            console.log('compteurAmisConnectes',compteurAmisConnectes);
-            affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes);  
-            affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes); 
+            objetAmisConnectes.push(amiConnecte);
+            
+            
+            affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
+            affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
 
         }
     }); 
@@ -2716,33 +2810,29 @@ window.addEventListener('DOMContentLoaded', function() {
 // à lui maintenant d'afficher les infos de ce membre avec ses données
 // ***********************************************************************************************************
     webSocketConnection.on('rajoutListeAmi', function(amisConnectes) {
-        console.log('amisConnectes',amisConnectes);
-        objetAmisConnectes.push(amisConnectes);
-        compteurAmisConnectes ++;
-        console.log('objetAmisConnectes',objetAmisConnectes);
-        console.log('compteurAmisConnectes',compteurAmisConnectes);
-        affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes);  
-        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes);  
+        objetAmisConnectes.push(amisConnectes)
+        affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
+        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
     });
+
 // ***********************************************************************************************************
 // Le client reçoit les amis decconnectes 
 // mise à jour des données des connectes
 // ***********************************************************************************************************
     webSocketConnection.on('SendDeconnexionAmi', function(amisDeConnectes) {
-        console.log('amisDeConnectes',amisDeConnectes);
-        for (var i=0; i < objetAmisConnectes.length; i++) { 
-            for (var j=0; j< amisDeConnectes.length; j++) { 
-                if (amisDeConnectes[j].pseudo == objetAmisConnectes[i].pseudo) {
+        console.log('amisDeConnectes ',amisDeConnectes);
+        for (var z=0; z < amisDeConnectes.length; z++) { 
+            for (var i=0; i < objetAmisConnectes.length; i++) { 
 
-                    objetAmisConnectes[i].statut ="D" // one ne veut plus l'afficher le statut == D comme deconnecte
+                if (objetAmisConnectes[i].pseudo == amisDeConnectes[z].pseudo) { 
+                    objetAmisConnectes[i].pseudo = "D";  // D = deconnectés
                 }
             }
         }
-        compteurAmisConnectes --;
         console.log('objetAmisConnectes 1111',objetAmisConnectes);
-        console.log('compteurAmisConnectes',compteurAmisConnectes);
-        affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes);  
-        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes);  
+        
+        affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
+        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
     });
 
 // ***********************************************************************************************************
@@ -2916,6 +3006,8 @@ window.addEventListener('DOMContentLoaded', function() {
         initMurProfil(objetDunMembre);
         affichageListeAmisDunAmi(objetDunMembre);
         afficherPublicationsDunAmi(objetDunMembre);
+        affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
+        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
         profilDuMembre.style.display ='none';
         profilDunAmi.style.display = 'block';
         blockMurProfile.style.display = 'block';                     
@@ -2931,6 +3023,8 @@ window.addEventListener('DOMContentLoaded', function() {
         initMurProfil(objetDuMembre);
         affichageListeAmis(objetDuMembre);
         afficherPublications(objetDuMembre);
+        affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
+        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
         profilDuMembre.style.display ='block';
         profilDunAmi.style.display = 'none';
         blockMurProfile.style.display = 'block';                     
@@ -3055,6 +3149,8 @@ window.addEventListener('DOMContentLoaded', function() {
             objetDunMembre = pInfoMembre;
             affichageListeAmisDunAmi(objetDunMembre);
             afficherPublicationsDunAmi(objetDunMembre);    // affichage des publications
+            affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
+            affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
             blockAdministrateur.style.display = 'none';                     
             blockFormulaire.style.display = 'none';
             blockMurProfile.style.display = 'block';
@@ -3064,6 +3160,8 @@ window.addEventListener('DOMContentLoaded', function() {
             objetDuMembre = pInfoMembre;
             affichageListeAmis(objetDuMembre);
             afficherPublications(objetDuMembre);    // affichage des publications
+            affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
+            affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
             blockAdministrateur.style.display = 'none';                     
             blockFormulaire.style.display = 'none';
             blockMurProfile.style.display = 'block';
@@ -3197,6 +3295,32 @@ window.addEventListener('DOMContentLoaded', function() {
     //    affichageListeMembres(objetDesMembres);
         initModalRecupTextInvit(vModalTitleG, vModalBodyTextG);
         $('#idGenericModal').modal('toggle');    // ouverture de la fenêtre modale membre invité             
+    }); 
+
+// ***********************************************************************************************************
+// PARTIE MESSAGERIE INSTANTANEE
+// ***********************************************************************************************************
+
+// ***********************************************************************************************************
+// On reçoit une invitation à rejoindre une discussion instantannée
+// ***********************************************************************************************************
+    webSocketConnection.on('SendRejoindreDiscussion', function(pObjetDuMembre, pInfoDemandeur) { 
+        console.log('pObjetDuMembre',pObjetDuMembre); 
+        objetDuMembre = pObjetDuMembre;
+        objetAmiDemandeDiscussion = pInfoDemandeur;
+        console.log('objetAmiDemandeDiscussion',objetAmiDemandeDiscussion);
+    }); 
+
+// ***********************************************************************************************************
+// On reçoit en attente de discussion instantanée
+// ***********************************************************************************************************
+    webSocketConnection.on('SendEnAttenteDiscussion', function(pObjetDuMembre, infoAmiRejoindre) { 
+        objetAmiRejoindre = infoAmiRejoindre; 
+        objetDuMembre = pObjetDuMembre;
+        console.log('objetDuMembre',objetDuMembre);
+        initMessagerie(objetDuMembre, objetAmiRejoindre);
+        $('#idMessagerie').modal('toggle');                
+
     }); 
 
 // ***********************************************************************************************************

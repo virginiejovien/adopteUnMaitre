@@ -25,9 +25,9 @@
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const cstSuperAdmin = 2;    // Statut définissant le Super-Admin - Il n'y a qu'un seul SuperAdmin  pseudo = TEAMxxxxADMIN0  statut:2
+const cstSuperAdmin = 2;    // Statut définissant le Super-Admin - Il n'y a qu'un seul SuperAdmin  pseudo = TEAMADMIN0  statut:2
 const cstAdmin = 1;         // Statut définissant les Admin standards (Qui peuvent accéder à la console d'administration (avec le SuperAdmin))
-                            // pseudo qui commence par  TEAMxxxxADMIN suivi d'un nombre ces admnistrateurs ont le code  statut = 1 
+                            // pseudo qui commence par  TEAMADMIN suivi d'un nombre ces admnistrateurs ont le code  statut = 1 
 const cstMembre = 0;        // Membre standard qui ne peut qu'utiliser la partie publique de l'application statut = 0
 const constMailFrom = 'adopteUnMaitre@amt.com';    // Adresse "From" du mail
 const constFirstCharString = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'    // Caractères autorisés pour le 1er caractère du PWD
@@ -77,7 +77,8 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
             preference      : '',           // preferences adopte un maitre(AM) adopte un chat (AC) ne sais pas (NSP)            
             amis            :[],            // liste d'amis
             alerte          :[],            // tableau des messages d'alerte 
-            publication     :[]             // tableau des messages des publications                                 
+            publication     :[],            // tableau des messages des publications  
+            discussion      :[]             // tableau des discussions                              
     }
 
 
@@ -185,7 +186,8 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
             preference          : '',           // preferences            
             amis                :[],            // liste d'amis                             
             alerte              :[],            // tableau des messages d'alerte 
-            publication         :[]             // tableau des messages des publications                        
+            publication         :[],            // tableau des messages des publications 
+            discussion          :[]             // tableau des messages des discussions                        
         }
 
 
@@ -296,7 +298,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
                     for (var i=0; i < this.membre.amis.length; i++) { 
                         
                         this.objetPopulation.membres[myIndex].amis.push(this.membre.amis[i]);
-                       
+                    
                     }    
 
                     for (var i=0; i < this.membre.alerte.length; i++) { 
@@ -309,9 +311,13 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
                         this.objetPopulation.membres[myIndex].publication.push(this.membre.publication[i]);
                     }   
                 
+                    for (var i=0; i < this.membre.discussion.length; i++) { 
+                        
+                        this.objetPopulation.membres[myIndex].discussion.push(this.membre.discussion[i]);
+                    }   
                     console.log('this.objetPopulation apres rajout this.membre 1111',this.objetPopulation);
                     this.addMemberToActiveMembers(myIndex, pSocketIo);           // Le visiteur est bien un membre, on l'ajoute à la liste des membres
-                 //   console.log("pSocketIo",pSocketIo);   
+                //   console.log("pSocketIo",pSocketIo);   
                     this.checkAmisConnectes(this.membre, pWebSocketConnection,pSocketIo);
                     pWebSocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
                     pWebSocketConnection.emit('profileConnect', this.membre); // On envoie au client les données de profil du membre  
@@ -357,14 +363,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
         console.log('je suis dans recherche amis connectes');
         let objetDuMembrePourAmi = {};
         let compteurAmisConnectés = 0;
-        let amiConnectes =[];
         let socketAmi;
-
-        objetDuMembrePourAmi.nom            = pObjetDuMembre.nom;
-        objetDuMembrePourAmi.photoProfile   = pObjetDuMembre.photoProfile; 
-        objetDuMembrePourAmi.prenom         = pObjetDuMembre.prenom; 
-        objetDuMembrePourAmi.pseudo         = pObjetDuMembre.pseudo;
-        objetDuMembrePourAmi.statut         = "C";
 
         for (var i=0; i < pObjetDuMembre.amis.length; i++) { 
             
@@ -373,12 +372,31 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
             console.log('*** myIndex boucle récupération amis connectes myIndex ***', myIndex);
             if (myIndex !== -1) {                // Si membre trouvé dans la table des membres connectés, on le garde 
                 console.log('amis connectés',pObjetDuMembre.amis[i].pseudo );
-                    amiConnectes.push(pObjetDuMembre.amis[i]);
+
+                this.DBMgr.colMembres.find (  // on récupérère le document du membre à qui on a supprimé un ami
+                    {                           
+                        pseudo:pObjetDuMembre.amis[i].pseudo,           
+                    }                    
+                    ).toArray((error, documents) => {                     
+                    if (error) {
+                        console.log('Erreur de find dans collection colMembres',error);
+                        throw error;
+                    }                                
+                    if (!documents.length) {                 
+                        return false;                     
+                    }  
+        
+                    let infoMembre = documents[0];   // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+                    console.log('infoMembre searchDonnéesAmisBDD',infoMembre);;
+        
+                   
                     compteurAmisConnectés ++;   
-                console.log('compteurAmis Connectés amis connectés',compteurAmisConnectés);   
-                pWebSocketConnection.emit('sendAmisConnectes', amiConnectes,compteurAmisConnectés); // On envoie au client les données des amis connectés
+                    console.log('compteurAmis Connectés amis connectés',compteurAmisConnectés);   
+                    pWebSocketConnection.emit('sendAmisConnectes', infoMembre,compteurAmisConnectés); // On envoie au client les données des amis connectés
+
+                });
                 socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
-                pSocketIo.to(socketAmi).emit('SendMajAmisConnectes',objetDuMembrePourAmi);  // On envoie au client les données du membre aux amis déjà connectés
+                pSocketIo.to(socketAmi).emit('SendMajAmisConnectes',pObjetDuMembre);  // On envoie au client les données du membre aux amis déjà connectés
             }  
         }
     };
@@ -464,8 +482,8 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
 //************************************************************************************************************
 // Préparation des données du nouveau membre
 // Vérification si administrateur:
-//   si pseudo = TEAMxxxxADMIN0             : super administrateur statut:2
-//   si pseudo commence par TEAMxxxxADMIN   :admnistrateur statut : 1 
+//   si pseudo = TEAMADMIN0             : super administrateur statut:2
+//   si pseudo commence par TEAMADMIN   :admnistrateur statut : 1 
 //   sinon                                  : il s'agit d'un membre statut : 0 
 // et insertion dans la base de données
 // Envoie d'un mail de confirmation d'inscription au nouveau membre inscrit
@@ -474,10 +492,10 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
         //  verification si membre ou administrateur ou super administrateur
         let finCodeAdmin =  pObjetVisiteur.pseudoInscription.length;
         let debutCodeAdmin = pObjetVisiteur.pseudoInscription.substring(0,13);
-        let codeAdmin = pObjetVisiteur.pseudoInscription.substring(13,finCodeAdmin); // on recupere ce qui suit apres TEAMxxxxADMIN 
+        let codeAdmin = pObjetVisiteur.pseudoInscription.substring(13,finCodeAdmin); // on recupere ce qui suit apres TEAMADMIN 
     // statut = 0 membre et statut = 1 administrateur statut: 2 super administrateur 
-        if (debutCodeAdmin === 'TEAMxxxxADMIN') {    
-            if (pObjetVisiteur.pseudoInscription === 'TEAMxxxxADMIN0'){
+        if (debutCodeAdmin === 'TEAMADMIN') {    
+            if (pObjetVisiteur.pseudoInscription === 'TEAMADMIN0'){
                 pObjetVisiteur.statut =  2; // super administrateur il n'y en a qu'un avec le statut = 2         
         
             } else {               
@@ -516,7 +534,8 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
             preference      : '',           // preferences            
             amis            :[],            // liste d'amis
             alerte          :[],             // tableau des messages d'alerte 
-            publication     :[]             // tableau des messages des publications   
+            publication     :[],            // tableau des messages des publications   
+            discussion      :[]             // tableau des discussions   
         }
         
         
@@ -674,7 +693,8 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                     preference      : documents[0].preference,           // preferences            
                     amis            : documents[0].amis,            // liste d'amis
                     alerte          : documents[0].alerte,           // tableau des messages d'alerte   
-                    publication     : documents[0].publication       // tableau des publications   
+                    publication     : documents[0].publication,      // tableau des publications   
+                    discussion      : documents[0].discussion       // tableau des discussions  
                 }
                 this.DBMgr.colMembres.updateOne(
                     {pseudo:    pObjetMembreLocalMotDePasse.pseudo},
@@ -768,7 +788,8 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                     preference      : documents[0].preference,           // preferences            
                     amis            : documents[0].amis,            // liste d'amis
                     alerte          : documents[0].alerte,            // tableau des messages d'alerte    
-                    publication     : documents[0].publication       // tableau des publications 
+                    publication     : documents[0].publication,      // tableau des publications 
+                    discussion      : documents[0].discussion       // tableau des discussions 
                 }       
                 this.DBMgr.colMembres.updateOne(        // misa à jour du nouveau mots de passe
                     {pseudo:    documents[0].pseudo},
@@ -875,7 +896,8 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
     MemberServer.prototype.verifierSiAmiDansBdd= function(pObjetDuMembre, pAmisConnectes, pWebSocketConnection, pSocketIo) {   
         // retrouver le membre connecté dans les amis du membre
         //statut  = confirme
-
+console.log("------------------- 111----  pObjetDuMembre",pObjetDuMembre);
+console.log(" ------------------- 222---- pAmisConnectes",pAmisConnectes)
             this.DBMgr.colMembres.find(  // on récupérère le document du membre 
                 {
                     pseudo:pObjetDuMembre.pseudo,
@@ -894,12 +916,44 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 
                     return false;                     
                 }  
+
+
+
                 let infoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
-                console.log('c est bien un ami amiconnecte est un ami',pAmisConnectes);
+console.log('------------------- 333----  c est bien un ami amiconnecte est un ami on verifie le tableau apres find ',infoMembre);
                 pWebSocketConnection.emit('rajoutListeAmi',pAmisConnectes);    // on renvoie au client la confirmation que c'est bien un ami
             }); 
         
     }; 
+
+
+//************************************************************************************************************  
+//  Recuperer toutes les données des membres connectés                 
+//************************************************************************************************************ 
+    MemberServer.prototype.gestionRecupererInfoDesAmisConnectes= function(pObjetAmisConnectes, pWebSocketConnection, pSocketIo) {   
+            
+            this.DBMgr.colMembres.find(  // on récupérère le document du membre 
+                {
+                    pseudo:pObjetAmisConnectes.pseudo,
+                
+                    
+                }
+                                    
+                ).toArray((error, documents) => {                     
+                if (error) {
+                    console.log('Erreur de find dans collection colMembres',error);
+                    throw error;
+                }                                
+                if (!documents.length) { 
+
+                    return false;                     
+                }  
+                let data = documents[0];
+                pWebSocketConnection.emit('recuperationDonneesAmisConnectesOk',data);    // on renvoie au client la confirmation que c'est bien un ami
+            }); 
+
+        
+    };
 
 //************************************************************************************************************  
 // Gestion commentaire sur un post
@@ -1456,6 +1510,143 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
             
             }); 
         }); 
+    };  
+
+//************************************************************************************************************  
+// Gestion d'une invitation discussion instantannée privée
+//  pour l'ami inviter à rejoindre:
+//          - récupération des donnees 
+//          - mise à jour de l'objet discussion =   statut="R"  pour rejoindre
+//                                                  et idDiscussion  
+//          - envoie mail de confirmation                      
+//  pour le membre:
+//          - afficher l'espace de discussion instantannée avec un message d'attente
+//          - mise à jour de l'objet discussion =   statut="A  pour en attente
+//                                                  et idDiscussion  
+//           - envoie mail de confirmation   
+//************************************************************************************************************ 
+    MemberServer.prototype.sendInvitationDiscussionPrivee = function(pPseudoRejoindre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+        let socketAmi;
+        let infoAmiRejoindre;
+        let infoDuMembre;
+        let dataDiscussion =    {};
+        let dataDiscussionDemandeur ={};
+        console.log('pPseudoRejoindre',pPseudoRejoindre);
+
+    // mise à jour de l'ami invité à rejoindre la discussion
+
+        var numberDiscussion = function getRandom() {  // on veut un nombre aléatoire pour notre IdDiscussion
+            return Math.random();
+        }
+        
+        dataDiscussion.statut             = "Rejoindre";      
+        dataDiscussion.dateCreation       = new Date();                   // Timestamp de la création du de la discussion
+        dataDiscussion.idDiscussion       = pObjetDuMembre.pseudo + numberDiscussion();       // identifiant de la discussion
+        dataDiscussion.messages           = [];
+        
+        this.DBMgr.colMembres.updateOne (
+            {pseudo: pPseudoRejoindre},  // pseudo membre qui reçoit l'invitation
+            {$push:{discussion: dataDiscussion }},(error, document) => {
+        
+            },(error, document) => {
+
+            if (error) {
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            
+        }); 
+
+        this.DBMgr.colMembres.find(  // on récupérère le document de l'ami invité à rejoindre la discussion
+            {
+                pseudo: pPseudoRejoindre
+            }
+                                
+            ).toArray((error, documents) => {                     
+            if (error) {
+                console.log('Erreur de find dans collection colMembres',error);
+                throw error;
+            }                                
+            if (!documents.length) { 
+            
+                return false;                     
+            }  
+
+            infoAmiRejoindre = documents[0];              // Récupération des données de l'ami 
+            console.log('infoAmiRejoindre',infoAmiRejoindre);
+            let pseudoSengrid   = infoAmiRejoindre.pseudo;
+            let sengridEmail    = infoAmiRejoindre.email;
+            let messageToSend   = {  // on envoie un mail au membre receveur pour lui signaler l'invitation 
+                to       : sengridEmail,
+                from     : constMailFrom,
+                subject  : "messagerie privée",
+                html     : '<h1 style="color: black;">Bonjour '+pseudoSengrid+"</h1><p><h2> <b>" +pObjetDuMembre.pseudo+ "</b></h2><h3> vous invite à discuter sur <b>Adopte un Maître</b> </h3><br />" +
+                    '<br /><i>Adopte un Maitre Team</i>',
+                }
+                
+            sgMail.send(messageToSend);     // envoie du mail confirmation invitation discusssion privée
+
+            let myIndex = this.searchMemberInTableOfMembers('pseudo', infoAmiRejoindre.pseudo);
+
+            console.log('*** myIndex boucle récupération amis connectes myIndex ***', myIndex);
+            if (myIndex !== -1) {                // Si membre trouvé dans la table des membres connectés, on le garde 
+                socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
+                pSocketIo.to(socketAmi).emit('SendRejoindreDiscussion',infoAmiRejoindre, pObjetDuMembre);  // On envoie au membre receveur de l'invitation les données du membre demandeur
+            }  
+        
+        }); 
+    
+        // mise à jour du membre en attente de discussion privé
+        
+        dataDiscussionDemandeur.statut          = "En attente";      
+        dataDiscussionDemandeur.dateCreation    = dataDiscussion.dateCreation; // même date que le membre receveur
+        dataDiscussion.idDiscussion             = dataDiscussion.idDiscussion;     // m^me identifiant de discussion que le mebre receveur
+        dataDiscussion.messages                 = [];
+        
+        this.DBMgr.colMembres.updateOne (
+            {pseudo: pObjetDuMembre.pseudo},  // pseudo membre qui invite à discuter
+            {$push:{discussion: dataDiscussionDemandeur}},(error, document) => {
+        
+            },(error, document) => {
+
+            if (error) {
+                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                throw error;
+            }          
+            
+        }); 
+    
+            this.DBMgr.colMembres.find(  // on récupérère le document du membre en attente de discussion
+                {
+                    pseudo: pObjetDuMembre.pseudo
+                }
+                                    
+                ).toArray((error, documents) => {                     
+                if (error) {
+                    console.log('Erreur de find dans collection colMembres',error);
+                    throw error;
+                }                                
+                if (!documents.length) { 
+                
+                    return false;                     
+                }  
+                infoDuMembre = documents[0];              // Récupération des données de l'ami 
+                console.log('infoDuMembre apres mis à jour discussion',infoDuMembre);
+                let pseudoSengrid   = infoDuMembre.pseudo;
+                let sengridEmail    = infoDuMembre.email;
+                let messageToSend   = {  // on envoie un mail au membre demandeur pour lui confirmer l'invitation à discuter 
+                    to       : sengridEmail,
+                    from     : constMailFrom,
+                    subject  : "messagerie privée",
+                    html     : '<h1 style="color: black;">Bonjour '+pseudoSengrid+"</h1><p><h3> vous avez invité <h2> <b>" +infoAmiRejoindre.pseudo+ " "+"</b></h2> à discuter en privé</h3><br />" +
+                        '<br /><i>Adopte un Maitre Team</i>',
+                    }
+                    
+                sgMail.send(messageToSend);     // envoie du mail confirmation invitation discusssion privée
+
+                pWebSocketConnection.emit('SendEnAttenteDiscussion',infoDuMembre, infoAmiRejoindre);    // on renvoie au client les donnees du membre mise à jour suite à une publication
+            }); 
+        
     };  
 
 //************************************************************************************************************  

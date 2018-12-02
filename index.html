@@ -148,7 +148,7 @@
                 <form id="form-inscription" class="needs-validation" >
                   <div class="form-group">
                     <span class="input-icon">
-                      <input id="pseudo-inscription" type="text" name="pseudoInscrit"  class="form-control control-groupe" maxlength='23' size='23' placeholder="Pseudonyme" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères">
+                      <input id="pseudo-inscription" type="text" name="pseudoInscrit"  class="form-control control-groupe" maxlength='10' size='10' placeholder="Pseudonyme" required pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,10}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères">
                       <i class="fa fa-user darkorange"></i>
                     </span>
                   </div>
@@ -1020,8 +1020,6 @@
                 </div>
               </div>
             </div>
-
-
             <!--Début publication sur le profil-->
             <div class="col-md-6">
               <div class="row">
@@ -1059,12 +1057,12 @@
           </div>
         </div>
     <!--DEBUT  MEMBRES EN LIGNE content-->
-        <div class="col-md-2">
-            <div class="list-group text-left">
-              <p class="text-center chat-title">Amis connectés: &nbsp;<strong id="nb-amis-connectes"></strong></p> 
+        <div class="col-md-2 bandeau">
+            <div class="box profile-info n-border-top text-left">
+                <p class="text-center chat-title">Messagerie privée &nbsp;<strong id="nb-amis-connectes"></strong></p> 
               <table id="table-amis-connectes" class="order-table table table user-list">
-                  <thead>
-                  </thead>
+                <thead>
+                </thead>
               </table>              
             </div>
         </div>
@@ -1088,6 +1086,7 @@
         </div>
       </div>  
     </div> 
+
 <!-- **************************************************************************************** -->
 <!--                    MUR DE PROFIL  : INFO D'UN AMI                                        -->
 <!-- **************************************************************************************** -->
@@ -1644,9 +1643,6 @@
                             </li>
                           </ul>
                         </div>
-                        
-                       
-                         
                       </div>
                     </div>
                   </div>
@@ -1898,6 +1894,96 @@
       </div>
     </div>
 
+
+<!--*****************************************************************************************-->
+<!--                    FENETRE MODAL MESSAGERIE PRIVEE                                      -->
+<!--*****************************************************************************************--> 
+  <div class="modal fade " tabindex="-1" role="dialog" id="idMessagerie" aria-labelledby="idModalMessagerieTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content" id="idModalContentMessagerie">
+        <div class="modal-header" id="idModalBodyTextMessagerie">
+          <h4 class="modal-title titre-nav-admin" id="pseudoMessagerie"></h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer" aria-hidden="true">X</button>
+        </div>
+        <div class="modal-body">
+          <div class="tab-pane profile active" id="messagerie-tab">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="user-info-left">
+                  <div class="contact">
+                    <p>
+                      <div class="user-block">
+                        <img id="messagerie-photo-profil-un" src="" alt="photo de profil" class="img-circle">
+                        <div class="username"><span class="s-text" id="messagerie-pseudo-un"></span></div>
+                      </div>
+                      <div class="user-block">
+                        <img id="messagerie-photo-profil-deux" src="" alt="photo de profil" class="img-circle">
+                        <div class="username"><span class="s-text" id="messagerie-pseudo-deux"></span></div>
+                      </div>
+                    </p>                    
+                  </div>
+                </div>
+              </div>
+  <!-- ****************  DEBUT MESSAGE  ********************** -->                     
+              <div class="col-md-9">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="widget">
+                      <div class="basic-info">
+                        <h5><i class="fa fa-square"></i>&nbsp;Messages</h5> 
+                      </div>                                           
+                      <div class="widget-body bordered-top bordered-sky">
+                        <ul class="list-unstyled profile-about margin-none">
+                          <li class="padding-v-5">
+                            <div class="row">
+                              <div class="col-sm-12" id="messages">
+                                <table id="table-messages" class="table user-list">
+                                  <thead>
+                                  </thead>
+                                </table>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="widget">
+                          <div class="basic-info">
+                            <h5><i class="fa fa-square"></i>&nbsp;Commenter</h5> 
+                          </div>
+                          <div class="widget-body bordered-top bordered-sky">
+                            <ul class="list-unstyled profile-about margin-none">
+                              <li class="padding-v-5">
+                                <div class="row">
+                                  <form id="form-message">
+                                    <img id="messagerie-message-photo-profil" class="img-responsive img-circle img-sm" src="" alt="Alt Text">
+                                    <div class="img-push">
+                                      <input id="message-publie" type="text" class="form-control input-sm" placeholder=""rows="2" maxlength = "400"  title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères">
+                                      <button type="submit" class="btn btn-azure pull-right">Poster</button>
+                                    </div>
+                                  </form>
+                                </div>
+                              </li>
+                            </ul>
+                          </div> 
+                        </div>
+                      </div>
+                    </div> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>       
 <!--*****************************************************************************************-->
 <!--                    FENETRE MODAL MODIFICATION FORMULAIRE D'UN MEMBRE                    -->
 <!--*****************************************************************************************--> 
@@ -1914,7 +2000,7 @@
                     <div class="col-md-3">
                       <div class="user-info-left">
                           <h2 class="titre-nav-admin" id="pseudo-fiche"></h2>
-                          <h3 id="email-fiche"></h3>
+                          <span id="email-fiche"></span>
                           <div class="contact">
                             <p>
                               <img class="image-profil" id="capturePhotoImgFiche" src=""  alt="photo de profil">

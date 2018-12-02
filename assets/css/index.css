@@ -903,5 +903,13 @@ a.disabled {
     text-align: center;
 }
 
+/* page messagerie */
+#table-amis-connectes{
+    font-size: 12px;
+    text-align: center;
+}
 
+.bandeau{
+    padding-right: 10px;
+}
 /* pour toutes les pages titre pseudo*/
