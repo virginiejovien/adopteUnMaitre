@@ -50,62 +50,6 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           ul.dropdown-menu
             li
               a(href='static/pdf/Atelier-final.pdf') Cahier des charges
-            li
-              a(href='profile2.html') Profile 2
-            li
-              a(href='profile3.html') Profile 3
-            li
-              a(href='profile4.html') Profile 4
-            li
-              a(href='sidebar_profile.html') Sidebar profile
-            li
-              a(href='user_detail.html') User detail
-            li
-              a(href='/profile_membre') Profile du membre
-            li
-              a(href='edit_profile.html') Edit profile
-            li
-              a(href='about.html') About
-            li
-              a(href='friends.html') Friends
-            li
-              a(href='friends2.html') Friends 2
-            li
-              a#profil(href='profile_wall.html') Profile wall
-            li
-              a(href='photos1.html') Photos 1
-            li
-              a(href='photos2.html') Photos 2
-            li
-              a(href='view_photo.html') View photo
-            li
-              a(href='messages1.html') Messages 1
-            li
-              a(href='messages2.html') Messages 2
-            li
-              a(href='group.html') Group
-            li
-              a(href='list_users.html') List users
-            li
-              a(href='file_manager.html') File manager
-            li
-              a(href='people_directory.html') People directory
-            li
-              a(href='list_posts.html') List posts
-            li
-              a(href='grid_posts.html') Grid posts
-            li
-              a(href='forms.html') Forms
-            li
-              a(href='buttons.html') Buttons
-            li
-              a(href='error404.html') Error 404
-            li
-              a(href='error500.html') Error 500
-            li
-              a(href='recover_password.html') Recover password
-            li
-              a(href='registration_mail.html') Registration mail
         li.dropdown
           a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false')
             i.fa.fa-user &nbsp;&nbsp;
@@ -134,11 +78,11 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             form#form-connection.needs-validation
               .form-group
                 span.input-icon
-                  input#pseudo.form-control.is-invalid(type='text' name='LoginPseudo' maxlength='23' size='23' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
+                  input#pseudo.form-control.is-invalid(type='text' name='LoginPseudo' maxlength='23' size='23' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
                   i.fa.fa-user.darkorange
               .form-group
                 span.input-icon
-                  input#mp.form-control(type='password' name='LoginPassword' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                  input#mp.form-control(type='password' name='LoginPassword' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
                   i.fa.fa-key.darkorange
                 a#oublie.pull-xs-right(href='#')
                   small Oubli&eacute;?
@@ -155,7 +99,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             form#form-inscription.needs-validation
               .form-group
                 span.input-icon
-                  input#pseudo-inscription.form-control.control-groupe(type='text' name='pseudoInscrit' maxlength='10' size='10' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,10}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
+                  input#pseudo-inscription.form-control.control-groupe(type='text' name='pseudoInscrit' maxlength='10' size='10' placeholder='Pseudonyme' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_*\-]{3,10}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
                   i.fa.fa-user.darkorange
               .form-group
                 span.input-icon
@@ -163,7 +107,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   i.fa.fa-envelope-o.darkorange
               .form-group
                 span.input-icon
-                  input#mp-inscription.form-control(type='password' name='mpInscrit' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                  input#mp-inscription.form-control(type='password' name='mpInscrit' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
                   i.fa.fa-key.darkorange
               .form-group
                 span.input-icon
@@ -199,7 +143,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         .panel-heading
           h3.panel-title
             | Veuiller entrer votre adresse mail
-          button#ferme-mp.close.close-mp(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+          button#ferme-mp.close.close-mp(type='button' data-dismiss='modal' aria-hidden='true') X
         .panel-body
           form#form-recup-mp.form-horizontal.needs-validation
             .profile-pic.text-center
@@ -223,16 +167,16 @@ nav#top.navbar.navbar-white.navbar-fixed-top
         .panel-heading
           h3.panel-title
             | Changer votre mot de passe
-          button#ferme-mp-change.close.close-mp(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+          button#ferme-mp-change.close.close-mp(type='button' data-dismiss='modal' aria-hidden='true') X
         .panel-body
           form#form-change-mp.needs-validation
             .form-group
               span.input-icon
-                input#change-mp-recup.form-control(type='password' name='change-mp-recup' minlength='6' maxlength='12' size='12' placeholder='Mot de passe provisoire' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                input#change-mp-recup.form-control(type='password' name='change-mp-recup' minlength='6' maxlength='12' size='12' placeholder='Mot de passe provisoire' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
                 i.fa.fa-key.darkorange
             .form-group
               span.input-icon
-                input#change-mp1.form-control(type='password' name='change-mp1' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                input#change-mp1.form-control(type='password' name='change-mp1' minlength='6' maxlength='12' size='12' placeholder='Mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
                 i.fa.fa-key.darkorange
             .form-group
               span.input-icon
@@ -277,13 +221,13 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                 h3#email-profil
                 .contact
                   p
-                    img#capturePhotoImg.image-profil(src='' alt='photo de profil')
+                    img#capturePhotoImg.image-profil(src='static/images/favicon.png' alt='photo de profil')
                     br
                     span.file-input.btn.btn-azure.btn-file
                       | Change Avatar 
                       input#capturePhotoFile(type='file' name='capturePhotoFileCover' accept='image/png, image/jpeg')
                   p
-                    img#capturePhotoImgCover.image-profil(src='' alt='photo de couverture')
+                    img#capturePhotoImgCover.image-profil(src='static/images/favicon.png' alt='photo de couverture')
                     br
                     span.file-input.btn.btn-azure.btn-file
                       | Change photo  
@@ -318,7 +262,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Age
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#age-profil.form-control.control-groupe(type='number' name='age' min='12' max='120' step='1' pattern='\d+' title='Uniquement des nombres')
+                              input#age-profil.form-control.control-groupe(type='number' name='age' min='12' max='120' step='1' title='Uniquement des nombres')
                               br
                         // Select
                         .form-group
@@ -330,7 +274,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                                   | Femme
                                 option(value='H')
                                   | Homme
-                                option(value='')
+                                option(value='') Aucun
                               br
                         // Text input
                         .form-group
@@ -877,19 +821,18 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Profil
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              select#profil-profil.form-control.control-groupe(name='profil' size='1' required='')
+                              select#profil-profil.form-control.control-groupe(name='profil' size='1')
                                 option(value='AM')
                                   | Adopte un ma&icirc;tre
                                 option(value='AC')
                                   | Adopte un chat
-                                option(value='NSP' selected='')
-                                  | Ne sais pas encore
+                                option(value='NSP') Ne sais pas encore
                               br
                         .form-group
                           label.col-md-4.control-label Pr&eacute;f&eacute;rences
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              textarea#preference-profil.form-control.control-groupe(type='text' name='preference' rows='2' cols='40' maxlength='400' placeholder="C'est le moment de parler chat" pattern="^[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
+                              textarea#preference-profil.form-control.control-groupe(name='preference' rows='2' cols='40' maxlength='400' placeholder="C'est le moment de parler chat" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
                       .form-group
                         .center
                           button.btn.btn-azure(type='submit') Valider
@@ -964,20 +907,20 @@ nav#top.navbar.navbar-white.navbar-fixed-top
               i.fa.fa-square
               |  Changer votre mot de passe
             .form-group
-              label.col-sm-3.control-label(for='old-password') Ancien mot de passe
+              label.col-sm-3.control-label Ancien mot de passe
               .col-sm-4
                 span.input-icon
-                  input#ancien-mp.form-control(type='password' name='ancien-mp' minlength='6' maxlength='12' size='12' placeholder='Ancien mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                  input#ancien-mp.form-control(type='password' name='ancien-mp' minlength='6' maxlength='12' size='12' placeholder='Ancien mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
                   i.fa.fa-key.darkorange
             hr
             .form-group
-              label.col-sm-3.control-label(for='password') Nouveau mot de passe
+              label.col-sm-3.control-label Nouveau mot de passe
               .col-sm-4
                 span.input-icon
-                  input#parametre-mp1.form-control(type='password' name='parametre-mp1' minlength='6' maxlength='12' size='12' placeholder='Nouveau mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$\*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
+                  input#parametre-mp1.form-control(type='password' name='parametre-mp1' minlength='6' maxlength='12' size='12' placeholder='Nouveau mot de passe' required='' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_*\-]{5,12}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 6 et 12 caractères')
                   i.fa.fa-key.darkorange
             .form-group
-              label.col-sm-3.control-label(for='password2') R&eacute;p&eacute;ter le mot de passe
+              label.col-sm-3.control-label R&eacute;p&eacute;ter le mot de passe
               .col-sm-4
                 span.input-icon
                   input#parametre-mp2.form-control(type='password' name='parametre-mp2' minlength='6' maxlength='12' size='12' data-match='#parametre-mp1' data-match-error="Whoops, these don't match" placeholder='Confirmer le mot de passe' required='')
@@ -999,7 +942,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           .cover.profile
             .wrapper
               .image
-                img#mur-photo-cover.show-in-modal(src='' alt='people')
+                img#mur-photo-cover.show-in-modal(src='static/images/favicon.png' alt='people')
               ul.friends
                 li
                   a(href='#')
@@ -1030,7 +973,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                     i.fa.fa-group
             .cover-info
               .avatar
-                img#mur-photo-profile(src='' alt='people')
+                img#mur-photo-profile(src='static/images/favicon.png' alt='people')
               #mur-pseudo.name
                 a(href='#')
               ul#profilDuMembre.cover-nav
@@ -1149,7 +1092,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   // post state form
                   .box.profile-info.n-border-top
                     form#form-publication
-                      textarea#publication.form-control.input-lg.p-text-area(type='text' name='publication' rows='2' maxlength='400' placeholder='Exprimez vous' pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
+                      textarea#publication.form-control.input-lg.p-text-area(name='publication' rows='2' maxlength='400' placeholder='Exprimez vous' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
                       .box-footer.box-form
                         button.btn.btn-azure.pull-right(type='submit') Poster
                         ul.nav.nav-pills
@@ -1173,11 +1116,11 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           thead
     // FIN MEMBRES EN LIGNE content
   // Modal
-  #modalShow.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel')
+  #modalShow.modal.fade(tabindex='-1' role='dialog')
     .modal-dialog(role='document')
       .modal-content
         .modal-header
-          button.close(type='button' data-dismiss='modal' aria-label='Close')
+          button.close(type='button' data-dismiss='modal')
             span(aria-hidden='true') &times;
           h4#myModalLabel.modal-title Modal title
         .modal-body.text-centers
@@ -1204,13 +1147,13 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           .col-md-12
             .contact
               .controls
-                span#accepte-invitation.fa.fa-thumbs-o-up(href='#' data-toggle='tooltip' data-placement='top' title="Accepter l'invitation" data-original-title='New')
-                span#refuse-invitation.fa.fa-thumbs-o-down(href='#' data-toggle='tooltip' data-placement='top' title="Refuser l'invitation" data-original-title='New')
-                span#supprime-ami.fa.fa-trash-o(href='#' data-toggle='tooltip' data-placement='top' title='Supprimer cet ami' data-original-title='New')
-                span#aller-sur-profil-ami.fa.fa-eye(href='#' data-toggle='tooltip' data-placement='top' title='Aller sur son profil' data-original-title='New')
-                img#info-photo-cover.cover(src='' alt='cover')
+                a#accepte-invitation.fa.fa-thumbs-o-up(href='#' data-toggle='tooltip' data-placement='top' title="Accepter l'invitation" data-original-title='New')
+                a#refuse-invitation.fa.fa-thumbs-o-down(href='#' data-toggle='tooltip' data-placement='top' title="Refuser l'invitation" data-original-title='New')
+                a#supprime-ami.fa.fa-trash-o(href='#' data-toggle='tooltip' data-placement='top' title='Supprimer cet ami' data-original-title='New')
+                a#aller-sur-profil-ami.fa.fa-eye(href='#' data-toggle='tooltip' data-placement='top' title='Aller sur son profil' data-original-title='New')
+                img#info-photo-cover.cover(src='static/images/favicon.png' alt='cover')
                 .cont
-                  img#info-photo-profile.avatar(src='' alt='avatar')
+                  img#info-photo-profile.avatar(src='static/images/favicon.png' alt='avatar')
                   .name
                     span#info-pseudo.s-text
               .row
@@ -1316,7 +1259,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             .cover.profile
               .wrapper
                 .image
-                  img#amis-photo-cover.show-in-modal(src='' alt='people')
+                  img#amis-photo-cover.show-in-modal(src='static/images/favicon.png' alt='people')
                 ul.friends
                   li
                     a(href='#')
@@ -1347,7 +1290,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                       i.fa.fa-group
               .cover-info
                 .avatar
-                  img#amis-photo-profil(src='' alt='people')
+                  img#amis-photo-profil(src='static/images/favicon.png' alt='people')
                 #amis-pseudo.name
                   a(href='#')
                 ul.cover-nav
@@ -1372,7 +1315,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                   .col-md-3.col-sm-3.col-xs-12
                     .form-group.position
                       span.input-icon
-                        input#pseudo-amis.form-control.control-groupe.input-sm(type='text' name='pseudo' maxlength='23' size='23' placeholder='son pseudo' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_&#$ \*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
+                        input#pseudo-amis.form-control.control-groupe.input-sm(type='text' name='pseudo' maxlength='23' size='23' placeholder='son pseudo' pattern='^[a-zA-Z0-9]{1}[a-zA-Z0-9_*\-]{3,23}$' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 23 caractères')
                         i.glyphicon.glyphicon-search.darkorange
                   .col-md-3.col-sm-3.col-xs-12
                     .form-group.position
@@ -1409,18 +1352,6 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                             i.fa.fa-square.fa-stack-2x
                             i.fa.fa-search-plus.fa-stack-1x.fa-inverse
         // Fin tableau résultat de la recherche
-// Modal
-#modalShow.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel')
-  .modal-dialog(role='document')
-    .modal-content
-      .modal-header
-        button.close(type='button' data-dismiss='modal' aria-label='Close')
-          span(aria-hidden='true') &times;
-        h4#myModalLabel.modal-title Modal title
-      .modal-body.text-centers
-        | ...
-      .modal-footer
-        button.btn.btn-default(type='button' data-dismiss='modal') Close
 // ****************************************************************************************
 // PAGE DES MESSAGES INSTANTANNEES
 // ****************************************************************************************
@@ -1437,36 +1368,19 @@ nav#top.navbar.navbar-white.navbar-fixed-top
       #messages-main.tile.tile-alt
         .ms-menu
           .ms-user.clearfix
-            img.img-avatar.pull-left(src='static/images/Friends/guy-3.jpg' alt='')
-            div
+            img#discussion-photoProfil.img-avatar.pull-left(src='static/images/Friends/guy-3.jpg' alt='')
+            #discussion-pseudo
               | Signed in as 
               br
               |  gronemo@gmail.com
           .p-15
-            .dropdown
-              a.btn.btn-azure.btn-block(href='' data-toggle='dropdown')
-                | Messages 
-                i.caret.m-l-5
-              ul.dropdown-menu.dm-icon.w-100
-                li
-                  a(href='')
-                    i.fa.fa-envelope
-                    |  Messages
-                li
-                  a(href='')
-                    i.fa.fa-users
-                    |  Contacts
-                li
-                  a(href='')
-                    i.fa.fa-format-list-bulleted  
-                    | Todo Lists
+            p.text-center.chat-title
+              | Amis connect&eacute;s: &nbsp;
+              strong#nb-amis-connectes-messagerie
           .list-group.lg-alt
             // DEBUT  MEMBRES EN LIGNE content
             .col-md-2
               .list-group.text-left
-                p.text-center.chat-title
-                  | Amis connect&eacute;s: &nbsp;
-                  strong#nb-amis-connectes-messagerie
                 table#table-amis-connectes-messagerie.order-table.table.table.user-list
                   thead
             // FIN MEMBRES EN LIGNE content
@@ -1475,9 +1389,11 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             #ms-menu-trigger.visible-xs
               i.fa.fa-bars
             .pull-left.hidden-xs
-              img.img-avatar.m-r-10(src='static/images/Friends/guy-2.jpg' alt='')
-              .lv-avatar.pull-left
-              span David Parbell
+              h3#titre-discussion Cr&eacute;ez votre sujet de discussion et invitez des amis &agrave; vous rejoindre
+              .form-group
+                span.input-icon
+                  input#caractere-filtre.light-table-filter.form-control.input-xs.position-search-ami-mur(type='search' name='caractere' data-table='order-table' maxlength='21' size='21' placeholder='Rechercher un ami' pattern="^[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{0,21}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 1 et 21 caractères')
+                  i.glyphicon.glyphicon-search.darkorange
             ul.ah-actions.actions
               li
                 a(href='')
@@ -1506,7 +1422,6 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                     a(href='') Message Settings
           .message-feed.media
             .pull-left
-              img.img-avatar(src='static/images/Friends/guy-3.jpg' alt='')
             .media-body
               .mf-content
                 | Quisque consequat arcu eget odio cursus, ut tempor arcu vestibulum. Etiam ex arcu, porta a urna non, lacinia pellentesque orci. Proin semper sagittis erat, eget condimentum sapien viverra et. Mauris volutpat magna nibh, et condimentum est rutrum a. Nunc sed turpis mi. In eu massa a sem pulvinar lobortis.
@@ -1573,9 +1488,9 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           .col-md-12
             .contact
               .controls
-                span#supprime-post.delite.fa.fa-stack(href='#' data-toggle='tooltip' data-placement='top' title='Supprimer la publication' data-original-title='New')
+                a#supprime-post.delite.fa.fa-stack(href='#' data-toggle='tooltip' data-placement='top' title='Supprimer la publication' data-original-title='New')
                 .user-block
-                  img#post-photo-profil.img-circle(src='' alt='photo de profil')
+                  img#post-photo-profil.img-circle(src='static/images/favicon.png' alt='photo de profil')
                   .username
                     span#post-pseudo.s-text
                   .username
@@ -1620,9 +1535,72 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                             li.padding-v-5
                               .row
                                 form#form-post
-                                  img#commentaire-photo-profil.img-responsive.img-circle.img-sm(src='' alt='Alt Text')
+                                  img#commentaire-photo-profil.img-responsive.img-circle.img-sm(src='static/images/favicon.png' alt='Alt Text')
                                   .img-push
-                                    input#commentaire.form-control.input-sm(type='text' placeholder='Commenter' rows='2' maxlength='400' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
+                                    input#commentaire.form-control.input-sm(type='text' placeholder='Commenter' maxlength='200' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
+                                    button.btn.btn-azure.pull-right(type='submit') Poster
+// ****************************************************************************************
+// MESSAGERIE PRIVEE
+// ****************************************************************************************
+// Begin page content
+#idMessagerie.container.page-content
+  .row
+    .col-md-10.col-md-offset-1
+      // NAV TABS
+      ul.nav.nav-tabs.tabs-iconized.nav-profil
+        li#idMurMessage
+          a.a-nav-profil(href='#' data-toggle='tab' aria-expanded='false')
+            i.fa.fa-user &nbsp;
+            | Profil&nbsp;
+            strong
+      h4.titre-nav-admin Messagerie priv&eacute;e
+      .col-md-10.col-md-offset-1.container-contact
+        .row.decor-default
+          .col-md-12
+            .contact
+              .controls
+                h3#pseudoMessagerie
+                a#quitter-messagerie.delite.fa.fa-stack(href='#' data-toggle='tooltip' data-placement='top' title='Quitter la messagerie privée' data-original-title='New')
+                .row
+                  .col-md-6
+                    img#messagerie-photo-profil-un.img-circle(src='static/images/favicon.png' alt='photo de profil')
+                    .username
+                      span#messagerie-pseudo-un.s-text
+                  .col-md-6
+                    img#messagerie-photo-profil-deux.img-circle(src='static/images/favicon.png' alt='photo de profil')
+                    .username
+                      span#messagerie-pseudo-deux.s-text
+              .row
+                .col-md-12
+                  .widget
+                    .basic-info
+                      h5
+                        i.fa.fa-square
+                        | &nbsp;Messages
+                    .widget-body.bordered-top.bordered-sky
+                      ul.list-unstyled.profile-about.margin-none
+                        li.padding-v-5
+                          .row
+                            #post-messages.col-sm-12
+                              table#table-messages.table.user-list
+                                thead
+              #partie-messages.row
+                .col-md-12
+                  .row
+                    .col-md-12
+                      .widget
+                        .basic-info
+                          h5
+                            i.fa.fa-square
+                            | &nbsp;Discuter
+                        .widget-body.bordered-top.bordered-sky
+                          ul.list-unstyled.profile-about.margin-none
+                            li.padding-v-5
+                              .row
+                                form#form-message
+                                  img#messagerie-message-photo-profil.img-responsive.img-circle.img-sm(src='static/images/favicon.png' alt='Alt Text')
+                                  .img-push
+                                    input#message-publie.form-control.input-sm(type='text' placeholder='' maxlength='200' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
                                     button.btn.btn-azure.pull-right(type='submit') Poster
 // ****************************************************************************************
 // DASHBOARD ADMINISTRATEUR
@@ -1675,11 +1653,11 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           .col-md-12
             .contact
               .controls
-                span#modif-membre.write(href='#' data-toggle='tooltip' data-placement='top' title='Modifier les données du membre' data-original-title='New')
-                span#supprime-membre.delite.fa.fa-stack(href='#' data-toggle='tooltip' data-placement='top' title='Supprimer le membre' data-original-title='New')
-                img#detail-photo-cover.cover(src='' alt='cover')
+                a#modif-membre.write(href='#' data-toggle='tooltip' data-placement='top' title='Modifier les données du membre' data-original-title='New')
+                a#supprime-membre.delite.fa.fa-stack(href='#' data-toggle='tooltip' data-placement='top' title='Supprimer le membre' data-original-title='New')
+                img#detail-photo-cover.cover(src='static/images/favicon.png' alt='cover')
                 .cont
-                  img#detail-photo-profile.avatar(src='' alt='avatar')
+                  img#detail-photo-profile.avatar(src='static/images/favicon.png' alt='avatar')
                   .name
                     span#detail-pseudo.s-text
               .row
@@ -1774,12 +1752,12 @@ nav#top.navbar.navbar-white.navbar-fixed-top
 // ****************************************************************************************
 // FENETRE MODAL A PROPOS
 // ****************************************************************************************
-#idAbout.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalAboutTitlePa' aria-hidden='true')
+#idAbout.modal.fade(tabindex='-1' role='dialog' aria-hidden='true')
   .modal-dialog.modal-dialog-centered(role='document')
     .modal-content
       .modal-header
         h5#idModalTitleP.modal-title.titre-apropos A propos...
-        button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+        button.close(type='button' data-dismiss='modal' aria-hidden='true') X
       .row
         .col-md-12
           .cover.profile
@@ -1793,72 +1771,30 @@ nav#top.navbar.navbar-white.navbar-fixed-top
       .modal-footer
         button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
 // *****************************************************************************************
-// FENETRE MODAL MESSAGERIE PRIVEE
+// FENETRE MODAL INVITATION MESSAGERIE PRIVEE
 // *****************************************************************************************
-#idMessagerie.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalMessagerieTitle' aria-hidden='true')
+#idInvitation.modal.fade(tabindex='-1' role='dialog' aria-hidden='true')
   .modal-dialog.modal-dialog-centered(role='document')
-    #idModalContentMessagerie.modal-content
-      #idModalBodyTextMessagerie.modal-header
-        h4#pseudoMessagerie.modal-title.titre-nav-admin
-        button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+    #idModalContentInvitation.modal-content
+      #idModalBodyTextInvitation.modal-header
+        h4#pseudoInvitation.modal-title.titre-nav-admin
+        button.close(type='button' data-dismiss='modal' aria-hidden='true') X
       .modal-body
-        #messagerie-tab.tab-pane.profile.active
+        #invitation-tab.tab-pane.profile.active
           .row
-            .col-md-3
-              .user-info-left
-                .contact
-                  p
-                    .user-block
-                      img#messagerie-photo-profil-un.img-circle(src='' alt='photo de profil')
-                      .username
-                        span#messagerie-pseudo-un.s-text
-                    .user-block
-                      img#messagerie-photo-profil-deux.img-circle(src='' alt='photo de profil')
-                      .username
-                        span#messagerie-pseudo-deux.s-text
-            // ****************  DEBUT MESSAGE  **********************
-            .col-md-9
-              .row
-                .col-md-12
-                  .widget
-                    .basic-info
-                      h5
-                        i.fa.fa-square
-                        | &nbsp;Messages
-                    .widget-body.bordered-top.bordered-sky
-                      ul.list-unstyled.profile-about.margin-none
-                        li.padding-v-5
-                          .row
-                            #messages.col-sm-12
-                              table#table-messages.table.user-list
-                                thead
-              .row
-                .col-md-12
-                  .row
-                    .col-md-12
-                      .widget
-                        .basic-info
-                          h5
-                            i.fa.fa-square
-                            | &nbsp;Commenter
-                        .widget-body.bordered-top.bordered-sky
-                          ul.list-unstyled.profile-about.margin-none
-                            li.padding-v-5
-                              .row
-                                form#form-message
-                                  img#messagerie-message-photo-profil.img-responsive.img-circle.img-sm(src='' alt='Alt Text')
-                                  .img-push
-                                    input#message-publie.form-control.input-sm(type='text' placeholder='' rows='2' maxlength='400' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
-                                    button.btn.btn-azure.pull-right(type='submit') Poster
+            .bouton-aligne
+              button#accepter-invitation.btn.btn-azure(type='button' data-dismiss='modal') Accepter
+            .bouton-aligne
+              button#refuser-invitation.btn.btn-azure(type='button' data-dismiss='modal') Refuser
 // *****************************************************************************************
 // FENETRE MODAL MODIFICATION FORMULAIRE D'UN MEMBRE
 // *****************************************************************************************
-#idFiche.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalFicheTitle' aria-hidden='true')
+#idFiche.modal.fade(tabindex='-1' role='dialog' aria-hidden='true')
   .modal-dialog.modal-dialog-centered(role='document')
     #idModalContentFiche.modal-content
       #idModalBodyTextFiche.modal-header
         h4#pseudoFiche.modal-title.titre-nav-admin
-        button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+        button.close(type='button' data-dismiss='modal' aria-hidden='true') X
       .modal-body
         #fiche-tab.tab-pane.profile.active
           .row
@@ -1868,13 +1804,13 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                 span#email-fiche
                 .contact
                   p
-                    img#capturePhotoImgFiche.image-profil(src='' alt='photo de profil')
+                    img#capturePhotoImgFiche.image-profil(src='static/images/favicon.png' alt='photo de profil')
                     br
                     span.file-input.btn.btn-azure.btn-file
                       | Change Avatar 
                       input#capturePhotoFileFiche(type='file' name='capturePhotoFileCoverFiche' accept='image/png, image/jpeg')
                   p
-                    img#capturePhotoImgCoverFiche.image-profil(src='' alt='photo de couverture')
+                    img#capturePhotoImgCoverFiche.image-profil(src='static/images/favicon.png' alt='photo de couverture')
                     br
                     span.file-input.btn.btn-azure.btn-file
                       | Change photo  
@@ -1893,7 +1829,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Nom
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#nom-fiche.form-control.control-groupe(type='text' name='nom' maxlength='21' size='21' placeholder='Nom' pattern="^[a-zA-Z\u00C0-\u00FF- '[a-zA-Z\u00C0-\u00FF-']{1,21}$" title="Uniquement des lettres + les caractères suivants:- ' dont des espaces et la longueur comprise entre 2 et 21 caractères" autofocus='')
+                              input#nom-fiche.form-control.control-groupe(type='text' name='nom' maxlength='21' size='21' placeholder='Nom' pattern="^[a-zA-Z\u00C0-\u00FF- '[a-zA-Z\u00C0-\u00FF-']{1,21}$" title="Uniquement des lettres + les caractères suivants:- ' dont des espaces et la longueur comprise entre 2 et 21 caractères")
                               i.fa.fa-user.darkorange
                               br
                         // Text input
@@ -1909,7 +1845,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Age
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              input#age-fiche.form-control.control-groupe(type='number' name='age' min='12' max='120' step='1' pattern='\d+' title='Uniquement des nombres')
+                              input#age-fiche.form-control.control-groupe(type='number' name='age' min='12' max='120' step='1' title='Uniquement des nombres')
                               br
                         // Select
                         .form-group
@@ -1921,7 +1857,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                                   | Femme
                                 option(value='H')
                                   | Homme
-                                option(value='')
+                                option(value='') Aucun
                               br
                         // Text input
                         .form-group
@@ -2468,19 +2404,18 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                           label.col-md-4.control-label Profil
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              select#profil-fiche.form-control.control-groupe(name='profil' size='1' required='')
+                              select#profil-fiche.form-control.control-groupe(name='profil' size='1')
                                 option(value='AM')
                                   | Adopte un ma&icirc;tre
                                 option(value='AC')
                                   | Adopte un chat
-                                option(value='NSP' selected='')
-                                  | Ne sais pas encore
+                                option(value='NSP') Ne sais pas encore
                               br
                         .form-group
                           label.col-md-4.control-label Pr&eacute;f&eacute;rences
                           .col-md-6.inputGroupContainer
                             span.input-icon
-                              textarea#preference-fiche.form-control.control-groupe(type='text' name='preference' rows='2' cols='40' maxlength='400' placeholder="C'est le moment de parler chat" pattern="[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{3,400}" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
+                              textarea#preference-fiche.form-control.control-groupe(name='preference' rows='2' cols='40' maxlength='400' placeholder="C'est le moment de parler chat" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
                       .form-group
                         .center
                           button.btn.btn-azure(type='submit') Valider
@@ -2488,42 +2423,42 @@ nav#top.navbar.navbar-white.navbar-fixed-top
 // ****************************************************************************************
 // FENETRE MODAL DE BIENVENUE ET FELICITATION
 // ****************************************************************************************
-#idFelicitation.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idModalFelicitationTitle' aria-hidden='true')
+#idFelicitation.modal.fade(tabindex='-1' role='dialog' aria-hidden='true')
   .modal-dialog.modal-dialog-centered(role='document')
     #idModalContent.modal-content
       #idModalBodyTextFelicitation.modal-header
         h5#idModalTitle.modal-title Bienvenue dans Adopte un Ma&icirc;tre...
-        button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+        button.close(type='button' data-dismiss='modal' aria-hidden='true') X
       .modal-body
-        img.mb-4.mx-auto.d-block(src='static/images/favicon.png' alt='Logo du site adopte un maitre' width='auto' height='72')
+        img.mb-4.mx-auto.d-block(src='static/images/favicon.png' alt='Logo du site adopte un maitre' height='72')
       .modal-footer
         button#ferme-felicitation.btn.btn-azure(type='button' data-dismiss='modal') Fermer
 // ****************************************************************************************
 // FENETRE MODAL MODULABLE
 // ****************************************************************************************
-#idGenericModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idGenericModalTitle' aria-hidden='true')
+#idGenericModal.modal.fade(tabindex='-1' role='dialog' aria-hidden='true')
   .modal-dialog.modal-dialog-centered(role='document')
     #idModalContentG.modal-content
       #idModalBodyTextG.modal-header
         h5#idModalTitleG.modal-title
-        button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+        button.close(type='button' data-dismiss='modal' aria-hidden='true') X
       .modal-body
-        img.mb-4.mx-auto.d-block(src='static/images/favicon.png' alt='Logo du site adopte un maitre' width='auto' height='72')
+        img.mb-4.mx-auto.d-block(src='static/images/favicon.png' alt='Logo du site adopte un maitre' height='72')
         #idModalBodyText
       .modal-footer
         button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
 // ****************************************************************************************
 // FENETRE MODAL MODULABLE
 // ****************************************************************************************
-#idGenericModalAlerte.modal.fade(tabindex='-1' role='dialog' aria-labelledby='idGenericModalTitleAlerte' aria-hidden='true')
+#idGenericModalAlerte.modal.fade(tabindex='-1' role='dialog' aria-hidden='true')
   .modal-dialog.modal-dialog-centered(role='document')
     #idModalContentA.modal-content
       #idModalBodyTextA.modal-header
         h5#idModalTitleA.modal-title
-        button.close(type='button' data-dismiss='modal' aria-label='Fermer' aria-hidden='true') X
+        button.close(type='button' data-dismiss='modal' aria-hidden='true') X
       .modal-body
-        img.mb-4.mx-auto.d-block(src='static/images/favicon.png' alt='Logo du site adopte un maitre' width='auto' height='72')
-        #idModalBodyTextA
+        img.mb-4.mx-auto.d-block(src='static/images/favicon.png' alt='Logo du site adopte un maitre' height='72')
+        #idModalBodyTextMod
       .modal-footer
         button.btn.btn-azure(type='button' data-dismiss='modal') Fermer
 // ****************************************************************************************
@@ -2546,15 +2481,14 @@ footer.footer
         span
           strong Visiteurs connect&eacute;s :&nbsp;
         span#nbr-visiteurs-connectes
+noscript
+  p Veuillez activer JavaScript
 // ****************************************************************************************
 // PARTIE JAVASCRIPT
 // ****************************************************************************************
-noscript
-  p Veuillez activer JavaScript
 script.
   'use strict';
   (function(document) {
-  'use strict';
   var LightTableFilter = (function(Arr) {
   var _input;
   function _onInputEvent(e) {

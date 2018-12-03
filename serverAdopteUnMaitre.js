@@ -233,6 +233,26 @@ vDBMgr.checkDBConnect()
             vMemberServer.sendInvitationDiscussionPrivee(idPseudoAmi, objetDuMembre, webSocketConnection, socketIo);
         });  
 
+        // invitation discussion acceptée
+        webSocketConnection.on('invitationAccepter', function (objetDuMembre, objetAmiDemandeDiscussion, idDiscussion) { 
+            vMemberServer.sendInvitationDiscussionAccepte(objetDuMembre, objetAmiDemandeDiscussion, idDiscussion,webSocketConnection, socketIo);
+        });  
+
+        // invitation discussion refusee
+        webSocketConnection.on('invitationRefuse', function (objetDuMembre, objetAmiDemandeDiscussion, idDiscussion) { 
+            vMemberServer.sendInvitationDiscussionRefuse(objetDuMembre, objetAmiDemandeDiscussion, idDiscussion,webSocketConnection, socketIo);
+        });  
+
+        // quitter la discussion
+        webSocketConnection.on('quitterDiscussion', function (objetDuMembre, objetAmi, idDiscussion) { 
+            vMemberServer.sendQuitterDiscussion(objetDuMembre, objetAmi, idDiscussion,webSocketConnection, socketIo);
+        }); 
+    
+        // reception message
+        webSocketConnection.on('controleMessage', function (idDiscussion, messagePublie, objetDuMembre, objetAmi) { 
+            vMemberServer.gestionMessage(idDiscussion, messagePublie, objetDuMembre, objetAmi, webSocketConnection, socketIo);
+        }); 
+
 //************************************************************************************************************  
 // Gestion de la recherche d'amis
 //************************************************************************************************************ 

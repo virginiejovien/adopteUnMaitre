@@ -385,34 +385,34 @@ textarea.form-control {
 
 /*============== timeline.css =============*/
 
-@import url(//fonts.googleapis.com/css?family=Lato:400|Inconsolata);
+
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body{
-  font-family: Lato,"Helvetica Neue",Arial,Verdana,Tahoma,"Lucida Sans",FreeSans,"Lucida Sans Unicode","Luxi Sans",sans-serif;
-  background: #e9eaed;
-  overflow-x:hidden; 
+    font-family: Lato,"Helvetica Neue",Arial,Verdana,Tahoma,"Lucida Sans",FreeSans,"Lucida Sans Unicode","Luxi Sans",sans-serif;
+    background: #e9eaed;
+    overflow-x:hidden; 
 }
 
 footer.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background-color: #fff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #fff;
 }
 
 footer .container .text-muted {
-  margin: 20px 0;
+    margin: 20px 0;
 }
 
 .footer > .container {
-  padding-right: 15px;
-  padding-left: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 .navbar-white a{
@@ -428,8 +428,8 @@ footer .container .text-muted {
 }
 
 .page-content{
-  margin-top: 100px;
-  margin-bottom: 70px;
+    margin-top: 100px;
+    margin-bottom: 70px;
 }
 
 /*============= top navbar =================*/
@@ -539,6 +539,10 @@ footer .container .text-muted {
 }
 
 #block-detail-publication {
+    display:none;
+}
+
+#idMessagerie{
     display:none;
 }
 
@@ -722,7 +726,6 @@ a.disabled {
 #mur-pseudo{
     font-size: 15px;
     font-weight: bold;
-    color: #1c1f20cf;
     text-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
 
@@ -875,8 +878,7 @@ a.disabled {
 
 #amis-pseudo{
     font-size: 15px;
-    font-weight: bold;
-    color: #1c1f20cf;
+    font-weight: bold;    
     text-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
 #amis-main {
@@ -911,5 +913,17 @@ a.disabled {
 
 .bandeau{
     padding-right: 10px;
+}
+
+#titre-discussion{
+    color: #0a831e;
+    text-align: center;
+}
+
+div.bouton-aligne{
+	display:inline-block;
+	width:45%;
+	margin:10px 2.5% 10px 2.5%;
+	text-align:center;
 }
 /* pour toutes les pages titre pseudo*/
