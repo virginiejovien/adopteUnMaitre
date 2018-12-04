@@ -750,11 +750,45 @@ a.disabled {
     margin-left: -10px;
 }
 
+#modif-membre{
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 28px;
+    color: #2dc3e8;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    position: absolute;
+    z-index: 2;
+    right: 94px;
+    bottom: -46px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    cursor: pointer;
+    
+}
+
+#supprime-membre {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 28px;
+    color: #2dc3e8;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    position: absolute;
+    z-index: 2;
+    right: 20px;
+    bottom: -46px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    cursor: pointer;
+}
 #accepte-invitation{
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
-    font-size: 55px;
-    color: green;
+    font-size: 28px;
+    color: #2dc3e8;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     position: absolute;
@@ -771,8 +805,8 @@ a.disabled {
 #refuse-invitation {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
-    font-size: 55px;
-    color: rgb(221, 20, 20);
+    font-size: 28px;
+    color: #2dc3e8;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     position: absolute;
@@ -788,8 +822,8 @@ a.disabled {
 #supprime-ami {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
-    font-size: 55px;
-    color: rgb(221, 20, 20);
+    font-size: 28px;
+    color: #2dc3e8;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     position: absolute;
@@ -803,11 +837,44 @@ a.disabled {
     
 }
 
+#supprime-post {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 28px;
+    color: #2dc3e8;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    position: absolute;
+    z-index: 2;
+    right: 20px;
+    bottom: -46px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    cursor: pointer;   
+}
+
+#quitter-messagerie {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 28px;
+    color: #2dc3e8;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    position: absolute;
+    z-index: 2;
+    right: -15px;
+    bottom: 0px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    cursor: pointer;
+}
 #aller-sur-profil-ami {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
-    font-size: 55px;
-    color: green;
+    font-size: 28px;
+    color: #2dc3e8;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     position: absolute;
@@ -864,6 +931,14 @@ a.disabled {
     margin-left: 50px;
     text-decoration: none;
     color: gray;
+}
+
+.fa-stack-publication{
+    font-size: 1.5em;
+}
+
+.fa-publi{    
+    width: 66%;
 }
 
 /* page recherche amis */
@@ -926,4 +1001,15 @@ div.bouton-aligne{
 	margin:10px 2.5% 10px 2.5%;
 	text-align:center;
 }
+#messagerie-photo-profil-un{
+    display: block;
+    max-width: 27%;
+    height: auto;
+}
+#messagerie-photo-profil-deux{
+    display: block;
+    max-width: 27%;
+    height: auto;
+}
+
 /* pour toutes les pages titre pseudo*/

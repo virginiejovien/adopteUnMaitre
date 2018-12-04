@@ -299,6 +299,9 @@ window.addEventListener('DOMContentLoaded', function() {
     var idMessagesVersMur =  window.document.getElementById('messages-vers-mur');
     var discussionPhotoProfil =  window.document.getElementById('discussion-photoProfil');
     var discussionPseudo =  window.document.getElementById('discussion-pseudo');
+    var formSujet = window.document.getElementById('form-sujet');
+    var sujetPhotoProfil = window.document.getElementById('sujet-photo-profil');
+    var sujet = window.document.getElementById('sujet');
 //   var idAmisVersMessages =  window.document.getElementById('amis-vers-messages');
 
     var tbodyConnectMessagerie;    // tableau DOM liste des amis connectes
@@ -790,11 +793,11 @@ window.addEventListener('DOMContentLoaded', function() {
             a4.appendChild(span4);
 
             var i1 = document.createElement('i');
-            i1.className = 'fa fa-square fa-stack-2x';
+            i1.className = 'fa fa-square fa-stack-publication';
             span4.appendChild(i1);
 
             var i2 = document.createElement('i');
-            i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
+            i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse fa-publi';
             span4.appendChild(i2);
         }
 
@@ -1091,11 +1094,11 @@ window.addEventListener('DOMContentLoaded', function() {
                     a4.appendChild(span4);
 
                     var i1 = document.createElement('i');
-                    i1.className = 'fa fa-square fa-stack-2x';
+                    i1.className = 'fa fa-square fa-stack-publication';
                     span4.appendChild(i1);
 
                     var i2 = document.createElement('i');
-                    i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
+                    i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse fa-publi';
                     span4.appendChild(i2);
             }
 
@@ -1155,11 +1158,11 @@ window.addEventListener('DOMContentLoaded', function() {
                 aA4.appendChild(spanA4);
 
                 var iA1 = document.createElement('i');
-                iA1.className = 'fa fa-square fa-stack-2x';
+                iA1.className = 'fa fa-square fa-stack-publication';
                 spanA4.appendChild(iA1);
 
                 var iA2 = document.createElement('i');
-                iA2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
+                iA2.className = 'fa fa-search-plus fa-stack-1x fa-inverse fa-publi';
                 spanA4.appendChild(iA2);
             }
         }
@@ -1386,11 +1389,11 @@ window.addEventListener('DOMContentLoaded', function() {
             a4.appendChild(span4);
 
             var i1 = document.createElement('i');
-            i1.className = 'fa fa-square fa-stack-2x';
+            i1.className = 'fa fa-square fa-stack-publication';
             span4.appendChild(i1);
 
             var i2 = document.createElement('i');
-            i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
+            i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse fa-publi';
             span4.appendChild(i2);
 
         }
@@ -2164,9 +2167,11 @@ window.addEventListener('DOMContentLoaded', function() {
         }
         if (pCompteurAmisConnectes > 1) {
             nbAmisConnectes.innerHTML = pCompteurAmisConnectes + ' ' + 'amis connectés';
+            nbAmisConnectesMessagerie.innerHTML = pCompteurAmisConnectes + ' ' + 'amis connectés';
         } else {
 
             nbAmisConnectes.innerHTML = pCompteurAmisConnectes + ' ' + 'ami connecté';
+            nbAmisConnectesMessagerie.innerHTML = pCompteurAmisConnectes + ' ' + 'ami connecté';
         }
         addRowHandlersConnectes(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
     };
@@ -2175,8 +2180,8 @@ window.addEventListener('DOMContentLoaded', function() {
 // Cette fonction ajoute un événement onclick à une ligne du tableau 
 // tableau table-connect-messagerie
 // -----------------------------------------------------------------------------
-    function addRowHandlersConnectesMessagerie() {
-        console.log('je suis dans la fonction addRowHandlersConnectesMessagerie');
+    function addRowHandlersDiscussion() {
+        console.log('je suis dans la fonction addRowHandlersDiscussion');
         var tableauConnectesMessagerie = document.getElementById("table-connect-messagerie");
         var rows = tableauConnectesMessagerie.getElementsByTagName("tr");
         for (var j = 0; j < rows.length; j++) {
@@ -2216,12 +2221,11 @@ window.addEventListener('DOMContentLoaded', function() {
 // Fonction qui affichage sous forme de liste la liste d'amis connectés d'un membre dans le mur de profil
 // afin de pouvoir démarrer ou rejoindre une discussion instantannée dans la messagerie
 //************************************************************************************************************
-    var affichageAmisConnectesMessagerie = function(pObjetAmisConnectes, pCompteurAmisConnectes, objetDuMembre) { 
+    var affichageDiscussion = function(pObjetDuMembre) { 
         
         discussionPhotoProfil.setAttribute('src','static/images/membres/'+ objetDuMembre.photoProfile,'alt', 'image');
         discussionPseudo.innerHTML = objetDuMembre.pseudo;
-        console.log('dans connectes pObjetAmisConnectes messagerie',pObjetAmisConnectes);
-
+    
         if (tbodyExisteConnectMessagerie) {     // on verifie si le tableau connect des membres existe ou pas pour ne pas le créer deux fois
                 console.log('tbodyExisteConnectMessagerie :',tbodyExisteConnectMessagerie);
                 document.getElementById('table-amis-connectes-messagerie').removeChild(tbodyConnectMessagerie) // retire le tableau du DOM
@@ -2231,103 +2235,68 @@ window.addEventListener('DOMContentLoaded', function() {
         document.getElementById('table-amis-connectes-messagerie').appendChild(tbodyConnectMessagerie); 
         tbodyExisteConnectMessagerie = true;
 
-        // Création physique dynamique et ajout au DOM de la liste des membres: on crée une ligne psysique de chaque membre
-        for (var i=0; i < pObjetAmisConnectes.length; i++) {  
-            if (objetAmisConnectes[i].pseudo != "D") {
-        
-                for (var j=0; j < pObjetAmisConnectes[i].amis.length; j++) {  
-                
-                    if (pObjetAmisConnectes[i].amis[j].pseudo == objetDuMembre.pseudo) { 
+        for (var i=0; i < pObjetDuMembre.amis.length; i++) {            
+            
+            // Création physique dynamique et ajout au DOM de la liste d'amis confirmés : on crée une ligne psysique de chaque membre
+
+            if (pObjetDuMembre.amis[i].statut == "C") {  // C = confirmés
                     
-                        if (pObjetAmisConnectes[i].amis[j].statut == "C") {  // C = confirmés
+                        var tr = document.createElement('tr');
+                        document.getElementById('table-connect-messagerie').appendChild(tr);      
+
+                        var td = document.createElement('td');
+                        tr.appendChild(td);
+
+                        var img = document.createElement('img');
+                        img.setAttribute('src','static/images/membres/'+ pObjetDuMembre.amis[i].photoProfile,'alt', 'image');
+                        img.className='img-avatar pull-left';
+                        td.appendChild(img);
                         
-                            var tr = document.createElement('tr');
-                            document.getElementById('table-connect-messagerie').appendChild(tr);      
+                        var a = document.createElement('a');
+                        a.id = 'connectes-pseudo-messagerie'+[i];
+                        a.setAttribute ( 'href' , '#');
+                        a.className = 'user-link';
+                        a.innerHTML =   pObjetDuMembre.amis[i].pseudo;
+                        td.appendChild(a); 
 
-                            var td = document.createElement('td');
-                            tr.appendChild(td);
+                    // début statut pour discussion instantanée
+                        var span = document.createElement('span');
+                        span.className = 'user-subhead-liste';
+                        span.innerHTML = "connecté" 
+                        td.appendChild(span);
 
-                            var img = document.createElement('img');
-                            img.setAttribute('src','static/images/membres/'+ pObjetAmisConnectes[i].photoProfile,'alt', 'image');
-                            img.className='img-avatar pull-left';
-                            td.appendChild(img);
-                            
-                            var a = document.createElement('a');
-                            a.id = 'connectes-pseudo-messagerie'+[i];
-                            a.setAttribute ( 'href' , '#');
-                            a.className = 'user-link';
-                            a.innerHTML =   pObjetAmisConnectes[i].pseudo;
-                            td.appendChild(a); 
+                    // fin statut pour discussion instanatanée
 
-                        // début statut pour discussion instantanée
-                            var span = document.createElement('span');
-                            span.className = 'user-subhead-liste';
+                        var td4 = document.createElement('td');       
+                        td4.setAttribute ( 'style' , 'width: 20%;');
+                        tr.appendChild(td4);
 
-                            if (pObjetAmisConnectes[i].discussion.length) {
-                                span.innerHTML = pObjetAmisConnectes[i].discussion[0].statut + " " +pObjetAmisConnectes[i].discussion[0].idDiscussion;  
-                            } else {
-                                span.innerHTML = "connecté" 
-                            }
+                        var a4 = document.createElement('a');
+                        a4.id = 'liste-info-connecte'+[i];
+                        a4.setAttribute ( 'href' , '#', 'title','Discuter ensemble');
+                        a4.className = 'table-link success';        
+                        td4.appendChild(a4); 
 
-                            td.appendChild(span);
+                        var span4 = document.createElement('span');
+                        span4.className = 'fa-stack';       
+                        a4.appendChild(span4);
 
-                        // fin statut pour discussion instanatanée
+                        var i1 = document.createElement('i');
+                        i1.className = 'fa fa-square fa-stack-2x';
+                        span4.appendChild(i1);
 
-                            var td4 = document.createElement('td');       
-                            td4.setAttribute ( 'style' , 'width: 20%;');
-                            tr.appendChild(td4);
+                // début bouton pour sélectionner un ami
+                        var i2 = document.createElement('i');
+                        i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
+                        span4.appendChild(i2);
 
-                            var a4 = document.createElement('a');
-                            a4.id = 'liste-info-connecte'+[i];
-                            a4.setAttribute ( 'href' , '#', 'title','Discuter ensemble');
-                            a4.className = 'table-link success';        
-                            td4.appendChild(a4); 
-
-                            var span4 = document.createElement('span');
-                            span4.className = 'fa-stack';       
-                            a4.appendChild(span4);
-
-                            var i1 = document.createElement('i');
-                            i1.className = 'fa fa-square fa-stack-2x';
-                            span4.appendChild(i1);
-
-                    // début bouton pour discussion instantanée
-                            var i2 = document.createElement('i');
-
-                            if (pObjetAmisConnectes[i].discussion.length) {
-                                switch(pObjetAmisConnectes[i].discussion[0].statut) {
-                                    case 'en attente':                                           
-                                        i2.className = 'fa fa-comment-o fa-stack-1x fa-inverse';
-                                    break;
-                                    case 'rejoindre':   
-                                        i2.className = 'fa fa-check-circle fa-stack-1x fa-inverse';                          
-                                    break;
-                                    case 'en cours':      
-                                        i2.className = 'fa fa-comment-o fa-stack-1x fa-inverse';  
-                                    break;
-                                };                    
-                            } else {
-                                i2.className = 'fa fa-comment-o fa-stack-1x fa-inverse';
-                            }
-
-                            span4.appendChild(i2);
-
-                // fin bouton pour discussion instanatanée
-                            pCompteurAmisConnectes ++;
-                        }
-
-                    }
-                }
+                // fin bouton pour selectionner un ami
+                
             }
+    
         }
-        if (pCompteurAmisConnectes > 1) {
-            nbAmisConnectesMessagerie.innerHTML = pCompteurAmisConnectes + ' ' + 'amis connectés';
-        } else {
 
-            nbAmisConnectesMessagerie.innerHTML = pCompteurAmisConnectes + ' ' + 'ami connecté';
-        }
-        
-        addRowHandlersConnectesMessagerie(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
+        addRowHandlersDiscussion(); // appel de la fonction qui permet de récuperer l'endroit où on a cliquer dans le tableau
     };
 //************************************************************************************************************
 // **********************        PARTIE COMMUNICATION AVEC LE SERVEUR WEB               ********************** 
@@ -2722,7 +2691,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // Affiche l'image de couverture apres l'avoir selectionné avec un input type="file"
 // -------------------------------------------------------------------------
     capturePhotoFileCoverFiche.addEventListener("change", function(){
-        capturePhotoImgCover.setAttribute('src',window.URL.createObjectURL(capturePhotoFileCoverFiche.files[0]));
+        capturePhotoImgCoverFiche.setAttribute('src',window.URL.createObjectURL(capturePhotoFileCoverFiche.files[0]));
     }, false);
 
 // ***********************************************************************************************************
@@ -2739,7 +2708,7 @@ window.addEventListener('DOMContentLoaded', function() {
         affichageListeAmis(objetDuMembre);
         afficherPublications(objetDuMembre);
         affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
-        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
+        affichageDiscussion(objetDuMembre); 
         blockMurProfile.style.display = 'block';                     
         blockProfilMembre.style.display = 'none';
     });
@@ -2835,7 +2804,7 @@ window.addEventListener('DOMContentLoaded', function() {
         affichageListeAmis(objetDuMembre); 
         afficherPublications(objetDuMembre); 
         affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
-        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
+        affichageDiscussion(objetDuMembre); 
     });   
 
 // ***********************************************************************************************************
@@ -2854,7 +2823,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     objetAmisConnectes.push(amiConnecte);
                    
                     affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
-                    affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
+                    affichageDiscussion(objetDuMembre); 
                 }
             }
         
@@ -2863,7 +2832,7 @@ window.addEventListener('DOMContentLoaded', function() {
             
             
             affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
-            affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
+            affichageDiscussion(objetDuMembre); 
 
         }
     }); 
@@ -2883,7 +2852,7 @@ window.addEventListener('DOMContentLoaded', function() {
     webSocketConnection.on('rajoutListeAmi', function(amisConnectes) {
         objetAmisConnectes.push(amisConnectes)
         affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
-        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
+        affichageDiscussion(objetDuMembre);  
     });
 
 // ***********************************************************************************************************
@@ -2903,7 +2872,7 @@ window.addEventListener('DOMContentLoaded', function() {
         console.log('objetAmisConnectes 1111',objetAmisConnectes);
         
         affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
-        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
+        affichageDiscussion(objetDuMembre);  
     });
 
 // ***********************************************************************************************************
@@ -3050,7 +3019,7 @@ window.addEventListener('DOMContentLoaded', function() {
         affichageListeAmis(objetDuMembre);
         afficherPublications(objetDuMembre);
         affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
-        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
+        affichageDiscussion(objetDuMembre); 
         blockMurProfile.style.display = 'block';     
     });
 
@@ -3082,7 +3051,7 @@ window.addEventListener('DOMContentLoaded', function() {
         affichageListeAmisDunAmi(objetDunMembre);
         afficherPublicationsDunAmi(objetDunMembre);
         affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
-        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
+        affichageDiscussion(objetDuMembre); 
         profilDuMembre.style.display ='none';
         profilDunAmi.style.display = 'block';
         blockMurProfile.style.display = 'block';                     
@@ -3099,7 +3068,7 @@ window.addEventListener('DOMContentLoaded', function() {
         affichageListeAmis(objetDuMembre);
         afficherPublications(objetDuMembre);
         affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
-        affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
+    //    affichageDiscussion(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
         profilDuMembre.style.display ='block';
         profilDunAmi.style.display = 'none';
         blockMurProfile.style.display = 'block';                     
@@ -3225,7 +3194,7 @@ window.addEventListener('DOMContentLoaded', function() {
             affichageListeAmisDunAmi(objetDunMembre);
             afficherPublicationsDunAmi(objetDunMembre);    // affichage des publications
             affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
-            affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
+            affichageDiscussion(objetDuMembre); 
             blockAdministrateur.style.display = 'none';                     
             blockFormulaire.style.display = 'none';
             blockMurProfile.style.display = 'block';
@@ -3236,7 +3205,7 @@ window.addEventListener('DOMContentLoaded', function() {
             affichageListeAmis(objetDuMembre);
             afficherPublications(objetDuMembre);    // affichage des publications
             affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
-            affichageAmisConnectesMessagerie(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
+            affichageDiscussion(objetDuMembre); 
             blockAdministrateur.style.display = 'none';                     
             blockFormulaire.style.display = 'none';
             blockMurProfile.style.display = 'block';
@@ -3480,8 +3449,8 @@ window.addEventListener('DOMContentLoaded', function() {
         pseudoMessagerie.innerHTML = infoAmiRejoindre.pseudo + " " +"a refusé de vous rejoindre!!";  
         console.log('pseudoMessagerie.innerHTML',pseudoMessagerie.innerHTML);
         objetAmiRejoindre = "";  // on supprime les données de l'ami qui nous a invité à discuter    
-        setTimeout(function(){ idMessagerie.style.display= 'none';},9000); 
-        setTimeout(function(){ blockMurProfile.style.display= 'block';},9000);  
+        setTimeout(function(){ idMessagerie.style.display= 'none';},3000); 
+        setTimeout(function(){ blockMurProfile.style.display= 'block';},3000);  
     });
 
     
@@ -3530,11 +3499,11 @@ window.addEventListener('DOMContentLoaded', function() {
         console.log('infoAmi SendAmiRefusDiscussion',infoAmi); 
         partieMessages.style.display= 'none';
         pseudoMessagerie.setAttribute('style','color:red', 'style','font-size:40px');
-        pseudoMessagerie.innerHTML = infoAmi + " " +"vient de partir!!";  
+        pseudoMessagerie.innerHTML = infoAmi.pseudo + " " +"vient de partir!!";  
         console.log('pseudoMessagerie.innerHTML',pseudoMessagerie.innerHTML);
         objetAmiRejoindre = "";  // on supprime les données de l'ami qui nous a invité à discuter    
-        setTimeout(function(){ idMessagerie.style.display= 'none';},9000); 
-        setTimeout(function(){ blockMurProfile.style.display= 'block';},9000);
+        setTimeout(function(){ idMessagerie.style.display= 'none';},3000); 
+        setTimeout(function(){ blockMurProfile.style.display= 'block';},3000);
     });
 
 

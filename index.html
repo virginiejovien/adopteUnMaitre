@@ -280,7 +280,7 @@
                         <img class="image-profil" id="capturePhotoImg" src="static/images/favicon.png"  alt="photo de profil">
                         <br/> 
                         <span class="file-input btn btn-azure btn-file">
-                          Change Avatar <input id="capturePhotoFile" type="file" name="capturePhotoFileCover" accept="image/png, image/jpeg">
+                          Change Avatar <input id="capturePhotoFile" type="file" name="capturePhotoFile" accept="image/png, image/jpeg">
                         </span>
                       </p>
                       <p>
@@ -325,8 +325,7 @@
                               <label class="col-md-4 control-label" >Age</label>
                               <div class="col-md-6  inputGroupContainer">                                   
                                 <span class="input-icon">
-                                    <input id="age-profil" type="number" name="age"  class="form-control control-groupe" min="12" max="120" step="1"  
-                                     title="Uniquement des nombres"> 
+                                    <input id="age-profil" type="number" name="age"  class="form-control control-groupe" min="12" max="120" step="1" title="Uniquement des nombres"> 
                                 <br/>                                     
                                 </span>
                               </div>
@@ -1077,10 +1076,6 @@
                 <div class="col-md-12">
                   <div class="contact">
                     <div class="controls">
-                      <a id ="accepte-invitation" class="fa fa-thumbs-o-up" href="#" data-toggle="tooltip" data-placement="top" title="Accepter l'invitation" data-original-title="New"></a>
-                      <a id ="refuse-invitation" class="fa fa-thumbs-o-down"  href="#"  data-toggle="tooltip" data-placement="top" title="Refuser l'invitation" data-original-title="New"></a>                 
-                      <a id ="supprime-ami" class="fa fa-trash-o" href="#" data-toggle="tooltip" data-placement="top" title="Supprimer cet ami" data-original-title="New"></a>
-                      <a id ="aller-sur-profil-ami" class="fa fa-eye"  href="#"  data-toggle="tooltip" data-placement="top" title="Aller sur son profil" data-original-title="New"></a>
                       <img id="info-photo-cover" src="static/images/favicon.png" alt="cover" class="cover">
                       <div class="cont">
                         <img id="info-photo-profile" src="static/images/favicon.png" alt="avatar" class="avatar">
@@ -1088,6 +1083,16 @@
                       </div>
                     </div>
                     <div class="row">
+                      
+                          <div class="col-md-12">
+                              <ul class="ah-actions actions">              
+                                  <li><span id ="accepte-invitation" title="Accepter l'invitation" ><i class="fa fa-heart"></i></span></li>
+                                  <li><span id ="refuse-invitation" title="Refuser l'invitation" ><i class="fa fa-times"></i></span></li>
+                                  <li><span id ="supprime-ami" title="Ne plus être son ami" ><i class="fa fa-heartbeat"></i></span></li>
+                                  <li><span id ="aller-sur-profil-ami" title="Aller sur le profil de mon ami" ><i class="fa fa-user"></i></span></li>
+                                </ul> 
+                          </div>
+                      
                       <div class="col-md-5">
                         <div class="widget">
                           <div class="basic-info">
@@ -1166,6 +1171,7 @@
                         </div>
                       </div>
                       <div class="col-md-7">
+                          
                         <div class="widget">
                           <div class="basic-info">
                             <h5><i class="fa fa-square"></i>&nbsp;Préférence</h5> 
@@ -1319,7 +1325,7 @@
                       </div>
                       
                       <div class="col-md-3 col-sm-6 col-xs-12">                       
-                          <button type="submit" class="btn btn-azure">Rechercher</button>
+                          <button type="submit" class="btn btn-azure">Selectionner</button>
                         </div>
                     </div>
                   </form>
@@ -1402,14 +1408,16 @@
                   </div>
                   
                   <div class="pull-left hidden-xs">
-                      <h3 id="titre-discussion">Créez votre sujet de discussion et invitez des amis à vous rejoindre</h3>
-                    <div class="form-group">
-                      <span class="input-icon">
-                          
-                        <input id="caractere-filtre" type="search" name="caractere"  class="light-table-filter form-control input-xs position-search-ami-mur" data-table="order-table"  maxlength='21' size='21' placeholder="Rechercher un ami" pattern="^[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{0,21}$" title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 1 et 21 caractères">
-                          <i class="glyphicon glyphicon-search darkorange"></i>
-                      </span>
-                    </div>
+                      <h3 id="titre-discussion">Créer votre sujet de discussion</h3>
+                      <div class="row">
+                        <form id="form-sujet">
+                          <img id="sujet-photo-profil" class="img-responsive img-circle img-sm" src="static/images/favicon.png" alt="Alt Text">
+                          <div class="img-push">
+                            <input id="sujet" type="text" class="form-control input-sm" placeholder="Renseigner votre sujet de discussion"  maxlength = "200"  title="Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères">
+                            <button type="submit" class="btn btn-azure pull-right">Poster</button>
+                          </div>
+                        </form>
+                      </div>
                   </div>
                   
                   <ul class="ah-actions actions">
@@ -1546,8 +1554,12 @@
               <div class="col-md-12">
                 <div class="contact">
                   <div class="controls">
-
-                    <a id ="supprime-post" class="delite fa fa-stack"  href="#"  data-toggle="tooltip" data-placement="top" title="Supprimer la publication" data-original-title="New"></a>
+                    <div class="col-md-12">
+                        <ul class="ah-actions actions">              
+                            <li><span id ="supprime-post" title="Supprimer la publication" ><i class="fa fa-trash-o"></i></span></li>
+                          </ul> 
+                    </div>
+                    
                     
                     <div class="user-block">
                       <img id="post-photo-profil" src="static/images/favicon.png" alt="photo de profil" class="img-circle">
@@ -1652,14 +1664,18 @@
               <div class="contact">
                 <div class="controls">
                   <h3 id="pseudoMessagerie"></h3>
-                  <a id ="quitter-messagerie" class="delite fa fa-stack"  href="#"  data-toggle="tooltip" data-placement="top" title="Quitter la messagerie privée" data-original-title="New"></a>
+                  <div class="col-md-12">
+                      <ul class="ah-actions actions">              
+                          <li><span id ="quitter-messagerie" title="Quitter la messagerie privée" ><i class="fa fa-times"></i></span></li>
+                        </ul> 
+                  </div>
                   <div class="row">
                     <div class="col-md-6">
-                      <img id="messagerie-photo-profil-un" src="static/images/favicon.png" alt="photo de profil" class="img-circle">
+                      <img id="messagerie-photo-profil-un" src="static/images/favicon.png" alt="photo de profil" class="img-circle img-responsive img-user">
                       <div class="username"><span class="s-text" id="messagerie-pseudo-un"></span></div>
                     </div>
                     <div class="col-md-6">
-                        <img id="messagerie-photo-profil-deux" src="static/images/favicon.png" alt="photo de profil" class="img-circle">
+                        <img id="messagerie-photo-profil-deux" src="static/images/favicon.png" alt="photo de profil" class="img-circle img-responsive img-user">
                         <div class="username"><span class="s-text" id="messagerie-pseudo-deux"></span></div>
                     </div>
                   </div>
@@ -1777,8 +1793,6 @@
               <div class="col-md-12">
                 <div class="contact">
                   <div class="controls">
-                    <a id ="modif-membre" class="write" href="#" data-toggle="tooltip" data-placement="top" title="Modifier les données du membre" data-original-title="New"></a>
-                    <a id ="supprime-membre" class="delite fa fa-stack"  href="#"  data-toggle="tooltip" data-placement="top" title="Supprimer le membre" data-original-title="New"></a>
                     <img id="detail-photo-cover" src="static/images/favicon.png" alt="cover" class="cover">
                     <div class="cont">
                       <img id="detail-photo-profile" src="static/images/favicon.png" alt="avatar" class="avatar">
@@ -1786,6 +1800,12 @@
                     </div>
                   </div>
                   <div class="row">
+                    <div class="col-md-12">
+                      <ul class="ah-actions actions">              
+                          <li><span id ="modif-membre" title="Modifier les données du membre" ><i class="fa fa-pencil-square-o"></i></span></li>
+                          <li><span id ="supprime-membre" title="Supprimer le membre" ><i class="fa fa-times"></i></span></li>
+                      </ul> 
+                    </div>
                     <div class="col-md-5">
                       <div class="widget">
                         <div class="basic-info">
@@ -1985,7 +2005,7 @@
                               <img class="image-profil" id="capturePhotoImgFiche" src="static/images/favicon.png"  alt="photo de profil">
                               <br/> 
                               <span class="file-input btn btn-azure btn-file">
-                                Change Avatar <input id="capturePhotoFileFiche" type="file" name="capturePhotoFileCoverFiche" accept="image/png, image/jpeg">
+                                Change Avatar <input id="capturePhotoFileFiche" type="file" name="capturePhotoFileFiche" accept="image/png, image/jpeg">
                               </span>
                             </p>
                             <p>

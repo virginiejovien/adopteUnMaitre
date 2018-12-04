@@ -1147,16 +1147,26 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           .col-md-12
             .contact
               .controls
-                a#accepte-invitation.fa.fa-thumbs-o-up(href='#' data-toggle='tooltip' data-placement='top' title="Accepter l'invitation" data-original-title='New')
-                a#refuse-invitation.fa.fa-thumbs-o-down(href='#' data-toggle='tooltip' data-placement='top' title="Refuser l'invitation" data-original-title='New')
-                a#supprime-ami.fa.fa-trash-o(href='#' data-toggle='tooltip' data-placement='top' title='Supprimer cet ami' data-original-title='New')
-                a#aller-sur-profil-ami.fa.fa-eye(href='#' data-toggle='tooltip' data-placement='top' title='Aller sur son profil' data-original-title='New')
                 img#info-photo-cover.cover(src='static/images/favicon.png' alt='cover')
                 .cont
                   img#info-photo-profile.avatar(src='static/images/favicon.png' alt='avatar')
                   .name
                     span#info-pseudo.s-text
               .row
+                .col-md-12
+                  ul.ah-actions.actions
+                    li
+                      span#accepte-invitation(title="Accepter l'invitation")
+                        i.fa.fa-heart
+                    li
+                      span#refuse-invitation(title="Refuser l'invitation")
+                        i.fa.fa-times
+                    li
+                      span#supprime-ami(title='Ne plus être son ami')
+                        i.fa.fa-heartbeat
+                    li
+                      span#aller-sur-profil-ami(title='Aller sur le profil de mon ami')
+                        i.fa.fa-user
                 .col-md-5
                   .widget
                     .basic-info
@@ -1328,7 +1338,7 @@ nav#top.navbar.navbar-white.navbar-fixed-top
                         input#prenom-amis.form-control.control-groupe.input-sm(type='text' name='prenom' maxlength='21' size='21' placeholder='son prénom' pattern="^[a-zA-Z\u00C0-\u00FF- '[a-zA-Z\u00C0-\u00FF-']{1,21}$" title="Uniquement des lettres + les caractères suivants:- ' dont des espaces et la longueur comprise entre 2 et 21 caractères")
                         i.glyphicon.glyphicon-search.darkorange
                   .col-md-3.col-sm-6.col-xs-12
-                    button.btn.btn-azure(type='submit') Rechercher
+                    button.btn.btn-azure(type='submit') Selectionner
         // fin formulaire rechercher d'amis
         // Début tableau résultat de la recherche
         .row
@@ -1389,11 +1399,13 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             #ms-menu-trigger.visible-xs
               i.fa.fa-bars
             .pull-left.hidden-xs
-              h3#titre-discussion Cr&eacute;ez votre sujet de discussion et invitez des amis &agrave; vous rejoindre
-              .form-group
-                span.input-icon
-                  input#caractere-filtre.light-table-filter.form-control.input-xs.position-search-ami-mur(type='search' name='caractere' data-table='order-table' maxlength='21' size='21' placeholder='Rechercher un ami' pattern="^[A-Za-z0-9][a-zA-Z0-9-_,. 'éèêàâäöôïî]{0,21}$" title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 1 et 21 caractères')
-                  i.glyphicon.glyphicon-search.darkorange
+              h3#titre-discussion Cr&eacute;er votre sujet de discussion
+              .row
+                form#form-sujet
+                  img#sujet-photo-profil.img-responsive.img-circle.img-sm(src='static/images/favicon.png' alt='Alt Text')
+                  .img-push
+                    input#sujet.form-control.input-sm(type='text' placeholder='Renseigner votre sujet de discussion' maxlength='200' title='Le 1er caractère doit être alphanumérique, les suivants également et la longueur comprise entre 4 et 400 caractères')
+                    button.btn.btn-azure.pull-right(type='submit') Poster
             ul.ah-actions.actions
               li
                 a(href='')
@@ -1488,7 +1500,11 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           .col-md-12
             .contact
               .controls
-                a#supprime-post.delite.fa.fa-stack(href='#' data-toggle='tooltip' data-placement='top' title='Supprimer la publication' data-original-title='New')
+                .col-md-12
+                  ul.ah-actions.actions
+                    li
+                      span#supprime-post(title='Supprimer la publication')
+                        i.fa.fa-trash-o
                 .user-block
                   img#post-photo-profil.img-circle(src='static/images/favicon.png' alt='photo de profil')
                   .username
@@ -1560,14 +1576,18 @@ nav#top.navbar.navbar-white.navbar-fixed-top
             .contact
               .controls
                 h3#pseudoMessagerie
-                a#quitter-messagerie.delite.fa.fa-stack(href='#' data-toggle='tooltip' data-placement='top' title='Quitter la messagerie privée' data-original-title='New')
+                .col-md-12
+                  ul.ah-actions.actions
+                    li
+                      span#quitter-messagerie(title='Quitter la messagerie privée')
+                        i.fa.fa-times
                 .row
                   .col-md-6
-                    img#messagerie-photo-profil-un.img-circle(src='static/images/favicon.png' alt='photo de profil')
+                    img#messagerie-photo-profil-un.img-circle.img-responsive.img-user(src='static/images/favicon.png' alt='photo de profil')
                     .username
                       span#messagerie-pseudo-un.s-text
                   .col-md-6
-                    img#messagerie-photo-profil-deux.img-circle(src='static/images/favicon.png' alt='photo de profil')
+                    img#messagerie-photo-profil-deux.img-circle.img-responsive.img-user(src='static/images/favicon.png' alt='photo de profil')
                     .username
                       span#messagerie-pseudo-deux.s-text
               .row
@@ -1653,14 +1673,20 @@ nav#top.navbar.navbar-white.navbar-fixed-top
           .col-md-12
             .contact
               .controls
-                a#modif-membre.write(href='#' data-toggle='tooltip' data-placement='top' title='Modifier les données du membre' data-original-title='New')
-                a#supprime-membre.delite.fa.fa-stack(href='#' data-toggle='tooltip' data-placement='top' title='Supprimer le membre' data-original-title='New')
                 img#detail-photo-cover.cover(src='static/images/favicon.png' alt='cover')
                 .cont
                   img#detail-photo-profile.avatar(src='static/images/favicon.png' alt='avatar')
                   .name
                     span#detail-pseudo.s-text
               .row
+                .col-md-12
+                  ul.ah-actions.actions
+                    li
+                      span#modif-membre(title='Modifier les données du membre')
+                        i.fa.fa-pencil-square-o
+                    li
+                      span#supprime-membre(title='Supprimer le membre')
+                        i.fa.fa-times
                 .col-md-5
                   .widget
                     .basic-info

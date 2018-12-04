@@ -861,7 +861,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
             
                 return false;                     
             }  
-            let pInfoMembre = documents[0];              // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
+            let pInfoMembre = documents[0];    // Récupération des données du membre dans l'objet infoMembre de stockage provisoire
 
         
             // adresser un mail si la publication n'a pas été faite par le membre 
@@ -1536,7 +1536,6 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
         dataDiscussion.statut             = "Rejoindre";      
         dataDiscussion.dateCreation       = new Date();                   // Timestamp de la création du de la discussion
         dataDiscussion.idDiscussion       = pObjetDuMembre.pseudo + numberDiscussion();       // identifiant de la discussion
-        dataDiscussion.messages           = [];
         
         this.DBMgr.colMembres.updateOne (
             {pseudo: pPseudoRejoindre},  // pseudo membre qui reçoit l'invitation
@@ -1557,89 +1556,91 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
             }
                                 
             ).toArray((error, documents) => {                     
-            if (error) {
-                console.log('Erreur de find dans collection colMembres',error);
-                throw error;
-            }                                
-            if (!documents.length) { 
-            
-                return false;                     
-            }  
-
-            infoAmiRejoindre = documents[0];              // Récupération des données de l'ami 
-            console.log('infoAmiRejoindre',infoAmiRejoindre);
-            let pseudoSengrid   = infoAmiRejoindre.pseudo;
-            let sengridEmail    = infoAmiRejoindre.email;
-            let messageToSend   = {  // on envoie un mail au membre receveur pour lui signaler l'invitation 
-                to       : sengridEmail,
-                from     : constMailFrom,
-                subject  : "messagerie privée",
-                html     : '<h1 style="color: black;">Bonjour '+pseudoSengrid+"</h1><p><h2> <b>" +pObjetDuMembre.pseudo+ "</b></h2><h3> vous invite à discuter sur <b>Adopte un Maître</b> </h3><br />" +
-                    '<br /><i>Adopte un Maitre Team</i>',
-                }
-                
-            sgMail.send(messageToSend);     // envoie du mail confirmation invitation discusssion privée
-
-            let myIndex = this.searchMemberInTableOfMembers('pseudo', infoAmiRejoindre.pseudo);
-
-            if (myIndex !== -1) {                // on retrouve l'ami dans la table des membres connectés
-                socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
-                pSocketIo.to(socketAmi).emit('SendRejoindreDiscussion',infoAmiRejoindre, pObjetDuMembre,dataDiscussion.idDiscussion);  // On envoie au membre receveur de l'invitation les données du membre demandeur
-            }  
-        
-        }); 
-    
-        // mise à jour du membre en attente de discussion privé
-        
-        dataDiscussionDemandeur.statut          = "En attente";      
-        dataDiscussionDemandeur.dateCreation    = dataDiscussion.dateCreation; // même date que le membre receveur
-        dataDiscussionDemandeur.idDiscussion             = dataDiscussion.idDiscussion;     // m^me identifiant de discussion que le mebre receveur
-        dataDiscussionDemandeur.messages                 = [];
-        
-        this.DBMgr.colMembres.updateOne (
-            {pseudo: pObjetDuMembre.pseudo},  // pseudo membre qui invite à discuter
-            {$push:{discussion: dataDiscussionDemandeur}},(error, document) => {
-        
-            },(error, document) => {
-
-            if (error) {
-                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
-                throw error;
-            }          
-            
-        }); 
-    
-            this.DBMgr.colMembres.find(  // on récupérère le document du membre en attente de discussion
-                {
-                    pseudo: pObjetDuMembre.pseudo
-                }
-                                    
-                ).toArray((error, documents) => {                     
                 if (error) {
                     console.log('Erreur de find dans collection colMembres',error);
                     throw error;
                 }                                
                 if (!documents.length) { 
-                
-                    return false;                     
-                }  
-                infoDuMembre = documents[0];              // Récupération des données de l'ami 
-                console.log('infoDuMembre apres mis à jour discussion',infoDuMembre);
-                let pseudoSengrid   = infoDuMembre.pseudo;
-                let sengridEmail    = infoDuMembre.email;
-                let messageToSend   = {  // on envoie un mail au membre demandeur pour lui confirmer l'invitation à discuter 
-                    to       : sengridEmail,
-                    from     : constMailFrom,
-                    subject  : "messagerie privée",
-                    html     : '<h1 style="color: black;">Bonjour '+pseudoSengrid+"</h1><p><h3> vous avez invité <h2> <b>" +infoAmiRejoindre.pseudo+ " "+"</b></h2> à discuter en privé</h3><br />" +
-                        '<br /><i>Adopte un Maitre Team</i>',
-                    }
-                    
-                sgMail.send(messageToSend);     // envoie du mail confirmation invitation discusssion privée
+                    return false;   
+                }  else {
 
-                pWebSocketConnection.emit('SendEnAttenteDiscussion',infoDuMembre, infoAmiRejoindre,dataDiscussion.idDiscussion);    // on renvoie au client les donnees du membre mise à jour suite à une publication
-                pSocketIo.emit('changementDeStatut',infoAmiRejoindre); // on enoie à tous les membres le changement de statut
-            }); 
+                    infoAmiRejoindre = documents[0];              // Récupération des données de l'ami 
+                    console.log('111111111111111111------infoAmiRejoindre',infoAmiRejoindre);
+                    let pseudoSengrid   = pPseudoRejoindre;
+                    let sengridEmail    = infoAmiRejoindre.email;
+                    let messageToSend   = {  // on envoie un mail au membre receveur pour lui signaler l'invitation 
+                        to       : sengridEmail,
+                        from     : constMailFrom,
+                        subject  : "messagerie privée",
+                        html     : '<h1 style="color: black;">Bonjour '+pseudoSengrid+"</h1><p><h2> <b>" +pObjetDuMembre.pseudo+ "</b></h2><h3> vous invite à discuter sur <b>Adopte un Maître</b> </h3><br />" +
+                            '<br /><i>Adopte un Maitre Team</i>',
+                        }
+                        
+                    sgMail.send(messageToSend);     // envoie du mail confirmation invitation discusssion privée
+        
+                    let myIndex = this.searchMemberInTableOfMembers('pseudo', pPseudoRejoindre);
+        
+                    if (myIndex !== -1) {                // on retrouve l'ami dans la table des membres connectés
+                        socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
+                        pSocketIo.to(socketAmi).emit('SendRejoindreDiscussion',infoAmiRejoindre, pObjetDuMembre,dataDiscussion.idDiscussion);  // On envoie au membre receveur de l'invitation les données du membre demandeur
+                    }  
+
+
+            // mise à jour du membre en attente de discussion privé
+        
+                    dataDiscussionDemandeur.statut          = "En attente";      
+                    dataDiscussionDemandeur.dateCreation    = dataDiscussion.dateCreation; // même date que le membre receveur
+                    dataDiscussionDemandeur.idDiscussion    = dataDiscussion.idDiscussion;     // m^me identifiant de discussion que le mebre receveur
+                    
+                    this.DBMgr.colMembres.updateOne (
+                        {pseudo: pObjetDuMembre.pseudo},  // pseudo membre qui invite à discuter
+                        {$push:{discussion: dataDiscussionDemandeur}},(error, document) => {
+                    
+                        },(error, document) => {
+
+                        if (error) {
+                            console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                            throw error;
+                        }          
+                        
+                    }); 
+
+                    this.DBMgr.colMembres.find(  // on récupérère le document du membre en attente de discussion
+                        {
+                            pseudo: pObjetDuMembre.pseudo
+                        }
+                                            
+                        ).toArray((error, documents) => {                     
+                            if (error) {
+                                console.log('Erreur de find dans collection colMembres',error);
+                                throw error;
+                            }                                
+                            if (!documents.length) { 
+                                return false;                     
+                            }  else {
+                                infoDuMembre = documents[0];              // Récupération des données de l'ami 
+                                console.log('infoDuMembre apres mis à jour discussion',infoDuMembre);
+                                let pseudoSengrid   = infoDuMembre.pseudo;
+                                let sengridEmail    = infoDuMembre.email;
+                                let messageToSend   = {  // on envoie un mail au membre demandeur pour lui confirmer l'invitation à discuter 
+                                    to       : sengridEmail,
+                                    from     : constMailFrom,
+                                    subject  : "messagerie privée",
+                                    html     : '<h1 style="color: black;">Bonjour '+pseudoSengrid+"</h1><p><h3> vous avez invité <h2> <b>" +infoAmiRejoindre.pseudo+ " "+"</b></h2> à discuter en privé</h3><br />" +
+                                        '<br /><i>Adopte un Maitre Team</i>',
+                                    }
+                                    
+                                sgMail.send(messageToSend);     // envoie du mail confirmation invitation discusssion privée
+                    
+                                pWebSocketConnection.emit('SendEnAttenteDiscussion',infoDuMembre, infoAmiRejoindre,dataDiscussion.idDiscussion);    // on renvoie au client les donnees du membre mise à jour suite à une publication
+                                pSocketIo.emit('changementDeStatut',infoAmiRejoindre); // on enoie à tous les membres le changement de statut
+                            }
+                            
+                    }); 
+                }    
+        
+        }); 
+
         
     };  
 
@@ -1656,9 +1657,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
         let messages = {
             idDiscussion   : pIdDiscussion,
             discussions    : []
-        }
-        
-        
+        }        
         
         this.DBMgr.colMessages.insertOne(messages, (error, result) => {
             if (error){
@@ -1686,29 +1685,28 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
             if (error) {
                 console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
                 throw error;
-            }          
-            
-        }); 
+            } else {
 
-        this.DBMgr.colMembres.find(  // on récupérère le document de l'ami invité à rejoindre la discussion
-            {
-                pseudo: pObjetDuMembre.pseudo
+                this.DBMgr.colMembres.find(  // on récupérère le document de l'ami invité à rejoindre la discussion
+                {
+                    pseudo: pObjetDuMembre.pseudo
+                }
+                                    
+                ).toArray((error, documents) => {                     
+                    if (error) {
+                        console.log('Erreur de find dans collection colMembres',error);
+                        throw error;
+                    }                                
+                    if (!documents.length) { 
+                        return false;                     
+                    } else {
+                        infoMembre = documents[0];              // Récupération des données de l'ami 
+                        console.log('pObjetAmiDemandeDiscussion dans invitation acceptée',pObjetAmiDemandeDiscussion);
+                        pWebSocketConnection.emit('SendVotreAcceptationDiscussion',infoMembre, pObjetAmiDemandeDiscussion);    // on renvoie au client les donnees du membre mise à jour suite à une accept discussion
+                    }  
+                }); 
             }
-                                
-            ).toArray((error, documents) => {                     
-            if (error) {
-                console.log('Erreur de find dans collection colMembres',error);
-                throw error;
-            }                                
-            if (!documents.length) { 
-            
-                return false;                     
-            }  
-
-            infoMembre = documents[0];              // Récupération des données de l'ami 
-            console.log('pObjetAmiDemandeDiscussion dans invitation acceptée',pObjetAmiDemandeDiscussion);
-            pWebSocketConnection.emit('SendVotreAcceptationDiscussion',infoMembre, pObjetAmiDemandeDiscussion);    // on renvoie au client les donnees du membre mise à jour suite à une accept discussion
-        }); 
+        });
 
         // mise à jour du membre en attente de discussion privé
         
@@ -1720,43 +1718,41 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                         {idDiscussion:pIdDiscussion  }
                         }
             },
-            {   $set:   {   "discussion.$.statut":"en cours"
+            {    $set:   {   "discussion.$.statut":"en cours"
                     }
             },(error, document) => {
 
             if (error) {
                 console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
                 throw error;
-            }          
+            } else {
+                this.DBMgr.colMembres.find(  // on récupérère le document de l'ami invité à rejoindre la discussion
+                {
+                    pseudo: pObjetAmiDemandeDiscussion.pseudo
+                }
+                                    
+                ).toArray((error, documents) => {                     
+                    if (error) {
+                        console.log('Erreur de find dans collection colMembres',error);
+                        throw error;
+                    }                                
+                    if (!documents.length) { 
+                    
+                        return false;                     
+                    }  else {
+                        infoAmi = documents[0];              // Récupération des données de l'ami 
+                        console.log('222222 invitation acceptee infoAmi.pseudo',infoAmi.pseudo);
+                        let myIndex = this.searchMemberInTableOfMembers('pseudo', infoAmi.pseudo);
+            
+                        if (myIndex !== -1) {                // on retrouve l'ami dans la table des membres connectés
+                            socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
+                            pSocketIo.to(socketAmi).emit('SendAmiAccepteDiscussion',infoAmi, infoMembre); // on renvoie au demandeur  les donnees du membre mise à jour suite à acceptation discussion
+                        }  
+                    }
+                }); 
+            }        
             
         }); 
-
-        this.DBMgr.colMembres.find(  // on récupérère le document de l'ami invité à rejoindre la discussion
-            {
-                pseudo: pObjetAmiDemandeDiscussion.pseudo
-            }
-                                
-            ).toArray((error, documents) => {                     
-            if (error) {
-                console.log('Erreur de find dans collection colMembres',error);
-                throw error;
-            }                                
-            if (!documents.length) { 
-            
-                return false;                     
-            }  
-
-            infoAmi = documents[0];              // Récupération des données de l'ami 
-            let myIndex = this.searchMemberInTableOfMembers('pseudo', infoAmi.pseudo);
-
-            if (myIndex !== -1) {                // on retrouve l'ami dans la table des membres connectés
-                socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
-                pSocketIo.to(socketAmi).emit('SendAmiAccepteDiscussion',infoAmi, infoMembre); // on renvoie au demandeur  les donnees du membre mise à jour suite à acceptation discussion
-            }  
-            
-        }); 
-    
-    //    pWebSocketConnection.emit('SendVotreAcceptationDiscussion',infoMembre,infoAmi);    // on renvoie au client les donnees du membre mise à jour suite à une accept discussion
     };  
 
 //************************************************************************************************************  
@@ -1767,7 +1763,6 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
         let socketAmi;
         let infoMembre;
         let infoAmi;
-        console.log('11111111111111111---- pIdDiscussion', pIdDiscussion)
     // mise à jour des statuts pour le membre
 
         this.DBMgr.colMembres.updateOne (
@@ -1783,32 +1778,38 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
     
             },(error, document) => {
 
-            if (error) {
-                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
-                throw error;
-            }          
-            
-        }); 
+                if (error) {
+                    console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                    throw error;
+                } else {
 
-        this.DBMgr.colMembres.find(  // on récupérère le document de l'ami invité à rejoindre la discussion
-            {
-                pseudo: pObjetDuMembre.pseudo
-            }
-                                
-            ).toArray((error, documents) => {                     
-            if (error) {
-                console.log('Erreur de find dans collection colMembres',error);
-                throw error;
-            }                                
-            if (!documents.length) { 
-            
-                return false;                     
-            }  
+                    this.DBMgr.colMembres.find(  // on récupérère le document de l'ami invité à rejoindre la discussion
+                    {
+                        pseudo: pObjetDuMembre.pseudo
+                    }
+                                        
+                    ).toArray((error, documents) => {                     
+                        if (error) {
+                            console.log('Erreur de find dans collection colMembres',error);
+                            throw error;
+                        }                                
+                        if (!documents.length) { 
+                        
+                            return false;                     
+                        }  
+                        else {
+                            infoMembre = documents[0];              // Récupération des données de l'ami 
+                            console.log('infoAmi dans invitation refusée',infoMembre);
+                            pWebSocketConnection.emit('SendVotreRefusDiscussion',infoMembre);    // on renvoie au client les donnees du membre mise à jour suite à refus discussion
+                        }
+                    
+                    }); 
 
-            infoMembre = documents[0];              // Récupération des données de l'ami 
-            console.log('infoAmi dans invitation refusée',infoMembre);
-            pWebSocketConnection.emit('SendVotreRefusDiscussion',infoMembre);    // on renvoie au client les donnees du membre mise à jour suite à refus discussion
-        }); 
+                }        
+            
+            }); 
+
+        
 
         // mise à jour du membre en attente de discussion privé
         
@@ -1826,39 +1827,41 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
             
             },(error, document) => {
 
-            if (error) {
-                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
-                throw error;
-            }          
-            
-        }); 
+                if (error) {
+                    console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                    throw error;
+                }  else {
 
-        this.DBMgr.colMembres.find(  // on récupérère le document de l'ami invité à rejoindre la discussion
-            {
-                pseudo: pObjetAmiDemandeDiscussion.pseudo
-            }
-                                
-            ).toArray((error, documents) => {                     
-            if (error) {
-                console.log('Erreur de find dans collection colMembres',error);
-                throw error;
-            }                                
-            if (!documents.length) { 
-            
-                return false;                     
-            }  
+                    this.DBMgr.colMembres.find(  // on récupérère le document de l'ami invité à rejoindre la discussion
+                    {
+                        pseudo: pObjetAmiDemandeDiscussion.pseudo
+                    }
+                                        
+                    ).toArray((error, documents) => {                     
+                        if (error) {
+                            console.log('Erreur de find dans collection colMembres',error);
+                            throw error;
+                        }                                
+                        if (!documents.length) {                         
+                            return false;                     
+                        }  else {
 
-            infoAmi = documents[0];              // Récupération des données de l'ami 
-            console.log('infoAmi dans discussion refusée',infoAmi);
-            let myIndex = this.searchMemberInTableOfMembers('pseudo', infoAmi.pseudo);
-
-            if (myIndex !== -1) {                //on retrouve l'ami dans la table des membres connectés
-                socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
-                pSocketIo.to(socketAmi).emit('SendAmiRefusDiscussion',infoAmi, infoMembre); // on renvoie au demandeur les donnees du membre mise à jour suite à refus discussion par ami
-            }  
+                            infoAmi = documents[0];              // Récupération des données de l'ami 
+                            console.log('infoAmi dans discussion refusée',infoAmi);
+                            let myIndex = this.searchMemberInTableOfMembers('pseudo', infoAmi.pseudo);
+                
+                            if (myIndex !== -1) {                //on retrouve l'ami dans la table des membres connectés
+                                socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
+                                pSocketIo.to(socketAmi).emit('SendAmiRefusDiscussion',infoAmi, infoMembre); // on renvoie au demandeur les donnees du membre mise à jour suite à refus discussion par ami
+                            }  
+                        }
         
-        });             
-        
+                    
+                
+                    });             
+
+                }            
+        });        
     };  
 
 //************************************************************************************************************  
@@ -1866,6 +1869,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 //  on met à jour la collection message
 //  on envoie les messages aux deux membres 
 //************************************************************************************************************ 
+
     MemberServer.prototype.gestionMessage = function(pIdDiscussion, pMessagePublie, pObjetDuMembre, pObjetAmi, pWebSocketConnection, pSocketIo) {   
         let socketAmi;
         let objetMessage;
@@ -1895,60 +1899,63 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                 throw error;
             }          
             
-        }); 
+            else { 
+                this.DBMgr.colMessages.aggregate(
+                    { $unwind : "$discussions" },
+                    { $group: {
+                        _id: '',
+                        count: { $sum: 1 }
+                    }
+                })
+                .toArray((error, documents) => {
+                    if (error) {
+                        console.log('Erreur de lecture dans la collection \'messages\' : ',error);   // Si erreur technique... Message et Plantage
+                        throw error;
+                    }
+                
+                    if (documents.length) {
+                        this.nbMessagesPublic = documents.length;  
+                        pSocketIo.emit('SendNbMembresMessages', this.nbMessagesPublic); // Affichage sur tous les clients de la MAJ du nombre de membres connectés                  
+                    } else {
+                        this.nbMessagesPublic = 0;
+                        pSocketIo.emit('SendNbMembresMessages', this.nbMessagesPublic); // Affichage sur tous les clients de la MAJ du nombre de membres connectés
+                    }
+                });   
 
-        this.DBMgr.colMessages.aggregate(
-            { $unwind : "$discussions" },
-            { $group: {
-                _id: '',
-                count: { $sum: 1 }
-            }
-        })
-        .toArray((error, documents) => {
-            if (error) {
-                console.log('Erreur de lecture dans la collection \'messages\' : ',error);   // Si erreur technique... Message et Plantage
-                throw error;
-            }
-        
-            if (documents.length) {
-                this.nbMessagesPublic = documents.length;                    
-            } else {
-                this.nbMessagesPublic = 0;
-            }
-            pSocketIo.emit('SendNbMembresMessages', this.nbMessagesPublic); // Affichage sur tous les clients de la MAJ du nombre de membres connectés
+                this.DBMgr.colMessages.find(  // on récupérère le document pour l'envoyé au membre et à son ami
+                {
+                    idDiscussion: pIdDiscussion
+                }
+                                    
+                ).toArray((error, documents) => {                     
+                    if (error) {
+                        console.log('Erreur de find dans collection colMembres',error);
+                        throw error;
+                    }                                
+                    if (!documents.length) { 
+                    
+                        return false;  
+                                    
+                    }  else {
+                        objetMessage = documents[0];              // Récupération des données du message
+                        pWebSocketConnection.emit('sendMessage',pObjetDuMembre, objetMessage);    // on renvoie au client l'objetMessage  mise à jour 
+                        console.log('888888888888888---- pObjetAmi.pseudo',pObjetAmi.pseudo);
+                        let myIndex = this.searchMemberInTableOfMembers('pseudo', pObjetAmi.pseudo); // on doit envoyer le message à l'ami
+                
+                        console.log('*** myIndex boucle récupération amis connectes myIndex ***', myIndex);
+
+                        if (myIndex !== -1) {                // on retrouve l'ami dans la table des membres connectés
+                        
+                            socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
+                            console.log('*** socketAmi  amis connectes myIndex ***', socketAmi);
+                            pSocketIo.to(socketAmi).emit('sendMessageAmi', pObjetAmi, objetMessage); // on renvoie au demandeur les donnees du membre mise à jour suite à refus discussion par ami
+                        }  
+
+                    }
+
+                });
+            }      
         });
-            this.DBMgr.colMessages.find(  // on récupérère le document pour l'envoyé au membre et à son ami
-            {
-                idDiscussion: pIdDiscussion
-            }
-                                
-            ).toArray((error, documents) => {                     
-            if (error) {
-                console.log('Erreur de find dans collection colMembres',error);
-                throw error;
-            }                                
-            if (!documents.length) { 
-            
-                return false;                     
-            }  
-
-            objetMessage = documents[0];              // Récupération des données du message
-            pWebSocketConnection.emit('sendMessage',pObjetDuMembre, objetMessage);    // on renvoie au client l'objetMessage  mise à jour 
-
-            let myIndex = this.searchMemberInTableOfMembers('pseudo', pObjetAmi.pseudo); // on doit envoyer le message à l'ami
-
-            console.log('*** myIndex boucle récupération amis connectes myIndex ***', myIndex);
-
-            if (myIndex !== -1) {                // on retrouve l'ami dans la table des membres connectés
-            
-                socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
-                console.log('*** socketAmi  amis connectes myIndex ***', socketAmi);
-                pSocketIo.to(socketAmi).emit('sendMessageAmi', pObjetAmi, objetMessage); // on renvoie au demandeur les donnees du membre mise à jour suite à refus discussion par ami
-        //     pSocketIo.to(socketAmi).emit('SendMessageAmi',pObjetAmi, objetMessage); // on renvoie à l'ami l'objetMessage actualisé 
-            }  
-        
-        });      
-        
     };  
 
 //************************************************************************************************************  
@@ -1960,10 +1967,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
         let socketAmi;
         let infoMembre;
         let infoAmi;
-        console.log('11111111111111111---- pObjetDuMembre', pObjetDuMembre);
-        console.log('22222222222222222---- pObjetAmi', pObjetAmi);
-        console.log('33333333333333333---- pIdDiscussion', pIdDiscussion);
-
+        
     // suppression de la discussion pour le membre
 
         this.DBMgr.colMembres.updateOne (
@@ -1982,30 +1986,30 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
             if (error) {
                 console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
                 throw error;
-            }          
+            } else {
+                this.DBMgr.colMembres.find(  // on récupérère le document du membre mis à jour
+                    {
+                        pseudo: pObjetDuMembre.pseudo
+                    }
+                                        
+                    ).toArray((error, documents) => {                     
+                    if (error) {
+                        console.log('Erreur de find dans collection colMembres',error);
+                        throw error;
+                    }                                
+                    if (!documents.length) { 
+                    
+                        return false;                     
+                    } else {
+                        infoMembre = documents[0];              // Récupération des données du membre
+                        pWebSocketConnection.emit('SendFinDeDiscussion',infoMembre);    // on renvoie au client les donnees du membre mise à jour suite à fin de discussion
+                    }  
+                });                
+            }      
             
-        }); 
-
-        this.DBMgr.colMembres.find(  // on récupérère le document du membre mis à jour
-            {
-                pseudo: pObjetDuMembre.pseudo
-            }
-                                
-            ).toArray((error, documents) => {                     
-            if (error) {
-                console.log('Erreur de find dans collection colMembres',error);
-                throw error;
-            }                                
-            if (!documents.length) { 
-            
-                return false;                     
-            }  
-
-            infoMembre = documents[0];              // Récupération des données du membre
-            pWebSocketConnection.emit('SendFinDeDiscussion',infoMembre);    // on renvoie au client les donnees du membre mise à jour suite à fin de discussion
-        }); 
-
-    // suppression de la discussion pour l'ami
+        });  
+        
+        // suppression de la discussion pour l'ami
 
         this.DBMgr.colMembres.updateOne (
             {
@@ -2021,40 +2025,33 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
             
             },(error, document) => {
 
-            if (error) {
-                console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
-                throw error;
-            }          
-            
+                if (error) {
+                    console.log('Erreur de upadte dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
+                    throw error;
+                } else {
+                    this.DBMgr.colMembres.find(  // on récupérère le document de l'ami 
+                    {
+                        pseudo: pObjetAmi.pseudo
+                    }
+                                        
+                    ).toArray((error, documents) => {                     
+                        if (error) {
+                            console.log('Erreur de find dans collection colMembres',error);
+                            throw error;
+                        }                                
+                        if (!documents.length) {                         
+                            return false;                     
+                        } else {
+                            infoAmi = documents[0];              // Récupération des données de l'ami 
+                            let myIndex = this.searchMemberInTableOfMembers('pseudo', infoAmi.pseudo);                
+                            if (myIndex !== -1) {                //on retrouve l'ami dans la table des membres connectés
+                                socketAmi = this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre qui a fini
+                                pSocketIo.to(socketAmi).emit('SendAmiFinDiscussion', infoAmi, pObjetDuMembre);  // on renvoie à l'ami les donnees du membre mise à jour suite à fin de discussion par membre
+                            }  
+                        }
+                    });
+                }
         }); 
-
-        this.DBMgr.colMembres.find(  // on récupérère le document de l'ami 
-            {
-                pseudo: pObjetAmi.pseudo
-            }
-                                
-            ).toArray((error, documents) => {                     
-            if (error) {
-                console.log('Erreur de find dans collection colMembres',error);
-                throw error;
-            }                                
-            if (!documents.length) { 
-            
-                return false;                     
-            }  
-
-            infoAmi = documents[0];              // Récupération des données de l'ami 
-            console.log('infoAmi dans fin de discussion',infoAmi);
-            let myIndex = this.searchMemberInTableOfMembers('pseudo', infoAmi.pseudo);
-            console.log('************************my index*************',myIndex);
-
-            if (myIndex !== -1) {                //on retrouve l'ami dans la table des membres connectés
-                socketAmi = this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre qui a fini
-                console.log('socketAmi**********************',socketAmi);
-                pSocketIo.to(socketAmi).emit('SendAmiFinDiscussion', infoAmi, infoMembre);  // on renvoie à l'ami les donnees du membre mise à jour suite à fin de discussion par membre
-            }  
-
-        });             
         
     };  
 
