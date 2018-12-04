@@ -43,14 +43,14 @@ adopteUnMaitre
    |      
    |-- views          // Stockage des templates "Pug" --> single page : index.pug
    |-- .gitignore
-   |-- db.js
+   |-- db.js          // Module de lancement de la base de données
    |-- index.html   
    |-- package-lock.json
    |-- package.json 
    |-- Procfile
    |-- README.md
    |-- serverAdopteUnMaitre.js // serveur  du site
-   |-- serveurMembre.js ( module qui est un Objet représentant les visiteurs et membres )
+   |-- serveurMembre.js ( Module qui est un Objet représentant les visiteurs et membres )
 
 Base de données hébergée chez Mlab:   
 // Stockage de la base de données "adopteunmaitre" (collection "membres" et collection "messages") chez Mlab

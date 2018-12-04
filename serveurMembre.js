@@ -2512,7 +2512,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
             } else {
                 this.nbMessagesPublic = 0;
             }
-            console.log('Le nombre de mesasges publiés',this.nbMessagesPublic);
+            console.log('Le nombre de messages publiés',this.nbMessagesPublic);
     
             this.objetPopulation.nbrConnections = 0;
             this.objetPopulation.nbrMembersInSession = 0;
