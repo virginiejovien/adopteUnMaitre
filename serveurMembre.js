@@ -9,13 +9,13 @@
 //                      un chat ou un chaton et les  proprietaires de chats qui proposent des chats   ************   
 //                      ou des chatons à l'adoption                                                   ************
 //                                                                                                    ************
-//     memberMgr.js :  module qui est un Objet représentant les visiteurs et membres                  ************
+//     serveurMembre.js :  module qui est un Objet représentant les visiteurs et membres              ************
 //                                                                                                    ************       
-//     Objet : MemberServer                                                                           ************                                                                                                                                       ************                                      //     Cet objet sert à gérer :                                                                       ************
-//       - Le filtrage des candidats qui aspirent à jouer                                             ************
-//      - La structure principale des données d'échange avec les clients                              ************
+//     Objet : ServerMembre                                                                           ************                                                                                                                                       ************                                      //     Cet objet sert à gérer :                                                                       ************
+//          - Le filtrage des candidats qui aspirent à jouer                                          ************
+//          - La structure principale des données d'échange avec les clients                          ************
 //                                                                                                    ************
-//   Nécessite :                                                                                      ************
+//      Nécessite :                                                                                   ************
 //       Le module "dbMgr"                                                                            ************
 //       Une variable pour son instanciation                                                          ************                   
 //**************************************************************************************************************** 
@@ -36,7 +36,7 @@ const constNextCharString = constFirstCharString+'&#$*_-'                       
 //************************************************************************************************
 // Déclaration des variables globales
 //************************************************************************************************
-module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exportée
+module.exports = function ServerMembre(pDBMgr) {    // Fonction constructeur exportée
     this.DBMgr = pDBMgr;                            // variable pour instanciation la base de donnees
     this.objectFound;                               // Objet d'accueil utilisé lors de la recherche d'un objet dans la table des membres
     this.newPassword;                               // Variable de stockage provisoire du nouveau mot de passe créé
@@ -98,14 +98,14 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
 // Fonction retournant un entier aléatoire entre une valeur 
 // inférieure (pas nécessairement zéro), et une valeur supérieure
 //************************************************************************************************************
-    MemberServer.prototype.random = function(pValInf, pValSup){
+    ServerMembre.prototype.random = function(pValInf, pValSup){
         return Math.round(((pValSup - pValInf) * Math.random()) + pValInf);
     }
 
 //************************************************************************************************************
 // Cette fonction recherche dans la table des membres, celui qui a la propriété passée en parametre
 //************************************************************************************************************  
-    MemberServer.prototype.searchMemberInTableOfMembers = (pProperty, pValue) => {
+    ServerMembre.prototype.searchMemberInTableOfMembers = (pProperty, pValue) => {
         let myIndex = this.objetPopulation.membres.map((propertyFilter) => {
             return propertyFilter[pProperty];
         })
@@ -117,7 +117,7 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
 //************************************************************************************************************
 // Fonction qui genère de façon aléatoire un mot de passe
 // ***********************************************************************************************************
-    MemberServer.prototype.generePassWord = function generer_password(l) {   
+    ServerMembre.prototype.generePassWord = function generer_password(l) {   
         if (typeof l === 'undefined') {
             var l = 8;
         } 
@@ -147,7 +147,7 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
 //************************************************************************************************************
 // Cette fonction  verifie que la connexion est établie
 //************************************************************************************************************  
-    MemberServer.prototype.connexionVisiteur = function(pWebSocketConnection, pSocketIo) {
+    ServerMembre.prototype.connexionVisiteur = function(pWebSocketConnection, pSocketIo) {
         pWebSocketConnection.emit('connexionServeurOK', {msg:'Connexion effectuée'});   
         console.log('pWebSocketConnection.id',pWebSocketConnection.id); 
         console.log('Connexion établie');   
@@ -159,7 +159,7 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
 // 2) Mise a zero de tous les champs
 // 3) Ajout du visiteur dans le tableau global des personnes connectées
 //************************************************************************************************************
-    MemberServer.prototype.initVisiteur = function(pWebSocketConnection, pSocketIo) {
+    ServerMembre.prototype.initVisiteur = function(pWebSocketConnection, pSocketIo) {
         let objetMembreLocal =  {                         // Structure du membre
             idMember            : pWebSocketConnection.id,
             isMember            : false,           
@@ -195,7 +195,6 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
         console.log('this.objetPopulation',this.objetPopulation);
         this.objetPopulation.nbrConnections++;             // Nombre de visiteurs incluant les [membres + Admins]
         this.UpdateDisplayPopulation(pSocketIo);
-  //      this.getNbMessages(pSocketIo);
 
         console.log('--------------------------------------------------------------------------------------------------------------------')
         console.log('initVisiteur - 000 - : this.objetPopulation.membres.length : ',this.objetPopulation.membres.length,
@@ -214,7 +213,7 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
 //      - de visiteurs
 //      - de messages publics   
 //************************************************************************************************************ 
-    MemberServer.prototype.UpdateDisplayPopulation = function(pSocketIo){
+    ServerMembre.prototype.UpdateDisplayPopulation = function(pSocketIo){
         population = {
             nbrVisitors    : this.objetPopulation.nbrConnections,
             nbrMembers     : this.objetPopulation.nbrMembersInSession,
@@ -227,7 +226,7 @@ module.exports = function MemberServer(pDBMgr) {    // Fonction constructeur exp
 //************************************************************************************************************  
 // prépare et envoie à tous les visiteurs qui se connecte le nombre de messages publics echangés:       
 //************************************************************************************************************ 
-MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
+ServerMembre.prototype.UpdatNbMessagesPublic = function(pSocketIo){
     population = {
         nbrVisitors    : this.objetPopulation.nbrConnections,
         nbrMembers     : this.objetPopulation.nbrMembersInSession,
@@ -243,7 +242,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
 // - Si le mot de passe et le pseudo n'existe pas : on envoie au client "messageNoConnection"
 // - Sinon on a bien un membre:  on demande au client activation bouton deconnexion et affichage profil
 //************************************************************************************************************
-    MemberServer.prototype.visitorTryToLoginPromise = (pVisiteurLoginData, pWebSocketConnection, pSocketIo) => {
+    ServerMembre.prototype.visitorTryToLoginPromise = (pVisiteurLoginData, pWebSocketConnection, pSocketIo) => {
         return new Promise((resolve, reject) => {
             this.DBMgr.colMembres.find(
                 { 
@@ -322,7 +321,6 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
                     pWebSocketConnection.emit('disableConnectBtn'); // on envoie au client activation bouton deconnexion 
                     pWebSocketConnection.emit('profileConnect', this.membre); // On envoie au client les données de profil du membre  
                     if (this.membre.statut != '0')  {
-                //        console.log("this.membre.statut",this.membre.statut);
                         pWebSocketConnection.emit('disableAdministrateurBtn'); // on envoie au client activation bouton administrateur car le membre est un administrateur
                     }
 
@@ -334,7 +332,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
 //************************************************************************************************************
 // Point d'appel pour la fonction de connection en mode 'async / await'
 //************************************************************************************************************
-    MemberServer.prototype.visitorTryToLogin = async (pVisiteurLoginData, pWebSocketConnection, pSocketIo) => {
+    ServerMembre.prototype.visitorTryToLogin = async (pVisiteurLoginData, pWebSocketConnection, pSocketIo) => {
         var result = await (this.visitorTryToLoginPromise(pVisiteurLoginData, pWebSocketConnection, pSocketIo));
         return result;
     };
@@ -342,7 +340,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
 //************************************************************************************************************
 // Ajoute le membre nouvellement créé ou Loggé avec succès à la liste des membres connectés
 //************************************************************************************************************
-    MemberServer.prototype.addMemberToActiveMembers = function(pIndex, pSocketIo){
+    ServerMembre.prototype.addMemberToActiveMembers = function(pIndex, pSocketIo){
         this.objetPopulation.membres[pIndex].isMember  = true;
         this.objetPopulation.nbrMembersInSession++;  // On ajoute +1 au nbre de membres connectés le membre qu'on vient de lire pour cette connexion dans un objet qui les recense
         //   this.objetPopulation.nbrConnections--; // et par conséquent on retire -1 au nombre de visiteurs en ligne 
@@ -359,8 +357,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
 //      - on récupère les donnees de l'ami
 //      - on envoie à l'ami les donnees du membre nouvellement connecté pour qu'il sache qu'il est connecté
 //************************************************************************************************************
-    MemberServer.prototype.checkAmisConnectes = (pObjetDuMembre, pWebSocketConnection, pSocketIo) => {
-        console.log('je suis dans recherche amis connectes');
+    ServerMembre.prototype.checkAmisConnectes = (pObjetDuMembre, pWebSocketConnection, pSocketIo) => {
         let objetDuMembrePourAmi = {};
         let compteurAmisConnectés = 0;
         let socketAmi;
@@ -400,7 +397,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
 //************************************************************************************************************  
 // A chaque déconnection d'un membre on envoie à ses amis qu'il vient de se déconnecter:  
 //************************************************************************************************************ 
-    MemberServer.prototype.UpdateDisplayAmisConnect = function(membre,pWebSocketConnection, pSocketIo) {
+    ServerMembre.prototype.UpdateDisplayAmisConnect = function(membre,pWebSocketConnection, pSocketIo) {
     
         let amiDeConnectes = [];
         let socketAmi;
@@ -430,7 +427,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
 // Si  pseudo et email uniques on va créer un nouveau membre da la BDD adopteun maitre collection membres
 // Sinon on envoie un message d'erreur 
 // ***********************************************************************************************************
-    MemberServer.prototype.checkVisitorSignInISValid = function(pVisiteurSignInData, pWebSocketConnection, pSocketIo){
+    ServerMembre.prototype.checkVisitorSignInISValid = function(pVisiteurSignInData, pWebSocketConnection, pSocketIo){
         this.DBMgr.colMembres.find(              // Vérification de l'unicité du pseudo
         { 
             "pseudo": pVisiteurSignInData.pseudoInscription, 
@@ -483,7 +480,7 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
 // et insertion dans la base de données
 // Envoie d'un mail de confirmation d'inscription au nouveau membre inscrit
 //************************************************************************************************************
-    MemberServer.prototype.addMembreInBDD = function(pObjetVisiteur, pWebSocketConnection, pSocketIo) {
+    ServerMembre.prototype.addMembreInBDD = function(pObjetVisiteur, pWebSocketConnection, pSocketIo) {
         //  verification si membre ou administrateur ou super administrateur
         let finCodeAdmin =  pObjetVisiteur.pseudoInscription.length;
         let debutCodeAdmin = pObjetVisiteur.pseudoInscription.substring(0,13);
@@ -504,7 +501,6 @@ MemberServer.prototype.UpdatNbMessagesPublic = function(pSocketIo){
             pObjetVisiteur.statut =  0; // membre statut = 0 ce n'est pas un administrateur             
         };
 
-        console.log('pObjetVisiteur.statut',pObjetVisiteur.statut); 
     // préparation et mise à jour de l'objetMembreLocal avant insert 
         let objetMembreLocal = {
             pseudo          : pObjetVisiteur.pseudoInscription,
@@ -575,7 +571,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - Si l' adresse mail n'existe pas on ennvoie "messageNoRecupMp"
 // - Par contre, s'il existe, on génère un un mot de passe provisoire et on le transmet par mail 
 //************************************************************************************************************
-    MemberServer.prototype.checkMpLostSendMail = function(email, pWebSocketConnection, pSocketIo) {
+    ServerMembre.prototype.checkMpLostSendMail = function(email, pWebSocketConnection, pSocketIo) {
         this.DBMgr.colMembres.find(
                 {            
                     email:email
@@ -585,9 +581,8 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                 console.log('Erreur de lecture dans la collection \'membres\' : ',error);   // Si erreur technique... Message et Plantage
                 throw error;
             }  
-            console.log('apres find',email); 
+        
             if (!documents.length) {  
-                console.log('adresse mail n existe pas dans nos bases de donnees ',documents);
                 return pWebSocketConnection.emit('messageNoRecupMpMail');               
             } 
             // La mail est valide, récupération des infos nécessaires et suffisantes pour renvoyer le nouveau MDP
@@ -632,18 +627,16 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - Par contre, si tout est ok:    - on met à jour le nouveau mot de passe 
 //                                  - on transmet les nouveaux parametres du compte par mail 
 //************************************************************************************************************
-    MemberServer.prototype.changePassWord = function(pObjetMembreLocalMotDePasse, pWebSocketConnection, pSocketIo) { 
+    ServerMembre.prototype.changePassWord = function(pObjetMembreLocalMotDePasse, pWebSocketConnection, pSocketIo) { 
         this.DBMgr.colMembres.find(
             {
                 pseudo:pObjetMembreLocalMotDePasse.pseudo
 
             }).toArray((error, documents) => {                     
             if (error) {
-                console.log('Erreur de find dans collection colMembres',error);
                 throw error;
             }                                
             if (!documents.length) {  
-                console.log('documents change mot de passe false',documents); 
                 let message = {};              
                 message.message = "Veuillez saisir le mot de passe provisoire que nous vous avons fait parvenir par mail";
                 return pWebSocketConnection.emit('messagePbChangeRecupMp', message, pObjetMembreLocalMotDePasse);                                   
@@ -728,7 +721,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - Par contre, si tout est ok:    - on met à jour le nouveau mot de passe 
 //                                  - on transmet les nouveaux parametres du compte par mail 
 //************************************************************************************************************
-    MemberServer.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse, pWebSocketConnection, pSocketIo) { 
+    ServerMembre.prototype.parametrePassWord = function(pObjetMembreLocalMotDePasse, pWebSocketConnection, pSocketIo) { 
         this.DBMgr.colMembres.find(
             {
                 pseudo:pObjetMembreLocalMotDePasse.pseudo
@@ -819,7 +812,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // Gestion publication sur le mur de profil
 // - on insère la publication dans le tableau des publications du membre                   
 //************************************************************************************************************ 
-    MemberServer.prototype.miseAjourPublication= function(dataPublication, pInfoMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {  
+    ServerMembre.prototype.miseAjourPublication= function(dataPublication, pInfoMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {  
 
         // mise à jour de l'objet membre 
         var numberPublication = function getRandom() {  // on veut un nombre aléatoire pour notre IdPublication
@@ -888,7 +881,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 //************************************************************************************************************  
 // Verifier si le membre connecté est un ami et qu'il a bien le statut confirmé = "C"                  
 //************************************************************************************************************ 
-    MemberServer.prototype.verifierSiAmiDansBdd= function(pObjetDuMembre, pAmisConnectes, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.verifierSiAmiDansBdd= function(pObjetDuMembre, pAmisConnectes, pWebSocketConnection, pSocketIo) {   
         // retrouver le membre connecté dans les amis du membre
         //statut  = confirme
 
@@ -924,7 +917,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 //************************************************************************************************************  
 //  Recuperer toutes les données des membres connectés                 
 //************************************************************************************************************ 
-    MemberServer.prototype.gestionRecupererInfoDesAmisConnectes= function(pObjetAmisConnectes, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.gestionRecupererInfoDesAmisConnectes= function(pObjetAmisConnectes, pWebSocketConnection, pSocketIo) {   
             
             this.DBMgr.colMembres.find(  // on récupérère le document du membre 
                 {
@@ -953,7 +946,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // Gestion commentaire sur un post
 // - on insère le commentaire dans le tableau des commentaires des publications du membre                   
 //************************************************************************************************************ 
-    MemberServer.prototype.miseAjourCommentaire= function(idPublication, dataCommentaire, pInfoMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {  
+    ServerMembre.prototype.miseAjourCommentaire= function(idPublication, dataCommentaire, pInfoMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {  
 
         // mise à jour de l'objet membre 
         var numberCommentaire = function getRandom() {  // on veur un nombre aléatoire pour notre IdCommentaire
@@ -1010,7 +1003,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // Gestion afficher le post
 // - on récupère l'id de la publication             
 //************************************************************************************************************ 
-    MemberServer.prototype.afficherPost = function(pDataIdPublication, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.afficherPost = function(pDataIdPublication, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
         
         // Affichage du message dans l'objet publication du membre
 
@@ -1046,7 +1039,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // Gestion afficher le post à partir du mur d'un ami
 // - on récupère l'id de la publication             
 //************************************************************************************************************ 
-    MemberServer.prototype.afficherPostAmi= function(pDataIdPublication, pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.afficherPostAmi= function(pDataIdPublication, pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
         
         // Affichage du message dans l'objet publication du membre
 
@@ -1083,7 +1076,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // Gestion suppression publication sur un mur de profil
 // - le membre supprime une publication : la publication  est retirée de la liste des publications              
 //************************************************************************************************************ 
-    MemberServer.prototype.suppressionPublication = function(pDataIdPublication, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.suppressionPublication = function(pDataIdPublication, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
         // mise à jour de l'objet publication du membre
 
         //on supprime la publication de la liste des publications
@@ -1128,7 +1121,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - récupération des donnees du membre dans la collection membres 
 // - envoie des données au client au membre 
 //************************************************************************************************************ 
-    MemberServer.prototype.sendInfoMurAmi = function(pPseudoDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.sendInfoMurAmi = function(pPseudoDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
 
         this.DBMgr.colMembres.find({pseudo:pPseudoDunMembre}).toArray((error, documents) => {                     
             if (error) {
@@ -1151,7 +1144,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - récupération des donnees du membre dans la collection membres 
 // - envoie des données au client au membre 
 //************************************************************************************************************ 
-    MemberServer.prototype.sendInfoMurAmiAttente = function(pPseudoDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {    
+    ServerMembre.prototype.sendInfoMurAmiAttente = function(pPseudoDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {    
 
         this.DBMgr.colMembres.find({pseudo:pPseudoDunMembre}).toArray((error, documents) => {                     
             if (error) {
@@ -1174,7 +1167,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - le membre receveur est ajouté à la liste d'amis : statut confirmé pour le membre demandeur
 // - le membre demandeur est ajouté à la liste d'amis : statut confirmé pour le membre receveur                    
 //************************************************************************************************************ 
-    MemberServer.prototype.invitationAccepte= function(pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.invitationAccepte= function(pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
         // mise à jour de l'objet membre demandeur
         //statut  = confirme
 
@@ -1262,7 +1255,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - le membre receveur est retiré de la liste d'amis du membre demandeur
 // - le membre demandeur est retiré de la liste d'amis du membre receveur                 
 //************************************************************************************************************ 
-    MemberServer.prototype.invitationRefuse= function(pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.invitationRefuse= function(pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
         
         // mise à jour de l'objet membre demandeur
         //on supprime le membre receveur de la liste d'amis
@@ -1341,7 +1334,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - le membre supprimeur est retiré de la liste d'amis du membre supprimé
 // - le membre supprimé est retiré de la liste d'amis du membre à l'origine de la suppression                
 //************************************************************************************************************ 
-    MemberServer.prototype.amiSupprime= function(pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.amiSupprime= function(pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
         
         // mise à jour de l'objet membre supprimé
         //on supprime le membre supprimeur de la liste d'amis du supprimé
@@ -1402,7 +1395,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - le membre a reçut la fenetre de message d'alerte lui indiquant qu'un membre a accepté son invitation
 // - mettre l'indicateur de message d'alerte à false                 
 //************************************************************************************************************ 
-    MemberServer.prototype.modifIndicateurAlerte = function(pAlerte, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.modifIndicateurAlerte = function(pAlerte, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
 
         // mise à jour de l'objet membre 
         //alerte.indicateur = false
@@ -1435,7 +1428,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - envoie d'un message au membre à l'origine de la recommandation
 //************************************************************************************************************ 
 
-    MemberServer.prototype.gestionRecommandation= function(pPseudoAmi, pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.gestionRecommandation= function(pPseudoAmi, pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
         
         this.DBMgr.colMembres.find(                         // on récupère les données du membre à qui souhaite recommander et ajouter un membre à sa liste d'amis
             {  pseudo: pPseudoAmi
@@ -1519,13 +1512,12 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 //                                                  et idDiscussion  
 //           - envoie mail de confirmation   
 //************************************************************************************************************ 
-    MemberServer.prototype.sendInvitationDiscussionPrivee = function(pPseudoRejoindre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.sendInvitationDiscussionPrivee = function(pPseudoRejoindre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
         let socketAmi;
         let infoAmiRejoindre;
         let infoDuMembre;
         let dataDiscussion =    {};
         let dataDiscussionDemandeur ={};
-        console.log('pPseudoRejoindre',pPseudoRejoindre);
 
     // mise à jour de l'ami invité à rejoindre la discussion
 
@@ -1565,7 +1557,6 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                 }  else {
 
                     infoAmiRejoindre = documents[0];              // Récupération des données de l'ami 
-                    console.log('111111111111111111------infoAmiRejoindre',infoAmiRejoindre);
                     let pseudoSengrid   = pPseudoRejoindre;
                     let sengridEmail    = infoAmiRejoindre.email;
                     let messageToSend   = {  // on envoie un mail au membre receveur pour lui signaler l'invitation 
@@ -1617,9 +1608,8 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                             }                                
                             if (!documents.length) { 
                                 return false;                     
-                            }  else {
+                            } else {
                                 infoDuMembre = documents[0];              // Récupération des données de l'ami 
-                                console.log('infoDuMembre apres mis à jour discussion',infoDuMembre);
                                 let pseudoSengrid   = infoDuMembre.pseudo;
                                 let sengridEmail    = infoDuMembre.email;
                                 let messageToSend   = {  // on envoie un mail au membre demandeur pour lui confirmer l'invitation à discuter 
@@ -1649,7 +1639,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // creation d'une discussion dans la collection message
 // le statut en cours est affecté aux deux membres
 //************************************************************************************************************ 
-    MemberServer.prototype.sendInvitationDiscussionAccepte = function(pObjetDuMembre, pObjetAmiDemandeDiscussion, pIdDiscussion,pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.sendInvitationDiscussionAccepte = function(pObjetDuMembre, pObjetAmiDemandeDiscussion, pIdDiscussion,pWebSocketConnection, pSocketIo) {   
     
         let infoMembre;
         let infoAmi;
@@ -1701,7 +1691,6 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                         return false;                     
                     } else {
                         infoMembre = documents[0];              // Récupération des données de l'ami 
-                        console.log('pObjetAmiDemandeDiscussion dans invitation acceptée',pObjetAmiDemandeDiscussion);
                         pWebSocketConnection.emit('SendVotreAcceptationDiscussion',infoMembre, pObjetAmiDemandeDiscussion);    // on renvoie au client les donnees du membre mise à jour suite à une accept discussion
                     }  
                 }); 
@@ -1741,7 +1730,6 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                         return false;                     
                     }  else {
                         infoAmi = documents[0];              // Récupération des données de l'ami 
-                        console.log('222222 invitation acceptee infoAmi.pseudo',infoAmi.pseudo);
                         let myIndex = this.searchMemberInTableOfMembers('pseudo', infoAmi.pseudo);
             
                         if (myIndex !== -1) {                // on retrouve l'ami dans la table des membres connectés
@@ -1759,7 +1747,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // Refuser une invitation discussion instantannée privée
 //   le statut en cours est affecté aux deux membres
 //************************************************************************************************************ 
-    MemberServer.prototype.sendInvitationDiscussionRefuse = function(pObjetDuMembre, pObjetAmiDemandeDiscussion, pIdDiscussion,pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.sendInvitationDiscussionRefuse = function(pObjetDuMembre, pObjetAmiDemandeDiscussion, pIdDiscussion,pWebSocketConnection, pSocketIo) {   
         let socketAmi;
         let infoMembre;
         let infoAmi;
@@ -1799,7 +1787,6 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                         }  
                         else {
                             infoMembre = documents[0];              // Récupération des données de l'ami 
-                            console.log('infoAmi dans invitation refusée',infoMembre);
                             pWebSocketConnection.emit('SendVotreRefusDiscussion',infoMembre);    // on renvoie au client les donnees du membre mise à jour suite à refus discussion
                         }
                     
@@ -1847,7 +1834,6 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                         }  else {
 
                             infoAmi = documents[0];              // Récupération des données de l'ami 
-                            console.log('infoAmi dans discussion refusée',infoAmi);
                             let myIndex = this.searchMemberInTableOfMembers('pseudo', infoAmi.pseudo);
                 
                             if (myIndex !== -1) {                //on retrouve l'ami dans la table des membres connectés
@@ -1870,7 +1856,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 //  on envoie les messages aux deux membres 
 //************************************************************************************************************ 
 
-    MemberServer.prototype.gestionMessage = function(pIdDiscussion, pMessagePublie, pObjetDuMembre, pObjetAmi, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.gestionMessage = function(pIdDiscussion, pMessagePublie, pObjetDuMembre, pObjetAmi, pWebSocketConnection, pSocketIo) {   
         let socketAmi;
         let objetMessage;
 
@@ -1939,15 +1925,11 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
                     }  else {
                         objetMessage = documents[0];              // Récupération des données du message
                         pWebSocketConnection.emit('sendMessage',pObjetDuMembre, objetMessage);    // on renvoie au client l'objetMessage  mise à jour 
-                        console.log('888888888888888---- pObjetAmi.pseudo',pObjetAmi.pseudo);
+                        
                         let myIndex = this.searchMemberInTableOfMembers('pseudo', pObjetAmi.pseudo); // on doit envoyer le message à l'ami
-                
-                        console.log('*** myIndex boucle récupération amis connectes myIndex ***', myIndex);
 
                         if (myIndex !== -1) {                // on retrouve l'ami dans la table des membres connectés
-                        
                             socketAmi =this.objetPopulation.membres[myIndex].idMember;  // on récupère l'id websocket de l'ami du membre connecté
-                            console.log('*** socketAmi  amis connectes myIndex ***', socketAmi);
                             pSocketIo.to(socketAmi).emit('sendMessageAmi', pObjetAmi, objetMessage); // on renvoie au demandeur les donnees du membre mise à jour suite à refus discussion par ami
                         }  
 
@@ -1963,7 +1945,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 //  on supprime la discussion pour les membres
 //  on compte 
 //************************************************************************************************************ 
-    MemberServer.prototype.sendQuitterDiscussion = function(pObjetDuMembre, pObjetAmi, pIdDiscussion, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.sendQuitterDiscussion = function(pObjetDuMembre, pObjetAmi, pIdDiscussion, pWebSocketConnection, pSocketIo) {   
         let socketAmi;
         let infoMembre;
         let infoAmi;
@@ -2060,7 +2042,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - verification des champs saisies 
 // - Mise à jour des donnees du membre dans la collection membres de la BDD adopteunmaitre
 //************************************************************************************************************ 
-    MemberServer.prototype.miseAjourProfilMembre = function(pObjetMembreLocal, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.miseAjourProfilMembre = function(pObjetMembreLocal, pWebSocketConnection, pSocketIo) {   
         
         if (!pObjetMembreLocal.profil) {
             let message = {};
@@ -2125,7 +2107,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - récupération des données des membres dans la collection membres dans la BDD
 // - envoie de la liste
 //************************************************************************************************************ 
-    MemberServer.prototype.sendListeDeTousLesMembres = function(pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.sendListeDeTousLesMembres = function(pWebSocketConnection, pSocketIo) {   
     
         this.DBMgr.colMembres.find().toArray((error, documents) => {                     
             if (error) {
@@ -2148,7 +2130,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 //          - la liste ne doit afficher que les membres qui n'appartienne pas à la liste d'amis
 //          - et qui n'ont pas récu d'invitation
 //************************************************************************************************************ 
-    MemberServer.prototype.rechercheMembres = function(pData, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.rechercheMembres = function(pData, pObjetDuMembre, pWebSocketConnection, pSocketIo) {   
         
         let objetResultatRecherche = [];
         let searchTerm = pData.nom + " " +  pData.prenom + " " + pData.pseudo;
@@ -2215,7 +2197,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 //      on rajoute les donnees de l'ami demandeur dans l'objet amis avec statut = "A" (en attente de confirmation)
 // - envoie d'un mail aux deux membres
 //************************************************************************************************************ 
-    MemberServer.prototype.demandeRajoutListeAmi= function(pPseudoAmi, pObjetDuMembre, pWebSocketConnection, pSocketIo) {    
+    ServerMembre.prototype.demandeRajoutListeAmi= function(pPseudoAmi, pObjetDuMembre, pWebSocketConnection, pSocketIo) {    
         this.DBMgr.colMembres.find(                         // on récupère les données du membre qu'on souhaite ajouter à sa liste d'amis
             {  pseudo: pPseudoAmi
                 } 
@@ -2289,7 +2271,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - verification des champs saisies 
 // - Mise à jour des donnees du membre dans la collection membres de la BDD adopteunmaitre
 //************************************************************************************************************ 
-    MemberServer.prototype.miseAjourProfilMembreParAdmin= function(pObjetDunMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.miseAjourProfilMembreParAdmin= function(pObjetDunMembre, pWebSocketConnection, pSocketIo) {   
         
         if (!pObjetDunMembre.profil) {
             let message = {};
@@ -2351,7 +2333,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - récupération des données des membres dans la collection membres dans la BDD
 // - envoie de la liste
 //************************************************************************************************************ 
-    MemberServer.prototype.sendListDesMembres = function(pDataAdmin, pWebSocketConnection, pSocketIo) {    
+    ServerMembre.prototype.sendListDesMembres = function(pDataAdmin, pWebSocketConnection, pSocketIo) {    
         if (pDataAdmin.statut == '0') {
             let message = {};
             message.message = "Vous n'êtes pas autorisés, seuls les administrateurs peuvent consulter les profils de tous les membres";
@@ -2375,7 +2357,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - récupération des donnees du membre dans la collection membres 
 // - envoie des données au client
 //************************************************************************************************************ 
-    MemberServer.prototype.sendInfoMurDunMembre = function(pPseudoDunMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.sendInfoMurDunMembre = function(pPseudoDunMembre, pWebSocketConnection, pSocketIo) {   
         this.DBMgr.colMembres.find({pseudo:pPseudoDunMembre}).toArray((error, documents) => {                     
             if (error) {
                 console.log('Erreur de find dans collection colMembres',error);
@@ -2394,7 +2376,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - récupération des donnees du membre dans la collection membres 
 // - envoie des données au client
 //************************************************************************************************************ 
-    MemberServer.prototype.supprimerUnMembre = function(pDataDunMembre, pWebSocketConnection, pSocketIo) {   
+    ServerMembre.prototype.supprimerUnMembre = function(pDataDunMembre, pWebSocketConnection, pSocketIo) {   
 
         this.DBMgr.colMembres.find({pseudo:pDataDunMembre.pseudo}).toArray((error, documents) => {                     
             if (error) {
@@ -2432,7 +2414,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - le membre supprimeur est retiré de la liste d'amis du membre supprimé
 // - le membre supprimé est retiré de la liste d'amis du membre à l'origine de la suppression                
 //************************************************************************************************************ 
-    MemberServer.prototype.supprimerUnAmiParAdmin= function(pPseudoAmi, pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {    
+    ServerMembre.prototype.supprimerUnAmiParAdmin= function(pPseudoAmi, pObjetDunMembre, pObjetDuMembre, pWebSocketConnection, pSocketIo) {    
 
         this.DBMgr.colMembres.find(                         // on récupère les données du membre qu'on souhaite supprimer de la liste d'amis
         {  pseudo: pPseudoAmi
@@ -2488,13 +2470,12 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // Gestion de la deconnexion des visiteurs et des membres 
 // Deconnexion d'un visiteur et eventuellement d'un membre  :
 // ***********************************************************************************************************
-    MemberServer.prototype.disconnectMember = function(pWebSocketConnection, pSocketIo){
+    ServerMembre.prototype.disconnectMember = function(pWebSocketConnection, pSocketIo){
         
         let myIndex = this.searchMemberInTableOfMembers('idMember' ,pWebSocketConnection.id);
 
         if (this.objetPopulation.membres[myIndex].isMember){                    // Le visiteur qui se deconnecte était un membre
             this.UpdateDisplayAmisConnect(this.objetPopulation.membres[myIndex], pWebSocketConnection, pSocketIo);     // verification si membre et ses amis connectés
-            console.log(' apres UpdateDisplayAmisConnect');
             this.objetPopulation.nbrMembersInSession--;                         // Nombre de visiteurs incluant les [membres + Admins]
             
             if (this.objetPopulation.membres[myIndex].role < cstMembre){    // Il s'agit obligatoiremennt d'un Admin ou Super-Admin
@@ -2512,7 +2493,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
 // - si ne ramène rien on initialise à 0
 // - sinon on  met à jour le nombre de messages publics publies
 // ***********************************************************************************************************
-    MemberServer.prototype.getNbMessages = function(pSocketIo){
+    ServerMembre.prototype.getNbMessages = function(pSocketIo){
         this.DBMgr.colMessages.aggregate(
             { $unwind : "$discussions" },
             { $group: {
@@ -2531,7 +2512,7 @@ console.log('addMembreInBDD - 001 - myIndex : ',myIndex,'--- pWebSocketConnectio
             } else {
                 this.nbMessagesPublic = 0;
             }
-            console.log('this.nbMessagesPublic',this.nbMessagesPublic);
+            console.log('Le nombre de mesasges publiés',this.nbMessagesPublic);
     
             this.objetPopulation.nbrConnections = 0;
             this.objetPopulation.nbrMembersInSession = 0;

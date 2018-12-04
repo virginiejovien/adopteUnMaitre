@@ -579,7 +579,6 @@ window.addEventListener('DOMContentLoaded', function() {
             // il faut mettre à jour l'indicateur d'alerte :  alerte[i].indicateur =false;
                 initModaleMessageAlerte(vModalTitleAlerte, vModalBodyTextAlerte,pObjetDuMembre.alerte[i]);
                 $('#idGenericModalAlerte').modal('toggle');    // ouverture de la fenêtre modale bravo la recuperation de mot de passe ok
-                console.log('indicateur alerte on doit aller dans miseAjourIndicateurAlerte');
                 webSocketConnection.emit('miseAjourIndicateurAlerte', pObjetDuMembre.alerte[i],pObjetDuMembre);  // Transmission au serveur qu'on a affiché l'alerte                                                                         
             } 
         }  
@@ -2041,7 +2040,6 @@ window.addEventListener('DOMContentLoaded', function() {
 // tableau table-connect
 // -----------------------------------------------------------------------------
     function addRowHandlersConnectes() {
-        console.log('je suis dans la fonction addRowHandlersConnectes');
         var tableauConnectes = document.getElementById("table-connect");
         var rows = tableauConnectes.getElementsByTagName("tr");
         for (var j = 0; j < rows.length; j++) {
@@ -2050,9 +2048,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 return function() {
                     var cell = row.getElementsByTagName("td")[0];
                     var cella = cell.getElementsByTagName("a")[0];
-                    var id = cella.innerHTML;
-                    console.log("id:" + id);      
-                    console.log('objetDuMembre avant demande discussion ami objetDuMembre',objetDuMembre);   
+                    var id = cella.innerHTML;  
                     webSocketConnection.emit('sendDiscussion', id, objetDuMembre);  // Demande au serveur de creer un espace de discussion                
                 };
             };
@@ -2069,8 +2065,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var affichageAmisConnectes = function(pObjetAmisConnectes, pCompteurAmisConnectes,objetDuMembre) { 
 
         if (tbodyExisteConnect) {     // on verifie si le tableau connect des membres existe ou pas pour ne pas le créer deux fois
-                console.log('tbodyExisteConnect :',tbodyExisteConnect);
-                document.getElementById('table-amis-connectes').removeChild(tbodyConnect) // retire le tableau du DOM
+            document.getElementById('table-amis-connectes').removeChild(tbodyConnect) // retire le tableau du DOM
         } 
         tbodyConnect = document.createElement('tbody');
         tbodyConnect.id = 'table-connect';
@@ -2181,7 +2176,6 @@ window.addEventListener('DOMContentLoaded', function() {
 // tableau table-connect-messagerie
 // -----------------------------------------------------------------------------
     function addRowHandlersDiscussion() {
-        console.log('je suis dans la fonction addRowHandlersDiscussion');
         var tableauConnectesMessagerie = document.getElementById("table-connect-messagerie");
         var rows = tableauConnectesMessagerie.getElementsByTagName("tr");
         for (var j = 0; j < rows.length; j++) {
@@ -2190,10 +2184,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 return function() {
                     var cell = row.getElementsByTagName("td")[0];
                     var cella = cell.getElementsByTagName("a")[0];
-                    var id = cella.innerHTML;
-                    console.log("id:" + id);      
-                    console.log('objetDunMembre avant demande discussion messagerie ami objetDunMembre',objetDunMembre);
-                    console.log('objetDuMembre avant demande discussion messagrie ami objetDuMembre',objetDuMembre);                 
+                    var id = cella.innerHTML;                
                     webSocketConnection.emit('sendDiscussion', id, objetDunMembre, objetDuMembre);  // Demande au serveur de creer un espace de discussion                
                 };
             };
@@ -2227,8 +2218,7 @@ window.addEventListener('DOMContentLoaded', function() {
         discussionPseudo.innerHTML = objetDuMembre.pseudo;
     
         if (tbodyExisteConnectMessagerie) {     // on verifie si le tableau connect des membres existe ou pas pour ne pas le créer deux fois
-                console.log('tbodyExisteConnectMessagerie :',tbodyExisteConnectMessagerie);
-                document.getElementById('table-amis-connectes-messagerie').removeChild(tbodyConnectMessagerie) // retire le tableau du DOM
+            document.getElementById('table-amis-connectes-messagerie').removeChild(tbodyConnectMessagerie) // retire le tableau du DOM
         } 
         tbodyConnectMessagerie = document.createElement('tbody');
         tbodyConnectMessagerie.id = 'table-connect-messagerie';
@@ -2241,56 +2231,56 @@ window.addEventListener('DOMContentLoaded', function() {
 
             if (pObjetDuMembre.amis[i].statut == "C") {  // C = confirmés
                     
-                        var tr = document.createElement('tr');
-                        document.getElementById('table-connect-messagerie').appendChild(tr);      
+                var tr = document.createElement('tr');
+                document.getElementById('table-connect-messagerie').appendChild(tr);      
 
-                        var td = document.createElement('td');
-                        tr.appendChild(td);
+                var td = document.createElement('td');
+                tr.appendChild(td);
 
-                        var img = document.createElement('img');
-                        img.setAttribute('src','static/images/membres/'+ pObjetDuMembre.amis[i].photoProfile,'alt', 'image');
-                        img.className='img-avatar pull-left';
-                        td.appendChild(img);
-                        
-                        var a = document.createElement('a');
-                        a.id = 'connectes-pseudo-messagerie'+[i];
-                        a.setAttribute ( 'href' , '#');
-                        a.className = 'user-link';
-                        a.innerHTML =   pObjetDuMembre.amis[i].pseudo;
-                        td.appendChild(a); 
+                var img = document.createElement('img');
+                img.setAttribute('src','static/images/membres/'+ pObjetDuMembre.amis[i].photoProfile,'alt', 'image');
+                img.className='img-avatar pull-left';
+                td.appendChild(img);
+                
+                var a = document.createElement('a');
+                a.id = 'connectes-pseudo-messagerie'+[i];
+                a.setAttribute ( 'href' , '#');
+                a.className = 'user-link';
+                a.innerHTML =   pObjetDuMembre.amis[i].pseudo;
+                td.appendChild(a); 
 
-                    // début statut pour discussion instantanée
-                        var span = document.createElement('span');
-                        span.className = 'user-subhead-liste';
-                        span.innerHTML = "connecté" 
-                        td.appendChild(span);
+            // début statut pour discussion instantanée
+                var span = document.createElement('span');
+                span.className = 'user-subhead-liste';
+                span.innerHTML = "connecté" 
+                td.appendChild(span);
 
-                    // fin statut pour discussion instanatanée
+            // fin statut pour discussion instanatanée
 
-                        var td4 = document.createElement('td');       
-                        td4.setAttribute ( 'style' , 'width: 20%;');
-                        tr.appendChild(td4);
+                var td4 = document.createElement('td');       
+                td4.setAttribute ( 'style' , 'width: 20%;');
+                tr.appendChild(td4);
 
-                        var a4 = document.createElement('a');
-                        a4.id = 'liste-info-connecte'+[i];
-                        a4.setAttribute ( 'href' , '#', 'title','Discuter ensemble');
-                        a4.className = 'table-link success';        
-                        td4.appendChild(a4); 
+                var a4 = document.createElement('a');
+                a4.id = 'liste-info-connecte'+[i];
+                a4.setAttribute ( 'href' , '#', 'title','Discuter ensemble');
+                a4.className = 'table-link success';        
+                td4.appendChild(a4); 
 
-                        var span4 = document.createElement('span');
-                        span4.className = 'fa-stack';       
-                        a4.appendChild(span4);
+                var span4 = document.createElement('span');
+                span4.className = 'fa-stack';       
+                a4.appendChild(span4);
 
-                        var i1 = document.createElement('i');
-                        i1.className = 'fa fa-square fa-stack-2x';
-                        span4.appendChild(i1);
+                var i1 = document.createElement('i');
+                i1.className = 'fa fa-square fa-stack-2x';
+                span4.appendChild(i1);
 
-                // début bouton pour sélectionner un ami
-                        var i2 = document.createElement('i');
-                        i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
-                        span4.appendChild(i2);
+        // début bouton pour sélectionner un ami
+                var i2 = document.createElement('i');
+                i2.className = 'fa fa-search-plus fa-stack-1x fa-inverse';
+                span4.appendChild(i2);
 
-                // fin bouton pour selectionner un ami
+        // fin bouton pour selectionner un ami
                 
             }
     
@@ -2314,8 +2304,6 @@ window.addEventListener('DOMContentLoaded', function() {
 // Réception du nombre de membres connectés en temps réel
 //************************************************************************************************
     webSocketConnection.on('nbMembresConnect', function(population) {
-        console.log('nbMembresConnectes',population.nbrMembers);
-        console.log('population',population);
         nbMembresConnectes.innerHTML = population.nbrMembers;  // Affichage du nombre de membres connectés sur la page principale 
         nbrMembresConnectes.innerHTML = population.nbrMembers; // Affichage du nombre de membres connectés sur le pied de page 
         var nombreVisiteurs   = population.nbrVisitors - population.nbrMembers;  
@@ -2329,7 +2317,6 @@ window.addEventListener('DOMContentLoaded', function() {
 // Réception du nombre de messages en temps réel
 //************************************************************************************************
     webSocketConnection.on('SendNbMembresMessages', function(nbMessages) {
-        console.log('nbMessages',nbMessages);
         nbMessagesPublic.innerHTML = nbMessages; // Affichage du nombre de messages publiés sur la page principale 
         nbrMessagesPublic.innerHTML = nbMessages;  // Affichage du nombre de messages publiés sur le pied de page
     });
@@ -2338,7 +2325,6 @@ window.addEventListener('DOMContentLoaded', function() {
 // Réception du nombre de messages publics echangés en temps réel
 //************************************************************************************************
     webSocketConnection.on('nbMessagesPublic', function(nbMessagesPublic) {
-        console.log('nbMessagesPublic',nbMessagesPublic);
         nbMessagesPublic.innerHTML = nbMessagesPublic;  
     }); 
 
@@ -2500,7 +2486,6 @@ window.addEventListener('DOMContentLoaded', function() {
             mp1Inscription : mp1Inscription.value,
             mp2Inscription : mp2Inscription.value
         }
-        console.log("objetDuVisiteur",objetDuVisiteur);
 
         webSocketConnection.emit('controleInscription', objetDuVisiteur);  // Transmission au serveur des infos saisies
         pseudoInscription.value = '';                                    // RAZ des données de Sign-in saisies
@@ -2616,12 +2601,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
         capturePhotoImgCover.setAttribute('src','static/images/membres/'+documents.photoCover);
         pseudoProfil.innerHTML = documents.pseudo;  
-    //      pseudoDeProfil.innerHTML = documents.pseudoInscription; 
+
         emailProfil.innerHTML = documents.email;    
-        //     console.log("pseudoDeProfil.innerHTML",pseudoDeProfil.innerHTML); 
-        
-    //      console.log("photoProfil.innerHTML",photoProfil.innerHTML); 
-    //      });
     
     });   
 
@@ -2697,10 +2678,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // click sur lien mur de profile profile on affiche le mur de profile
 // ***********************************************************************************************************
-
-///pierre
-    idProfileMur.addEventListener('click', function (event) { 
-        console.log('click mur de  profile');  
+    idProfileMur.addEventListener('click', function (event) {   
         // affichage des donnees de la page du mur de profile du membre
         amisPhotoProfil.setAttribute('src','static/images/membres/'+objetDuMembre.photoProfile);  
         amisPhotoCover.setAttribute('src','static/images/membres/'+objetDuMembre.photoCover); 
@@ -2769,7 +2747,6 @@ window.addEventListener('DOMContentLoaded', function() {
         window.scrollTo(0,0);                           // affichage page haut de page 
         objetDuMembre = documents;
         pseudoNav.innerHTML = documents.pseudo; // le pseudo est affiché dans le menu connexion en haut
-        console.log('objetDuMembre profile connexion', objetDuMembre);
         blockFormulaire.style.display = 'none'; 
         footerActivite.style.display = 'block';  
         blockProfilMembre.style.display = 'none'; 
@@ -2812,28 +2789,22 @@ window.addEventListener('DOMContentLoaded', function() {
 // à lui maintenant d'afficher les infos de ce membre avec ses données
 // ***********************************************************************************************************
     webSocketConnection.on('sendAmisConnectes', function(amiConnecte) {
-        console.log('amiConnecte dans SendAmisConnectes',amiConnecte);
-        console.log('000------objetAmisConnectes.length',objetAmisConnectes.length);
         if(objetAmisConnectes.length){
             for (var i=0; i < objetAmisConnectes.length; i++) { 
-               
+
                 if (amiConnecte.pseudo == objetAmisConnectes[i].pseudo) {
                     return false
                 } else {
                     objetAmisConnectes.push(amiConnecte);
-                   
                     affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
                     affichageDiscussion(objetDuMembre); 
                 }
             }
-        
+
         } else {
-            objetAmisConnectes.push(amiConnecte);
-            
-            
+            objetAmisConnectes.push(amiConnecte);            
             affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
             affichageDiscussion(objetDuMembre); 
-
         }
     }); 
 
@@ -2860,7 +2831,6 @@ window.addEventListener('DOMContentLoaded', function() {
 // mise à jour des données des connectes
 // ***********************************************************************************************************
     webSocketConnection.on('SendDeconnexionAmi', function(amisDeConnectes) {
-        console.log('amisDeConnectes ',amisDeConnectes);
         for (var z=0; z < amisDeConnectes.length; z++) { 
             for (var i=0; i < objetAmisConnectes.length; i++) { 
 
@@ -2869,8 +2839,6 @@ window.addEventListener('DOMContentLoaded', function() {
                 }
             }
         }
-        console.log('objetAmisConnectes 1111',objetAmisConnectes);
-        
         affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
         affichageDiscussion(objetDuMembre);  
     });
@@ -2878,7 +2846,6 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // click sur lien changer son profile on affiche le profile d'inscription
 // ***********************************************************************************************************
-
     idProfileChange.addEventListener('click', function (event) { 
         blockMurProfile.style.display = 'none';                     
         blockProfilMembre.style.display = 'block';  
@@ -2893,10 +2860,8 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // click sur lien messages on affiche la messagerie instantanée
 // ***********************************************************************************************************
-    idDiscussions.addEventListener('click', function (event) { 
-        console.log('click de mur vers discussions');  
-        // affichage des donnees de la page du mur de profile du membre
-    //   initMurProfil(objetDuMembre);
+    idDiscussions.addEventListener('click', function (event) {  
+    // affichage des donnees de la page du mur de profile du membre    
         blockMurProfile.style.display = 'none';
         blockMessages.style.display = 'block';                     
     });
@@ -3068,7 +3033,6 @@ window.addEventListener('DOMContentLoaded', function() {
         affichageListeAmis(objetDuMembre);
         afficherPublications(objetDuMembre);
         affichageAmisConnectes(objetAmisConnectes,compteurAmisConnectes,objetDuMembre);  
-    //    affichageDiscussion(objetAmisConnectes,compteurAmisConnectes,objetDuMembre); 
         profilDuMembre.style.display ='block';
         profilDunAmi.style.display = 'none';
         blockMurProfile.style.display = 'block';                     
@@ -3088,7 +3052,7 @@ window.addEventListener('DOMContentLoaded', function() {
         window.scrollTo(0,0); 
         let objetPublication = {};
         let objetMembre = {}; 
-        if(indicateurMurAmi == true) {
+        if (indicateurMurAmi == true) {
     
             objetMembre = objetDunMembre;
         }
@@ -3152,9 +3116,6 @@ window.addEventListener('DOMContentLoaded', function() {
         blockDetailMembre.style.display = 'none';   
         blockPost.style.display         = 'block';
     }); 
-
-
-
 
 
 //***********************************************************************************************************
@@ -3336,7 +3297,6 @@ window.addEventListener('DOMContentLoaded', function() {
         blockMessages.style.display = 'none'; 
 
         blockRechercheAmis.style.display = 'block';  
-    //    affichageListeMembres(objetDesMembres);
         initModalRecupTextInvit(vModalTitleG, vModalBodyTextG);
         $('#idGenericModal').modal('toggle');    // ouverture de la fenêtre modale membre invité             
     }); 
@@ -3348,12 +3308,10 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // On reçoit une invitation à rejoindre une discussion instantannée
 // ***********************************************************************************************************
-    webSocketConnection.on('SendRejoindreDiscussion', function(pObjetDuMembre, pInfoDemandeur,pIdDiscussion) { 
-        console.log('pObjetDuMembre',pObjetDuMembre); 
+    webSocketConnection.on('SendRejoindreDiscussion', function(pObjetDuMembre, pInfoDemandeur,pIdDiscussion) {  
         objetAmiDemandeDiscussion = pInfoDemandeur;
         idDiscussion = pIdDiscussion;
         objetDuMembre = pObjetDuMembre;
-        console.log('objetAmiDemandeDiscussion',objetAmiDemandeDiscussion);
         pseudoInvitation.innerHTML = objetAmiDemandeDiscussion.pseudo + " " +"vous invite à le rejoindre pour discuter!!"
         $('#idInvitation').modal('toggle');                        
     }); 
@@ -3375,6 +3333,8 @@ window.addEventListener('DOMContentLoaded', function() {
         blockRechercheAmis.style.display = 'none';
         blockMessages.style.display = 'none';
         blockInfoAmi.style.display  ='none'; 
+        blockDetailMembre.style.display = 'none';   
+        blockPost.style.display = 'none';
         idMessagerie.style.display = 'block';      
     }); 
     
@@ -3385,16 +3345,13 @@ window.addEventListener('DOMContentLoaded', function() {
         objetAmiRejoindre = infoAmiRejoindre; 
         objetDuMembre = pObjetDuMembre; 
         partieMessages.style.display= 'block';
-        console.log('objetDuMembre',objetDuMembre);
-        console.log('objetAmiRejoindre',objetAmiRejoindre);
         pseudoMessagerie.innerHTML = " ";          
     }); 
     
 // ***********************************************************************************************************
 // click sur le bouton accepter invitation
 // ***********************************************************************************************************
-    accepterInvitation.addEventListener('click', function (event) { 
-        console.log('click sur bouton accepter invitation');             
+    accepterInvitation.addEventListener('click', function (event) {             
         webSocketConnection.emit('invitationAccepter', objetDuMembre, objetAmiDemandeDiscussion,idDiscussion);  // Demande au serveur accepte la discussion
     });
 
@@ -3411,7 +3368,9 @@ window.addEventListener('DOMContentLoaded', function() {
         blockProfilMembre.style.display ='none';
         blockRechercheAmis.style.display = 'none';
         blockMessages.style.display = 'none';
-        blockInfoAmi.style.display  ='none'; 
+        blockInfoAmi.style.display ='none'; 
+        blockDetailMembre.style.display = 'none';   
+        blockPost.style.display = 'none';
         idMessagerie.style.display = 'block'; 
         partieMessages.style.display= 'block';      
     }); 
@@ -3420,8 +3379,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // click sur le bouton refuser invitation
 // ***********************************************************************************************************
-    refuserInvitation.addEventListener('click', function (event) { 
-        console.log('click sur bouton refuser invitation');             
+    refuserInvitation.addEventListener('click', function (event) {            
         webSocketConnection.emit('invitationRefuse', objetDuMembre, objetAmiDemandeDiscussion,idDiscussion);  // Demande au serveur refuse la discussion
     });
 
@@ -3432,8 +3390,6 @@ window.addEventListener('DOMContentLoaded', function() {
         objetAmiRejoindre = "";  // on supprime les données de l'ami qui nous a invité à discuter
         idDiscussion="";
         objetDuMembre = pObjetDuMembre; 
-        console.log('objetDuMembre SendVotreRefusDiscussion',objetDuMembre);
-        console.log('objetAmiRejoindre SendVotreRefusDiscussion',objetAmiRejoindre);
     }); 
     
 // ***********************************************************************************************************
@@ -3442,12 +3398,9 @@ window.addEventListener('DOMContentLoaded', function() {
     webSocketConnection.on('SendAmiRefusDiscussion', function(pObjetDuMembre, infoAmiRejoindre) { 
         objetDuMembre = pObjetDuMembre; 
         idDiscussion="";
-        console.log('objetDuMembre SendAmiRefusDiscussion',objetDuMembre);
-        console.log('objetAmiRejoindre SendAmiRefusDiscussion',objetAmiRejoindre); 
         partieMessages.style.display= 'none';
         pseudoMessagerie.setAttribute('style','color:red', 'style','font-size:40px');
         pseudoMessagerie.innerHTML = infoAmiRejoindre.pseudo + " " +"a refusé de vous rejoindre!!";  
-        console.log('pseudoMessagerie.innerHTML',pseudoMessagerie.innerHTML);
         objetAmiRejoindre = "";  // on supprime les données de l'ami qui nous a invité à discuter    
         setTimeout(function(){ idMessagerie.style.display= 'none';},3000); 
         setTimeout(function(){ blockMurProfile.style.display= 'block';},3000);  
@@ -3457,8 +3410,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // click sur le bouton quitter messagerie
 // ***********************************************************************************************************
-    quitterMessagerie.addEventListener('click', function (event) { 
-        console.log('click sur bouton quitter messagerie');   
+    quitterMessagerie.addEventListener('click', function (event) {  
         blockFormulaire.style.display = 'none';
         blockMurProfile.style.display = 'none';
         blockProfilMembre.style.display ='none';
@@ -3474,8 +3426,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // click sur le bouton profil : on quitte la messagerie
 // ***********************************************************************************************************
-    idMurMessage.addEventListener('click', function (event) { 
-        console.log('click sur bouton quitter messagerie');   
+    idMurMessage.addEventListener('click', function (event) {    
         blockFormulaire.style.display = 'none';
         blockMurProfile.style.display = 'none';
         blockProfilMembre.style.display ='none';
@@ -3495,12 +3446,9 @@ window.addEventListener('DOMContentLoaded', function() {
     webSocketConnection.on('SendAmiFinDiscussion', function(pObjetDuMembre, infoAmi) { 
         objetDuMembre = pObjetDuMembre; 
         idDiscussion="";
-        console.log('objetDuMembre SendAmiFinDiscussion',objetDuMembre);
-        console.log('infoAmi SendAmiRefusDiscussion',infoAmi); 
         partieMessages.style.display= 'none';
         pseudoMessagerie.setAttribute('style','color:red', 'style','font-size:40px');
         pseudoMessagerie.innerHTML = infoAmi.pseudo + " " +"vient de partir!!";  
-        console.log('pseudoMessagerie.innerHTML',pseudoMessagerie.innerHTML);
         objetAmiRejoindre = "";  // on supprime les données de l'ami qui nous a invité à discuter    
         setTimeout(function(){ idMessagerie.style.display= 'none';},3000); 
         setTimeout(function(){ blockMurProfile.style.display= 'block';},3000);
@@ -3513,9 +3461,7 @@ window.addEventListener('DOMContentLoaded', function() {
     webSocketConnection.on('SendFinDiscussion', function(pObjetDuMembre) { 
         objetAmiRejoindre = "";  // on supprime les données de l'ami qui nous a invité à discuter
         idDiscussion="";
-        objetDuMembre = pObjetDuMembre; 
-        console.log('objetDuMembre SendFinDiscussion',objetDuMembre);
-        console.log('objetAmiRejoindre SendFinDiscussion',objetAmiRejoindre);
+        objetDuMembre = pObjetDuMembre;
     }); 
 
 // ***********************************************************************************************************
@@ -3541,8 +3487,6 @@ window.addEventListener('DOMContentLoaded', function() {
 // On reçoit message d'un ami
 // ***********************************************************************************************************
     webSocketConnection.on('sendMessageAmi', function(pObjetDuMembre,pObjetMessage) { 
-        console.log('222222222222222222 dans sendMessageAmi----- pObjetDuMembre',pObjetDuMembre);
-        console.log('22222222222222222  dans sendMessageAmi----- pObjetMessage',pObjetMessage);
         afficherMessages(pObjetDuMembre, pObjetMessage);
     }); 
 
@@ -3554,10 +3498,8 @@ window.addEventListener('DOMContentLoaded', function() {
 // click sur lien administrateur on affiche le tableau de bord des utilisateurs
 // ***********************************************************************************************************
     administrateur.addEventListener('click', function (event) { 
-        console.log('click lien vers page administrateur objetDuMembre', objetDuMembre);         
-    // affichage des donnees de la page administrateur       
+        // affichage des donnees de la page administrateur       
         compteurAdmin ++;   // on ajoute 1 au compteurAdministrateur pour savoir si on créé le tableau liste des membres 
-        console.log("compteur des cliques sur le tableau de bord Administrateur",compteurAdmin);
         murPseudoAdmin.innerHTML = objetDuMembre.pseudo; 
         // affichage liste des comptes des  membres       
         blockAdministrateur.style.display = 'block';                     
@@ -3574,8 +3516,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // click sur lien mon profil on affiche le mur de profil
 // ***********************************************************************************************************
-    idProfilAdmin.addEventListener('click', function (event) { 
-        console.log('click lien vers page mur de profil');         
+    idProfilAdmin.addEventListener('click', function (event) {          
         // affichage des donnees de la page administrateur
         initMurProfil(objetDuMembre);    // affichage des donnees de la page du mur de profile du membre
         blockAdministrateur.style.display = 'none';                     
@@ -3589,7 +3530,6 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
     webSocketConnection.on('SendlisteDesMembres', function(documents) {
         objetDesMembres = documents;
-        console.log('liste de tous les membres -- objetDesMembres:',objetDesMembres);
         affichageListeMembres(objetDesMembres);          
     });   
 
@@ -3606,7 +3546,6 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
     webSocketConnection.on('infoDunMembre', function(data) {
         objetDunMembre = data;
-        console.log('info d un membre  -- objetDunMembre:',objetDunMembre);
         initDetailMembre(objetDunMembre);    // affichage des donnees d'un membre sur la page détail d'un membre
         affichageAmisPourAdministrateur(objetDunMembre,objetDuMembre);  // affichage de la liste des amis sur la page détail d'un membre
         blockAdministrateur.style.display = 'none';                     
@@ -3619,8 +3558,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // click sur lien tableau de bord on affiche le tableau de bord
 // ***********************************************************************************************************
-    idDasboard.addEventListener('click', function (event) { 
-        console.log('click lien vers tableau de bord');         
+    idDasboard.addEventListener('click', function (event) {     
         // affichage des donnees de la page administrateur
         if (compteurAdmin > 0){
             tbodyExiste = true; // comme il est possible que le membre est été supprimé on detruit le tableau et on force sa création
@@ -3638,12 +3576,9 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // click sur bouton modifier la fiche du membre
 // ***********************************************************************************************************
-    modifMembre.addEventListener('click', function (event) { 
-        console.log('click sur modifier membre');     
-    //  console.log('objetDunMembre:',objetDunMembre);         
-    //   webSocketConnection.emit('demandeSupprimeUnMembre', objetDunMembre);  // Demande au serveur la liste de tous les membres 
+    modifMembre.addEventListener('click', function (event) {  
         initFicheMembre(objetDunMembre);
-        $('#idFiche').modal('toggle');                                    // ouverture de la fenêtre modale fiche formulaire de renseignements du membre
+        $('#idFiche').modal('toggle');        // ouverture de la fenêtre modale fiche formulaire de renseignements du membre
     });   
 
 
@@ -3682,8 +3617,7 @@ window.addEventListener('DOMContentLoaded', function() {
         objetDunMembre.pays        =   paysFiche.value;
         objetDunMembre.profil      =   profilFiche.value;
         objetDunMembre.preference  =   preferenceFiche.value;
-        
-        console.log("objetDunMembre avant envoie au serveur web pour update ",objetDunMembre);
+    
         $('#idFiche').modal('toggle');  // Fermeture de la fenêtre modale 
     
     
@@ -3695,9 +3629,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // on reçoit membre a bien été modifié
 // ***********************************************************************************************************
     webSocketConnection.on('modifMembreParAdminOk', function(documents) {         
-        console.log("membre modifié avec succès");
         objetDesMembres = documents;
-        console.log('liste de tous les membres apres modif-- objetDesMembres:',objetDesMembres);
         tbodyExiste = true; // comme un membre a été modifié on detruit le tableau et on force sa création
         blockAdministrateur.style.display = 'block'; 
         blockDetailMembre.style.display = 'none';                       
@@ -3715,9 +3647,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // ***********************************************************************************************************
 // click sur bouton supprimer un membre
 // ***********************************************************************************************************
-    supprimeMembre.addEventListener('click', function (event) { 
-        console.log('click sur supprime membre');     
-        console.log('objetDunMembre:',objetDunMembre);         
+    supprimeMembre.addEventListener('click', function (event) {         
         webSocketConnection.emit('demandeSupprimeUnMembre', objetDunMembre);  // Demande au serveur la liste de tous les membres 
     });
 
@@ -3725,9 +3655,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // on reçoit membre a bien été supprimé
 // ***********************************************************************************************************
     webSocketConnection.on('membreSupprimeOk', function(documents) {         
-        console.log("membre supprimé avec succès");
         objetDesMembres = documents;
-        console.log('liste de tous les membres -- objetDesMembres:',objetDesMembres);
         tbodyExiste = true; // comme un membre a été supprimé on detruit le tableau et on force sa création
         blockAdministrateur.style.display = 'block'; 
         blockDetailMembre.style.display = 'none';                       
@@ -3746,7 +3674,6 @@ window.addEventListener('DOMContentLoaded', function() {
 // on prend en compte la suppression dans l'affichage
 // ***********************************************************************************************************
     webSocketConnection.on('sendAmiSupprimeParAdmin', function(pInfoMembre) {         
-        console.log("membre supprimé avec succès pInfoMembre par Admin:",pInfoMembre);
         objetDunMembre = pInfoMembre;
         initDetailMembre(objetDunMembre);    // affichage des donnees d'un membre sur la page détail d'un membre
         affichageAmisPourAdministrateur(objetDunMembre,objetDuMembre);  // affichage de la liste des amis sur la page détail d'un membre

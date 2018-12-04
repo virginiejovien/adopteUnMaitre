@@ -18,11 +18,11 @@ const SocketIOFileUpload = require('socketio-file-upload');
 const app = express();
 const path = require('path');
 const SocketIo = require('socket.io');
-const MemberServer = require('./memberMgr');
+const ServerMembre = require('./serveurMembre');
 
 
 
-let vMemberServer;  // Instanciation de l'objet "Members" qui gère toutes les fonctions liées aux membres dans l'Objet membres
+let vServerMembre;  // Instanciation de l'objet "Members" qui gère toutes les fonctions liées aux membres dans l'Objet membres
 
 // *************************************************************************************************************
 // Connection à mongoDB, on vérifie qu'elle est bien lancée et que la la base de données "adopteUnMaitre"
@@ -31,8 +31,8 @@ let vMemberServer;  // Instanciation de l'objet "Members" qui gère toutes les f
 let vDBMgr = new DBMgr();                            // Instanciation de la base de données
 vDBMgr.checkDBConnect()
     .then(result => {
-        vMemberServer = new MemberServer(vDBMgr);    // Instanciation de l'objet decrivant l'ensemble des membres et les méthodes de gestion de ces membres
-        vMemberServer.getNbMessages();           // Mise en mémoire du Nbre de messages publics stockés en BDD
+        vServerMembre = new ServerMembre(vDBMgr);    // Instanciation de l'objet decrivant l'ensemble des membres et les méthodes de gestion de ces membres
+        vServerMembre.getNbMessages();           // Mise en mémoire du Nbre de messages publics stockés en BDD
     
 
 
@@ -100,8 +100,8 @@ vDBMgr.checkDBConnect()
     
         uploader.listen(webSocketConnection);  
 
-        vMemberServer.initVisiteur(webSocketConnection, socketIo);  //  initialisation 
-        vMemberServer.connexionVisiteur(webSocketConnection, socketIo); 
+        vServerMembre.initVisiteur(webSocketConnection, socketIo);  //  initialisation 
+        vServerMembre.connexionVisiteur(webSocketConnection, socketIo); 
 
 //************************************************************************************************************  
 // Gestion et controle du formulaire de connection  
@@ -110,24 +110,24 @@ vDBMgr.checkDBConnect()
     // Reception des donnees de connexion : Vérification dans la BDD que le membre qui se connecte (Pseudo et mot de passe) existe
 
         webSocketConnection.on('controleConnection',function(pVisiteurLoginData){
-            vMemberServer.visitorTryToLogin(pVisiteurLoginData, webSocketConnection, socketIo)
+            vServerMembre.visitorTryToLogin(pVisiteurLoginData, webSocketConnection, socketIo)
             .then((result) => {
             });
         });   
     
     // Reception de la demande de recuperation du mot de passe oublié : Vérification dans la BDD que l'adresse mail existe
         webSocketConnection.on('envoieEmailRecupMp', function (email) {
-            vMemberServer.checkMpLostSendMail(email, webSocketConnection, socketIo)
+            vServerMembre.checkMpLostSendMail(email, webSocketConnection, socketIo)
         });   
     
     // Reception de la demande de changement de mot de passe : 
         webSocketConnection.on('controleChangeMp', function (data) {       // Reception de la saisie du nouveau mot de passe dans le formulaire
-            vMemberServer.changePassWord(data, webSocketConnection, socketIo);
+            vServerMembre.changePassWord(data, webSocketConnection, socketIo);
         }); 
                     
     // Reception de la demande dans les parametres de changement de mot de passe : 
         webSocketConnection.on('controleParametreMp', function (data) {       // Reception de la saisie du nouveau mot de passe dans le formulaire
-            vMemberServer.parametrePassWord(data, webSocketConnection, socketIo);
+            vServerMembre.parametrePassWord(data, webSocketConnection, socketIo);
         }); 
 
 // ***********************************************************************************************************   
@@ -136,7 +136,7 @@ vDBMgr.checkDBConnect()
 
     // Reception des données de creation de membre : Vérification dans la BDD que le futur membre (Pseudo et Mail) n'existe pas 
         webSocketConnection.on('controleInscription',function(pVisiteurSignInData){
-            vMemberServer.checkVisitorSignInISValid(pVisiteurSignInData, webSocketConnection, socketIo)
+            vServerMembre.checkVisitorSignInISValid(pVisiteurSignInData, webSocketConnection, socketIo)
         }); 
 
 //************************************************************************************************************  
@@ -147,45 +147,45 @@ vDBMgr.checkDBConnect()
 
     // On receptionne les donnees d'un membre pour verifier si le membre et bien un ami
         webSocketConnection.on('verifierSiAmi', function (objetDuMembre,amisConnectes) {  
-            vMemberServer.verifierSiAmiDansBdd(objetDuMembre,amisConnectes, webSocketConnection, socketIo);
+            vServerMembre.verifierSiAmiDansBdd(objetDuMembre,amisConnectes, webSocketConnection, socketIo);
         }); 
     // Reception de la demande d'aller sur le mur de profil d'un ami
         webSocketConnection.on('afficheMurAmi', function (dataAmi) {  
-            vMemberServer.demandeMurAmi(dataAmi, webSocketConnection, socketIo);
+            vServerMembre.demandeMurAmi(dataAmi, webSocketConnection, socketIo);
         }); 
 
     // Reception demande d'afficher les infos d'un ami confirmé
         webSocketConnection.on('demandeAffiInfosAmi', function (pseudoDunMembre, objetDuMembre) { 
-            vMemberServer.sendInfoMurAmi(pseudoDunMembre, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.sendInfoMurAmi(pseudoDunMembre, objetDuMembre, webSocketConnection, socketIo);
         }); 
 
         // Reception demande d'afficher les infos d'un ami en attente de confirmation
         webSocketConnection.on('demandeAffiInfosAmiAttente', function (pseudoDunMembre, objetDuMembre) { 
-            vMemberServer.sendInfoMurAmiAttente(pseudoDunMembre, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.sendInfoMurAmiAttente(pseudoDunMembre, objetDuMembre, webSocketConnection, socketIo);
         }); 
 
     // Reception accepte l'invitation
         webSocketConnection.on('accepteInvitation', function (dataDunMembre, objetDuMembre) { 
-            vMemberServer.invitationAccepte(dataDunMembre, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.invitationAccepte(dataDunMembre, objetDuMembre, webSocketConnection, socketIo);
         }); 
         
     // Reception refuse l'invitation
         webSocketConnection.on('refuseInvitation', function (dataDunMembre, objetDuMembre) {  
-            vMemberServer.invitationRefuse(dataDunMembre, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.invitationRefuse(dataDunMembre, objetDuMembre, webSocketConnection, socketIo);
         }); 
     
     // Reception refuse l'invitation
         webSocketConnection.on('supprimeAmi', function (dataDunMembre, objetDuMembre) {  
-            vMemberServer.amiSupprime(dataDunMembre, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.amiSupprime(dataDunMembre, objetDuMembre, webSocketConnection, socketIo);
         }); 
     // Reception message d'alerte vient d'être affiché pour informer qu'un membre avait accepté une invitation
         webSocketConnection.on('miseAjourIndicateurAlerte', function (alerte, objetDuMembre) {  
-            vMemberServer.modifIndicateurAlerte(alerte, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.modifIndicateurAlerte(alerte, objetDuMembre, webSocketConnection, socketIo);
         }); 
         
     // Reception recommandation d'amis
         webSocketConnection.on('sendRecommande', function (pseudoAmi, objetDunMembre, objetDuMembre) { 
-            vMemberServer.gestionRecommandation(pseudoAmi, objetDunMembre, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.gestionRecommandation(pseudoAmi, objetDunMembre, objetDuMembre, webSocketConnection, socketIo);
         });  
         
 //************************************************************************************************************  
@@ -193,7 +193,7 @@ vDBMgr.checkDBConnect()
 //************************************************************************************************************ 
     // Reception du formulaire du profile d'inscription  
         webSocketConnection.on('controleProfileInscription', function (dataProfilInscription) {  
-            vMemberServer.miseAjourProfilMembre(dataProfilInscription, webSocketConnection, socketIo);
+            vServerMembre.miseAjourProfilMembre(dataProfilInscription, webSocketConnection, socketIo);
         });   
 
 //************************************************************************************************************  
@@ -201,26 +201,26 @@ vDBMgr.checkDBConnect()
 //************************************************************************************************************ 
     // Reception du formulaire publication
         webSocketConnection.on('controlePublication', function (dataPublication, objetMembre, objetDuMembre) {  
-            vMemberServer.miseAjourPublication(dataPublication, objetMembre, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.miseAjourPublication(dataPublication, objetMembre, objetDuMembre, webSocketConnection, socketIo);
         });  
         
         // Reception d'afficher un post
         webSocketConnection.on('sendAfficherPost', function (dataIdPublication, objetDuMembre) {  
-            vMemberServer.afficherPost(dataIdPublication, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.afficherPost(dataIdPublication, objetDuMembre, webSocketConnection, socketIo);
         }); 
 
         // Reception d'afficher un post
         webSocketConnection.on('sendAfficherPostAmi', function (dataIdPublication, objetDunMembre, objetDuMembre) {  
-            vMemberServer.afficherPostAmi(dataIdPublication, objetDunMembre, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.afficherPostAmi(dataIdPublication, objetDunMembre, objetDuMembre, webSocketConnection, socketIo);
         }); 
 
         // Reception d'un suppression publication
         webSocketConnection.on('sendSuppressionPublication', function (dataIdPublication, objetDuMembre) {  
-            vMemberServer.suppressionPublication(dataIdPublication, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.suppressionPublication(dataIdPublication, objetDuMembre, webSocketConnection, socketIo);
         });  
 
         webSocketConnection.on('controleCommentaire', function (idPublication, dataCommentaire, objetMembre, objetDuMembre) {  
-            vMemberServer.miseAjourCommentaire(idPublication, dataCommentaire, objetMembre, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.miseAjourCommentaire(idPublication, dataCommentaire, objetMembre, objetDuMembre, webSocketConnection, socketIo);
         });  
 
 
@@ -230,27 +230,27 @@ vDBMgr.checkDBConnect()
 
         // Reception demande de discussion
         webSocketConnection.on('sendDiscussion', function (idPseudoAmi, objetDuMembre) { 
-            vMemberServer.sendInvitationDiscussionPrivee(idPseudoAmi, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.sendInvitationDiscussionPrivee(idPseudoAmi, objetDuMembre, webSocketConnection, socketIo);
         });  
 
         // invitation discussion acceptée
         webSocketConnection.on('invitationAccepter', function (objetDuMembre, objetAmiDemandeDiscussion, idDiscussion) { 
-            vMemberServer.sendInvitationDiscussionAccepte(objetDuMembre, objetAmiDemandeDiscussion, idDiscussion,webSocketConnection, socketIo);
+            vServerMembre.sendInvitationDiscussionAccepte(objetDuMembre, objetAmiDemandeDiscussion, idDiscussion,webSocketConnection, socketIo);
         });  
 
         // invitation discussion refusee
         webSocketConnection.on('invitationRefuse', function (objetDuMembre, objetAmiDemandeDiscussion, idDiscussion) { 
-            vMemberServer.sendInvitationDiscussionRefuse(objetDuMembre, objetAmiDemandeDiscussion, idDiscussion,webSocketConnection, socketIo);
+            vServerMembre.sendInvitationDiscussionRefuse(objetDuMembre, objetAmiDemandeDiscussion, idDiscussion,webSocketConnection, socketIo);
         });  
 
         // quitter la discussion
         webSocketConnection.on('quitterDiscussion', function (objetDuMembre, objetAmi, idDiscussion) { 
-            vMemberServer.sendQuitterDiscussion(objetDuMembre, objetAmi, idDiscussion,webSocketConnection, socketIo);
+            vServerMembre.sendQuitterDiscussion(objetDuMembre, objetAmi, idDiscussion,webSocketConnection, socketIo);
         }); 
     
         // reception message
         webSocketConnection.on('controleMessage', function (idDiscussion, messagePublie, objetDuMembre, objetAmi) { 
-            vMemberServer.gestionMessage(idDiscussion, messagePublie, objetDuMembre, objetAmi, webSocketConnection, socketIo);
+            vServerMembre.gestionMessage(idDiscussion, messagePublie, objetDuMembre, objetAmi, webSocketConnection, socketIo);
         }); 
 
 //************************************************************************************************************  
@@ -259,17 +259,17 @@ vDBMgr.checkDBConnect()
 
         // Reception demande d'afficher la liste de tous des membres  
         webSocketConnection.on('demandeListeDeTousLesMembres', function () { 
-            vMemberServer.sendListeDeTousLesMembres(webSocketConnection, socketIo);
+            vServerMembre.sendListeDeTousLesMembres(webSocketConnection, socketIo);
         });  
 
         // Reception du formulaire de recherche d'amis
         webSocketConnection.on('controleFormRechercheAmis', function (dataRecherche,objetDuMembre) {  
-            vMemberServer.rechercheMembres(dataRecherche, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.rechercheMembres(dataRecherche, objetDuMembre, webSocketConnection, socketIo);
         });   
 
         // Reception de la demande de rajouter ce membre dans la liste d'amis
         webSocketConnection.on('demandeRajoutAmi', function (dataAmi, dataMembre) {  
-            vMemberServer.demandeRajoutListeAmi(dataAmi,dataMembre,webSocketConnection, socketIo);
+            vServerMembre.demandeRajoutListeAmi(dataAmi,dataMembre,webSocketConnection, socketIo);
         });   
 
 
@@ -281,27 +281,27 @@ vDBMgr.checkDBConnect()
 
     // Reception demande d'afficher la liste des membres  
         webSocketConnection.on('demandeListeMembres', function (dataAdmin) { 
-            vMemberServer.sendListDesMembres(dataAdmin, webSocketConnection, socketIo);
+            vServerMembre.sendListDesMembres(dataAdmin, webSocketConnection, socketIo);
         });   
 
     // Reception demande d'afficher le mur d'un membre 
         webSocketConnection.on('demandeAffiMurDunMembre', function (pseudoDunMembre) { 
-            vMemberServer.sendInfoMurDunMembre(pseudoDunMembre, webSocketConnection, socketIo);
+            vServerMembre.sendInfoMurDunMembre(pseudoDunMembre, webSocketConnection, socketIo);
         });  
     
     // Reception demande de supprimer un amis du membre
         webSocketConnection.on('sendSuppressionAmiParAdmin', function (pseudoAmi, objetDunMembre, objetDuMembre) { 
-            vMemberServer.supprimerUnAmiParAdmin(pseudoAmi, objetDunMembre, objetDuMembre, webSocketConnection, socketIo);
+            vServerMembre.supprimerUnAmiParAdmin(pseudoAmi, objetDunMembre, objetDuMembre, webSocketConnection, socketIo);
         }); 
 
     // Reception du formulaire de la fiche modifié d'un membre par un administrateur
         webSocketConnection.on('controleFicheModifDunMembre', function (dataFiche) {  
-            vMemberServer.miseAjourProfilMembreParAdmin(dataFiche, webSocketConnection, socketIo);
+            vServerMembre.miseAjourProfilMembreParAdmin(dataFiche, webSocketConnection, socketIo);
         });  
 
     // Reception demande de supprimer un membre
         webSocketConnection.on('demandeSupprimeUnMembre', function (dataDunMembre) { 
-            vMemberServer.supprimerUnMembre(dataDunMembre, webSocketConnection, socketIo);
+            vServerMembre.supprimerUnMembre(dataDunMembre, webSocketConnection, socketIo);
         });  
     
 // ***********************************************************************************************************  
@@ -311,7 +311,7 @@ vDBMgr.checkDBConnect()
     // Un membre se déconnecte
         webSocketConnection.on('disconnect', function() {
         console.log('disconnect')        
-                vMemberServer.disconnectMember(webSocketConnection, socketIo);
+                vServerMembre.disconnectMember(webSocketConnection, socketIo);
         });
 
     });   //  Fin de la partie "Connexion" 
