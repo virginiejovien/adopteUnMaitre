@@ -31,10 +31,6 @@ En dessous du répertoire ": ~/adopteUnMaitre"   on devrait avoir l'arborescence
 
 adopteUnMaitre 
    |-- node_modules    // modules de nodes.js nécéssaires pour le projet "adopteUnMaitre"
-   |-- data           // Stockage de la base de données "adopteunmaitre" (collection "membres" et collection "messages")
-   |     |- adopteunmaitre
-   |         |- membres      // collection "membres"
-   |         |- messages     // collection  "messages"
    |        
    |-- assets         // Ressources côté client
    |    |- css        // Stockage des fichiers ".css"
@@ -43,20 +39,25 @@ adopteUnMaitre
    | 
    |--bootstrap.3.3.6
    | 
-   |--font-awesome.4.6.1      
-   |-- views          // Stockage des templates "Pug"
+   |--font-awesome.4.6.1 
+   |      
+   |-- views          // Stockage des templates "Pug" --> single page : index.pug
    |-- .gitignore
    |-- db.js
-   |-- DIW JS - Ateliar Final.pdf
    |-- index.html   
-   |-- lancer-mongo.bat
    |-- package-lock.json
    |-- package.json 
    |-- Procfile
    |-- README.md
    |-- serverAdopteUnMaitre.js // serveur  du site
-   |-- serveuMembre.js ( module qui est un Objet représentant les visiteurs et membres )
-   
+   |-- serveurMembre.js ( module qui est un Objet représentant les visiteurs et membres )
+
+Base de données hébergée chez Mlab:   
+// Stockage de la base de données "adopteunmaitre" (collection "membres" et collection "messages") chez Mlab
+   |     |- adopteunmaitre
+   |         |- membres      // collection "membres"
+   |         |- messages     // collection  "messages"
+
 
 2) Procédure de lancement du site en localhost
     - La base de données adopteunmaitre est hébergée sur le site mLab

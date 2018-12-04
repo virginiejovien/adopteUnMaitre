@@ -22,7 +22,7 @@ const ServerMembre = require('./serveurMembre');
 
 
 
-let vServerMembre;  // Instanciation de l'objet "Members" qui gère toutes les fonctions liées aux membres dans l'Objet membres
+let vServerMembre;  // Instanciation de l'objet "Membres" qui gère toutes les fonctions liées aux membres dans l'Objet membres
 
 // *************************************************************************************************************
 // Connection à mongoDB, on vérifie qu'elle est bien lancée et que la la base de données "adopteUnMaitre"
@@ -33,21 +33,6 @@ vDBMgr.checkDBConnect()
     .then(result => {
         vServerMembre = new ServerMembre(vDBMgr);    // Instanciation de l'objet decrivant l'ensemble des membres et les méthodes de gestion de ces membres
         vServerMembre.getNbMessages();           // Mise en mémoire du Nbre de messages publics stockés en BDD
-    
-
-
-
-// ************************************************************************************************************
-// Verification de l'accessibilité de la Base De Données :"adopteunmaitre"- 
-// Dans un contexte professionnelle je m'assurai que la BDD fonctionne à chaque requete mais
-// dans le contexte du projet "réseau social", je ne le fais qu'au debut du lancement du programme 
-// et si elle ne fonctionne pas, j'envoie un message dans la console et je quitte le programme
-// ************************************************************************************************************
-
-//*************************************************************************************************************
-//  Préparation du fond d'écran, et récupération des messages déjà échangé 
-//  Requete des infos du nombre de messages echangés dans la collection "messages" de la BDD adopteunmaitre
-//*************************************************************************************************************
 
     app.set('view engine', 'pug');
     app.use('/static', express.static(__dirname + '/assets'));
