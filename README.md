@@ -1,13 +1,12 @@
 Auteur du projet: 
 - Virginie Jovien
 
-EN COURS DE DEVELOPPEMENT
 Projet Final : Réseau social : Adopte un maître
 
 Le réseau social est accessible à l'adresse suivante:
 
-        https://adopte-un-maitre.herokuapp.com
-       
+      https://adopte-un-maitre.herokuapp.com
+      
 1) Procédure d'installation pour récupérer le projet et le lancer à partir de localhost
 
 Pour récupérer un clone du projet "adopteUnMaitre":
@@ -30,7 +29,7 @@ Ci-dessous les installations locales à faire :
 
 En dessous du répertoire ": ~/adopteUnMaitre"   on devrait avoir l'arborescence suivante :
 
-  adopteUnMaitre 
+adopteUnMaitre 
    |-- node_modules    // modules de nodes.js nécéssaires pour le projet "adopteUnMaitre"
    |-- data           // Stockage de la base de données "adopteunmaitre" (collection "membres" et collection "messages")
    |     |- adopteunmaitre
@@ -41,7 +40,10 @@ En dessous du répertoire ": ~/adopteUnMaitre"   on devrait avoir l'arborescence
    |    |- css        // Stockage des fichiers ".css"
    |    |- images     // Stockage des images
    |    |- js         // Stockage des scripts Javascripts ".js"
-   |       
+   | 
+   |--bootstrap.3.3.6
+   | 
+   |--font-awesome.4.6.1      
    |-- views          // Stockage des templates "Pug"
    |-- .gitignore
    |-- db.js
@@ -53,6 +55,7 @@ En dessous du répertoire ": ~/adopteUnMaitre"   on devrait avoir l'arborescence
    |-- Procfile
    |-- README.md
    |-- serverAdopteUnMaitre.js // serveur  du site
+   |-- serveuMembre.js ( module qui est un Objet représentant les visiteurs et membres )
    
 
 2) Procédure de lancement du site en localhost
@@ -75,7 +78,7 @@ En dessous du répertoire ": ~/adopteUnMaitre"   on devrait avoir l'arborescence
        - $ nodemon serverAdopteUnMaitre.js
 
   - coté navigateur (Chrome, Firefox, Opera....)
-    taper l'addresse suivante: 
+    taper l'adresse suivante: 
    http://localhost:2000/
 
 
