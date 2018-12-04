@@ -2185,7 +2185,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     var cell = row.getElementsByTagName("td")[0];
                     var cella = cell.getElementsByTagName("a")[0];
                     var id = cella.innerHTML;                
-                    webSocketConnection.emit('sendDiscussion', id, objetDunMembre, objetDuMembre);  // Demande au serveur de creer un espace de discussion                
+            //        webSocketConnection.emit('sendDiscussion', id, objetDunMembre, objetDuMembre);  // Demande au serveur de creer un espace de discussion                
                 };
             };
         
@@ -2252,7 +2252,7 @@ window.addEventListener('DOMContentLoaded', function() {
             // début statut pour discussion instantanée
                 var span = document.createElement('span');
                 span.className = 'user-subhead-liste';
-                span.innerHTML = "connecté" 
+                span.innerHTML = "" 
                 td.appendChild(span);
 
             // fin statut pour discussion instanatanée
